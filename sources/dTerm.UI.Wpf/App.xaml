@@ -1,0 +1,130 @@
+﻿<Application
+	x:Class="dTerm.UI.Wpf.App"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="clr-namespace:dTerm.UI.Wpf"
+	ShutdownMode="OnMainWindowClose"
+	Startup="Application_Startup"
+	Exit="Application_Exit"
+	DispatcherUnhandledException="Application_DispatcherUnhandledException"
+>
+
+	<Application.Resources>
+
+		<ResourceDictionary>
+
+			<ResourceDictionary.MergedDictionaries>
+
+				<!-- MahApps -->
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+
+				<!-- Material Design -->
+				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Teal.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Teal.xaml" />
+
+				<!-- Material Design: MahApps Compatibility -->
+				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Fonts.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
+
+			</ResourceDictionary.MergedDictionaries>
+
+			<!-- Brush Mappings -->
+			<SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource Primary700}"/>
+			<SolidColorBrush x:Key="AccentBaseColorBrush" Color="{DynamicResource Primary600}" />
+			<SolidColorBrush x:Key="AccentColorBrush" Color="{DynamicResource Primary500}"/>
+			<SolidColorBrush x:Key="AccentColorBrush2" Color="{DynamicResource Primary400}"/>
+			<SolidColorBrush x:Key="AccentColorBrush3" Color="{DynamicResource Primary300}"/>
+			<SolidColorBrush x:Key="AccentColorBrush4" Color="{DynamicResource Primary200}"/>
+			<SolidColorBrush x:Key="WindowTitleColorBrush" Color="{DynamicResource Primary700}"/>
+			<SolidColorBrush x:Key="AccentSelectedColorBrush" Color="{DynamicResource Primary500Foreground}"/>
+			<LinearGradientBrush x:Key="ProgressBrush" EndPoint="0.001,0.5" StartPoint="1.002,0.5">
+				<GradientStop Color="{DynamicResource Primary700}" Offset="0"/>
+				<GradientStop Color="{DynamicResource Primary300}" Offset="1"/>
+			</LinearGradientBrush>
+			<SolidColorBrush x:Key="CheckmarkFill" Color="{DynamicResource Primary500}"/>
+			<SolidColorBrush x:Key="RightArrowFill" Color="{DynamicResource Primary500}"/>
+			<SolidColorBrush x:Key="IdealForegroundColorBrush" Color="{DynamicResource Primary500Foreground}"/>
+			<SolidColorBrush x:Key="IdealForegroundDisabledBrush" Color="{DynamicResource Primary500}" Opacity="0.4"/>
+			<SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchBrush.Win10" Color="{DynamicResource Primary500}" />
+			<SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10" Color="{DynamicResource Primary400}" />
+			<SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10" Color="{DynamicResource Primary500Foreground}" />
+
+			<!-- General Geometries -->
+			<Geometry x:Key="dTermGeometry">
+				M 508.13481 -528.16525 827.54182 -241.34929 392.34274 36.022141 317.94495 -47.487536 640.70828 -250.29676 409.68359 -455.09429 Z M 304.4189 30.483542 196.45819 11.09736 v -558.71945 l 107.96071 19.38618 z
+			</Geometry>
+
+			<Geometry x:Key="powerShellGeomery">
+				M 9.0566406 2 C 8.6047931 2.0075009 8.1538206 2.1773437 7.7988281 2.5117188 C 7.0407047 3.2242179 7.0042935 4.4157022 7.7167969 5.1738281 L 14.097656 11.958984 L 4.7480469 19.136719 C 4.048666 19.673595 3.9162491 20.675003 4.453125 21.375 C 4.9900001 22.074376 5.9939785 22.206797 6.6933594 21.669922 L 17.59375 13.300781 C 17.790627 13.149533 17.942508 12.961406 18.046875 12.753906 L 18.072266 12.699219 L 18.101562 12.650391 C 18.496533 11.951645 18.413353 11.049843 17.833984 10.433594 L 10.460938 2.59375 C 10.08218 2.19125 9.5685298 1.99125 9.0566406 2 z M 12.216797 18.851562 C 11.386802 18.851562 10.712891 19.524218 10.712891 20.355469 C 10.712891 21.186091 11.386802 21.857422 12.216797 21.857422 L 18.373047 21.857422 C 19.203651 21.857422 19.876953 21.186091 19.876953 20.355469 C 19.876953 19.524218 19.203651 18.851562 18.373047 18.851562 L 12.216797 18.851562 z
+			</Geometry>
+
+			<!-- Logo -->
+			<Style x:Key="logoMaskStyle" TargetType="Ellipse">
+				<Setter Property="Width" Value="175" />
+				<Setter Property="Height" Value="175" />
+				<Setter Property="Margin" Value="35 0 0 0" />
+				<Setter Property="VerticalAlignment" Value="Bottom" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Setter Property="Fill" Value="{StaticResource MaterialDesignPaper}" />
+			</Style>
+
+			<Style x:Key="logoVisualStyle" TargetType="Path">
+				<Setter Property="Width" Value="175" />
+				<Setter Property="Height" Value="175" />
+				<Setter Property="Fill" Value="Black" />
+				<Setter Property="Stretch" Value="Uniform" />
+				<Setter Property="Margin" Value="60 0 0 15" />
+				<Setter Property="VerticalAlignment" Value="Bottom" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Setter Property="Data" Value="{StaticResource dTermGeometry}" />
+			</Style>
+			
+			<!-- Console Buttons -->
+			<Style x:Key="consoleOptionButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}">
+				<Setter Property="Margin" Value="7.5 0" />
+				<Setter Property="ToolTipService.Placement" Value="Center" />
+				<Setter Property="ToolTipService.VerticalOffset" Value="-50" />
+				<Setter Property="ToolTipService.InitialShowDelay" Value="750" />
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding ConsoleType}" Value="Cmd">
+						<Setter Property="Content">
+							<Setter.Value>
+								<materialdesign:PackIcon Kind="Console" Height="24" Width="24" />
+							</Setter.Value>
+						</Setter>
+					</DataTrigger>
+					<DataTrigger Binding="{Binding ConsoleType}" Value="GitBash">
+						<Setter Property="Content">
+							<Setter.Value>
+								<materialdesign:PackIcon Kind="Git" Height="24" Width="24" />
+							</Setter.Value>
+						</Setter>
+					</DataTrigger>
+					<DataTrigger Binding="{Binding ConsoleType}" Value="PowerShell">
+						<Setter Property="Content">
+							<Setter.Value>
+								<Path Fill="#FF000000" Data="{StaticResource powerShellGeomery}" />
+							</Setter.Value>
+						</Setter>
+					</DataTrigger>
+					<DataTrigger Binding="{Binding ConsoleType}" Value="UbuntuBash">
+						<Setter Property="Content">
+							<Setter.Value>
+								<materialdesign:PackIcon Kind="Ubuntu" Height="24" Width="24" />
+							</Setter.Value>
+						</Setter>
+					</DataTrigger>
+				</Style.Triggers>
+			</Style>
+
+		</ResourceDictionary>
+
+	</Application.Resources>
+
+</Application>

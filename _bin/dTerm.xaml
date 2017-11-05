@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
+	<Canvas Name="svg7" Width="790.79553" Height="605.62795">
+		<Canvas Name="main">
+			<Canvas.RenderTransform>
+				<TranslateTransform X="-116.60224" Y="558.61394"/>
+			</Canvas.RenderTransform>
+			<Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Name="path61" Fill="#FF008080" StrokeThickness="5.62466526" StrokeLineJoin="Miter" StrokeStartLineCap="Flat" StrokeEndLineCap="Flat">
+				<Path.Data>
+					<PathGeometry Figures="M 508.13481 -528.16525 827.54182 -241.34929 392.34274 36.022141 317.94495 -47.487536 640.70828 -250.29676 409.68359 -455.09429 Z M 304.4189 30.483542 196.45819 11.09736 v -558.71945 l 107.96071 19.38618 z" FillRule="NonZero"/>
+				</Path.Data>
+			</Path>
+		</Canvas>
+	</Canvas>
+</Viewbox>

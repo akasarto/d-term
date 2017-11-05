@@ -1,0 +1,2 @@
+About Messages and Message Queues
+=> https://msdn.microsoft.com/pt-br/library/windows/desktop/ms644927(v=vs.85).aspx#system_defined

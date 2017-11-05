@@ -1,0 +1,17 @@
+- track dos processos rodando
+
+- remover item da colecao ao sair (exit no console)
+
+- remove item da colecao e matar processo ao clicar botao fechar
+
+- matar processos quando sair da aplicacao
+
+- ativar console correspondente ao clicar na janela
+
+- ativar console correspondente ao mudar selecionado
+
+- revisar novo nome (dTerm)
+
+- revisar layout v1
+
+- cmd snippets
