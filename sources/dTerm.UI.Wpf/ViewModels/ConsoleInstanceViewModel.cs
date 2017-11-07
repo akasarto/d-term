@@ -10,6 +10,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		private string _name;
 		private ConsoleType _type;
 		private ITermProcess _process;
+		private ProcessHwndHost _processHwndHost;
 
 		public ConsoleInstanceViewModel(string name, ConsoleType type, ITermProcess process)
 		{
@@ -32,27 +33,22 @@ namespace dTerm.UI.Wpf.ViewModels
 			set => Set(ref _type, value);
 		}
 
-		/*
 		public ProcessHwndHost ProcessHwndHost
 		{
 			get
 			{
 				if (_processHwndHost == null)
 				{
-					_dTermProcess.Start();
-
-					if (!_dTermProcess.IsStarted)
+					if (!_process.IsRunning)
 					{
-						//TODO: Log
-						return null;
+						throw new InvalidOperationException($"[{nameof(ConsoleInstanceViewModel)}] Underlying process not running.");
 					}
 
-					_processHwndHost = new ProcessHwndHost(_dTermProcess);
+					_processHwndHost = new ProcessHwndHost(_process);
 				}
 
 				return _processHwndHost;
 			}
 		}
-		*/
 	}
 }
