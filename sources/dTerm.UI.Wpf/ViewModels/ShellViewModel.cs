@@ -11,10 +11,10 @@ namespace dTerm.UI.Wpf.ViewModels
 {
 	public class ShellViewModel : ObservableObject
 	{
-		private IProcessFactory _processFactory;
+		private IConsoleProcessFactory _processFactory;
 		private ConsoleInstance _selectedConsoleInstance;
 
-		public ShellViewModel(IProcessFactory processFactory, IEnumerable<ConsoleOption> consoleOptions)
+		public ShellViewModel(IConsoleProcessFactory processFactory, IEnumerable<ConsoleOption> consoleOptions)
 		{
 			_processFactory = processFactory ?? throw new ArgumentNullException(nameof(processFactory), nameof(ShellViewModel));
 

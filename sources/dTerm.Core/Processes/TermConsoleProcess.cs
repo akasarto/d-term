@@ -3,15 +3,15 @@ using System.Diagnostics;
 
 namespace dTerm.Core.Processes
 {
-	public class TermProcess : ITermProcess
+	public class TermConsoleProcess : IConsoleProcess
 	{
 		private ProcessStartInfo _processStartInfo;
 		private int _timeoutSeconds;
 		private Process _process;
 
-		public TermProcess(ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
+		public TermConsoleProcess(ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
 		{
-			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(TermProcess));
+			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(TermConsoleProcess));
 			_timeoutSeconds = timeoutSeconds;
 
 			ProcessSetup();

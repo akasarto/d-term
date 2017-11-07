@@ -2,7 +2,7 @@
 
 namespace dTerm.Core.Processes
 {
-	public interface ITermProcess
+	public interface IConsoleProcess
 	{
 		event EventHandler Started;
 		event EventHandler Killed;

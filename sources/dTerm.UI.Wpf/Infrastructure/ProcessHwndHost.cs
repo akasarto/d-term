@@ -7,9 +7,9 @@ namespace dTerm.UI.Wpf.Infrastructure
 {
 	public class ProcessHwndHost : HwndHost
 	{
-		private ITermProcess _dtermProcess;
+		private IConsoleProcess _dtermProcess;
 
-		public ProcessHwndHost(ITermProcess dtermProcess)
+		public ProcessHwndHost(IConsoleProcess dtermProcess)
 		{
 			_dtermProcess = dtermProcess;
 		}

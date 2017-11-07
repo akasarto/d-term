@@ -162,8 +162,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Factories\IProcessFactory.cs" />
-    <Compile Include="Factories\TermProcessFactory.cs" />
+    <Compile Include="Factories\IConsoleProcessFactory.cs" />
+    <Compile Include="Factories\TermConsoleProcessFactory.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Infrastructure\ObservableObject.cs" />
     <Compile Include="Infrastructure\ProcessHwndHost.cs" />

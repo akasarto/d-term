@@ -9,10 +9,10 @@ namespace dTerm.UI.Wpf.Models
 	{
 		private string _name;
 		private ConsoleType _type;
-		private ITermProcess _process;
+		private IConsoleProcess _process;
 		private ProcessHwndHost _processHwndHost;
 
-		public ConsoleInstance(string name, ConsoleType type, ITermProcess process)
+		public ConsoleInstance(string name, ConsoleType type, IConsoleProcess process)
 		{
 			_name = name ?? throw new ArgumentNullException(nameof(name), nameof(ConsoleInstance));
 			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ConsoleInstance));
@@ -25,7 +25,7 @@ namespace dTerm.UI.Wpf.Models
 			set => Set(ref _name, value);
 		}
 
-		public ITermProcess Process => _process;
+		public IConsoleProcess Process => _process;
 
 		public ConsoleType Type
 		{

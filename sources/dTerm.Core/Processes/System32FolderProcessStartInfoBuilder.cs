@@ -4,16 +4,16 @@ using System.IO;
 
 namespace dTerm.Core.Processes
 {
-	public class ProcessStartInfoSystem32
+	public class System32FolderProcessStartInfoBuilder : ProcessStartInfoBuilderBase
 	{
 		string _system32FilePath;
 
-		public ProcessStartInfoSystem32(string system32FilePath)
+		public System32FolderProcessStartInfoBuilder(string system32FilePath)
 		{
-			_system32FilePath = system32FilePath ?? throw new ArgumentNullException(nameof(system32FilePath), nameof(ProcessStartInfoSystem32));
+			_system32FilePath = system32FilePath ?? throw new ArgumentNullException(nameof(system32FilePath), nameof(System32FolderProcessStartInfoBuilder));
 		}
 
-		public static implicit operator ProcessStartInfo(ProcessStartInfoSystem32 input)
+		public static implicit operator ProcessStartInfo(System32FolderProcessStartInfoBuilder input)
 		{
 			if (input == null || input._system32FilePath == null)
 			{
