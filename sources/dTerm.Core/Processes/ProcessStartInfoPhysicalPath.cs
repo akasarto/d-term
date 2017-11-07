@@ -4,16 +4,16 @@ using System.IO;
 
 namespace dTerm.Core.Processes
 {
-	public class ProcessStartInfoPhysicalFile
+	public class ProcessStartInfoPhysicalPath
 	{
 		string _physicalPath;
 
-		public ProcessStartInfoPhysicalFile(string physicalPath)
+		public ProcessStartInfoPhysicalPath(string physicalPath)
 		{
-			_physicalPath = physicalPath ?? throw new ArgumentNullException(nameof(physicalPath), nameof(ProcessStartInfoPhysicalFile));
+			_physicalPath = physicalPath ?? throw new ArgumentNullException(nameof(physicalPath), nameof(ProcessStartInfoPhysicalPath));
 		}
 
-		public static implicit operator ProcessStartInfo(ProcessStartInfoPhysicalFile input)
+		public static implicit operator ProcessStartInfo(ProcessStartInfoPhysicalPath input)
 		{
 			if (input == null || input._physicalPath == null)
 			{

@@ -41,7 +41,7 @@ namespace dTerm.UI.Wpf
 			var consoleOptions = new List<ConsoleOption>()
 			{
 				new ConsoleOption(Core.Entities.ConsoleType.Cmd, new ProcessStartInfoEnvFile("cmd")) { DisplayOrder = 1 },
-				new ConsoleOption(Core.Entities.ConsoleType.GitBash, new ProcessStartInfoPhysicalFile(@"C:\Program Files\Git\bin\bash.exe")) { DisplayOrder = 2 },
+				new ConsoleOption(Core.Entities.ConsoleType.GitBash, new ProcessStartInfoPhysicalPath(@"C:\Program Files\Git\bin\bash.exe")) { DisplayOrder = 2 },
 				new ConsoleOption(Core.Entities.ConsoleType.PowerShell, new ProcessStartInfoEnvFile("PowerShell")) { DisplayOrder = 3 },
 				new ConsoleOption(Core.Entities.ConsoleType.UbuntuBash, new ProcessStartInfoSystem32(@"bash.exe")) { DisplayOrder = 4 }
 			};

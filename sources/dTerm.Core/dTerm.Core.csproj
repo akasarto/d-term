@@ -48,7 +48,8 @@
     <Compile Include="Processes\ProcessStartInfoEnvFile.cs" />
     <Compile Include="Processes\Extensions.cs" />
     <Compile Include="Processes\ITermProcess.cs" />
-    <Compile Include="Processes\ProcessStartInfoPhysicalFile.cs" />
+    <Compile Include="Processes\ProcessStartInfoProgramsFolder.cs" />
+    <Compile Include="Processes\ProcessStartInfoPhysicalPath.cs" />
     <Compile Include="Processes\ProcessStartInfoSystem32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Win32Api.cs" />
