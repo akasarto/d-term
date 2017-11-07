@@ -6,11 +6,13 @@ namespace dTerm.Core.Processes
 	{
 		internal abstract ProcessStartInfo GetProcessStartInfo();
 
-		internal static string NormalizeFilename(string input)
+		internal static string NormalizeFilename(string fileName)
 		{
-			input = (input ?? string.Empty).Trim('~', '.', '/', '\\');
+			fileName = (fileName ?? string.Empty).Trim('~', '.', '/', '\\');
 
-			return input.Replace("/", "\\");
+			fileName = $"{fileName.TrimEnd(".exe".ToCharArray())}.exe";
+
+			return fileName.Replace("/", "\\");
 		}
 	}
 }

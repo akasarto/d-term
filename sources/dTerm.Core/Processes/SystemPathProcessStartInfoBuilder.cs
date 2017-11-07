@@ -17,26 +17,24 @@ namespace dTerm.Core.Processes
 
 		internal override ProcessStartInfo GetProcessStartInfo()
 		{
-			var procPath = string.Empty;
-			var fileName = NormalizeFilename(_environmentPathVarRelativeFileName);
+			var normalizedFilename = NormalizeFilename(
+				_environmentPathVarRelativeFileName
+			);
 
-			var rawPath = Environment.GetEnvironmentVariable("PATH");
-			var availablePaths = rawPath?.Split(';') ?? new string[0];
+			var pathFolders = Environment.GetEnvironmentVariable("PATH");
+			var folders = pathFolders?.Split(';') ?? new string[0];
 
-			fileName = $"{fileName.TrimEnd(".exe".ToCharArray())}.exe";
-
-			foreach (var path in availablePaths)
+			foreach (var folder in folders)
 			{
-				var fullPath = Path.Combine(path, fileName);
+				var physicalPath = Path.Combine(folder, normalizedFilename);
 
-				if (File.Exists(fullPath))
+				if (File.Exists(physicalPath))
 				{
-					procPath = fullPath;
-					break;
+					return new ProcessStartInfo(physicalPath);
 				}
 			}
 
-			return new ProcessStartInfo(procPath);
+			return null;
 		}
 	}
 }

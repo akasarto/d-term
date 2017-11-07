@@ -17,13 +17,27 @@ namespace dTerm.Core.Processes
 
 		internal override ProcessStartInfo GetProcessStartInfo()
 		{
-			//Environment.SpecialFolder.ProgramFiles
+			var normalizedFilename = NormalizeFilename(
+				_system32FolderRelativeFileName
+			);
 
-			//@"C:\WINDOWS\sysnative\bash.exe"
+			var folders = new string[] {
+				Environment.GetFolderPath(Environment.SpecialFolder.System),
+				Environment.GetFolderPath(Environment.SpecialFolder.SystemX86),
+				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Sysnative"),
+			};
 
-			var fileInfo = new FileInfo(_system32FolderRelativeFileName);
+			foreach (var folder in folders)
+			{
+				var physicalPath = Path.Combine(folder, normalizedFilename);
 
-			return new ProcessStartInfo(fileInfo.FullName);
+				if (File.Exists(physicalPath))
+				{
+					return new ProcessStartInfo(physicalPath);
+				}
+			}
+
+			return null;
 		}
 	}
 }

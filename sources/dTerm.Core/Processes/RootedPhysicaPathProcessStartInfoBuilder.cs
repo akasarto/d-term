@@ -17,9 +17,11 @@ namespace dTerm.Core.Processes
 
 		internal override ProcessStartInfo GetProcessStartInfo()
 		{
-			var fileInfo = new FileInfo(_rootedPhysicalFileName);
+			var normalizedFilename = NormalizeFilename(
+				_rootedPhysicalFileName
+			);
 
-			return new ProcessStartInfo(fileInfo.FullName);
+			return new ProcessStartInfo(normalizedFilename);
 		}
 	}
 }

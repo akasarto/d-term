@@ -7,7 +7,6 @@ using dTerm.UI.Wpf.ViewModels;
 using dTerm.UI.Wpf.Views;
 using NLog;
 using SimpleInjector;
-using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
