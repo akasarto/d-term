@@ -17,14 +17,14 @@ namespace dTerm.UI.Wpf.Infrastructure
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
 			var childHandle = _dtermProcess.MainWindowHandle;
-			Win32ApiWrapper.SetParent(childHandle, hwndParent.Handle);
-			Win32ApiWrapper.MakeChildWindow(childHandle);
+			Win32Api.SetParent(childHandle, hwndParent.Handle);
+			Win32Api.MakeChildWindow(childHandle);
 			return new HandleRef(this, childHandle);
 		}
 
 		protected override void DestroyWindowCore(HandleRef hwnd)
 		{
-			Win32ApiWrapper.DestroyWindow(hwnd.Handle);
+			Win32Api.DestroyWindow(hwnd.Handle);
 		}
 	}
 }

@@ -12,6 +12,7 @@ namespace dTerm.UI.Wpf.ViewModels
 	public class ShellViewModel : ObservableObject
 	{
 		private IProcessFactory _processFactory;
+		private ConsoleInstanceViewModel _selectedConsoleInstance;
 
 		public ShellViewModel(IProcessFactory processFactory, IEnumerable<IConsoleOption> consoleOptions)
 		{
@@ -19,6 +20,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			//
 			ConsoleOptions = consoleOptions ?? throw new ArgumentNullException(nameof(consoleOptions), nameof(ShellViewModel));
+			ConsoleInstances = new ObservableCollection<ConsoleInstanceViewModel>();
 
 			//
 			CreateConsoleProcessInstanceCommand = new RelayCommand<IConsoleOption>(
@@ -29,9 +31,15 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public IEnumerable<IConsoleOption> ConsoleOptions { get; private set; }
 
-		public ObservableCollection<IConsoleOption> ConsoleProcessInstances { get; private set; }
+		public ObservableCollection<ConsoleInstanceViewModel> ConsoleInstances { get; private set; }
 
 		public RelayCommand<IConsoleOption> CreateConsoleProcessInstanceCommand { get; private set; }
+
+		public ConsoleInstanceViewModel SelectedConsoleInstance
+		{
+			get => _selectedConsoleInstance;
+			set => Set(ref _selectedConsoleInstance, value);
+		}
 
 		private void CreateConsoleProcessInstance(IConsoleOption consoleOption)
 		{
@@ -39,8 +47,10 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			if (process.Start())
 			{
-				var parentHandle = new WindowInteropHelper(App.Current.MainWindow).Handle;
-				Win32ApiWrapper.SetOwner(process.MainWindowHandle, parentHandle);
+				Win32Api.TakeOwnership(
+					process.MainWindowHandle,
+					new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle
+				);
 			}
 		}
 

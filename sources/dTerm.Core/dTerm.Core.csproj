@@ -48,7 +48,7 @@
     <Compile Include="Processes\Extensions.cs" />
     <Compile Include="Processes\ITermProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Win32ApiWrapper.cs" />
+    <Compile Include="Win32Api.cs" />
     <Compile Include="Processes\TermProcess.cs" />
   </ItemGroup>
   <ItemGroup>

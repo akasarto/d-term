@@ -9,7 +9,9 @@ namespace dTerm.Core.Processes
 
 		int Id { get; }
 
-		IntPtr Handle { get; }
+		bool IsRunning { get; }
+
+		IntPtr ProcessHandle { get; }
 
 		IntPtr MainWindowHandle { get; }
 

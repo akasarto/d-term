@@ -1,13 +1,12 @@
 ﻿using dTerm.Core.Entities;
 using dTerm.Core.Processes;
-using dTerm.UI.Wpf.Infrastructure;
 using Humanizer;
 using System;
 using System.Diagnostics;
 
 namespace dTerm.UI.Wpf.Models
 {
-	public class ConsoleOption : ObservableObject, IConsoleOption
+	public class ConsoleOption : IConsoleOption
 	{
 		private ConsoleType _consoleType;
 		private ProcessStartInfo _processStartInfo;

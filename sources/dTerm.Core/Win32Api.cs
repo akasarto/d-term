@@ -3,10 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace dTerm.Core
 {
-	public class Win32ApiWrapper
+	public class Win32Api
 	{
 		//
-		// Styles / Configs
+		// Indexes / Styles
 		//
 
 		public const int GWL_STYLE = -16;
@@ -35,24 +35,19 @@ namespace dTerm.Core
 		// Local Methods
 		//
 
-		public static void SetOwner(IntPtr windowHandle, IntPtr parentHandle)
+		public static void MakeToolWindow(IntPtr targetWindoHandle)
 		{
-			SetWindowLong(windowHandle, GWLP_HWNDPARENT, parentHandle);
-		}
-
-		public static void MakeToolWindow(IntPtr windowHandle)
-		{
-			var newStyle = GetWindowLong(windowHandle, GWL_STYLE);
+			var newStyle = GetWindowLong(targetWindoHandle, GWL_STYLE);
 
 			newStyle &= ~WS_MAXIMIZEBOX;
 			newStyle &= ~WS_MINIMIZEBOX;
 
-			SetWindowLong(windowHandle, GWL_STYLE, new IntPtr(newStyle));
+			SetWindowLong(targetWindoHandle, GWL_STYLE, new IntPtr(newStyle));
 		}
 
-		public static void MakeChildWindow(IntPtr windowHandle)
+		public static void MakeChildWindow(IntPtr targetWindoHandle)
 		{
-			var newStyle = GetWindowLong(windowHandle, GWL_STYLE);
+			var newStyle = GetWindowLong(targetWindoHandle, GWL_STYLE);
 
 			newStyle &= ~WS_MAXIMIZEBOX;
 			newStyle &= ~WS_MINIMIZEBOX;
@@ -64,7 +59,28 @@ namespace dTerm.Core
 			newStyle |= WS_CHILD;
 			newStyle |= WS_TABSTOP;
 
-			SetWindowLong(windowHandle, GWL_STYLE, new IntPtr(newStyle));
+			SetWindowLong(targetWindoHandle, GWL_STYLE, new IntPtr(newStyle));
+		}
+
+		public static void RemoveFromTaskbar(IntPtr targetWindoHandle)
+		{
+			var newStyle = GetWindowLong(targetWindoHandle, GWL_EXSTYLE);
+
+			newStyle &= ~WS_EX_APPWINDOW;
+
+			SetWindowLong(targetWindoHandle, GWL_EXSTYLE, new IntPtr(newStyle));
+		}
+
+		public static void SetOwner(IntPtr targetWindoHandle, IntPtr newOwnerHandle)
+		{
+			SetWindowLong(targetWindoHandle, GWLP_HWNDPARENT, newOwnerHandle);
+		}
+
+		public static void TakeOwnership(IntPtr targetWindoHandle, IntPtr newOwnerHandle)
+		{
+			SetOwner(targetWindoHandle, newOwnerHandle);
+			RemoveFromTaskbar(targetWindoHandle);
+			MakeToolWindow(targetWindoHandle);
 		}
 
 		//

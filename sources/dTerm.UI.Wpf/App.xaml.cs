@@ -40,9 +40,9 @@ namespace dTerm.UI.Wpf
 			var consoleOptions = new List<IConsoleOption>()
 			{
 				new ConsoleOption(Core.Entities.ConsoleType.Cmd, new System.Diagnostics.ProcessStartInfo(@"cmd")) { DisplayOrder = 1 },
-				new ConsoleOption(Core.Entities.ConsoleType.GitBash, new System.Diagnostics.ProcessStartInfo(@"gitbash")) { DisplayOrder = 2 },
+				new ConsoleOption(Core.Entities.ConsoleType.GitBash, new System.Diagnostics.ProcessStartInfo(@"C:\Program Files\Git\bin\bash.exe")) { DisplayOrder = 2 },
 				new ConsoleOption(Core.Entities.ConsoleType.PowerShell, new System.Diagnostics.ProcessStartInfo(@"PowerShell")) { DisplayOrder = 3 },
-				new ConsoleOption(Core.Entities.ConsoleType.UbuntuBash, new System.Diagnostics.ProcessStartInfo(@"ubuntu")) { DisplayOrder = 4 }
+				new ConsoleOption(Core.Entities.ConsoleType.UbuntuBash, new System.Diagnostics.ProcessStartInfo(@"C:\WINDOWS\sysnative\bash.exe")) { DisplayOrder = 4 }
 			};
 
 			Current.MainWindow = new ShellView(new ShellViewModel(processFactory, consoleOptions));

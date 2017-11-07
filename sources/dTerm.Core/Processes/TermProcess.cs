@@ -22,7 +22,9 @@ namespace dTerm.Core.Processes
 
 		public int Id => _process?.Id ?? 0;
 
-		public IntPtr Handle => _process?.Handle ?? IntPtr.Zero;
+		public bool IsRunning => !(_process?.HasExited ?? true);
+
+		public IntPtr ProcessHandle => _process?.Handle ?? IntPtr.Zero;
 
 		public IntPtr MainWindowHandle => _process?.MainWindowHandle ?? IntPtr.Zero;
 

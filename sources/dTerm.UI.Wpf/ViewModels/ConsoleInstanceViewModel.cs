@@ -5,16 +5,16 @@ using dTerm.Core.Processes;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
-	public class ConsoleViewModel : ObservableObject
+	public class ConsoleInstanceViewModel : ObservableObject
 	{
 		private string _name;
 		private ConsoleType _type;
 		private ITermProcess _process;
 
-		public ConsoleViewModel(string name, ITermProcess process, ConsoleType type)
+		public ConsoleInstanceViewModel(string name, ConsoleType type, ITermProcess process)
 		{
-			_name = name ?? throw new ArgumentNullException(nameof(name), nameof(ConsoleViewModel));
-			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ConsoleViewModel));
+			_name = name ?? throw new ArgumentNullException(nameof(name), nameof(ConsoleInstanceViewModel));
+			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ConsoleInstanceViewModel));
 			_type = type;
 		}
 

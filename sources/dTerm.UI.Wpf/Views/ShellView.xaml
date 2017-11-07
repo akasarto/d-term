@@ -4,9 +4,11 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dterm="clr-namespace:dTerm.Core;assembly=Sarto.dTerm.Core"
 	xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+	xmlns:viewmodels="clr-namespace:dTerm.UI.Wpf.ViewModels"
 	xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wndbase="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+	xmlns:local="clr-namespace:dTerm.UI.Wpf.Views"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 	x:Class="dTerm.UI.Wpf.Views.ShellView"
 	FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
@@ -19,7 +21,7 @@
 	TextElement.FontSize="13"
 	WindowState="Maximized"
 	mc:Ignorable="d"
-	Title="wTerm" 
+	Title="dTerm" 
 	MinHeight="768" 
 	MinWidth="1024"
 	ShowTitleBar="False"
@@ -36,41 +38,6 @@
 
 	<mahapps:MetroWindow.Resources>
 
-		<Style x:Key="primaryButtonsContainerLineStyle" TargetType="{x:Type Separator}">
-			<Setter Property="Height" Value="5" />
-			<Setter Property="Background" Value="Black" />
-			<Setter Property="BorderBrush" Value="Black" />
-			<Setter Property="BorderThickness" Value="5" />
-			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="HorizontalAlignment" Value="Stretch" />
-		</Style>
-
-		<Style x:Key="primaryButtonsContainerWrapperStyle" TargetType="{x:Type Border}">
-			<Setter Property="Margin" Value="75 15" />
-			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="HorizontalAlignment" Value="Right" />
-			<Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
-		</Style>
-
-		<Style x:Key="processTabsStyle" BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
-			<Setter Property="Margin" Value="35 35 35 35" />
-			<Setter Property="Grid.Column" Value="1" />
-			<Setter Property="Background" Value="Transparent" />
-			<Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
-			<Setter Property="HorizontalAlignment" Value="Stretch" />
-			<Setter Property="VerticalAlignment" Value="Stretch" />
-			<Setter Property="TabStripPlacement" Value="Right" />
-			<Setter Property="ItemsSource" Value="{Binding Consoles}" />
-			<Setter Property="SelectedValue" Value="{Binding SelectedConsole}" />
-			<Setter Property="ItemContainerStyle">
-				<Setter.Value>
-					<Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
-						<EventSetter Event="ButtonBase.Click" Handler="TabItem_Click" />
-					</Style>
-				</Setter.Value>
-			</Setter>
-		</Style>
-
 		<CollectionViewSource x:Key="consoleOptionsSource" Source="{Binding ConsoleOptions}">
 			<CollectionViewSource.SortDescriptions>
 				<wndbase:SortDescription PropertyName="DisplayOrder" />
@@ -86,62 +53,67 @@
 
 		<Grid>
 
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
+			<Grid.Style>
+				<Style TargetType="Grid">
+					<Setter Property="Margin" Value="15 0 15 15" />
+					<Setter Property="VerticalAlignment" Value="Bottom" />
+				</Style>
+			</Grid.Style>
 
-			<Grid>
+			<!-- Line -->
 
-				<TabControl Style="{DynamicResource processTabsStyle}">
+			<Separator>
+				<Separator.Style>
+					<Style TargetType="Separator">
+						<Setter Property="Height" Value="5" />
+						<Setter Property="Background" Value="Black" />
+						<Setter Property="BorderBrush" Value="Black" />
+						<Setter Property="BorderThickness" Value="5" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="HorizontalAlignment" Value="Stretch" />
+					</Style>
+				</Separator.Style>
+			</Separator>
 
-					<TabControl.Resources>
-						<Style TargetType="{x:Type TabPanel}">
-							<Setter Property="Margin" Value="35 15 15 15"/>
-							<Setter Property="VerticalAlignment" Value="Center"/>
-							<Setter Property="HorizontalAlignment" Value="Center"/>
-						</Style>
-					</TabControl.Resources>
+			<!-- Console options -->
 
-					<TabControl.ItemTemplate>
+			<Border>
+
+				<Border.Style>
+					<Style TargetType="Border">
+						<Setter Property="Margin" Value="75 15" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="HorizontalAlignment" Value="Right" />
+						<Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+					</Style>
+				</Border.Style>
+
+				<ItemsControl ItemsSource="{Binding Source={StaticResource consoleOptionsSource}}">
+
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Margin="15 0" Orientation="Horizontal" />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+
+					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<materialdesign:Chip Margin="0 3.5" Content="{Binding Name}">
-								<materialdesign:Chip.Icon>
-									<materialdesign:PackIcon Kind="Console"/>
-								</materialdesign:Chip.Icon>
-							</materialdesign:Chip>
+							<Button>
+								<Button.Style>
+									<Style TargetType="Button" BasedOn="{StaticResource consoleOptionButtonStyle}">
+										<Setter Property="ToolTip" Value="{Binding Description}" />
+										<Setter Property="IsEnabled" Value="{Binding IsSupported}" />
+										<Setter Property="CommandParameter" Value="{Binding}" />
+										<Setter Property="Command" Value="{Binding DataContext.CreateConsoleProcessInstanceCommand, ElementName=shellView}" />
+									</Style>
+								</Button.Style>
+							</Button>
 						</DataTemplate>
-					</TabControl.ItemTemplate>
+					</ItemsControl.ItemTemplate>
 
-				</TabControl>
+				</ItemsControl>
 
-			</Grid>
-
-			<Grid Grid.Row="1" Margin="15 0 0 15">
-
-				<Separator Style="{DynamicResource primaryButtonsContainerLineStyle}" />
-
-				<Border Style="{DynamicResource primaryButtonsContainerWrapperStyle}">
-
-					<ItemsControl ItemsSource="{Binding Source={StaticResource consoleOptionsSource}}">
-
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel Margin="15 0" Orientation="Horizontal" />
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<Button ToolTip="{Binding Description}" Command="{Binding DataContext.CreateConsoleProcessInstanceCommand, ElementName=shellView}" IsEnabled="{Binding IsSupported}" CommandParameter="{Binding}" Style="{DynamicResource consoleOptionButtonStyle}" />
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-
-					</ItemsControl>
-
-				</Border>
-
-			</Grid>
+			</Border>
 
 		</Grid>
 
