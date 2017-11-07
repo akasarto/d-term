@@ -9,6 +9,7 @@ using dTerm.UI.Wpf.ViewModels;
 using System.Collections.Generic;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.Factories;
+using dTerm.Core.Processes;
 
 namespace dTerm.UI.Wpf
 {
@@ -37,12 +38,12 @@ namespace dTerm.UI.Wpf
 		{
 			var processFactory = new TermProcessFactory();
 
-			var consoleOptions = new List<IConsoleOption>()
+			var consoleOptions = new List<ConsoleOption>()
 			{
-				new ConsoleOption(Core.Entities.ConsoleType.Cmd, new System.Diagnostics.ProcessStartInfo(@"cmd")) { DisplayOrder = 1 },
-				new ConsoleOption(Core.Entities.ConsoleType.GitBash, new System.Diagnostics.ProcessStartInfo(@"C:\Program Files\Git\bin\bash.exe")) { DisplayOrder = 2 },
-				new ConsoleOption(Core.Entities.ConsoleType.PowerShell, new System.Diagnostics.ProcessStartInfo(@"PowerShell")) { DisplayOrder = 3 },
-				new ConsoleOption(Core.Entities.ConsoleType.UbuntuBash, new System.Diagnostics.ProcessStartInfo(@"C:\WINDOWS\sysnative\bash.exe")) { DisplayOrder = 4 }
+				new ConsoleOption(Core.Entities.ConsoleType.Cmd, new ProcessStartInfoEnvFile("cmd")) { DisplayOrder = 1 },
+				new ConsoleOption(Core.Entities.ConsoleType.GitBash, new ProcessStartInfoPhysicalFile(@"C:\Program Files\Git\bin\bash.exe")) { DisplayOrder = 2 },
+				new ConsoleOption(Core.Entities.ConsoleType.PowerShell, new ProcessStartInfoEnvFile("PowerShell")) { DisplayOrder = 3 },
+				new ConsoleOption(Core.Entities.ConsoleType.UbuntuBash, new ProcessStartInfoSystem32(@"bash.exe")) { DisplayOrder = 4 }
 			};
 
 			Current.MainWindow = new ShellView(new ShellViewModel(processFactory, consoleOptions));

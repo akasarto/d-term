@@ -45,8 +45,11 @@
     <Compile Include="EventBus\DataBus.cs" />
     <Compile Include="EventBus\IMessageHandler.cs" />
     <Compile Include="EventBus\IMessage.cs" />
+    <Compile Include="Processes\ProcessStartInfoEnvFile.cs" />
     <Compile Include="Processes\Extensions.cs" />
     <Compile Include="Processes\ITermProcess.cs" />
+    <Compile Include="Processes\ProcessStartInfoPhysicalFile.cs" />
+    <Compile Include="Processes\ProcessStartInfoSystem32.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Win32Api.cs" />
     <Compile Include="Processes\TermProcess.cs" />

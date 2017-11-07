@@ -12,36 +12,36 @@ namespace dTerm.UI.Wpf.ViewModels
 	public class ShellViewModel : ObservableObject
 	{
 		private IProcessFactory _processFactory;
-		private ConsoleInstanceViewModel _selectedConsoleInstance;
+		private ConsoleInstance _selectedConsoleInstance;
 
-		public ShellViewModel(IProcessFactory processFactory, IEnumerable<IConsoleOption> consoleOptions)
+		public ShellViewModel(IProcessFactory processFactory, IEnumerable<ConsoleOption> consoleOptions)
 		{
 			_processFactory = processFactory ?? throw new ArgumentNullException(nameof(processFactory), nameof(ShellViewModel));
 
 			//
 			ConsoleOptions = consoleOptions ?? throw new ArgumentNullException(nameof(consoleOptions), nameof(ShellViewModel));
-			ConsoleInstances = new ObservableCollection<ConsoleInstanceViewModel>();
+			ConsoleInstances = new ObservableCollection<ConsoleInstance>();
 
 			//
-			CreateConsoleProcessInstanceCommand = new RelayCommand<IConsoleOption>(
+			CreateConsoleProcessInstanceCommand = new RelayCommand<ConsoleOption>(
 				CreateConsoleProcessInstance,
 				CanCreateConsoleProcessInstance
 			);
 		}
 
-		public IEnumerable<IConsoleOption> ConsoleOptions { get; private set; }
+		public IEnumerable<ConsoleOption> ConsoleOptions { get; private set; }
 
-		public ObservableCollection<ConsoleInstanceViewModel> ConsoleInstances { get; private set; }
+		public ObservableCollection<ConsoleInstance> ConsoleInstances { get; private set; }
 
-		public RelayCommand<IConsoleOption> CreateConsoleProcessInstanceCommand { get; private set; }
+		public RelayCommand<ConsoleOption> CreateConsoleProcessInstanceCommand { get; private set; }
 
-		public ConsoleInstanceViewModel SelectedConsoleInstance
+		public ConsoleInstance SelectedConsoleInstance
 		{
 			get => _selectedConsoleInstance;
 			set => Set(ref _selectedConsoleInstance, value);
 		}
 
-		private void CreateConsoleProcessInstance(IConsoleOption consoleOption)
+		private void CreateConsoleProcessInstance(ConsoleOption consoleOption)
 		{
 			var process = _processFactory.CreateProcess(consoleOption.ProcessStartInfo);
 
@@ -54,7 +54,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 		}
 
-		private bool CanCreateConsoleProcessInstance(IConsoleOption consoleOption)
+		private bool CanCreateConsoleProcessInstance(ConsoleOption consoleOption)
 		{
 			if (consoleOption == null || consoleOption.ProcessStartInfo == null)
 			{

@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace dTerm.UI.Wpf.Models
 {
-	public class ConsoleOption : IConsoleOption
+	public class ConsoleOption
 	{
 		private ConsoleType _consoleType;
 		private ProcessStartInfo _processStartInfo;
