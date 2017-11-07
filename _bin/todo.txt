@@ -1,3 +1,5 @@
+# DEV
+
 - track dos processos rodando
 
 - remover item da colecao ao sair (exit no console)
@@ -15,3 +17,7 @@
 - revisar layout v1
 
 - cmd snippets
+
+# TESTS
+
+- ProcessStartInfo return a instance or null.

@@ -5,7 +5,6 @@ using dTerm.UI.Wpf.Factories;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.ViewModels;
 using dTerm.UI.Wpf.Views;
-using NLog;
 using SimpleInjector;
 using System.Collections.Generic;
 using System.Windows;
@@ -15,12 +14,10 @@ namespace dTerm.UI.Wpf
 {
 	public partial class App : Application
 	{
-		private ILogger _logger = null;
 		private Container _container = null;
 
 		public App()
 		{
-			_logger = LogManager.GetCurrentClassLogger();
 			_container = Initializer.CreateContainer();
 		}
 
@@ -53,7 +50,7 @@ namespace dTerm.UI.Wpf
 
 		private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs args)
 		{
-			_logger.Fatal(args.Exception);
+			//ToDo: Log
 		}
 	}
 }

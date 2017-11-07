@@ -1,7 +1,6 @@
 ﻿using dTerm.Core.Entities;
 using dTerm.Core.Processes;
 using Humanizer;
-using System;
 using System.Diagnostics;
 
 namespace dTerm.UI.Wpf.Models
