@@ -4,7 +4,7 @@ namespace dTerm.Core.Processes
 {
 	public abstract class ProcessStartInfoBuilderBase
 	{
-		public abstract ProcessStartInfo ProcessStartInfo { get; internal set; }
+		internal abstract ProcessStartInfo GetProcessStartInfo();
 
 		internal static string NormalizeFilename(string input)
 		{

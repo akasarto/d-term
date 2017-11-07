@@ -1,4 +1,5 @@
 ﻿using dTerm.Core.DataBus;
+using dTerm.Core.Entities;
 using dTerm.Core.Processes;
 using dTerm.UI.Wpf.Factories;
 using dTerm.UI.Wpf.Models;
@@ -40,30 +41,13 @@ namespace dTerm.UI.Wpf
 
 			var consoleOptions = new List<ConsoleOption>()
 			{
-				new ConsoleOption(Core.Entities.ConsoleType.Cmd, new SystemPathProcessStartInfoBuilder("/cmd.exe")) { DisplayOrder = 1 },
-				new ConsoleOption(Core.Entities.ConsoleType.GitBash, new ProgramFilesFolderProcessStartInfoBuilder("git/bin/bash.exe")) { DisplayOrder = 2 },
-				new ConsoleOption(Core.Entities.ConsoleType.PowerShell, new SystemPathProcessStartInfoBuilder("/powershell.exe")) { DisplayOrder = 3 },
-				new ConsoleOption(Core.Entities.ConsoleType.UbuntuBash, new System32FolderProcessStartInfoBuilder("/bash.exe")) { DisplayOrder = 4 }
+				new ConsoleOption(ConsoleType.Cmd, new SystemPathProcessStartInfoBuilder("/cmd.exe")) { DisplayOrder = 1 },
+				new ConsoleOption(ConsoleType.GitBash, new ProgramFilesFolderProcessStartInfoBuilder("/git/bin/bash.exe")) { DisplayOrder = 2 },
+				new ConsoleOption(ConsoleType.PowerShell, new SystemPathProcessStartInfoBuilder("/powershell.exe")) { DisplayOrder = 3 },
+				new ConsoleOption(ConsoleType.UbuntuBash, new System32FolderProcessStartInfoBuilder("/bash.exe")) { DisplayOrder = 4 }
 			};
 
 			Current.MainWindow = new ShellView(new ShellViewModel(processFactory, consoleOptions));
-
-			Current.MainWindow.Closing += (sender, args) =>
-			{
-				var mainWindow = sender as Window;
-
-				foreach (Window window in mainWindow.OwnedWindows)
-				{
-					try
-					{
-						window.Close();
-					}
-					catch (Exception ex)
-					{
-						_logger.Fatal(ex);
-					}
-				}
-			};
 
 			Current.MainWindow.Show();
 		}

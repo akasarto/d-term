@@ -6,22 +6,19 @@ namespace dTerm.Core.Processes
 {
 	public class SystemPathProcessStartInfoBuilder : ProcessStartInfoBuilderBase
 	{
-		string _environmentFilePath;
+		private string _environmentPathVarRelativeFileName;
 
-		public override ProcessStartInfo ProcessStartInfo { get; internal set; }
-
-		public SystemPathProcessStartInfoBuilder(string environmentFilePath)
+		public SystemPathProcessStartInfoBuilder(string environmentPathVarRelativeFileName)
 		{
-			_environmentFilePath = environmentFilePath ?? throw new ArgumentNullException(nameof(environmentFilePath), nameof(SystemPathProcessStartInfoBuilder));
-
-
+			_environmentPathVarRelativeFileName = environmentPathVarRelativeFileName ?? throw new ArgumentNullException(nameof(environmentPathVarRelativeFileName), nameof(SystemPathProcessStartInfoBuilder));
 		}
 
-		public static implicit operator ProcessStartInfo(SystemPathProcessStartInfoBuilder info) => info.ProcessStartInfo;
+		public static implicit operator ProcessStartInfo(SystemPathProcessStartInfoBuilder builder) => builder.GetProcessStartInfo();
 
-		private string BuildPath(SystemPathProcessStartInfoBuilder input)
+		internal override ProcessStartInfo GetProcessStartInfo()
 		{
-			var fileName = NormalizeFilename(input?._environmentFilePath);
+			var procPath = string.Empty;
+			var fileName = NormalizeFilename(_environmentPathVarRelativeFileName);
 
 			var rawPath = Environment.GetEnvironmentVariable("PATH");
 			var availablePaths = rawPath?.Split(';') ?? new string[0];
@@ -33,10 +30,13 @@ namespace dTerm.Core.Processes
 				var fullPath = Path.Combine(path, fileName);
 
 				if (File.Exists(fullPath))
-					return fullPath;
+				{
+					procPath = fullPath;
+					break;
+				}
 			}
 
-			return input._environmentFilePath;
+			return new ProcessStartInfo(procPath);
 		}
 	}
 }

@@ -6,21 +6,18 @@ namespace dTerm.Core.Processes
 {
 	public class ProgramFilesFolderProcessStartInfoBuilder : ProcessStartInfoBuilderBase
 	{
-		string _physicalPath;
+		string _programFilesFolderRelativeFileName;
 
-		public ProgramFilesFolderProcessStartInfoBuilder(string physicalPath)
+		public ProgramFilesFolderProcessStartInfoBuilder(string programFilesFolderRelativeFileName)
 		{
-			_physicalPath = physicalPath ?? throw new ArgumentNullException(nameof(physicalPath), nameof(ProgramFilesFolderProcessStartInfoBuilder));
+			_programFilesFolderRelativeFileName = programFilesFolderRelativeFileName ?? throw new ArgumentNullException(nameof(programFilesFolderRelativeFileName), nameof(ProgramFilesFolderProcessStartInfoBuilder));
 		}
 
-		public static implicit operator ProcessStartInfo(ProgramFilesFolderProcessStartInfoBuilder input)
-		{
-			if (input == null || input._physicalPath == null)
-			{
-				return null;
-			}
+		public static implicit operator ProcessStartInfo(ProgramFilesFolderProcessStartInfoBuilder builder) => builder.GetProcessStartInfo();
 
-			var fileInfo = new FileInfo(input._physicalPath);
+		internal override ProcessStartInfo GetProcessStartInfo()
+		{
+			var fileInfo = new FileInfo(_programFilesFolderRelativeFileName);
 
 			return new ProcessStartInfo(fileInfo.FullName);
 		}
