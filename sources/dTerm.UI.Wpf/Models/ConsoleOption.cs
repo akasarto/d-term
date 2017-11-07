@@ -14,7 +14,7 @@ namespace dTerm.UI.Wpf.Models
 		public ConsoleOption(ConsoleType consoleType, ProcessStartInfo processStartInfo)
 		{
 			_consoleType = consoleType;
-			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleOption));
+			_processStartInfo = processStartInfo;
 		}
 
 		public ConsoleType ConsoleType => _consoleType;

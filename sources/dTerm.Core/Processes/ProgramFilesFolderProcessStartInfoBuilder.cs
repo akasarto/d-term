@@ -22,9 +22,8 @@ namespace dTerm.Core.Processes
 			);
 
 			var folders = new string[] {
-				Environment.GetFolderPath(Environment.SpecialFolder.System),
-				Environment.GetFolderPath(Environment.SpecialFolder.SystemX86),
-				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Sysnative"),
+				NormalizeFolderPath(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles).Replace("(x86)",string.Empty)).Trim(), // [REVIEW] Force x64 path.
+				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)
 			};
 
 			foreach (var folder in folders)

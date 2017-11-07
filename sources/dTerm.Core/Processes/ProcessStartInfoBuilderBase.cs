@@ -6,6 +6,8 @@ namespace dTerm.Core.Processes
 	{
 		internal abstract ProcessStartInfo GetProcessStartInfo();
 
+		internal static string NormalizeFolderPath(string folderPath) => (folderPath ?? string.Empty).Trim('~', '.', '/', '\\');
+
 		internal static string NormalizeFilename(string fileName)
 		{
 			fileName = (fileName ?? string.Empty).Trim('~', '.', '/', '\\');
