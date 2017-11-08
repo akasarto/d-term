@@ -11,12 +11,12 @@ namespace dTerm.UI.Wpf.ViewModels
 	public class ShellViewModel : ObservableObject
 	{
 		private IntPtr _shellViewHandle;
-		private IConsoleProcessFactory _processFactory;
+		private IConsoleProcessFactory _consoleProcessFactory;
 		private ConsoleInstance _selectedConsoleInstance;
 
-		public ShellViewModel(IConsoleProcessFactory processFactory, IEnumerable<ConsoleOption> consoleOptions)
+		public ShellViewModel(IConsoleProcessFactory consoleProcessFactory, IEnumerable<ConsoleOption> consoleOptions)
 		{
-			_processFactory = processFactory ?? throw new ArgumentNullException(nameof(processFactory), nameof(ShellViewModel));
+			_consoleProcessFactory = consoleProcessFactory ?? throw new ArgumentNullException(nameof(consoleProcessFactory), nameof(ShellViewModel));
 
 			//
 			ConsoleOptions = consoleOptions ?? throw new ArgumentNullException(nameof(consoleOptions), nameof(ShellViewModel));
@@ -49,11 +49,22 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		private void CreateConsoleProcessInstance(ConsoleOption consoleOption)
 		{
-			var process = _processFactory.CreateProcess(consoleOption.ProcessStartInfo);
+			var consoleProcess = _consoleProcessFactory.CreateProcess(consoleOption.ProcessStartInfo);
 
-			if (process.Start())
+			if (consoleProcess.Start())
 			{
-				Win32Api.TakeOwnership(process.MainWindowHandle, ShellViewHandle);
+				Win32Api.TakeOwnership(
+					consoleProcess.MainWindowHandle,
+					ShellViewHandle
+				);
+
+				var consoleInstance = new ConsoleInstance(
+					consoleOption.Description,
+					consoleOption.ConsoleType,
+					consoleProcess
+				);
+
+				ConsoleInstances.Add(consoleInstance);
 			}
 		}
 

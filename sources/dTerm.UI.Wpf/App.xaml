@@ -1,6 +1,7 @@
 ﻿<Application
 	x:Class="dTerm.UI.Wpf.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:entities="clr-namespace:dTerm.Core.Entities;assembly=Sarto.dTerm.Core"
 	xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:dTerm.UI.Wpf"
@@ -84,44 +85,59 @@
 				<Setter Property="HorizontalAlignment" Value="Left" />
 				<Setter Property="Data" Value="{StaticResource dTermGeometry}" />
 			</Style>
-			
-			<!-- Console Buttons -->
-			<Style x:Key="consoleOptionButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}">
-				<Setter Property="Margin" Value="7.5 0" />
-				<Setter Property="ToolTipService.Placement" Value="Center" />
-				<Setter Property="ToolTipService.VerticalOffset" Value="-50" />
-				<Setter Property="ToolTipService.InitialShowDelay" Value="750" />
-				<Style.Triggers>
-					<DataTrigger Binding="{Binding ConsoleType}" Value="Cmd">
-						<Setter Property="Content">
-							<Setter.Value>
-								<materialdesign:PackIcon Kind="Console" Height="24" Width="24" />
-							</Setter.Value>
-						</Setter>
-					</DataTrigger>
-					<DataTrigger Binding="{Binding ConsoleType}" Value="GitBash">
-						<Setter Property="Content">
-							<Setter.Value>
-								<materialdesign:PackIcon Kind="Git" Height="24" Width="24" />
-							</Setter.Value>
-						</Setter>
-					</DataTrigger>
-					<DataTrigger Binding="{Binding ConsoleType}" Value="PowerShell">
-						<Setter Property="Content">
-							<Setter.Value>
-								<Path Fill="#FF000000" Data="{StaticResource powerShellGeomery}" />
-							</Setter.Value>
-						</Setter>
-					</DataTrigger>
-					<DataTrigger Binding="{Binding ConsoleType}" Value="UbuntuBash">
-						<Setter Property="Content">
-							<Setter.Value>
-								<materialdesign:PackIcon Kind="Ubuntu" Height="24" Width="24" />
-							</Setter.Value>
-						</Setter>
-					</DataTrigger>
-				</Style.Triggers>
-			</Style>
+
+			<DataTemplate DataType="{x:Type entities:ConsoleType}">
+				<ContentControl>
+					<ContentControl.Style>
+						<Style TargetType="ContentControl">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding}" Value="Cmd">
+									<Setter Property="ContentTemplate">
+										<Setter.Value>
+											<DataTemplate>
+												<materialdesign:PackIcon Kind="Console" />
+											</DataTemplate>
+										</Setter.Value>
+									</Setter>
+								</DataTrigger>
+								<DataTrigger Binding="{Binding}" Value="GitBash">
+									<Setter Property="ContentTemplate">
+										<Setter.Value>
+											<DataTemplate>
+												<materialdesign:PackIcon Kind="Git" />
+											</DataTemplate>
+										</Setter.Value>
+									</Setter>
+								</DataTrigger>
+								<DataTrigger Binding="{Binding}" Value="PowerShell">
+									<Setter Property="ContentTemplate">
+										<Setter.Value>
+											<DataTemplate>
+												<materialdesign:PackIcon>
+													<materialdesign:PackIcon.Template>
+														<ControlTemplate>
+															<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{StaticResource powerShellGeomery}" />
+														</ControlTemplate>
+													</materialdesign:PackIcon.Template>
+												</materialdesign:PackIcon>
+											</DataTemplate>
+										</Setter.Value>
+									</Setter>
+								</DataTrigger>
+								<DataTrigger Binding="{Binding}" Value="UbuntuBash">
+									<Setter Property="ContentTemplate">
+										<Setter.Value>
+											<DataTemplate>
+												<materialdesign:PackIcon Kind="Ubuntu" />
+											</DataTemplate>
+										</Setter.Value>
+									</Setter>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</ContentControl.Style>
+				</ContentControl>
+			</DataTemplate>
 
 		</ResourceDictionary>
 

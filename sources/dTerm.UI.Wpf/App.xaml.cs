@@ -33,7 +33,7 @@ namespace dTerm.UI.Wpf
 
 		private void SetupAndShowMainWindow()
 		{
-			var processFactory = new TermConsoleProcessFactory();
+			var consoleProcessFactory = new TermConsoleProcessFactory();
 
 			var consoleOptions = new List<ConsoleOption>()
 			{
@@ -43,7 +43,7 @@ namespace dTerm.UI.Wpf
 				new ConsoleOption(ConsoleType.UbuntuBash, new System32FolderProcessStartInfoBuilder("/bash.exe")) { DisplayOrder = 4 }
 			};
 
-			Current.MainWindow = new ShellView(new ShellViewModel(processFactory, consoleOptions));
+			Current.MainWindow = new ShellView(new ShellViewModel(consoleProcessFactory, consoleOptions));
 
 			Current.MainWindow.Show();
 		}

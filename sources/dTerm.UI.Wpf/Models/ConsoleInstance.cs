@@ -8,15 +8,15 @@ namespace dTerm.UI.Wpf.Models
 	public class ConsoleInstance : ObservableObject
 	{
 		private string _name;
-		private ConsoleType _type;
-		private IConsoleProcess _process;
-		private ProcessHwndHost _processHwndHost;
+		private ConsoleType _consoleType;
+		private IConsoleProcess _consoleProcess;
+		private ProcessHwndHost _consoleProcessHost;
 
-		public ConsoleInstance(string name, ConsoleType type, IConsoleProcess process)
+		public ConsoleInstance(string name, ConsoleType consoleType, IConsoleProcess consoleProcess)
 		{
 			_name = name ?? throw new ArgumentNullException(nameof(name), nameof(ConsoleInstance));
-			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ConsoleInstance));
-			_type = type;
+			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleInstance));
+			_consoleType = consoleType;
 		}
 
 		public string Name
@@ -25,29 +25,29 @@ namespace dTerm.UI.Wpf.Models
 			set => Set(ref _name, value);
 		}
 
-		public IConsoleProcess Process => _process;
+		public IConsoleProcess ConsoleProcess => _consoleProcess;
 
-		public ConsoleType Type
+		public ConsoleType ConsoleType
 		{
-			get => _type;
-			set => Set(ref _type, value);
+			get => _consoleType;
+			set => Set(ref _consoleType, value);
 		}
 
-		public ProcessHwndHost ProcessHwndHost
+		public ProcessHwndHost ConsoleProcessHost
 		{
 			get
 			{
-				if (_processHwndHost == null)
+				if (_consoleProcessHost == null)
 				{
-					if (!_process.IsRunning)
+					if (!_consoleProcess.IsRunning)
 					{
 						throw new InvalidOperationException($"[{nameof(ConsoleInstance)}] Underlying process not running.");
 					}
 
-					_processHwndHost = new ProcessHwndHost(_process);
+					_consoleProcessHost = new ProcessHwndHost(_consoleProcess);
 				}
 
-				return _processHwndHost;
+				return _consoleProcessHost;
 			}
 		}
 	}

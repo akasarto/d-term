@@ -12,7 +12,7 @@
 
 - ativar console correspondente ao mudar selecionado
 
-- revisar novo nome (dTerm)
+- Migrate to WinApi library
 
 - revisar layout v1
 
