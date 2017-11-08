@@ -5,12 +5,12 @@ using dTerm.UI.Wpf.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Interop;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
 	public class ShellViewModel : ObservableObject
 	{
+		private IntPtr _shellViewHandle;
 		private IConsoleProcessFactory _processFactory;
 		private ConsoleInstance _selectedConsoleInstance;
 
@@ -27,6 +27,12 @@ namespace dTerm.UI.Wpf.ViewModels
 				CreateConsoleProcessInstance,
 				CanCreateConsoleProcessInstance
 			);
+		}
+
+		public IntPtr ShellViewHandle
+		{
+			get => _shellViewHandle;
+			set => Set(ref _shellViewHandle, value);
 		}
 
 		public IEnumerable<ConsoleOption> ConsoleOptions { get; private set; }
@@ -47,10 +53,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			if (process.Start())
 			{
-				Win32Api.TakeOwnership(
-					process.MainWindowHandle,
-					new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle
-				);
+				Win32Api.TakeOwnership(process.MainWindowHandle, ShellViewHandle);
 			}
 		}
 

@@ -159,6 +159,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\WindowHandleProviderBehavior.cs" />
     <Compile Include="Factories\IConsoleProcessFactory.cs" />
     <Compile Include="Factories\TermConsoleProcessFactory.cs" />
     <Compile Include="Initializer.cs" />
@@ -209,7 +210,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Behaviors\" />
     <Folder Include="Converters\" />
     <Folder Include="Services\" />
   </ItemGroup>

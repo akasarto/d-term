@@ -40,8 +40,6 @@ namespace dTerm.Core.Processes
 
 				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 				{
-					System.Threading.Thread.Sleep(10);
-
 					isStarted = _process?.MainWindowHandle != IntPtr.Zero && !_process.HasExited;
 
 					if (isStarted)
