@@ -35,7 +35,7 @@ namespace dTerm.UI.Wpf
 		{
 			var factory = new ConsoleInstanceFactory();
 
-			var consoleOptions = new List<ConsoleDescriptor>()
+			var consoleDescriptors = new List<ConsoleDescriptor>()
 			{
 				new ConsoleDescriptor(ConsoleType.Cmd, new SystemPathProcessStartInfoBuilder("/cmd.exe")) { DisplayOrder = 1 },
 				new ConsoleDescriptor(ConsoleType.GitBash, new ProgramFilesFolderProcessStartInfoBuilder("/git/bin/bash.exe")) { DisplayOrder = 2 },
@@ -43,7 +43,7 @@ namespace dTerm.UI.Wpf
 				new ConsoleDescriptor(ConsoleType.UbuntuBash, new System32FolderProcessStartInfoBuilder("/bash.exe")) { DisplayOrder = 4 }
 			};
 
-			Current.MainWindow = new ShellView(new ShellViewModel(consoleOptions, factory));
+			Current.MainWindow = new ShellView(new ShellViewModel(consoleDescriptors, factory));
 
 			Current.MainWindow.Show();
 		}

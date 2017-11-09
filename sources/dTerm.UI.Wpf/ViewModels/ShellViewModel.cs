@@ -47,6 +47,15 @@ namespace dTerm.UI.Wpf.ViewModels
 			set => Set(ref _shellViewHandle, value);
 		}
 
+		public void OnViewClosing()
+		{
+			foreach (var instance in ConsoleInstances)
+			{
+				instance.Killed -= OnConsoleInstanceKilled;
+				instance.Kill();
+			}
+		}
+
 		private void CreateConsoleProcessInstance(ConsoleDescriptor descriptor)
 		{
 			var consoleInstance = _consoleInstanceFactory.CreateInstance(descriptor);
@@ -79,14 +88,14 @@ namespace dTerm.UI.Wpf.ViewModels
 			});
 		}
 
-		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor consoleOption)
+		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor descriptor)
 		{
-			if (consoleOption == null || consoleOption.ProcessStartInfo == null)
+			if (descriptor == null || descriptor.ProcessStartInfo == null)
 			{
 				return true;
 			}
 
-			return consoleOption.IsSupported;
+			return descriptor.IsSupported;
 		}
 	}
 }
