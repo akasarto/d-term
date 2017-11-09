@@ -20,8 +20,10 @@ namespace dTerm.Core.Processes
 
 		ConsoleType Type { get; set; }
 
+		bool Kill();
+
 		bool Start();
 
-		bool Kill();
+		void TransferOwnership(IntPtr ownerWindowHandle);
 	}
 }

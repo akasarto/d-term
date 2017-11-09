@@ -1,5 +1,4 @@
-﻿using dTerm.Core;
-using dTerm.Core.Processes;
+﻿using dTerm.Core.Processes;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using System;
@@ -60,15 +59,10 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			var consoleInstance = _consoleInstanceFactory.CreateInstance(descriptor);
 
-			consoleInstance.Killed += OnConsoleInstanceKilled;
-
 			if (consoleInstance.Start())
 			{
-				Win32Api.TakeOwnership(
-					consoleInstance.ProcessMainWindowHandle,
-					ShellViewHandle
-				);
-
+				consoleInstance.Killed += OnConsoleInstanceKilled;
+				consoleInstance.TransferOwnership(_shellViewHandle);
 				ConsoleInstances.Add(consoleInstance);
 			}
 		}

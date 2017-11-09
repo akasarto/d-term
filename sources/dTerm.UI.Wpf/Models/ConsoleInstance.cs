@@ -3,6 +3,7 @@ using dTerm.Core.Processes;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Diagnostics;
+using WinApi.User32;
 
 namespace dTerm.UI.Wpf.Models
 {
@@ -45,6 +46,27 @@ namespace dTerm.UI.Wpf.Models
 			set => Set(ref _consoleType, value);
 		}
 
+		public bool Kill()
+		{
+			try
+			{
+				if (!_systemProcess.HasExited)
+				{
+					_systemProcess.Kill();
+					_systemProcess.WaitForExit(GetTimeoutInMiliseconds());
+					return true;
+				}
+
+				_systemProcess = null;
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
+			return false;
+		}
+
 		public bool Start()
 		{
 			try
@@ -76,25 +98,33 @@ namespace dTerm.UI.Wpf.Models
 			return false;
 		}
 
-		public bool Kill()
+		public void TransferOwnership(IntPtr ownerWindowHandle)
 		{
-			try
-			{
-				if (!_systemProcess.HasExited)
-				{
-					_systemProcess.Kill();
-					_systemProcess.WaitForExit(GetTimeoutInMiliseconds());
-					return true;
-				}
+			IntPtr targetWindoHandle = _systemProcess.MainWindowHandle;
 
-				_systemProcess = null;
-			}
-			catch (Exception ex)
-			{
-				throw ex;
-			}
+			SetOwner(targetWindoHandle, ownerWindowHandle);
+			RemoveFromTaskbar(targetWindoHandle);
+			MakeToolWindow(targetWindoHandle);
+		}
 
-			return false;
+		private void SetOwner(IntPtr targetWindoHandle, IntPtr newOwnerHandle)
+		{
+			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWLP_HWNDPARENT, newOwnerHandle);
+		}
+
+		private void RemoveFromTaskbar(IntPtr targetWindoHandle)
+		{
+			var newStyle = (WindowExStyles)User32Helpers.GetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_EXSTYLE);
+			newStyle &= ~WindowExStyles.WS_EX_APPWINDOW;
+			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_EXSTYLE, new IntPtr((long)newStyle));
+		}
+
+		private void MakeToolWindow(IntPtr targetWindoHandle)
+		{
+			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_STYLE);
+			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
+			newStyle &= ~WindowStyles.WS_MINIMIZEBOX;
+			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
 		}
 
 		private void Configure()

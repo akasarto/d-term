@@ -1,10 +1,10 @@
 # DEV
 
-- ativar console correspondente ao clicar na janela
-
-- ativar console correspondente ao mudar selecionado
-
 - Migrate to WinApi library
+
+- Hide console window when minimized
+
+- Set window as foreground when the corresponding item is clicked (show if hidden)
 
 - revisar layout v1
 
