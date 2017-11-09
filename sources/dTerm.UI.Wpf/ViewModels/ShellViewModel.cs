@@ -1,4 +1,5 @@
-﻿using dTerm.Core.Processes;
+﻿using dTerm.Core;
+using dTerm.Core.Processes;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using System;
@@ -48,17 +49,34 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		private void CreateConsoleProcessInstance(ConsoleDescriptor descriptor)
 		{
-			var consoleInstance = _consoleInstanceFactory.CreateInstance(ShellViewHandle, descriptor);
+			var consoleInstance = _consoleInstanceFactory.CreateInstance(descriptor);
 
-			ConsoleInstances.Add(consoleInstance);
+			consoleInstance.Killed += OnConsoleInstanceKilled;
 
-			//if (consoleProcess.Start())
-			//{
-			//	Win32Api.TakeOwnership(
-			//		consoleProcess.ProcessMainWindowHandle,
-			//		ShellViewHandle
-			//	);
-			//}
+			if (consoleInstance.Start())
+			{
+				Win32Api.TakeOwnership(
+					consoleInstance.ProcessMainWindowHandle,
+					ShellViewHandle
+				);
+
+				ConsoleInstances.Add(consoleInstance);
+			}
+		}
+
+		private void OnConsoleInstanceKilled(object sender, EventArgs e)
+		{
+			var consoleInstance = sender as IConsoleInstance;
+
+			if (consoleInstance == null)
+			{
+				throw new InvalidOperationException(nameof(OnConsoleInstanceKilled), new ArgumentException(nameof(consoleInstance), nameof(ShellViewModel)));
+			}
+
+			UIService.Invoke(() =>
+			{
+				ConsoleInstances.Remove(consoleInstance);
+			});
 		}
 
 		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor consoleOption)

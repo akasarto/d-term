@@ -9,15 +9,13 @@ namespace dTerm.UI.Wpf.Models
 	public class ConsoleInstance : ObservableObject, IConsoleInstance
 	{
 		private string _name;
-		private IntPtr _ownerHandle;
 		private ConsoleType _consoleType;
 		private ProcessStartInfo _processStartInfo;
 		private Process _systemProcess;
 		private int _timeoutSeconds;
 
-		public ConsoleInstance(IntPtr ownerHandle, ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
+		public ConsoleInstance(ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
 		{
-			_ownerHandle = ownerHandle;
 			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleInstance));
 			_timeoutSeconds = timeoutSeconds;
 

@@ -160,6 +160,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Behaviors\WindowHandleProviderBehavior.cs" />
+    <Compile Include="Infrastructure\UIService.cs" />
     <Compile Include="Infrastructure\IConsoleInstanceFactory.cs" />
     <Compile Include="Infrastructure\ConsoleInstanceFactory.cs" />
     <Compile Include="Initializer.cs" />
@@ -211,7 +212,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
