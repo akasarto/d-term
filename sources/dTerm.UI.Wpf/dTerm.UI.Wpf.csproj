@@ -160,14 +160,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Behaviors\WindowHandleProviderBehavior.cs" />
-    <Compile Include="Factories\IConsoleProcessFactory.cs" />
-    <Compile Include="Factories\TermConsoleProcessFactory.cs" />
+    <Compile Include="Infrastructure\IConsoleInstanceFactory.cs" />
+    <Compile Include="Infrastructure\ConsoleInstanceFactory.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Infrastructure\ObservableObject.cs" />
     <Compile Include="Infrastructure\ProcessHwndHost.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="Models\ConsoleInstance.cs" />
-    <Compile Include="Models\ConsoleOption.cs" />
+    <Compile Include="Models\ConsoleDescriptor.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>

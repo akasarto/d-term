@@ -2,22 +2,30 @@
 using dTerm.Core.Processes;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
+using System.Diagnostics;
 
 namespace dTerm.UI.Wpf.Models
 {
-	public class ConsoleInstance : ObservableObject
+	public class ConsoleInstance : ObservableObject, IConsoleInstance
 	{
 		private string _name;
+		private IntPtr _ownerHandle;
 		private ConsoleType _consoleType;
-		private IConsoleProcess _consoleProcess;
-		private ProcessHwndHost _consoleProcessHost;
+		private ProcessStartInfo _processStartInfo;
+		private Process _systemProcess;
+		private int _timeoutSeconds;
 
-		public ConsoleInstance(string name, ConsoleType consoleType, IConsoleProcess consoleProcess)
+		public ConsoleInstance(IntPtr ownerHandle, ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
 		{
-			_name = name ?? throw new ArgumentNullException(nameof(name), nameof(ConsoleInstance));
-			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleInstance));
-			_consoleType = consoleType;
+			_ownerHandle = ownerHandle;
+			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleInstance));
+			_timeoutSeconds = timeoutSeconds;
+
+			Configure();
 		}
+
+		public event EventHandler Started;
+		public event EventHandler Killed;
 
 		public string Name
 		{
@@ -25,30 +33,88 @@ namespace dTerm.UI.Wpf.Models
 			set => Set(ref _name, value);
 		}
 
-		public IConsoleProcess ConsoleProcess => _consoleProcess;
+		public int PorcessId => _systemProcess?.Id ?? 0;
 
-		public ConsoleType ConsoleType
+		public bool ProcessIsStarted => !(_systemProcess?.HasExited ?? true);
+
+		public IntPtr ProcessMainHandle => _systemProcess?.Handle ?? IntPtr.Zero;
+
+		public IntPtr ProcessMainWindowHandle => _systemProcess?.MainWindowHandle ?? IntPtr.Zero;
+
+		public ConsoleType Type
 		{
 			get => _consoleType;
 			set => Set(ref _consoleType, value);
 		}
 
-		public ProcessHwndHost ConsoleProcessHost
+		public bool Start()
 		{
-			get
+			try
 			{
-				if (_consoleProcessHost == null)
-				{
-					if (!_consoleProcess.IsRunning)
-					{
-						throw new InvalidOperationException($"[{nameof(ConsoleInstance)}] Underlying process not running.");
-					}
+				var isStarted = false;
+				var processStopwatch = Stopwatch.StartNew();
+				var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
 
-					_consoleProcessHost = new ProcessHwndHost(_consoleProcess);
+				_systemProcess.Start();
+
+				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
+				{
+					isStarted = _systemProcess?.MainWindowHandle != IntPtr.Zero && !_systemProcess.HasExited;
+
+					if (isStarted)
+					{
+						Started?.Invoke(this, EventArgs.Empty);
+						return true;
+					}
 				}
 
-				return _consoleProcessHost;
+				Kill();
 			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
+			return false;
 		}
+
+		public bool Kill()
+		{
+			try
+			{
+				if (!_systemProcess.HasExited)
+				{
+					_systemProcess.Kill();
+					_systemProcess.WaitForExit(GetTimeoutInMiliseconds());
+					return true;
+				}
+
+				_systemProcess = null;
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+
+			return false;
+		}
+
+		private void Configure()
+		{
+			if (string.IsNullOrWhiteSpace(_processStartInfo.WorkingDirectory))
+			{
+				_processStartInfo.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			}
+
+			_systemProcess = new Process()
+			{
+				EnableRaisingEvents = true,
+				StartInfo = _processStartInfo
+			};
+
+			_systemProcess.Exited += (sender, args) => Killed?.Invoke(this, args);
+		}
+
+		private int GetTimeoutInMiliseconds() => _timeoutSeconds * 1000;
 	}
 }

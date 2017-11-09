@@ -1,5 +1,4 @@
-﻿using dTerm.Core;
-using dTerm.UI.Wpf.Factories;
+﻿using dTerm.Core.Processes;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using System;
@@ -11,22 +10,34 @@ namespace dTerm.UI.Wpf.ViewModels
 	public class ShellViewModel : ObservableObject
 	{
 		private IntPtr _shellViewHandle;
-		private IConsoleProcessFactory _consoleProcessFactory;
-		private ConsoleInstance _selectedConsoleInstance;
+		private IEnumerable<ConsoleDescriptor> _consoleDescriptors;
+		private IConsoleInstanceFactory _consoleInstanceFactory;
+		private IConsoleInstance _selectedConsoleInstance;
 
-		public ShellViewModel(IConsoleProcessFactory consoleProcessFactory, IEnumerable<ConsoleOption> consoleOptions)
+		public ShellViewModel(IEnumerable<ConsoleDescriptor> consoleDescriptors, IConsoleInstanceFactory consoleInstanceFactory)
 		{
-			_consoleProcessFactory = consoleProcessFactory ?? throw new ArgumentNullException(nameof(consoleProcessFactory), nameof(ShellViewModel));
+			_consoleDescriptors = consoleDescriptors ?? throw new ArgumentNullException(nameof(consoleDescriptors), nameof(ShellViewModel));
+			_consoleInstanceFactory = consoleInstanceFactory ?? throw new ArgumentNullException(nameof(consoleInstanceFactory), nameof(ShellViewModel));
 
 			//
-			ConsoleOptions = consoleOptions ?? throw new ArgumentNullException(nameof(consoleOptions), nameof(ShellViewModel));
-			ConsoleInstances = new ObservableCollection<ConsoleInstance>();
+			ConsoleInstances = new ObservableCollection<IConsoleInstance>();
 
-			//
-			CreateConsoleProcessInstanceCommand = new RelayCommand<ConsoleOption>(
+			CreateConsoleProcessInstanceCommand = new RelayCommand<ConsoleDescriptor>(
 				CreateConsoleProcessInstance,
 				CanCreateConsoleProcessInstance
 			);
+		}
+
+		public IEnumerable<ConsoleDescriptor> ConsoleDescriptors => _consoleDescriptors;
+
+		public RelayCommand<ConsoleDescriptor> CreateConsoleProcessInstanceCommand { get; private set; }
+
+		public ObservableCollection<IConsoleInstance> ConsoleInstances { get; private set; }
+
+		public IConsoleInstance SelectedConsoleInstance
+		{
+			get => _selectedConsoleInstance;
+			set => Set(ref _selectedConsoleInstance, value);
 		}
 
 		public IntPtr ShellViewHandle
@@ -35,40 +46,22 @@ namespace dTerm.UI.Wpf.ViewModels
 			set => Set(ref _shellViewHandle, value);
 		}
 
-		public IEnumerable<ConsoleOption> ConsoleOptions { get; private set; }
-
-		public ObservableCollection<ConsoleInstance> ConsoleInstances { get; private set; }
-
-		public RelayCommand<ConsoleOption> CreateConsoleProcessInstanceCommand { get; private set; }
-
-		public ConsoleInstance SelectedConsoleInstance
+		private void CreateConsoleProcessInstance(ConsoleDescriptor descriptor)
 		{
-			get => _selectedConsoleInstance;
-			set => Set(ref _selectedConsoleInstance, value);
+			var consoleInstance = _consoleInstanceFactory.CreateInstance(ShellViewHandle, descriptor);
+
+			ConsoleInstances.Add(consoleInstance);
+
+			//if (consoleProcess.Start())
+			//{
+			//	Win32Api.TakeOwnership(
+			//		consoleProcess.ProcessMainWindowHandle,
+			//		ShellViewHandle
+			//	);
+			//}
 		}
 
-		private void CreateConsoleProcessInstance(ConsoleOption consoleOption)
-		{
-			var consoleProcess = _consoleProcessFactory.CreateProcess(consoleOption.ProcessStartInfo);
-
-			if (consoleProcess.Start())
-			{
-				Win32Api.TakeOwnership(
-					consoleProcess.MainWindowHandle,
-					ShellViewHandle
-				);
-
-				var consoleInstance = new ConsoleInstance(
-					consoleOption.Description,
-					consoleOption.ConsoleType,
-					consoleProcess
-				);
-
-				ConsoleInstances.Add(consoleInstance);
-			}
-		}
-
-		private bool CanCreateConsoleProcessInstance(ConsoleOption consoleOption)
+		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor consoleOption)
 		{
 			if (consoleOption == null || consoleOption.ProcessStartInfo == null)
 			{

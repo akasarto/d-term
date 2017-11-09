@@ -1,7 +1,7 @@
 ﻿using dTerm.Core.DataBus;
 using dTerm.Core.Entities;
 using dTerm.Core.Processes;
-using dTerm.UI.Wpf.Factories;
+using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.ViewModels;
 using dTerm.UI.Wpf.Views;
@@ -33,17 +33,17 @@ namespace dTerm.UI.Wpf
 
 		private void SetupAndShowMainWindow()
 		{
-			var consoleProcessFactory = new TermConsoleProcessFactory();
+			var factory = new ConsoleInstanceFactory();
 
-			var consoleOptions = new List<ConsoleOption>()
+			var consoleOptions = new List<ConsoleDescriptor>()
 			{
-				new ConsoleOption(ConsoleType.Cmd, new SystemPathProcessStartInfoBuilder("/cmd.exe")) { DisplayOrder = 1 },
-				new ConsoleOption(ConsoleType.GitBash, new ProgramFilesFolderProcessStartInfoBuilder("/git/bin/bash.exe")) { DisplayOrder = 2 },
-				new ConsoleOption(ConsoleType.PowerShell, new SystemPathProcessStartInfoBuilder("/powershell.exe")) { DisplayOrder = 3 },
-				new ConsoleOption(ConsoleType.UbuntuBash, new System32FolderProcessStartInfoBuilder("/bash.exe")) { DisplayOrder = 4 }
+				new ConsoleDescriptor(ConsoleType.Cmd, new SystemPathProcessStartInfoBuilder("/cmd.exe")) { DisplayOrder = 1 },
+				new ConsoleDescriptor(ConsoleType.GitBash, new ProgramFilesFolderProcessStartInfoBuilder("/git/bin/bash.exe")) { DisplayOrder = 2 },
+				new ConsoleDescriptor(ConsoleType.PowerShell, new SystemPathProcessStartInfoBuilder("/powershell.exe")) { DisplayOrder = 3 },
+				new ConsoleDescriptor(ConsoleType.UbuntuBash, new System32FolderProcessStartInfoBuilder("/bash.exe")) { DisplayOrder = 4 }
 			};
 
-			Current.MainWindow = new ShellView(new ShellViewModel(consoleProcessFactory, consoleOptions));
+			Current.MainWindow = new ShellView(new ShellViewModel(consoleOptions, factory));
 
 			Current.MainWindow.Show();
 		}

@@ -48,13 +48,12 @@
     <Compile Include="Processes\ProcessStartInfoBuilderBase.cs" />
     <Compile Include="Processes\SystemPathProcessStartInfoBuilder.cs" />
     <Compile Include="Processes\ProcessExtensions.cs" />
-    <Compile Include="Processes\IConsoleProcess.cs" />
+    <Compile Include="Processes\IConsoleInstance.cs" />
     <Compile Include="Processes\ProgramFilesFolderProcessStartInfoBuilder.cs" />
     <Compile Include="Processes\RootedPhysicaPathProcessStartInfoBuilder.cs" />
     <Compile Include="Processes\System32FolderProcessStartInfoBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Win32Api.cs" />
-    <Compile Include="Processes\TermConsoleProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

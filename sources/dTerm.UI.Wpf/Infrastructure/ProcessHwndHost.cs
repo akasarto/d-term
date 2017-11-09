@@ -7,16 +7,16 @@ namespace dTerm.UI.Wpf.Infrastructure
 {
 	public class ProcessHwndHost : HwndHost
 	{
-		private IConsoleProcess _dtermProcess;
+		private IConsoleInstance _dtermProcess;
 
-		public ProcessHwndHost(IConsoleProcess dtermProcess)
+		public ProcessHwndHost(IConsoleInstance dtermProcess)
 		{
 			_dtermProcess = dtermProcess;
 		}
 
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
-			var childHandle = _dtermProcess.MainWindowHandle;
+			var childHandle = _dtermProcess.ProcessMainWindowHandle;
 			Win32Api.SetParent(childHandle, hwndParent.Handle);
 			Win32Api.MakeChildWindow(childHandle);
 			return new HandleRef(this, childHandle);
