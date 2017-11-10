@@ -1,4 +1,4 @@
-﻿using dTerm.Core.Processes;
+﻿using dTerm.Core;
 using dTerm.UI.Wpf.Models;
 
 namespace dTerm.UI.Wpf.Infrastructure
@@ -12,11 +12,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 				return null;
 			}
 
-			return new ConsoleInstance(descriptor.ProcessStartInfo, descriptor.DefautStartupTimeoutSeconds)
-			{
-				Name = descriptor.ConsoleName,
-				Type = descriptor.ConsoleType
-			};
+			return new TermConsoleProcess(descriptor.ProcessStartInfo, descriptor.DefautStartupTimeoutSeconds);
 		}
 	}
 }

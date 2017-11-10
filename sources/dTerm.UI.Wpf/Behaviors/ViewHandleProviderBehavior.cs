@@ -17,14 +17,11 @@ namespace dTerm.UI.Wpf.Behaviors
 
 		protected override void OnAttached()
 		{
-			AssociatedObject.Loaded += OnAssociatedWindowLoaded;
-		}
-
-		private void OnAssociatedWindowLoaded(object sender, RoutedEventArgs e)
-		{
-			var windowInteropHelper = new WindowInteropHelper(AssociatedObject);
-
-			Handle = windowInteropHelper.Handle;
+			AssociatedObject.Loaded += (sender, args) =>
+			{
+				var windowInteropHelper = new WindowInteropHelper(AssociatedObject);
+				Handle = windowInteropHelper.Handle;
+			};
 		}
 	}
 }

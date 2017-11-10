@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace dTerm.Core.Processes
+namespace dTerm.Core
 {
 	public class SystemPathProcessStartInfoBuilder : ProcessStartInfoBuilderBase
 	{

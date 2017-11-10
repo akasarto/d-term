@@ -1,4 +1,4 @@
-﻿using dTerm.Core.Processes;
+﻿using dTerm.Core;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using System;
@@ -50,8 +50,8 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			foreach (var instance in ConsoleInstances)
 			{
-				instance.Killed -= OnConsoleInstanceKilled;
-				instance.Kill();
+				//instance.Exited -= OnConsoleInstanceKilled;
+				instance.Terminate();
 			}
 		}
 
@@ -59,27 +59,36 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			var consoleInstance = _consoleInstanceFactory.CreateInstance(descriptor);
 
-			ConsoleInstances.Add(consoleInstance);
-
-			/*
-			if (consoleInstance.Start())
+			consoleInstance.ProcessStatusChanged += (sender, args) =>
 			{
-				consoleInstance.Killed += OnConsoleInstanceKilled;
-				consoleInstance.TransferOwnership(_shellViewHandle);
-				ConsoleInstances.Add(consoleInstance);
-			}
-			*/
+				var instance = sender as IConsoleInstance;
+
+				if (instance == null)
+				{
+					throw new Exception("Invalid console instance event parameters", new ArgumentNullException(nameof(sender), nameof(CreateConsoleProcessInstance)));
+				}
+
+				switch (args.Status)
+				{
+					case ProcessStatus.Initialized:
+						OnConsoleInstanceInitialized(instance, args);
+						break;
+					case ProcessStatus.Terminated:
+						OnConsoleInstanceTerminated(instance, args);
+						break;
+				}
+			};
+
+			consoleInstance.Initialize();
 		}
 
-		private void OnConsoleInstanceKilled(object sender, EventArgs e)
+		private void OnConsoleInstanceInitialized(IConsoleInstance consoleInstance, ProcessEventArgs args)
 		{
-			var consoleInstance = sender as IConsoleInstance;
+			//ConsoleInstances.Add(consoleInstance);
+		}
 
-			if (consoleInstance == null)
-			{
-				throw new InvalidOperationException(nameof(OnConsoleInstanceKilled), new ArgumentException(nameof(consoleInstance), nameof(ShellViewModel)));
-			}
-
+		private void OnConsoleInstanceTerminated(IConsoleInstance consoleInstance, ProcessEventArgs args)
+		{
 			UIService.Invoke(() =>
 			{
 				ConsoleInstances.Remove(consoleInstance);

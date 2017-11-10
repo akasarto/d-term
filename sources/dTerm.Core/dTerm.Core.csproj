@@ -41,25 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ConsoleType.cs" />
-    <Compile Include="EventBus\DataBus.cs" />
-    <Compile Include="EventBus\IMessageHandler.cs" />
-    <Compile Include="EventBus\IMessage.cs" />
-    <Compile Include="Processes\ProcessStartInfoBuilderBase.cs" />
-    <Compile Include="Processes\SystemPathProcessStartInfoBuilder.cs" />
-    <Compile Include="Processes\ProcessExtensions.cs" />
-    <Compile Include="Processes\IConsoleInstance.cs" />
-    <Compile Include="Processes\ProgramFilesFolderProcessStartInfoBuilder.cs" />
-    <Compile Include="Processes\RootedPhysicaPathProcessStartInfoBuilder.cs" />
-    <Compile Include="Processes\System32FolderProcessStartInfoBuilder.cs" />
+    <Compile Include="ConsoleType.cs" />
+    <Compile Include="ProcessEventArgs.cs" />
+    <Compile Include="ProcessStatus.cs" />
+    <Compile Include="_tmp\ProcessStartInfoBuilderBase.cs" />
+    <Compile Include="_tmp\SystemPathProcessStartInfoBuilder.cs" />
+    <Compile Include="_Extensions.cs" />
+    <Compile Include="IConsoleInstance.cs" />
+    <Compile Include="_tmp\ProgramFilesFolderProcessStartInfoBuilder.cs" />
+    <Compile Include="_tmp\RootedPhysicaPathProcessStartInfoBuilder.cs" />
+    <Compile Include="_tmp\System32FolderProcessStartInfoBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Win32LWParams.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="EventBus\readme.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

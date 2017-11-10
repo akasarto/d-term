@@ -1,10 +1,22 @@
 # DEV
 
-- Migrate to WinApi library
+- Review object graph
+
+- Review models / view models
+
+- Close window when processs exit
+
+- Exit process when window closes
+
+- Kill procesees on app shutdown
 
 - Hide console window when minimized
 
+- Tooltips primary console action missing
+
 - Set window as foreground when the corresponding item is clicked (show if hidden)
+
+- Smoother process start (try to avoid flickr and make it visible when in place)
 
 - revisar layout v1
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace dTerm.Core.Processes
+namespace dTerm.Core
 {
 	public class RootedPhysicaPathProcessStartInfoBuilder : ProcessStartInfoBuilderBase
 	{

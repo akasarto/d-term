@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace dTerm.Core.Processes
+namespace dTerm.Core
 {
 	public abstract class ProcessStartInfoBuilderBase
 	{

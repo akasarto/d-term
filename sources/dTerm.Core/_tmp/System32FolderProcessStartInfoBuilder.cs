@@ -4,7 +4,7 @@ using System.IO;
 
 // https://msdn.microsoft.com/en-us/library/windows/desktop/aa384187(v=vs.85).aspx
 
-namespace dTerm.Core.Processes
+namespace dTerm.Core
 {
 	public class System32FolderProcessStartInfoBuilder : ProcessStartInfoBuilderBase
 	{

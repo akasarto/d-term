@@ -1,6 +1,4 @@
-﻿using dTerm.Core.DataBus;
-using dTerm.Core.Entities;
-using dTerm.Core.Processes;
+﻿using dTerm.Core;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.ViewModels;
@@ -20,13 +18,11 @@ namespace dTerm.UI.Wpf
 		public App()
 		{
 			_container = Initializer.CreateContainer();
-
 			AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 		}
 
 		private void Application_Exit(object sender, ExitEventArgs e)
 		{
-			DataBus.Dispose();
 		}
 
 		private void Application_Startup(object sender, StartupEventArgs e)

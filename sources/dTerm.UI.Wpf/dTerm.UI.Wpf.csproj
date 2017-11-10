@@ -172,8 +172,9 @@
     <Compile Include="Infrastructure\ObservableObject.cs" />
     <Compile Include="Infrastructure\ConsoleHwndHost.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
-    <Compile Include="Models\ConsoleInstance.cs" />
     <Compile Include="Models\ConsoleDescriptor.cs" />
+    <Compile Include="Services\ConsoleService.cs" />
+    <Compile Include="Services\IConsoleService.cs" />
     <Compile Include="ViewModels\ConsoleViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ConsoleView.xaml.cs">

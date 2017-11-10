@@ -1,5 +1,4 @@
 ﻿using dTerm.Core;
-using dTerm.Core.Processes;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Windows.Interop;
@@ -54,7 +53,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public void OnViewClosing()
 		{
-			_consoleInstance.Kill();
+			_consoleInstance.Terminate();
 			_consoleHwndHost.Dispose();
 		}
 

@@ -1,4 +1,4 @@
-﻿using dTerm.Core.Processes;
+﻿using dTerm.Core;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
@@ -10,14 +10,14 @@ namespace dTerm.UI.Wpf.Infrastructure
 	{
 		private IConsoleInstance _dtermProcess;
 
-		public ConsoleHwndHost(IConsoleInstance dtermProcess)
+		public ConsoleHwndHost(IConsoleInstance consoleProcess)
 		{
-			_dtermProcess = dtermProcess;
+			_dtermProcess = consoleProcess;
 		}
 
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
-			_dtermProcess.Start();
+			_dtermProcess.Initialize();
 			var childHandle = _dtermProcess.ProcessMainWindowHandle;
 			Integrate(childHandle, hwndParent.Handle);
 			return new HandleRef(this, childHandle);

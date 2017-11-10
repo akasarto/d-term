@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace dTerm.Core.Entities
+namespace dTerm.Core
 {
 	public enum ConsoleType : byte
 	{

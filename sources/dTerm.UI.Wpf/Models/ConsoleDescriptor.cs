@@ -1,5 +1,4 @@
-﻿using dTerm.Core.Entities;
-using dTerm.Core.Processes;
+﻿using dTerm.Core;
 using Humanizer;
 using System.Diagnostics;
 

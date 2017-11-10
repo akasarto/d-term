@@ -1,4 +1,4 @@
-﻿using dTerm.Core.Processes;
+﻿using dTerm.Core;
 using dTerm.UI.Wpf.ViewModels;
 using dTerm.UI.Wpf.Views;
 using System.Collections.ObjectModel;
