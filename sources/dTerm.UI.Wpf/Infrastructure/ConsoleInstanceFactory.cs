@@ -12,7 +12,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 				return null;
 			}
 
-			return new TermConsoleProcess(descriptor.ProcessStartInfo, descriptor.DefautStartupTimeoutSeconds);
+			return new ConsoleInstance(descriptor.ProcessStartInfo, descriptor.DefautStartupTimeoutSeconds);
 		}
 	}
 }
