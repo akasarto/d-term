@@ -59,9 +59,9 @@ namespace dTerm.UI.Wpf.Models
 
 				_systemProcess = null;
 			}
-			catch (Exception ex)
+			catch
 			{
-				throw ex;
+				throw;
 			}
 
 			return false;
@@ -90,9 +90,9 @@ namespace dTerm.UI.Wpf.Models
 
 				Kill();
 			}
-			catch (Exception ex)
+			catch
 			{
-				throw ex;
+				throw;
 			}
 
 			return false;

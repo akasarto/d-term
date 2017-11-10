@@ -40,7 +40,6 @@ namespace dTerm.UI.Wpf.ViewModels
 			{
 				if (_consoleHwndHost == null)
 				{
-#warning review
 					//if (!_consoleInstance.ProcessIsStarted)
 					//{
 					//	throw new InvalidOperationException($"[{nameof(ConsoleViewModel)}] Underlying process not running.");
@@ -56,6 +55,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		public void OnViewClosing()
 		{
 			_consoleInstance.Kill();
+			_consoleHwndHost.Dispose();
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -75,9 +75,13 @@ namespace dTerm.UI.Wpf.ViewModels
 								Param = (uint)lParam
 							};
 
-							switch (lwParam.High)
+							var wMouseMsg = (WM)lwParam.High;
+
+							switch (wMouseMsg)
 							{
-								case 0x201:
+								case WM.LBUTTONUP:
+								case WM.RBUTTONUP:
+								case WM.MBUTTONUP:
 									{
 										User32Methods.SetActiveWindow(viewHandle);
 										User32Methods.SetForegroundWindow(instanceHandle);
