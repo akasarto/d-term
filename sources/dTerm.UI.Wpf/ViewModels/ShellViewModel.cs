@@ -28,6 +28,12 @@ namespace dTerm.UI.Wpf.ViewModels
 			);
 		}
 
+		public IntPtr ShellViewHandle
+		{
+			get => _shellViewHandle;
+			set => Set(ref _shellViewHandle, value);
+		}
+
 		public IEnumerable<ConsoleDescriptor> ConsoleDescriptors => _consoleDescriptors;
 
 		public RelayCommand<ConsoleDescriptor> CreateConsoleProcessInstanceCommand { get; private set; }
@@ -38,12 +44,6 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			get => _selectedConsoleInstance;
 			set => Set(ref _selectedConsoleInstance, value);
-		}
-
-		public IntPtr ShellViewHandle
-		{
-			get => _shellViewHandle;
-			set => Set(ref _shellViewHandle, value);
 		}
 
 		public void OnViewClosing()
@@ -59,12 +59,16 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			var consoleInstance = _consoleInstanceFactory.CreateInstance(descriptor);
 
+			ConsoleInstances.Add(consoleInstance);
+
+			/*
 			if (consoleInstance.Start())
 			{
 				consoleInstance.Killed += OnConsoleInstanceKilled;
 				consoleInstance.TransferOwnership(_shellViewHandle);
 				ConsoleInstances.Add(consoleInstance);
 			}
+			*/
 		}
 
 		private void OnConsoleInstanceKilled(object sender, EventArgs e)

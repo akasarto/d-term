@@ -6,17 +6,18 @@ using WinApi.User32;
 
 namespace dTerm.UI.Wpf.Infrastructure
 {
-	public class ProcessHwndHost : HwndHost
+	public class ConsoleHwndHost : HwndHost
 	{
 		private IConsoleInstance _dtermProcess;
 
-		public ProcessHwndHost(IConsoleInstance dtermProcess)
+		public ConsoleHwndHost(IConsoleInstance dtermProcess)
 		{
 			_dtermProcess = dtermProcess;
 		}
 
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
+			_dtermProcess.Start();
 			var childHandle = _dtermProcess.ProcessMainWindowHandle;
 			Integrate(childHandle, hwndParent.Handle);
 			return new HandleRef(this, childHandle);
@@ -34,12 +35,16 @@ namespace dTerm.UI.Wpf.Infrastructure
 
 			// Make child window
 			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE);
+
 			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
 			newStyle &= ~WindowStyles.WS_MINIMIZEBOX;
 			newStyle &= ~WindowStyles.WS_THICKFRAME;
 			newStyle &= ~WindowStyles.WS_DLGFRAME;
 			newStyle &= ~WindowStyles.WS_BORDER;
 			newStyle &= ~WindowStyles.WS_POPUP;
+
+			newStyle |= WindowStyles.WS_CHILD;
+
 			User32Helpers.SetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
 		}
 	}

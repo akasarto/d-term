@@ -1,0 +1,98 @@
+﻿using dTerm.Core;
+using dTerm.Core.Processes;
+using dTerm.UI.Wpf.Infrastructure;
+using System;
+using System.Windows.Interop;
+using WinApi.User32;
+
+namespace dTerm.UI.Wpf.ViewModels
+{
+	public class ConsoleViewModel : ObservableObject
+	{
+		private IntPtr _consoleViewHandle;
+		private IConsoleInstance _consoleInstance;
+		private ConsoleHwndHost _consoleHwndHost;
+
+		public ConsoleViewModel(IConsoleInstance consoleInstance)
+		{
+			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ConsoleViewModel));
+		}
+
+		public IntPtr ConsoleViewHandle
+		{
+			get => _consoleViewHandle;
+			set
+			{
+				if (_consoleViewHandle != value)
+				{
+					Set(ref _consoleViewHandle, value);
+					var hwndSource = HwndSource.FromHwnd(_consoleViewHandle);
+					hwndSource.AddHook(new HwndSourceHook(WndProc));
+				}
+			}
+		}
+
+		public IConsoleInstance Instance => _consoleInstance;
+
+		public ConsoleHwndHost ConsoleHwndHost
+		{
+			get
+			{
+				if (_consoleHwndHost == null)
+				{
+#warning review
+					//if (!_consoleInstance.ProcessIsStarted)
+					//{
+					//	throw new InvalidOperationException($"[{nameof(ConsoleViewModel)}] Underlying process not running.");
+					//}
+
+					_consoleHwndHost = new ConsoleHwndHost(_consoleInstance);
+				}
+
+				return _consoleHwndHost;
+			}
+		}
+
+		public void OnViewClosing()
+		{
+			_consoleInstance.Kill();
+		}
+
+		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+		{
+			var message = (WM)msg;
+			var viewHandle = _consoleViewHandle;
+			var instanceHandle = _consoleInstance.ProcessMainWindowHandle;
+
+			switch (message)
+			{
+				case WM.SETCURSOR:
+					{
+						if (wParam == instanceHandle)
+						{
+							var lwParam = new Win32LWParams()
+							{
+								Param = (uint)lParam
+							};
+
+							switch (lwParam.High)
+							{
+								case 0x201:
+									{
+										User32Methods.SetActiveWindow(viewHandle);
+										User32Methods.SetForegroundWindow(instanceHandle);
+										User32Methods.SetFocus(instanceHandle);
+										User32Methods.SendMessage(viewHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
+										handled = true;
+									}
+									break;
+							}
+						}
+					}
+					break;
+			}
+
+			return IntPtr.Zero;
+		}
+	}
+}

@@ -36,7 +36,8 @@
 
 	<i:Interaction.Behaviors>
 		<mahappsshared:BorderlessWindowBehavior/>
-		<behaviors:WindowHandleProviderBehavior WindowHandle="{Binding ShellViewHandle, Mode=TwoWay}" />
+		<behaviors:ConsoleViewFactoryBehavior ConsoleInstances="{Binding ConsoleInstances}" />
+		<behaviors:ViewHandleProviderBehavior Handle="{Binding ShellViewHandle, Mode=TwoWay}" />
 	</i:Interaction.Behaviors>
 
 	<mahapps:MetroWindow.Resources>

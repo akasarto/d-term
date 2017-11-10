@@ -8,7 +8,7 @@
 	ShutdownMode="OnMainWindowClose"
 	Startup="Application_Startup"
 	Exit="Application_Exit"
-	DispatcherUnhandledException="Application_DispatcherUnhandledException"
+	DispatcherUnhandledException="OnDispatcherUnhandledException"
 >
 
 	<Application.Resources>
