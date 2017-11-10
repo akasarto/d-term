@@ -34,7 +34,7 @@ namespace dTerm.UI.Wpf.Models
 
 		public int PorcessId => _systemProcess?.Id ?? 0;
 
-		public bool ProcessIsStarted => !(_systemProcess?.HasExited ?? true);
+		public bool IsRunning => !(_systemProcess?.HasExited ?? true);
 
 		public IntPtr ProcessMainHandle => _systemProcess?.Handle ?? IntPtr.Zero;
 
@@ -46,56 +46,36 @@ namespace dTerm.UI.Wpf.Models
 			set => Set(ref _consoleType, value);
 		}
 
-		public bool Kill()
+		public void Kill()
 		{
-			try
+			if (!_systemProcess.HasExited)
 			{
-				if (!_systemProcess.HasExited)
-				{
-					_systemProcess.Kill();
-					_systemProcess.WaitForExit(GetTimeoutInMiliseconds());
-					return true;
-				}
-
-				_systemProcess = null;
-			}
-			catch
-			{
-				throw;
+				_systemProcess.Kill();
+				_systemProcess.WaitForExit(GetTimeoutInMiliseconds());
 			}
 
-			return false;
+			_systemProcess = null;
 		}
 
-		public bool Start()
+		public void Start()
 		{
-			try
+			var isStarted = false;
+			var processStopwatch = Stopwatch.StartNew();
+			var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
+
+			_systemProcess.Start();
+
+			while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 			{
-				var isStarted = false;
-				var processStopwatch = Stopwatch.StartNew();
-				var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
+				isStarted = _systemProcess?.MainWindowHandle != IntPtr.Zero && !_systemProcess.HasExited;
 
-				_systemProcess.Start();
-
-				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
+				if (isStarted)
 				{
-					isStarted = _systemProcess?.MainWindowHandle != IntPtr.Zero && !_systemProcess.HasExited;
-
-					if (isStarted)
-					{
-						Started?.Invoke(this, EventArgs.Empty);
-						return true;
-					}
+					Started?.Invoke(this, EventArgs.Empty);
 				}
-
-				Kill();
-			}
-			catch
-			{
-				throw;
 			}
 
-			return false;
+			Kill();
 		}
 
 		public void TransferOwnership(IntPtr ownerWindowHandle)

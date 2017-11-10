@@ -8,11 +8,11 @@ namespace dTerm.Core.Processes
 		event EventHandler Started;
 		event EventHandler Killed;
 
+		bool IsRunning { get; }
+
 		string Name { get; set; }
 
 		int PorcessId { get; }
-
-		bool ProcessIsStarted { get; }
 
 		IntPtr ProcessMainHandle { get; }
 
@@ -20,9 +20,9 @@ namespace dTerm.Core.Processes
 
 		ConsoleType Type { get; set; }
 
-		bool Kill();
+		void Kill();
 
-		bool Start();
+		void Start();
 
 		void TransferOwnership(IntPtr ownerWindowHandle);
 	}
