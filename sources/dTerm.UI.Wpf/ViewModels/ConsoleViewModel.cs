@@ -56,35 +56,30 @@ namespace dTerm.UI.Wpf.ViewModels
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
 		{
 			var message = (WM)msg;
-			var viewHandle = _consoleViewHandle;
-			var instanceHandle = _consoleInstance.ProcessMainWindowHandle;
 
 			switch (message)
 			{
 				case WM.SETCURSOR:
 					{
-						if (wParam == instanceHandle)
+						var wlParam = new Win32Param()
 						{
-							var wlParam = new Win32Param()
-							{
-								BaseValue = (uint)lParam
-							};
+							BaseValue = (uint)lParam
+						};
 
-							var wMouseMsg = (WM)wlParam.HighWord;
+						var wMouseMsg = (WM)wlParam.HighWord;
 
-							switch (wMouseMsg)
-							{
-								case WM.LBUTTONUP:
-								case WM.RBUTTONUP:
-								case WM.MBUTTONUP:
-									{
-										User32Methods.SetActiveWindow(viewHandle);
-										User32Methods.SetForegroundWindow(instanceHandle);
-										User32Methods.SendMessage(viewHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
-										handled = true;
-									}
-									break;
-							}
+						switch (wMouseMsg)
+						{
+							case WM.LBUTTONUP:
+							case WM.RBUTTONUP:
+							case WM.MBUTTONUP:
+								{
+									User32Methods.SetActiveWindow(hwnd);
+									User32Methods.SetForegroundWindow(wParam);
+									User32Methods.SendMessage(hwnd, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
+									handled = true;
+								}
+								break;
 						}
 					}
 					break;
