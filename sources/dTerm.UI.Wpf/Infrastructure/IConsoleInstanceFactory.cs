@@ -5,6 +5,6 @@ namespace dTerm.UI.Wpf.Infrastructure
 {
 	public interface IConsoleInstanceFactory
 	{
-		IConsoleInstance CreateInstance(ConsoleDescriptor descriptor);
+		IConsoleProcess CreateInstance(ConsoleDescriptor descriptor);
 	}
 }

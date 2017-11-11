@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace dTerm.Core
 {
-	public interface IConsoleInstance
+	public interface IConsoleProcess
 	{
 		event EventHandler<ProcessEventArgs> ProcessStatusChanged;
 
@@ -16,7 +17,7 @@ namespace dTerm.Core
 
 		ConsoleType Type { get; set; }
 
-		void Initialize();
+		void Initialize(Action<Process> onMainWindowHandleAccquiredAction = null);
 
 		void Terminate();
 	}

@@ -14,11 +14,11 @@
 	Height="300"
 	Width="300"
 >
-	<i:Interaction.Triggers>
+	<!--<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Closing">
 			<ei:CallMethodAction TargetObject="{Binding}" MethodName="OnViewClosing" />
 		</i:EventTrigger>
-	</i:Interaction.Triggers>
+	</i:Interaction.Triggers>-->
 
 	<i:Interaction.Behaviors>
 		<behaviors:ViewHandleProviderBehavior Handle="{Binding ConsoleViewHandle, Mode=TwoWay}" />

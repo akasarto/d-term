@@ -11,6 +11,9 @@ namespace dTerm.Core
 		Initialized = 1,
 
 		[Display(Name = "Terminated")]
-		Terminated = 2
+		Terminated = 2,
+
+		[Display(Name = "Timeout")]
+		Timeout = 3
 	}
 }

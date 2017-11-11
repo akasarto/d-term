@@ -8,17 +8,16 @@ namespace dTerm.UI.Wpf.Infrastructure
 {
 	public class ConsoleHwndHost : HwndHost
 	{
-		private IConsoleInstance _dtermProcess;
+		private IConsoleProcess _consoleInstance;
 
-		public ConsoleHwndHost(IConsoleInstance consoleProcess)
+		public ConsoleHwndHost(IConsoleProcess consoleInstance)
 		{
-			_dtermProcess = consoleProcess;
+			_consoleInstance = consoleInstance;
 		}
 
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
-			_dtermProcess.Initialize();
-			var childHandle = _dtermProcess.ProcessMainWindowHandle;
+			var childHandle = _consoleInstance.ProcessMainWindowHandle;
 			Integrate(childHandle, hwndParent.Handle);
 			return new HandleRef(this, childHandle);
 		}
@@ -46,6 +45,8 @@ namespace dTerm.UI.Wpf.Infrastructure
 			newStyle |= WindowStyles.WS_CHILD;
 
 			User32Helpers.SetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
+
+			User32Methods.ShowWindow(childHandle, ShowWindowCommands.SW_SHOW);
 		}
 	}
 }

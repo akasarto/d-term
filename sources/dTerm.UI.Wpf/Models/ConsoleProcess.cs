@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace dTerm.UI.Wpf.Models
 {
-	public class ConsoleInstance : ObservableObject, IConsoleInstance
+	public class ConsoleProcess : ObservableObject, IConsoleProcess
 	{
 		private string _name;
 		private ConsoleType _consoleType;
@@ -13,9 +13,9 @@ namespace dTerm.UI.Wpf.Models
 		private Process _systemProcess;
 		private int _timeoutSeconds;
 
-		public ConsoleInstance(ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
+		public ConsoleProcess(ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
 		{
-			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleInstance));
+			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleProcess));
 			_timeoutSeconds = timeoutSeconds;
 
 			Configure();
@@ -29,13 +29,11 @@ namespace dTerm.UI.Wpf.Models
 			set => Set(ref _name, value);
 		}
 
-		public int PorcessId => _systemProcess?.Id ?? 0;
+		public int PorcessId => _systemProcess.Id;
 
-		public bool IsRunning => !(_systemProcess?.HasExited ?? true);
+		public IntPtr ProcessMainHandle => _systemProcess.Handle;
 
-		public IntPtr ProcessMainHandle => _systemProcess?.Handle ?? IntPtr.Zero;
-
-		public IntPtr ProcessMainWindowHandle => _systemProcess?.MainWindowHandle ?? IntPtr.Zero;
+		public IntPtr ProcessMainWindowHandle => _systemProcess.MainWindowHandle;
 
 		public ConsoleType Type
 		{
@@ -43,7 +41,7 @@ namespace dTerm.UI.Wpf.Models
 			set => Set(ref _consoleType, value);
 		}
 
-		public void Initialize()
+		public void Initialize(Action<Process> onMainWindowHandleAccquiredAction = null)
 		{
 			var processStopwatch = Stopwatch.StartNew();
 			var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
@@ -52,15 +50,17 @@ namespace dTerm.UI.Wpf.Models
 
 			while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 			{
-				if (_systemProcess?.MainWindowHandle == IntPtr.Zero)
+				if (_systemProcess.MainWindowHandle != IntPtr.Zero)
 				{
-					continue;
+					onMainWindowHandleAccquiredAction?.Invoke(_systemProcess);
+					ProcessStatusChanged?.Invoke(this, new ProcessEventArgs(ProcessStatus.Initialized));
+					return;
 				}
-
-				//User32Methods.ShowWindow(_systemProcess.MainWindowHandle, ShowWindowCommands.SW_HIDE);
-
-				ProcessStatusChanged?.Invoke(this, new ProcessEventArgs(ProcessStatus.Initialized));
 			}
+
+			ProcessStatusChanged?.Invoke(this, new ProcessEventArgs(ProcessStatus.Timeout));
+
+			Terminate();
 		}
 
 		public void Terminate()
@@ -70,8 +70,6 @@ namespace dTerm.UI.Wpf.Models
 				_systemProcess.Kill();
 				_systemProcess.WaitForExit(GetTimeoutInMiliseconds());
 			}
-
-			_systemProcess = null;
 		}
 
 		private void Configure()
@@ -89,12 +87,7 @@ namespace dTerm.UI.Wpf.Models
 
 			_systemProcess.Exited += (sender, args) =>
 			{
-				var eArgs = new ProcessEventArgs(ProcessStatus.Terminated);
-
-				ProcessStatusChanged?.Invoke(
-					sender: this,
-					e: eArgs
-				);
+				ProcessStatusChanged?.Invoke(this, new ProcessEventArgs(ProcessStatus.Terminated));
 			};
 		}
 

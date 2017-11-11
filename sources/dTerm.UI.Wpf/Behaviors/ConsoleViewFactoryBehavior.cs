@@ -9,11 +9,11 @@ namespace dTerm.UI.Wpf.Behaviors
 {
 	public class ConsoleViewFactoryBehavior : Behavior<Window>
 	{
-		public static readonly DependencyProperty ConsoleInstancesProperty = DependencyProperty.Register("ConsoleInstances", typeof(ObservableCollection<IConsoleInstance>), typeof(ConsoleViewFactoryBehavior), new PropertyMetadata(null));
+		public static readonly DependencyProperty ConsoleInstancesProperty = DependencyProperty.Register("ConsoleInstances", typeof(ObservableCollection<IConsoleProcess>), typeof(ConsoleViewFactoryBehavior), new PropertyMetadata(null));
 
-		public ObservableCollection<IConsoleInstance> ConsoleInstances
+		public ObservableCollection<IConsoleProcess> ConsoleInstances
 		{
-			get { return (ObservableCollection<IConsoleInstance>)GetValue(ConsoleInstancesProperty); }
+			get { return (ObservableCollection<IConsoleProcess>)GetValue(ConsoleInstancesProperty); }
 			set { SetValue(ConsoleInstancesProperty, value); }
 		}
 
@@ -29,9 +29,9 @@ namespace dTerm.UI.Wpf.Behaviors
 
 		private void ConsoleInstances_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
-			if (e.NewItems.Count > 0)
+			if (e.NewItems != null && e.NewItems.Count > 0)
 			{
-				foreach (IConsoleInstance instance in e.NewItems)
+				foreach (IConsoleProcess instance in e.NewItems)
 				{
 					var consoleView = new ConsoleView();
 

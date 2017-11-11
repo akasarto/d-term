@@ -4,6 +4,7 @@ using dTerm.UI.Wpf.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using WinApi.User32;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
@@ -12,7 +13,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		private IntPtr _shellViewHandle;
 		private IEnumerable<ConsoleDescriptor> _consoleDescriptors;
 		private IConsoleInstanceFactory _consoleInstanceFactory;
-		private IConsoleInstance _selectedConsoleInstance;
+		private IConsoleProcess _selectedConsoleInstance;
 
 		public ShellViewModel(IEnumerable<ConsoleDescriptor> consoleDescriptors, IConsoleInstanceFactory consoleInstanceFactory)
 		{
@@ -20,7 +21,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			_consoleInstanceFactory = consoleInstanceFactory ?? throw new ArgumentNullException(nameof(consoleInstanceFactory), nameof(ShellViewModel));
 
 			//
-			ConsoleInstances = new ObservableCollection<IConsoleInstance>();
+			ConsoleInstances = new ObservableCollection<IConsoleProcess>();
 
 			CreateConsoleProcessInstanceCommand = new RelayCommand<ConsoleDescriptor>(
 				CreateConsoleProcessInstance,
@@ -38,9 +39,9 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public RelayCommand<ConsoleDescriptor> CreateConsoleProcessInstanceCommand { get; private set; }
 
-		public ObservableCollection<IConsoleInstance> ConsoleInstances { get; private set; }
+		public ObservableCollection<IConsoleProcess> ConsoleInstances { get; private set; }
 
-		public IConsoleInstance SelectedConsoleInstance
+		public IConsoleProcess SelectedConsoleInstance
 		{
 			get => _selectedConsoleInstance;
 			set => Set(ref _selectedConsoleInstance, value);
@@ -50,7 +51,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			foreach (var instance in ConsoleInstances)
 			{
-				//instance.Exited -= OnConsoleInstanceKilled;
+				//instance.ProcessStatusChanged;
 				instance.Terminate();
 			}
 		}
@@ -61,7 +62,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			consoleInstance.ProcessStatusChanged += (sender, args) =>
 			{
-				var instance = sender as IConsoleInstance;
+				var instance = sender as IConsoleProcess;
 
 				if (instance == null)
 				{
@@ -79,15 +80,18 @@ namespace dTerm.UI.Wpf.ViewModels
 				}
 			};
 
-			consoleInstance.Initialize();
+			consoleInstance.Initialize((process) =>
+			{
+				User32Methods.ShowWindow(process.MainWindowHandle, ShowWindowCommands.SW_HIDE);
+			});
 		}
 
-		private void OnConsoleInstanceInitialized(IConsoleInstance consoleInstance, ProcessEventArgs args)
+		private void OnConsoleInstanceInitialized(IConsoleProcess consoleInstance, ProcessEventArgs args)
 		{
-			//ConsoleInstances.Add(consoleInstance);
+			ConsoleInstances.Add(consoleInstance);
 		}
 
-		private void OnConsoleInstanceTerminated(IConsoleInstance consoleInstance, ProcessEventArgs args)
+		private void OnConsoleInstanceTerminated(IConsoleProcess consoleInstance, ProcessEventArgs args)
 		{
 			UIService.Invoke(() =>
 			{

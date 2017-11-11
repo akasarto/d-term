@@ -9,10 +9,10 @@ namespace dTerm.UI.Wpf.ViewModels
 	public class ConsoleViewModel : ObservableObject
 	{
 		private IntPtr _consoleViewHandle;
-		private IConsoleInstance _consoleInstance;
+		private IConsoleProcess _consoleInstance;
 		private ConsoleHwndHost _consoleHwndHost;
 
-		public ConsoleViewModel(IConsoleInstance consoleInstance)
+		public ConsoleViewModel(IConsoleProcess consoleInstance)
 		{
 			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ConsoleViewModel));
 		}
@@ -31,7 +31,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 		}
 
-		public IConsoleInstance Instance => _consoleInstance;
+		public IConsoleProcess Instance => _consoleInstance;
 
 		public ConsoleHwndHost ConsoleHwndHost
 		{
@@ -39,11 +39,6 @@ namespace dTerm.UI.Wpf.ViewModels
 			{
 				if (_consoleHwndHost == null)
 				{
-					//if (!_consoleInstance.ProcessIsStarted)
-					//{
-					//	throw new InvalidOperationException($"[{nameof(ConsoleViewModel)}] Underlying process not running.");
-					//}
-
 					_consoleHwndHost = new ConsoleHwndHost(_consoleInstance);
 				}
 

@@ -47,7 +47,7 @@
     <Compile Include="_tmp\ProcessStartInfoBuilderBase.cs" />
     <Compile Include="_tmp\SystemPathProcessStartInfoBuilder.cs" />
     <Compile Include="_Extensions.cs" />
-    <Compile Include="IConsoleInstance.cs" />
+    <Compile Include="IConsoleProcess.cs" />
     <Compile Include="_tmp\ProgramFilesFolderProcessStartInfoBuilder.cs" />
     <Compile Include="_tmp\RootedPhysicaPathProcessStartInfoBuilder.cs" />
     <Compile Include="_tmp\System32FolderProcessStartInfoBuilder.cs" />
