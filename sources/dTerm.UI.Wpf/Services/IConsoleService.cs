@@ -7,10 +7,10 @@ namespace dTerm.UI.Wpf.Services
 {
 	public interface IConsoleService
 	{
-		IConsoleProcess CreateConsoleProcess(ConsoleDescriptor descriptor);
+		IConsoleInstance CreateConsoleInstance(ConsoleDescriptor descriptor);
 
-		ConsoleInstanceViewModel CreateConsoleViewModel(IConsoleProcess consoleProcess);
+		ConsoleViewModel CreateConsoleViewModel(IConsoleInstance consoleInstance);
 
-		void CreateConsoleView(IntPtr ownerHandle, ConsoleInstanceViewModel viewModel);
+		void CreateConsoleView(IntPtr ownerHandle, ConsoleViewModel viewModel);
 	}
 }

@@ -21,7 +21,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			_consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService), nameof(ShellViewModel));
 
 			//
-			ConsoleInstances = new ObservableCollection<IConsoleProcess>();
+			ConsoleInstances = new ObservableCollection<IConsoleInstance>();
 
 			CreateConsoleProcessInstanceCommand = new RelayCommand<ConsoleDescriptor>(
 				CreateConsoleInstance,
@@ -39,60 +39,60 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public RelayCommand<ConsoleDescriptor> CreateConsoleProcessInstanceCommand { get; private set; }
 
-		public ObservableCollection<IConsoleProcess> ConsoleInstances { get; private set; }
+		public ObservableCollection<IConsoleInstance> ConsoleInstances { get; private set; }
 
 		public void OnViewClosing()
 		{
 			foreach (var instance in ConsoleInstances)
 			{
-				//instance.ProcessStatusChanged;
+				instance.ProcessStatusChanged -= OnConsoleProcessStatusChanged;
 				instance.Terminate();
 			}
 		}
 
 		private void CreateConsoleInstance(ConsoleDescriptor descriptor)
 		{
-			var consoleProcess = _consoleService.CreateConsoleProcess(descriptor);
+			var consoleProcess = _consoleService.CreateConsoleInstance(descriptor);
 
-			consoleProcess.ProcessStatusChanged += (sender, args) =>
-			{
-				var process = sender as IConsoleProcess;
-
-				if (process == null)
-				{
-					throw new Exception("Invalid console process event parameters", new ArgumentNullException(nameof(sender), nameof(CreateConsoleInstance)));
-				}
-
-				switch (args.Status)
-				{
-					case ProcessStatus.Initialized:
-						OnConsoleProcessInitialized(process, args);
-						break;
-					case ProcessStatus.Terminated:
-						OnConsoleProcessTerminated(process, args);
-						break;
-				}
-			};
+			consoleProcess.ProcessStatusChanged += OnConsoleProcessStatusChanged;
 
 			consoleProcess.Initialize((systemProcess) =>
 			{
 				//ToDo: Find a better way to avoid process window flickering.
-				User32Methods.ShowWindow(systemProcess.MainWindowHandle, ShowWindowCommands.SW_HIDE);
+				//User32Methods.ShowWindow(systemProcess.MainWindowHandle, ShowWindowCommands.SW_HIDE);
 			});
 		}
 
-		private void OnConsoleProcessInitialized(IConsoleProcess consoleProcess, ProcessEventArgs args)
+		private void OnConsoleProcessStatusChanged(object sender, ProcessEventArgs args)
 		{
-			var consoleViewModel = _consoleService.CreateConsoleViewModel(consoleProcess);
+			var instance = sender as IConsoleInstance;
 
-			ConsoleInstances.Add(consoleProcess);
+			if (instance == null)
+			{
+				throw new Exception("Invalid console process event parameters", new ArgumentNullException(nameof(sender), nameof(CreateConsoleInstance)));
+			}
+
+			switch (args.Status)
+			{
+				case ProcessStatus.Initialized:
+					OnConsoleInstanceInitialized(instance, args);
+					break;
+				case ProcessStatus.Terminated:
+					OnConsoleInstanceTerminated(instance, args);
+					break;
+			}
 		}
 
-		private void OnConsoleProcessTerminated(IConsoleProcess consoleProcess, ProcessEventArgs args)
+		private void OnConsoleInstanceInitialized(IConsoleInstance consoleInstance, ProcessEventArgs args)
+		{
+			ConsoleInstances.Add(consoleInstance);
+		}
+
+		private void OnConsoleInstanceTerminated(IConsoleInstance consoleInstance, ProcessEventArgs args)
 		{
 			UIService.Invoke(() =>
 			{
-				ConsoleInstances.Remove(consoleProcess);
+				ConsoleInstances.Remove(consoleInstance);
 			});
 		}
 

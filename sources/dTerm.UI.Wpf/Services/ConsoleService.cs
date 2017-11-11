@@ -10,22 +10,25 @@ namespace dTerm.UI.Wpf.Services
 {
 	public class ConsoleService : IConsoleService
 	{
-		public IConsoleProcess CreateConsoleProcess(ConsoleDescriptor descriptor)
+		public IConsoleInstance CreateConsoleInstance(ConsoleDescriptor descriptor)
 		{
 			if (descriptor == null || descriptor.ProcessStartInfo == null)
 			{
 				return null;
 			}
 
-			return new ConsoleProcess(descriptor.ConsoleType, descriptor.ProcessStartInfo, descriptor.DefautStartupTimeoutSeconds);
+			return new ConsoleInstance(descriptor.ConsoleType, descriptor.ProcessStartInfo, descriptor.DefautStartupTimeoutSeconds)
+			{
+				Name = descriptor.ConsoleName
+			};
 		}
 
-		public ConsoleInstanceViewModel CreateConsoleViewModel(IConsoleProcess consoleProcess)
+		public ConsoleViewModel CreateConsoleViewModel(IConsoleInstance consoleInstance)
 		{
-			return new ConsoleInstanceViewModel(consoleProcess);
+			return new ConsoleViewModel(consoleInstance);
 		}
 
-		public void CreateConsoleView(IntPtr ownerHandle, ConsoleInstanceViewModel viewModel)
+		public void CreateConsoleView(IntPtr ownerHandle, ConsoleViewModel viewModel)
 		{
 			var ownerView = HwndSource.FromHwnd(ownerHandle).RootVisual as Window;
 

@@ -6,15 +6,15 @@ using WinApi.User32;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
-	public class ConsoleInstanceViewModel : ObservableObject
+	public class ConsoleViewModel : ObservableObject
 	{
 		private IntPtr _consoleViewHandle;
-		private IConsoleProcess _consoleProcess;
+		private IConsoleInstance _consoleInstance;
 		private ConsoleHwndHost _consoleHwndHost;
 
-		public ConsoleInstanceViewModel(IConsoleProcess consoleProcess)
+		public ConsoleViewModel(IConsoleInstance consoleInstance)
 		{
-			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleInstanceViewModel));
+			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ConsoleViewModel));
 		}
 
 		public ConsoleType Type { get; }
@@ -33,7 +33,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 		}
 
-		public IConsoleProcess Process => _consoleProcess;
+		public IConsoleInstance Instance => _consoleInstance;
 
 		public ConsoleHwndHost ConsoleHwndHost
 		{
@@ -41,7 +41,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			{
 				if (_consoleHwndHost == null)
 				{
-					_consoleHwndHost = new ConsoleHwndHost(_consoleProcess);
+					_consoleHwndHost = new ConsoleHwndHost(_consoleInstance);
 				}
 
 				return _consoleHwndHost;
@@ -50,7 +50,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public void OnViewClosing()
 		{
-			_consoleProcess.Terminate();
+			_consoleInstance.Terminate();
 			_consoleHwndHost.Dispose();
 		}
 
@@ -58,7 +58,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			var message = (WM)msg;
 			var viewHandle = _consoleViewHandle;
-			var instanceHandle = _consoleProcess.ProcessMainWindowHandle;
+			var instanceHandle = _consoleInstance.ProcessMainWindowHandle;
 
 			switch (message)
 			{

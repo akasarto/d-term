@@ -3,17 +3,19 @@ using System.Diagnostics;
 
 namespace dTerm.Core
 {
-	public interface IConsoleProcess
+	public interface IConsoleInstance
 	{
 		event EventHandler<ProcessEventArgs> ProcessStatusChanged;
 
-		ConsoleType ConsoleType { get; }
+		string Name { get; set; }
 
 		int PorcessId { get; }
 
 		IntPtr ProcessHandle { get; }
 
 		IntPtr ProcessMainWindowHandle { get; }
+
+		ConsoleType Type { get; }
 
 		void Initialize(Action<Process> onMainWindowHandleAccquiredAction = null);
 
