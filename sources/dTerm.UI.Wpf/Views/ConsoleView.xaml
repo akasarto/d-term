@@ -13,6 +13,10 @@
 	Title="{Binding Instance.Name}"
 	Height="300"
 	Width="300"
+	ResizeMode="CanResizeWithGrip"
+	WindowStartupLocation="CenterOwner"
+	ShowInTaskbar="False"
+	ShowActivated="False"
 >
 	<!--<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Closing">

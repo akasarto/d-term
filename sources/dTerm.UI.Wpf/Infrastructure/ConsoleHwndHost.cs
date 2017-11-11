@@ -8,16 +8,16 @@ namespace dTerm.UI.Wpf.Infrastructure
 {
 	public class ConsoleHwndHost : HwndHost
 	{
-		private IConsoleProcess _consoleInstance;
+		private IConsoleProcess _consoleProcess;
 
-		public ConsoleHwndHost(IConsoleProcess consoleInstance)
+		public ConsoleHwndHost(IConsoleProcess consoleProcess)
 		{
-			_consoleInstance = consoleInstance;
+			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleHwndHost));
 		}
 
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
-			var childHandle = _consoleInstance.ProcessMainWindowHandle;
+			var childHandle = _consoleProcess.ProcessMainWindowHandle;
 			Integrate(childHandle, hwndParent.Handle);
 			return new HandleRef(this, childHandle);
 		}

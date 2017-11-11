@@ -1,6 +1,6 @@
 ﻿using dTerm.Core;
-using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
+using dTerm.UI.Wpf.Services;
 using dTerm.UI.Wpf.ViewModels;
 using dTerm.UI.Wpf.Views;
 using SimpleInjector;
@@ -32,7 +32,7 @@ namespace dTerm.UI.Wpf
 
 		private void SetupAndShowMainWindow()
 		{
-			var factory = new ConsoleInstanceFactory();
+			var consoleService = new ConsoleService();
 
 			var consoleDescriptors = new List<ConsoleDescriptor>()
 			{
@@ -42,7 +42,7 @@ namespace dTerm.UI.Wpf
 				new ConsoleDescriptor(ConsoleType.UbuntuBash, new System32FolderProcessStartInfoBuilder("/bash.exe")) { DisplayOrder = 4 }
 			};
 
-			Current.MainWindow = new ShellView(new ShellViewModel(consoleDescriptors, factory));
+			Current.MainWindow = new ShellView(new ShellViewModel(consoleDescriptors, consoleService));
 
 			Current.MainWindow.Show();
 		}

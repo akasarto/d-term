@@ -1,6 +1,7 @@
 ﻿using dTerm.Core;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
+using dTerm.UI.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,19 +13,18 @@ namespace dTerm.UI.Wpf.ViewModels
 	{
 		private IntPtr _shellViewHandle;
 		private IEnumerable<ConsoleDescriptor> _consoleDescriptors;
-		private IConsoleInstanceFactory _consoleInstanceFactory;
-		private IConsoleProcess _selectedConsoleInstance;
+		private IConsoleService _consoleService;
 
-		public ShellViewModel(IEnumerable<ConsoleDescriptor> consoleDescriptors, IConsoleInstanceFactory consoleInstanceFactory)
+		public ShellViewModel(IEnumerable<ConsoleDescriptor> consoleDescriptors, IConsoleService consoleService)
 		{
 			_consoleDescriptors = consoleDescriptors ?? throw new ArgumentNullException(nameof(consoleDescriptors), nameof(ShellViewModel));
-			_consoleInstanceFactory = consoleInstanceFactory ?? throw new ArgumentNullException(nameof(consoleInstanceFactory), nameof(ShellViewModel));
+			_consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService), nameof(ShellViewModel));
 
 			//
 			ConsoleInstances = new ObservableCollection<IConsoleProcess>();
 
 			CreateConsoleProcessInstanceCommand = new RelayCommand<ConsoleDescriptor>(
-				CreateConsoleProcessInstance,
+				CreateConsoleInstance,
 				CanCreateConsoleProcessInstance
 			);
 		}
@@ -41,12 +41,6 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public ObservableCollection<IConsoleProcess> ConsoleInstances { get; private set; }
 
-		public IConsoleProcess SelectedConsoleInstance
-		{
-			get => _selectedConsoleInstance;
-			set => Set(ref _selectedConsoleInstance, value);
-		}
-
 		public void OnViewClosing()
 		{
 			foreach (var instance in ConsoleInstances)
@@ -56,46 +50,49 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 		}
 
-		private void CreateConsoleProcessInstance(ConsoleDescriptor descriptor)
+		private void CreateConsoleInstance(ConsoleDescriptor descriptor)
 		{
-			var consoleInstance = _consoleInstanceFactory.CreateInstance(descriptor);
+			var consoleProcess = _consoleService.CreateConsoleProcess(descriptor);
 
-			consoleInstance.ProcessStatusChanged += (sender, args) =>
+			consoleProcess.ProcessStatusChanged += (sender, args) =>
 			{
-				var instance = sender as IConsoleProcess;
+				var process = sender as IConsoleProcess;
 
-				if (instance == null)
+				if (process == null)
 				{
-					throw new Exception("Invalid console instance event parameters", new ArgumentNullException(nameof(sender), nameof(CreateConsoleProcessInstance)));
+					throw new Exception("Invalid console process event parameters", new ArgumentNullException(nameof(sender), nameof(CreateConsoleInstance)));
 				}
 
 				switch (args.Status)
 				{
 					case ProcessStatus.Initialized:
-						OnConsoleInstanceInitialized(instance, args);
+						OnConsoleProcessInitialized(process, args);
 						break;
 					case ProcessStatus.Terminated:
-						OnConsoleInstanceTerminated(instance, args);
+						OnConsoleProcessTerminated(process, args);
 						break;
 				}
 			};
 
-			consoleInstance.Initialize((process) =>
+			consoleProcess.Initialize((systemProcess) =>
 			{
-				User32Methods.ShowWindow(process.MainWindowHandle, ShowWindowCommands.SW_HIDE);
+				//ToDo: Find a better way to avoid process window flickering.
+				User32Methods.ShowWindow(systemProcess.MainWindowHandle, ShowWindowCommands.SW_HIDE);
 			});
 		}
 
-		private void OnConsoleInstanceInitialized(IConsoleProcess consoleInstance, ProcessEventArgs args)
+		private void OnConsoleProcessInitialized(IConsoleProcess consoleProcess, ProcessEventArgs args)
 		{
-			ConsoleInstances.Add(consoleInstance);
+			var consoleViewModel = _consoleService.CreateConsoleViewModel(consoleProcess);
+
+			ConsoleInstances.Add(consoleProcess);
 		}
 
-		private void OnConsoleInstanceTerminated(IConsoleProcess consoleInstance, ProcessEventArgs args)
+		private void OnConsoleProcessTerminated(IConsoleProcess consoleProcess, ProcessEventArgs args)
 		{
 			UIService.Invoke(() =>
 			{
-				ConsoleInstances.Remove(consoleInstance);
+				ConsoleInstances.Remove(consoleProcess);
 			});
 		}
 

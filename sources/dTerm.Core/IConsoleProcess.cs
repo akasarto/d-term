@@ -7,15 +7,13 @@ namespace dTerm.Core
 	{
 		event EventHandler<ProcessEventArgs> ProcessStatusChanged;
 
-		string Name { get; set; }
+		ConsoleType ConsoleType { get; }
 
 		int PorcessId { get; }
 
-		IntPtr ProcessMainHandle { get; }
+		IntPtr ProcessHandle { get; }
 
 		IntPtr ProcessMainWindowHandle { get; }
-
-		ConsoleType Type { get; set; }
 
 		void Initialize(Action<Process> onMainWindowHandleAccquiredAction = null);
 

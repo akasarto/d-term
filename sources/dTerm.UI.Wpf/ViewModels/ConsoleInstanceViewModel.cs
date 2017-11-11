@@ -9,13 +9,15 @@ namespace dTerm.UI.Wpf.ViewModels
 	public class ConsoleViewModel : ObservableObject
 	{
 		private IntPtr _consoleViewHandle;
-		private IConsoleProcess _consoleInstance;
+		private IConsoleProcess _consoleProcess;
 		private ConsoleHwndHost _consoleHwndHost;
 
-		public ConsoleViewModel(IConsoleProcess consoleInstance)
+		public ConsoleViewModel(IConsoleProcess consoleProcess)
 		{
-			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ConsoleViewModel));
+			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleViewModel));
 		}
+
+		public ConsoleType Type { get; }
 
 		public IntPtr ConsoleViewHandle
 		{
@@ -31,7 +33,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 		}
 
-		public IConsoleProcess Instance => _consoleInstance;
+		public IConsoleProcess Process => _consoleProcess;
 
 		public ConsoleHwndHost ConsoleHwndHost
 		{
@@ -39,7 +41,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			{
 				if (_consoleHwndHost == null)
 				{
-					_consoleHwndHost = new ConsoleHwndHost(_consoleInstance);
+					_consoleHwndHost = new ConsoleHwndHost(_consoleProcess);
 				}
 
 				return _consoleHwndHost;
@@ -48,7 +50,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public void OnViewClosing()
 		{
-			_consoleInstance.Terminate();
+			_consoleProcess.Terminate();
 			_consoleHwndHost.Dispose();
 		}
 
@@ -56,7 +58,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			var message = (WM)msg;
 			var viewHandle = _consoleViewHandle;
-			var instanceHandle = _consoleInstance.ProcessMainWindowHandle;
+			var instanceHandle = _consoleProcess.ProcessMainWindowHandle;
 
 			switch (message)
 			{

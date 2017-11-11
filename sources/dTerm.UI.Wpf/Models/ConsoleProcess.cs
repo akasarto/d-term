@@ -1,20 +1,19 @@
 ﻿using dTerm.Core;
-using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Diagnostics;
 
 namespace dTerm.UI.Wpf.Models
 {
-	public class ConsoleProcess : ObservableObject, IConsoleProcess
+	public class ConsoleProcess : IConsoleProcess
 	{
-		private string _name;
 		private ConsoleType _consoleType;
 		private ProcessStartInfo _processStartInfo;
 		private Process _systemProcess;
 		private int _timeoutSeconds;
 
-		public ConsoleProcess(ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
+		public ConsoleProcess(ConsoleType consoleType, ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
 		{
+			_consoleType = consoleType;
 			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleProcess));
 			_timeoutSeconds = timeoutSeconds;
 
@@ -23,23 +22,13 @@ namespace dTerm.UI.Wpf.Models
 
 		public event EventHandler<ProcessEventArgs> ProcessStatusChanged;
 
-		public string Name
-		{
-			get => _name;
-			set => Set(ref _name, value);
-		}
+		public ConsoleType ConsoleType => _consoleType;
 
 		public int PorcessId => _systemProcess.Id;
 
-		public IntPtr ProcessMainHandle => _systemProcess.Handle;
+		public IntPtr ProcessHandle => _systemProcess.Handle;
 
 		public IntPtr ProcessMainWindowHandle => _systemProcess.MainWindowHandle;
-
-		public ConsoleType Type
-		{
-			get => _consoleType;
-			set => Set(ref _consoleType, value);
-		}
 
 		public void Initialize(Action<Process> onMainWindowHandleAccquiredAction = null)
 		{
