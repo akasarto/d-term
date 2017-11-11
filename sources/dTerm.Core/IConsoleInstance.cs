@@ -9,7 +9,7 @@ namespace dTerm.Core
 
 		string Name { get; set; }
 
-		int PorcessId { get; }
+		int ProcessId { get; }
 
 		IntPtr ProcessHandle { get; }
 

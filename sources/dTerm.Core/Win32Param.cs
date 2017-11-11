@@ -3,16 +3,16 @@
 namespace dTerm.Core
 {
 	[StructLayout(LayoutKind.Explicit)]
-	public struct Win32LWParams
+	public struct Win32Param
 	{
 		[FieldOffset(0)]
-		public uint Param;
-
-		[FieldOffset(0)]
-		public ushort Low;
+		public uint BaseValue;
 
 		[FieldOffset(2)]
-		public ushort High;
+		public ushort HighWord;
+
+		[FieldOffset(0)]
+		public ushort LowWord;
 	}
 
 }

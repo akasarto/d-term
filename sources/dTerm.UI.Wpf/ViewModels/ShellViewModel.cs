@@ -14,12 +14,14 @@ namespace dTerm.UI.Wpf.ViewModels
 	{
 		private IntPtr _shellViewHandle;
 		private IEnumerable<ConsoleDescriptor> _consoleDescriptors;
+		private Dictionary<int, ConsoleViewModel> _consoleViewModels;
 		private IConsoleService _consoleService;
 
 		public ShellViewModel(IEnumerable<ConsoleDescriptor> consoleDescriptors, IConsoleService consoleService)
 		{
 			_consoleDescriptors = consoleDescriptors ?? throw new ArgumentNullException(nameof(consoleDescriptors), nameof(ShellViewModel));
 			_consoleService = consoleService ?? throw new ArgumentNullException(nameof(consoleService), nameof(ShellViewModel));
+			_consoleViewModels = new Dictionary<int, ConsoleViewModel>();
 
 			//
 			ConsoleInstances = new ObservableCollection<IConsoleInstance>();
@@ -45,8 +47,6 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public void OnViewClosing()
 		{
-			//ConsoleInstances.CollectionChanged += OnConsoleInstancesCollectionChanged;
-
 			foreach (var instance in ConsoleInstances)
 			{
 				instance.ProcessStatusChanged -= OnConsoleProcessStatusChanged;
@@ -134,12 +134,25 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			var consoleViewModel = _consoleService.CreateConsoleViewModel(consoleInstance);
 
-			_consoleService.CreateConsoleView(ShellViewHandle, consoleViewModel);
+			_consoleViewModels.Add(consoleInstance.ProcessId, consoleViewModel);
+
+			_consoleService.ShowConsoleView(ShellViewHandle, consoleViewModel);
 		}
 
 		private void DestroyConsoleView(IConsoleInstance consoleInstance)
 		{
+			var processId = consoleInstance.ProcessId;
 
+			if (!_consoleViewModels.ContainsKey(processId))
+			{
+				return;
+			}
+
+			var consoleViewModel = _consoleViewModels[processId];
+
+			_consoleService.ShutdownConsoleView(consoleViewModel.ConsoleViewHandle);
+
+			_consoleViewModels.Remove(processId);
 		}
 	}
 }

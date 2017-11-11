@@ -30,7 +30,7 @@ namespace dTerm.UI.Wpf.Models
 			set => Set(ref _consoleName, value);
 		}
 
-		public int PorcessId => _systemProcess.Id;
+		public int ProcessId => _systemProcess.Id;
 
 		public IntPtr ProcessHandle => _systemProcess.Handle;
 

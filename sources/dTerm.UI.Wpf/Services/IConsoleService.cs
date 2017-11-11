@@ -11,6 +11,8 @@ namespace dTerm.UI.Wpf.Services
 
 		ConsoleViewModel CreateConsoleViewModel(IConsoleInstance consoleInstance);
 
-		void CreateConsoleView(IntPtr ownerHandle, ConsoleViewModel viewModel);
+		void ShowConsoleView(IntPtr ownerHandle, ConsoleViewModel viewModel);
+
+		void ShutdownConsoleView(IntPtr viewHandle);
 	}
 }

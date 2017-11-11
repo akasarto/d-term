@@ -52,7 +52,7 @@
     <Compile Include="_tmp\RootedPhysicaPathProcessStartInfoBuilder.cs" />
     <Compile Include="_tmp\System32FolderProcessStartInfoBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Win32LWParams.cs" />
+    <Compile Include="Win32Param.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

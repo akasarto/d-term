@@ -6,7 +6,7 @@ using WinApi.User32;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
-	public class ConsoleViewModel : ObservableObject
+	public class ConsoleViewModel : ObservableObject, IDisposable
 	{
 		private IntPtr _consoleViewHandle;
 		private IConsoleInstance _consoleInstance;
@@ -51,7 +51,6 @@ namespace dTerm.UI.Wpf.ViewModels
 		public void OnViewClosing()
 		{
 			_consoleInstance.Terminate();
-			_consoleHwndHost.Dispose();
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -66,12 +65,12 @@ namespace dTerm.UI.Wpf.ViewModels
 					{
 						if (wParam == instanceHandle)
 						{
-							var lwParam = new Win32LWParams()
+							var wlParam = new Win32Param()
 							{
-								Param = (uint)lParam
+								BaseValue = (uint)lParam
 							};
 
-							var wMouseMsg = (WM)lwParam.High;
+							var wMouseMsg = (WM)wlParam.HighWord;
 
 							switch (wMouseMsg)
 							{
@@ -81,7 +80,6 @@ namespace dTerm.UI.Wpf.ViewModels
 									{
 										User32Methods.SetActiveWindow(viewHandle);
 										User32Methods.SetForegroundWindow(instanceHandle);
-										User32Methods.SetFocus(instanceHandle);
 										User32Methods.SendMessage(viewHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
 										handled = true;
 									}
@@ -93,6 +91,16 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 
 			return IntPtr.Zero;
+		}
+
+		public void Dispose(bool disposing)
+		{
+			_consoleHwndHost.Dispose();
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
 		}
 	}
 }

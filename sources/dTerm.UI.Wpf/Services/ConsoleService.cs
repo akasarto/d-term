@@ -28,17 +28,24 @@ namespace dTerm.UI.Wpf.Services
 			return new ConsoleViewModel(consoleInstance);
 		}
 
-		public void CreateConsoleView(IntPtr ownerHandle, ConsoleViewModel viewModel)
+		public void ShowConsoleView(IntPtr ownerHandle, ConsoleViewModel viewModel)
 		{
 			var ownerView = HwndSource.FromHwnd(ownerHandle).RootVisual as Window;
 
 			var consoleView = new ConsoleView()
 			{
-				Owner = ownerView ?? throw new InvalidOperationException(nameof(CreateConsoleView), new ArgumentException(nameof(ConsoleService), nameof(ownerHandle))),
-				DataContext = viewModel ?? throw new InvalidOperationException(nameof(CreateConsoleView), new ArgumentNullException(nameof(viewModel), nameof(ConsoleService)))
+				Owner = ownerView ?? throw new InvalidOperationException(nameof(ShowConsoleView), new ArgumentException(nameof(ConsoleService), nameof(ownerHandle))),
+				DataContext = viewModel ?? throw new InvalidOperationException(nameof(ShowConsoleView), new ArgumentNullException(nameof(viewModel), nameof(ConsoleService)))
 			};
 
 			consoleView.Show();
+		}
+
+		public void ShutdownConsoleView(IntPtr viewHandle)
+		{
+			var view = HwndSource.FromHwnd(viewHandle).RootVisual as Window;
+
+			view.Close();
 		}
 	}
 }
