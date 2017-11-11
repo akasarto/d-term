@@ -37,8 +37,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 
 		public event EventHandler CanExecuteChanged;
 
-		public RelayCommand(Action<T> execute)
-			: this(execute, null)
+		public RelayCommand(Action<T> execute) : this(execute, null)
 		{
 		}
 

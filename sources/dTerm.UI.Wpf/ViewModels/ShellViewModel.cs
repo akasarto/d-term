@@ -5,6 +5,7 @@ using dTerm.UI.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using WinApi.User32;
 
 namespace dTerm.UI.Wpf.ViewModels
@@ -22,6 +23,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			//
 			ConsoleInstances = new ObservableCollection<IConsoleInstance>();
+			ConsoleInstances.CollectionChanged += OnConsoleInstancesCollectionChanged;
 
 			CreateConsoleProcessInstanceCommand = new RelayCommand<ConsoleDescriptor>(
 				CreateConsoleInstance,
@@ -43,11 +45,23 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public void OnViewClosing()
 		{
+			//ConsoleInstances.CollectionChanged += OnConsoleInstancesCollectionChanged;
+
 			foreach (var instance in ConsoleInstances)
 			{
 				instance.ProcessStatusChanged -= OnConsoleProcessStatusChanged;
 				instance.Terminate();
 			}
+		}
+
+		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor descriptor)
+		{
+			if (descriptor == null || descriptor.ProcessStartInfo == null)
+			{
+				return true;
+			}
+
+			return descriptor.IsSupported;
 		}
 
 		private void CreateConsoleInstance(ConsoleDescriptor descriptor)
@@ -96,14 +110,36 @@ namespace dTerm.UI.Wpf.ViewModels
 			});
 		}
 
-		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor descriptor)
+		private void OnConsoleInstancesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			if (descriptor == null || descriptor.ProcessStartInfo == null)
+			switch (e.Action)
 			{
-				return true;
-			}
+				case NotifyCollectionChangedAction.Add:
+					foreach (IConsoleInstance consoleInstance in e.NewItems)
+					{
+						CreateConsoleView(consoleInstance);
+					}
+					break;
 
-			return descriptor.IsSupported;
+				case NotifyCollectionChangedAction.Remove:
+					foreach (IConsoleInstance consoleInstance in e.OldItems)
+					{
+						DestroyConsoleView(consoleInstance);
+					}
+					break;
+			}
+		}
+
+		private void CreateConsoleView(IConsoleInstance consoleInstance)
+		{
+			var consoleViewModel = _consoleService.CreateConsoleViewModel(consoleInstance);
+
+			_consoleService.CreateConsoleView(ShellViewHandle, consoleViewModel);
+		}
+
+		private void DestroyConsoleView(IConsoleInstance consoleInstance)
+		{
+
 		}
 	}
 }
