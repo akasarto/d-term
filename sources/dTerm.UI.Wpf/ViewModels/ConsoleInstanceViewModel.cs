@@ -6,15 +6,15 @@ using WinApi.User32;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
-	public class ConsoleViewModel : ObservableObject
+	public class ConsoleInstanceViewModel : ObservableObject
 	{
 		private IntPtr _consoleViewHandle;
 		private IConsoleProcess _consoleProcess;
 		private ConsoleHwndHost _consoleHwndHost;
 
-		public ConsoleViewModel(IConsoleProcess consoleProcess)
+		public ConsoleInstanceViewModel(IConsoleProcess consoleProcess)
 		{
-			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleViewModel));
+			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleInstanceViewModel));
 		}
 
 		public ConsoleType Type { get; }

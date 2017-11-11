@@ -20,12 +20,12 @@ namespace dTerm.UI.Wpf.Services
 			return new ConsoleProcess(descriptor.ConsoleType, descriptor.ProcessStartInfo, descriptor.DefautStartupTimeoutSeconds);
 		}
 
-		public ConsoleViewModel CreateConsoleViewModel(IConsoleProcess consoleProcess)
+		public ConsoleInstanceViewModel CreateConsoleViewModel(IConsoleProcess consoleProcess)
 		{
-			return new ConsoleViewModel(consoleProcess);
+			return new ConsoleInstanceViewModel(consoleProcess);
 		}
 
-		public void CreateConsoleView(IntPtr ownerHandle, ConsoleViewModel viewModel)
+		public void CreateConsoleView(IntPtr ownerHandle, ConsoleInstanceViewModel viewModel)
 		{
 			var ownerView = HwndSource.FromHwnd(ownerHandle).RootVisual as Window;
 

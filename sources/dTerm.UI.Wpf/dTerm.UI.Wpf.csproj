@@ -173,7 +173,7 @@
     <Compile Include="Models\ConsoleProcess.cs" />
     <Compile Include="Services\ConsoleService.cs" />
     <Compile Include="Services\IConsoleService.cs" />
-    <Compile Include="ViewModels\ConsoleViewModel.cs" />
+    <Compile Include="ViewModels\ConsoleInstanceViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ConsoleView.xaml.cs">
       <DependentUpon>ConsoleView.xaml</DependentUpon>

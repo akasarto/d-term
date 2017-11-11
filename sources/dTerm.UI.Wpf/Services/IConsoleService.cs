@@ -9,8 +9,8 @@ namespace dTerm.UI.Wpf.Services
 	{
 		IConsoleProcess CreateConsoleProcess(ConsoleDescriptor descriptor);
 
-		ConsoleViewModel CreateConsoleViewModel(IConsoleProcess consoleProcess);
+		ConsoleInstanceViewModel CreateConsoleViewModel(IConsoleProcess consoleProcess);
 
-		void CreateConsoleView(IntPtr ownerHandle, ConsoleViewModel viewModel);
+		void CreateConsoleView(IntPtr ownerHandle, ConsoleInstanceViewModel viewModel);
 	}
 }
