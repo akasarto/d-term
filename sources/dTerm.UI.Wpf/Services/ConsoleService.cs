@@ -10,16 +10,16 @@ namespace dTerm.UI.Wpf.Services
 {
 	public class ConsoleService : IConsoleService
 	{
-		public IConsoleInstance CreateConsoleInstance(ConsoleDescriptor descriptor)
+		public IConsoleInstance CreateConsoleInstance(ConsoleDescriptor consoleDescriptor)
 		{
-			if (descriptor == null || descriptor.ProcessStartInfo == null)
+			if (consoleDescriptor == null || consoleDescriptor.ProcessStartInfo == null)
 			{
 				return null;
 			}
 
-			return new ConsoleInstance(descriptor.ConsoleType, descriptor.ProcessStartInfo, descriptor.DefautStartupTimeoutSeconds)
+			return new ConsoleInstance(consoleDescriptor.ConsoleType, consoleDescriptor.ProcessStartInfo, consoleDescriptor.DefautStartupTimeoutSeconds)
 			{
-				Name = descriptor.ConsoleName
+				Name = consoleDescriptor.ConsoleName
 			};
 		}
 
@@ -28,24 +28,33 @@ namespace dTerm.UI.Wpf.Services
 			return new ConsoleViewModel(consoleInstance);
 		}
 
-		public void ShowConsoleView(IntPtr ownerHandle, ConsoleViewModel viewModel)
+		public void ShowConsoleView(IntPtr ownerHandle, ConsoleViewModel consoleViewModel)
 		{
 			var ownerView = HwndSource.FromHwnd(ownerHandle).RootVisual as Window;
 
 			var consoleView = new ConsoleView()
 			{
 				Owner = ownerView ?? throw new InvalidOperationException(nameof(ShowConsoleView), new ArgumentException(nameof(ConsoleService), nameof(ownerHandle))),
-				DataContext = viewModel ?? throw new InvalidOperationException(nameof(ShowConsoleView), new ArgumentNullException(nameof(viewModel), nameof(ConsoleService)))
+				DataContext = consoleViewModel ?? throw new InvalidOperationException(nameof(ShowConsoleView), new ArgumentNullException(nameof(consoleViewModel), nameof(ConsoleService)))
 			};
 
 			consoleView.Show();
 		}
 
-		public void ShutdownConsoleView(IntPtr viewHandle)
+		public void CloseConsoleView(ConsoleViewModel consoleViewModel)
 		{
-			var view = HwndSource.FromHwnd(viewHandle).RootVisual as Window;
+			if (!consoleViewModel.IsClosing)
+			{
+				var viewHandle = consoleViewModel.ConsoleViewHandle;
+				var viewInstance = HwndSource.FromHwnd(viewHandle)?.RootVisual as ConsoleView;
 
-			view.Close();
+				if (viewInstance == null)
+				{
+					return;
+				}
+
+				viewInstance.Close();
+			}
 		}
 	}
 }

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using WinApi.User32;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
@@ -94,6 +93,9 @@ namespace dTerm.UI.Wpf.ViewModels
 				case ProcessStatus.Terminated:
 					OnConsoleInstanceTerminated(instance, args);
 					break;
+				case ProcessStatus.Timeout:
+					//TODO: Notify process failure to start.
+					break;
 			}
 		}
 
@@ -143,14 +145,12 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			var processId = consoleInstance.ProcessId;
 
-			if (!_consoleViewModels.ContainsKey(processId))
+			if (_consoleViewModels.ContainsKey(processId))
 			{
-				return;
+				var consoleViewModel = _consoleViewModels[processId];
+
+				_consoleService?.CloseConsoleView(consoleViewModel);
 			}
-
-			var consoleViewModel = _consoleViewModels[processId];
-
-			_consoleService.ShutdownConsoleView(consoleViewModel.ConsoleViewHandle);
 
 			_consoleViewModels.Remove(processId);
 		}

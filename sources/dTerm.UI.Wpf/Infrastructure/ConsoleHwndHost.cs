@@ -18,7 +18,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
 			var childHandle = _consoleInstance.ProcessMainWindowHandle;
-			Integrate(childHandle, hwndParent.Handle);
+			IntegrateConsole(childHandle, hwndParent.Handle);
 			return new HandleRef(this, childHandle);
 		}
 
@@ -27,7 +27,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 			User32Methods.DestroyWindow(hwnd.Handle);
 		}
 
-		private void Integrate(IntPtr childHandle, IntPtr parentHandle)
+		private void IntegrateConsole(IntPtr childHandle, IntPtr parentHandle)
 		{
 			// Set Parent
 			User32Methods.SetParent(childHandle, parentHandle);
@@ -45,8 +45,6 @@ namespace dTerm.UI.Wpf.Infrastructure
 			newStyle |= WindowStyles.WS_CHILD;
 
 			User32Helpers.SetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
-
-			User32Methods.ShowWindow(childHandle, ShowWindowCommands.SW_SHOW);
 		}
 	}
 }

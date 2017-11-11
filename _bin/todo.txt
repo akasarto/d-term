@@ -1,9 +1,5 @@
 # DEV
 
-- Review object graph
-
-- Review models / view models
-
 - Close window when processs exit
 
 - Exit process when window closes

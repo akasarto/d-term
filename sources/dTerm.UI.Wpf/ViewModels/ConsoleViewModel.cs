@@ -8,6 +8,7 @@ namespace dTerm.UI.Wpf.ViewModels
 {
 	public class ConsoleViewModel : ObservableObject, IDisposable
 	{
+		private string _title;
 		private IntPtr _consoleViewHandle;
 		private IConsoleInstance _consoleInstance;
 		private ConsoleHwndHost _consoleHwndHost;
@@ -15,6 +16,16 @@ namespace dTerm.UI.Wpf.ViewModels
 		public ConsoleViewModel(IConsoleInstance consoleInstance)
 		{
 			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ConsoleViewModel));
+
+			SetTitle();
+		}
+
+		public bool IsClosing { get; private set; }
+
+		public string Title
+		{
+			get => _title;
+			set => Set(ref _title, value);
 		}
 
 		public ConsoleType Type { get; }
@@ -50,7 +61,13 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public void OnViewClosing()
 		{
+			IsClosing = true;
 			_consoleInstance.Terminate();
+		}
+
+		private void SetTitle()
+		{
+			Title = $"[{_consoleInstance.ProcessId}] {_consoleInstance.Name}";
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
