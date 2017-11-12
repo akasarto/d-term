@@ -84,6 +84,7 @@ namespace dTerm.UI.Wpf.ViewModels
 						{
 							case SysCommand.SC_MINIMIZE:
 								{
+									User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
 									handled = true;
 								}
 								break;
