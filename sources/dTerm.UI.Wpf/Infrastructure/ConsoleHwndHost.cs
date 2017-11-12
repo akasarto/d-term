@@ -46,5 +46,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 
 			User32Helpers.SetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
 		}
+
+
 	}
 }

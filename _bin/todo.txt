@@ -1,10 +1,6 @@
 # DEV
 
-- Close window when processs exit
-
-- Exit process when window closes
-
-- Kill procesees on app shutdown
+- Smoother process start (try to avoid flickr and make it visible when in place) (REVIEW)
 
 - Hide console window when minimized
 
@@ -12,7 +8,7 @@
 
 - Set window as foreground when the corresponding item is clicked (show if hidden)
 
-- Smoother process start (try to avoid flickr and make it visible when in place)
+- Close process from side item (create a new command and set the IsDeletable para true)
 
 - revisar layout v1
 

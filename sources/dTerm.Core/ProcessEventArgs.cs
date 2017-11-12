@@ -1,6 +1,8 @@
-﻿namespace dTerm.Core
+﻿using System;
+
+namespace dTerm.Core
 {
-	public class ProcessEventArgs
+	public class ProcessEventArgs : EventArgs
 	{
 		public ProcessEventArgs(ProcessStatus status)
 		{

@@ -105,7 +105,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			return IntPtr.Zero;
 		}
 
-		public void Dispose(bool disposing)
+		protected virtual void Dispose(bool disposing)
 		{
 			_consoleHwndHost.Dispose();
 		}

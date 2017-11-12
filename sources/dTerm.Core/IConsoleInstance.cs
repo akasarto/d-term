@@ -17,7 +17,7 @@ namespace dTerm.Core
 
 		ConsoleType Type { get; }
 
-		void Initialize(Action<Process> onMainWindowHandleAccquiredAction = null);
+		void Initialize();
 
 		void Terminate();
 	}

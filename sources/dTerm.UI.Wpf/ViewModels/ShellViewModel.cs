@@ -69,11 +69,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			consoleProcess.ProcessStatusChanged += OnConsoleProcessStatusChanged;
 
-			consoleProcess.Initialize((systemProcess) =>
-			{
-				//ToDo: Find a better way to avoid process window flickering.
-				//User32Methods.ShowWindow(systemProcess.MainWindowHandle, ShowWindowCommands.SW_HIDE);
-			});
+			consoleProcess.Initialize();
 		}
 
 		private void OnConsoleProcessStatusChanged(object sender, ProcessEventArgs args)

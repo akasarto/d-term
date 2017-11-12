@@ -2,6 +2,8 @@
 using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using WinApi.User32;
 
 namespace dTerm.UI.Wpf.Models
 {
@@ -34,11 +36,22 @@ namespace dTerm.UI.Wpf.Models
 
 		public IntPtr ProcessHandle => _systemProcess.Handle;
 
-		public IntPtr ProcessMainWindowHandle => _systemProcess.MainWindowHandle;
+		public IntPtr ProcessMainWindowHandle
+		{
+			get
+			{
+				if (_systemProcess.MainWindowHandle == IntPtr.Zero)
+				{
+					return FindHiddenConsoleWindowHandle();
+				}
+
+				return _systemProcess.MainWindowHandle;
+			}
+		}
 
 		public ConsoleType Type => _consoleType;
 
-		public void Initialize(Action<Process> onMainWindowHandleAccquiredAction = null)
+		public void Initialize()
 		{
 			var processStopwatch = Stopwatch.StartNew();
 			var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
@@ -47,9 +60,8 @@ namespace dTerm.UI.Wpf.Models
 
 			while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 			{
-				if (_systemProcess.MainWindowHandle != IntPtr.Zero)
+				if (ProcessMainWindowHandle != IntPtr.Zero)
 				{
-					onMainWindowHandleAccquiredAction?.Invoke(_systemProcess);
 					ProcessStatusChanged?.Invoke(this, new ProcessEventArgs(ProcessStatus.Initialized));
 					return;
 				}
@@ -78,6 +90,8 @@ namespace dTerm.UI.Wpf.Models
 				_processStartInfo.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 			}
 
+			_processStartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
 			_systemProcess = new Process()
 			{
 				EnableRaisingEvents = true,
@@ -93,6 +107,30 @@ namespace dTerm.UI.Wpf.Models
 			ProcessStatusChanged?.Invoke(this, new ProcessEventArgs(ProcessStatus.Terminated));
 		}
 
+		private IntPtr FindHiddenConsoleWindowHandle()
+		{
+			uint threadId = 0;
+			uint processId = 0;
+			IntPtr windowHandle = IntPtr.Zero;
+
+			do
+			{
+				processId = 0;
+				_systemProcess.Refresh();
+				windowHandle = User32Methods.FindWindowEx(IntPtr.Zero, windowHandle, null, null);
+				threadId = GetWindowThreadProcessId(windowHandle, out processId);
+				if (processId == _systemProcess.Id)
+				{
+					return windowHandle;
+				}
+			} while (!windowHandle.Equals(IntPtr.Zero));
+
+			return IntPtr.Zero;
+		}
+
 		private int GetTimeoutInMiliseconds() => _timeoutSeconds * 1000;
+
+		[DllImport("user32.dll", SetLastError = true)]
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 	}
 }
