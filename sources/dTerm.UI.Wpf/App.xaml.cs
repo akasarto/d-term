@@ -1,4 +1,6 @@
 ﻿using dTerm.Core;
+using dTerm.Core.PathBuilders;
+using dTerm.Core.ProcessStarters;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.Services;
 using dTerm.UI.Wpf.ViewModels;
@@ -36,10 +38,10 @@ namespace dTerm.UI.Wpf
 
 			var consoleDescriptors = new List<ConsoleDescriptor>()
 			{
-				new ConsoleDescriptor(ConsoleType.Cmd, new SystemPathProcessStartInfoBuilder("/cmd.exe")) { DisplayOrder = 1 },
-				new ConsoleDescriptor(ConsoleType.GitBash, new ProgramFilesFolderProcessStartInfoBuilder("/git/bin/bash.exe")) { DisplayOrder = 2 },
-				new ConsoleDescriptor(ConsoleType.PowerShell, new SystemPathProcessStartInfoBuilder("/powershell.exe")) { DisplayOrder = 3 },
-				new ConsoleDescriptor(ConsoleType.UbuntuBash, new System32FolderProcessStartInfoBuilder("/bash.exe")) { DisplayOrder = 4 }
+				new ConsoleDescriptor(ConsoleType.Cmd, new ConsoleProcessStartInfo(new SystemPathVarPathBuilder("/cmd.exe"))) { DisplayOrder = 1 },
+				new ConsoleDescriptor(ConsoleType.GitBash, new ConsoleProcessStartInfo(new ProgramFilesFolderPathBuilder("/git/bin/bash.exe"))) { DisplayOrder = 2 },
+				new ConsoleDescriptor(ConsoleType.PowerShell, new ConsoleProcessStartInfo(new SystemPathVarPathBuilder("/powershell.exe"))) { DisplayOrder = 3 },
+				new ConsoleDescriptor(ConsoleType.UbuntuBash, new ConsoleProcessStartInfo(new System32FolderPathBuilder("/bash.exe"))) { DisplayOrder = 4 }
 			};
 
 			Current.MainWindow = new ShellView(new ShellViewModel(consoleDescriptors, consoleService));

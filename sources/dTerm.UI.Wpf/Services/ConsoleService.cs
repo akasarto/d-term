@@ -17,9 +17,9 @@ namespace dTerm.UI.Wpf.Services
 				return null;
 			}
 
-			return new ConsoleInstance(consoleDescriptor.ConsoleType, consoleDescriptor.ProcessStartInfo, consoleDescriptor.DefautStartupTimeoutSeconds)
+			return new ConsoleInstance(consoleDescriptor.ConsoleType, consoleDescriptor.ProcessStartInfo, consoleDescriptor.OperationsTimeoutInSeconds)
 			{
-				Name = consoleDescriptor.ConsoleName
+				Name = consoleDescriptor.Description
 			};
 		}
 

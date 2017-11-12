@@ -60,7 +60,7 @@ namespace dTerm.UI.Wpf.ViewModels
 				return true;
 			}
 
-			return descriptor.IsSupported;
+			return descriptor.ProcessCanStart;
 		}
 
 		private void CreateConsoleInstance(ConsoleDescriptor descriptor)

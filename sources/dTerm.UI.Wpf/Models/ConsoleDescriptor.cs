@@ -1,30 +1,30 @@
 ﻿using dTerm.Core;
+using dTerm.Core.ProcessStarters;
 using Humanizer;
-using System.Diagnostics;
 
 namespace dTerm.UI.Wpf.Models
 {
 	public class ConsoleDescriptor
 	{
 		private ConsoleType _consoleType;
-		private ProcessStartInfo _processStartInfo;
+		private ConsoleProcessStartInfo _consoleProcessStartInfo;
 
-		public ConsoleDescriptor(ConsoleType consoleType, ProcessStartInfo processStartInfo)
+		public ConsoleDescriptor(ConsoleType consoleType, ConsoleProcessStartInfo consoleProcessStartInfo)
 		{
 			_consoleType = consoleType;
-			_processStartInfo = processStartInfo;
+			_consoleProcessStartInfo = consoleProcessStartInfo;
 		}
-
-		public string ConsoleName => _consoleType.Humanize();
 
 		public ConsoleType ConsoleType => _consoleType;
 
-		public int DefautStartupTimeoutSeconds { get; set; } = 5;
+		public string Description => _consoleType.Humanize();
 
 		public int DisplayOrder { get; set; }
 
-		public bool IsSupported => _processStartInfo?.PathExists() ?? false;
+		public int OperationsTimeoutInSeconds { get; set; } = 3;
 
-		public ProcessStartInfo ProcessStartInfo => _processStartInfo;
+		public bool ProcessCanStart => _consoleProcessStartInfo.CanStart;
+
+		public ConsoleProcessStartInfo ProcessStartInfo => _consoleProcessStartInfo;
 	}
 }

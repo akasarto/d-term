@@ -57,7 +57,7 @@
 				<wndbase:SortDescription PropertyName="DisplayOrder" />
 			</CollectionViewSource.SortDescriptions>
 			<CollectionViewSource.GroupDescriptions>
-				<PropertyGroupDescription PropertyName="IsSupported" />
+				<PropertyGroupDescription PropertyName="ProcessCanStart" />
 			</CollectionViewSource.GroupDescriptions>
 		</CollectionViewSource>
 

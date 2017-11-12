@@ -1,4 +1,5 @@
 ﻿using dTerm.Core;
+using dTerm.Core.ProcessStarters;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Diagnostics;
@@ -11,17 +12,17 @@ namespace dTerm.UI.Wpf.Models
 	{
 		private string _consoleName;
 		private ConsoleType _consoleType;
-		private ProcessStartInfo _processStartInfo;
+		private ConsoleProcessStartInfo _consoleProcessStartInfo;
 		private Process _systemProcess;
 		private int _timeoutSeconds;
 
-		public ConsoleInstance(ConsoleType consoleType, ProcessStartInfo processStartInfo, int timeoutSeconds = 5)
+		public ConsoleInstance(ConsoleType consoleType, ConsoleProcessStartInfo consoleProcessStartInfo, int timeoutSeconds = 3)
 		{
 			_consoleType = consoleType;
-			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleInstance));
+			_consoleProcessStartInfo = consoleProcessStartInfo ?? throw new ArgumentNullException(nameof(consoleProcessStartInfo), nameof(ConsoleInstance));
 			_timeoutSeconds = timeoutSeconds;
 
-			Configure();
+			CreateProcess();
 		}
 
 		public event EventHandler<ProcessEventArgs> ProcessStatusChanged;
@@ -83,19 +84,12 @@ namespace dTerm.UI.Wpf.Models
 			_systemProcess.WaitForExit(GetTimeoutInMiliseconds());
 		}
 
-		private void Configure()
+		private void CreateProcess()
 		{
-			if (string.IsNullOrWhiteSpace(_processStartInfo.WorkingDirectory))
-			{
-				_processStartInfo.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-			}
-
-			_processStartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
 			_systemProcess = new Process()
 			{
 				EnableRaisingEvents = true,
-				StartInfo = _processStartInfo
+				StartInfo = _consoleProcessStartInfo
 			};
 
 			_systemProcess.Exited += OnSystemProcessExited;
