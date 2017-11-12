@@ -26,10 +26,13 @@ namespace dTerm.UI.Wpf.ViewModels
 			ConsoleInstances = new ObservableCollection<IConsoleInstance>();
 			ConsoleInstances.CollectionChanged += OnConsoleInstancesCollectionChanged;
 
-			CreateConsoleProcessInstanceCommand = new RelayCommand<ConsoleDescriptor>(
+			CreateConsoleInstanceCommand = new RelayCommand<ConsoleDescriptor>(
 				CreateConsoleInstance,
 				CanCreateConsoleProcessInstance
 			);
+
+			HighlightConsoleInstanceCommand = new RelayCommand<IConsoleInstance>(HighlightConsoleInstance);
+			TerminateConsoleInstanceCommand = new RelayCommand<IConsoleInstance>(TerminateConsoleInstance);
 		}
 
 		public IntPtr ShellViewHandle
@@ -40,7 +43,9 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public IEnumerable<ConsoleDescriptor> ConsoleDescriptors => _consoleDescriptors;
 
-		public RelayCommand<ConsoleDescriptor> CreateConsoleProcessInstanceCommand { get; private set; }
+		public RelayCommand<ConsoleDescriptor> CreateConsoleInstanceCommand { get; private set; }
+		public RelayCommand<IConsoleInstance> HighlightConsoleInstanceCommand { get; private set; }
+		public RelayCommand<IConsoleInstance> TerminateConsoleInstanceCommand { get; private set; }
 
 		public ObservableCollection<IConsoleInstance> ConsoleInstances { get; private set; }
 
@@ -51,16 +56,6 @@ namespace dTerm.UI.Wpf.ViewModels
 				instance.ProcessTerminated -= OnConsoleProcessTerminated;
 				instance.Terminate();
 			}
-		}
-
-		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor descriptor)
-		{
-			if (descriptor == null || descriptor.ProcessStartInfo == null)
-			{
-				return true;
-			}
-
-			return descriptor.ProcessCanStart;
 		}
 
 		private void CreateConsoleInstance(ConsoleDescriptor descriptor)
@@ -76,6 +71,26 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 
 			ConsoleInstances.Add(consoleInstance);
+		}
+
+		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor descriptor)
+		{
+			if (descriptor == null || descriptor.ProcessStartInfo == null)
+			{
+				return true;
+			}
+
+			return descriptor.ProcessCanStart;
+		}
+
+		private void HighlightConsoleInstance(IConsoleInstance consoleInstance)
+		{
+			System.Windows.MessageBox.Show(consoleInstance.Name, "Hightlight");
+		}
+
+		private void TerminateConsoleInstance(IConsoleInstance consoleInstance)
+		{
+			System.Windows.MessageBox.Show(consoleInstance.Name, "Terminate");
 		}
 
 		private void OnConsoleProcessTerminated(object sender, EventArgs args)

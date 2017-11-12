@@ -9,7 +9,3 @@
 - revisar layout v1
 
 - cmd snippets
-
-# TESTS
-
-- ProcessStartInfo return a instance or null.

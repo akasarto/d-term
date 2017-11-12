@@ -83,7 +83,6 @@ namespace dTerm.UI.Wpf.Models
 			}
 
 			_systemProcess.Kill();
-			_systemProcess.WaitForExit(GetTimeoutInMiliseconds());
 		}
 
 		private void CreateProcess()
