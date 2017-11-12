@@ -126,7 +126,7 @@ namespace dTerm.UI.Wpf.Models
 
 		private int GetTimeoutInMiliseconds() => _timeoutSeconds * 1000;
 
-		[DllImport("user32.dll", SetLastError = true)]
-		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+		[DllImport("user32.dll", ExactSpelling = true)]
+		public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
 	}
 }

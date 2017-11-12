@@ -67,7 +67,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		private void SetTitle()
 		{
-			Title = $"[{_consoleInstance.ProcessId}] {_consoleInstance.Name}";
+			Title = $"[PID {_consoleInstance.ProcessId}] {_consoleInstance.Name}";
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -76,6 +76,21 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			switch (message)
 			{
+				case WM.SYSCOMMAND:
+					{
+						var uCmdType = (SysCommand)wParam;
+
+						switch (uCmdType)
+						{
+							case SysCommand.SC_MINIMIZE:
+								{
+									handled = true;
+								}
+								break;
+						}
+					}
+					break;
+
 				case WM.SETCURSOR:
 					{
 						var wlParam = new Win32Param()
@@ -83,7 +98,7 @@ namespace dTerm.UI.Wpf.ViewModels
 							BaseValue = (uint)lParam
 						};
 
-						var wMouseMsg = (WM)wlParam.HighWord;
+						var wMouseMsg = (WM)wlParam.HIWord;
 
 						switch (wMouseMsg)
 						{

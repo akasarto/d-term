@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace dTerm.Core
+namespace dTerm.UI.Wpf.Infrastructure
 {
 	[StructLayout(LayoutKind.Explicit)]
 	public struct Win32Param
@@ -9,10 +9,10 @@ namespace dTerm.Core
 		public uint BaseValue;
 
 		[FieldOffset(2)]
-		public ushort HighWord;
+		public ushort HIWord;
 
 		[FieldOffset(0)]
-		public ushort LowWord;
+		public ushort LOWord;
 	}
 
 }

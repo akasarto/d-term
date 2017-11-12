@@ -1,14 +1,10 @@
 # DEV
 
-- Smoother process start (try to avoid flickr and make it visible when in place) (REVIEW)
-
-- Hide console window when minimized
-
-- Tooltips primary console action missing
-
 - Set window as foreground when the corresponding item is clicked (show if hidden)
 
 - Close process from side item (create a new command and set the IsDeletable para true)
+
+- Shell view perde foco quando ultimo console eh fechado.
 
 - revisar layout v1
 

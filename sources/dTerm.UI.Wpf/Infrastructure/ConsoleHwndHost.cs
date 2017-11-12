@@ -18,7 +18,9 @@ namespace dTerm.UI.Wpf.Infrastructure
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
 			var childHandle = _consoleInstance.ProcessMainWindowHandle;
+
 			IntegrateConsole(childHandle, hwndParent.Handle);
+
 			return new HandleRef(this, childHandle);
 		}
 
@@ -29,10 +31,10 @@ namespace dTerm.UI.Wpf.Infrastructure
 
 		private void IntegrateConsole(IntPtr childHandle, IntPtr parentHandle)
 		{
-			// Set Parent
+			//
 			User32Methods.SetParent(childHandle, parentHandle);
 
-			// Make child window
+			//
 			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE);
 
 			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
@@ -46,7 +48,5 @@ namespace dTerm.UI.Wpf.Infrastructure
 
 			User32Helpers.SetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
 		}
-
-
 	}
 }
