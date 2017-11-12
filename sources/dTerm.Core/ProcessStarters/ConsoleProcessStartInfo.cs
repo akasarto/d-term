@@ -7,7 +7,7 @@ namespace dTerm.Core.ProcessStarters
 {
 	public class ConsoleProcessStartInfo
 	{
-		private bool _canStart;
+		private bool? _canStart;
 		private string _arguments;
 		private IPathBuilder _pathBuilder;
 
@@ -16,10 +16,22 @@ namespace dTerm.Core.ProcessStarters
 			_pathBuilder = pathBuilder ?? throw new ArgumentNullException(nameof(pathBuilder), nameof(ConsoleProcessStartInfo));
 			_arguments = arguments;
 
-			_canStart = new FileInfo(_pathBuilder.Build()).Exists;
 		}
 
-		public bool CanStart => _canStart;
+		public bool CanStart
+		{
+			get
+			{
+				if (!_canStart.HasValue)
+				{
+					var path = _pathBuilder.Build();
+
+					_canStart = string.IsNullOrWhiteSpace(path) ? false : new FileInfo(path).Exists;
+				}
+
+				return _canStart.Value;
+			}
+		}
 
 		public static implicit operator ProcessStartInfo(ConsoleProcessStartInfo consoleInfo)
 		{
