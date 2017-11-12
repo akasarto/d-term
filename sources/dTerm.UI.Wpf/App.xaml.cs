@@ -1,6 +1,7 @@
 ﻿using dTerm.Core;
 using dTerm.Core.PathBuilders;
 using dTerm.Core.ProcessStarters;
+using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.Services;
 using dTerm.UI.Wpf.ViewModels;
@@ -34,7 +35,8 @@ namespace dTerm.UI.Wpf
 
 		private void SetupAndShowMainWindow()
 		{
-			var consoleService = new ConsoleService();
+			var consoleInstanceFactory = new ConsoleInstanceFactory();
+			var consoleService = new ConsoleService(consoleInstanceFactory);
 
 			var consoleDescriptors = new List<ConsoleDescriptor>()
 			{

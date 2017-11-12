@@ -51,7 +51,6 @@
     <Compile Include="ProcessEventArgs.cs" />
     <Compile Include="ProcessStarters\ConsoleProcessStartInfo.cs" />
     <Compile Include="ProcessStatus.cs" />
-    <Compile Include="_Extensions.cs" />
     <Compile Include="IConsoleInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Win32Param.cs" />

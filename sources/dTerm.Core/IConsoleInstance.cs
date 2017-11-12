@@ -4,7 +4,7 @@ namespace dTerm.Core
 {
 	public interface IConsoleInstance
 	{
-		event EventHandler<ProcessEventArgs> ProcessStatusChanged;
+		event EventHandler ProcessTerminated;
 
 		string Name { get; set; }
 
@@ -16,7 +16,7 @@ namespace dTerm.Core
 
 		ConsoleType Type { get; }
 
-		void Initialize();
+		bool Initialize();
 
 		void Terminate();
 	}

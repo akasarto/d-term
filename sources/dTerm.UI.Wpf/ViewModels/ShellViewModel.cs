@@ -48,7 +48,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			foreach (var instance in ConsoleInstances)
 			{
-				instance.ProcessStatusChanged -= OnConsoleProcessStatusChanged;
+				instance.ProcessTerminated -= OnConsoleProcessTerminated;
 				instance.Terminate();
 			}
 		}
@@ -65,47 +65,27 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		private void CreateConsoleInstance(ConsoleDescriptor descriptor)
 		{
-			var consoleProcess = _consoleService.CreateConsoleInstance(descriptor);
+			var consoleInstance = _consoleService.CreateConsoleInstance(descriptor);
 
-			consoleProcess.ProcessStatusChanged += OnConsoleProcessStatusChanged;
+			consoleInstance.ProcessTerminated += OnConsoleProcessTerminated;
 
-			consoleProcess.Initialize();
-		}
-
-		private void OnConsoleProcessStatusChanged(object sender, ProcessEventArgs args)
-		{
-			var instance = sender as IConsoleInstance;
-
-			if (instance == null)
+			if (!consoleInstance.Initialize())
 			{
-				throw new Exception("Invalid console process event parameters", new ArgumentNullException(nameof(sender), nameof(CreateConsoleInstance)));
+				//TODO: Notify process failure to start.
+				return;
 			}
 
-			switch (args.Status)
-			{
-				case ProcessStatus.Initialized:
-					OnConsoleInstanceInitialized(instance, args);
-					break;
-				case ProcessStatus.Terminated:
-					OnConsoleInstanceTerminated(instance, args);
-					break;
-				case ProcessStatus.Timeout:
-					//TODO: Notify process failure to start.
-					break;
-			}
-		}
-
-		private void OnConsoleInstanceInitialized(IConsoleInstance consoleInstance, ProcessEventArgs args)
-		{
 			ConsoleInstances.Add(consoleInstance);
 		}
 
-		private void OnConsoleInstanceTerminated(IConsoleInstance consoleInstance, ProcessEventArgs args)
+		private void OnConsoleProcessTerminated(object sender, EventArgs args)
 		{
-			UIService.Invoke(() =>
+			var instance = sender as IConsoleInstance;
+
+			if (instance != null)
 			{
-				ConsoleInstances.Remove(consoleInstance);
-			});
+				UIService.Invoke(() => ConsoleInstances.Remove(instance));
+			}
 		}
 
 		private void OnConsoleInstancesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

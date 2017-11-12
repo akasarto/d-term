@@ -12,10 +12,11 @@
 	TextOptions.TextRenderingMode="Auto"
 	mc:Ignorable="d"
 	Title="{Binding Title, Mode=OneWay}"
+	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	ShowActivated="False"
-	Width="535"
-	Height="275"
+	Width="735"
+	Height="315"
 >
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Closing">

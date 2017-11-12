@@ -1,26 +1,31 @@
-﻿using System;
-using dTerm.Core;
+﻿using dTerm.Core;
+using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.ViewModels;
+using dTerm.UI.Wpf.Views;
+using System;
 using System.Windows;
 using System.Windows.Interop;
-using dTerm.UI.Wpf.Views;
 
 namespace dTerm.UI.Wpf.Services
 {
 	public class ConsoleService : IConsoleService
 	{
-		public IConsoleInstance CreateConsoleInstance(ConsoleDescriptor consoleDescriptor)
+		private IConsoleInstanceFactory _consoleInstanceFactory;
+
+		public ConsoleService(IConsoleInstanceFactory consoleInstanceFactory)
 		{
-			if (consoleDescriptor == null || consoleDescriptor.ProcessStartInfo == null)
+			_consoleInstanceFactory = consoleInstanceFactory ?? throw new ArgumentNullException(nameof(consoleInstanceFactory), nameof(ConsoleService));
+		}
+
+		public IConsoleInstance CreateConsoleInstance(ConsoleDescriptor descriptor)
+		{
+			if (descriptor == null)
 			{
-				return null;
+				throw new InvalidOperationException(nameof(CreateConsoleInstance), new ArgumentNullException(nameof(descriptor), nameof(ConsoleService)));
 			}
 
-			return new ConsoleInstance(consoleDescriptor.ConsoleType, consoleDescriptor.ProcessStartInfo, consoleDescriptor.OperationsTimeoutInSeconds)
-			{
-				Name = consoleDescriptor.Description
-			};
+			return _consoleInstanceFactory.Create(descriptor.Description, descriptor.ConsoleType, descriptor.ProcessStartInfo, descriptor.OperationsTimeoutInSeconds);
 		}
 
 		public ConsoleViewModel CreateConsoleViewModel(IConsoleInstance consoleInstance)
@@ -31,6 +36,11 @@ namespace dTerm.UI.Wpf.Services
 		public void ShowConsoleView(IntPtr ownerHandle, ConsoleViewModel consoleViewModel)
 		{
 			var ownerView = HwndSource.FromHwnd(ownerHandle).RootVisual as Window;
+
+			if (ownerView == null)
+			{
+				throw new InvalidOperationException(nameof(ShowConsoleView), new ArgumentNullException(nameof(ownerView), nameof(ConsoleService)));
+			}
 
 			var consoleView = new ConsoleView()
 			{
@@ -43,6 +53,11 @@ namespace dTerm.UI.Wpf.Services
 
 		public void CloseConsoleView(ConsoleViewModel consoleViewModel)
 		{
+			if (consoleViewModel == null)
+			{
+				throw new InvalidOperationException(nameof(CloseConsoleView), new ArgumentNullException(nameof(consoleViewModel), nameof(ConsoleService)));
+			}
+
 			if (!consoleViewModel.IsClosing)
 			{
 				var viewHandle = consoleViewModel.ConsoleViewHandle;

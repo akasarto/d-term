@@ -25,7 +25,7 @@ namespace dTerm.UI.Wpf.Models
 			CreateProcess();
 		}
 
-		public event EventHandler<ProcessEventArgs> ProcessStatusChanged;
+		public event EventHandler ProcessTerminated;
 
 		public string Name
 		{
@@ -52,25 +52,27 @@ namespace dTerm.UI.Wpf.Models
 
 		public ConsoleType Type => _consoleType;
 
-		public void Initialize()
+		public bool Initialize()
 		{
 			var processStopwatch = Stopwatch.StartNew();
 			var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
 
-			_systemProcess.Start();
+			var newProcessStarted = _systemProcess.Start();
 
-			while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
+			if (newProcessStarted)
 			{
-				if (ProcessMainWindowHandle != IntPtr.Zero)
+				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 				{
-					ProcessStatusChanged?.Invoke(this, new ProcessEventArgs(ProcessStatus.Initialized));
-					return;
+					if (ProcessMainWindowHandle != IntPtr.Zero)
+					{
+						return true;
+					}
 				}
+
+				Terminate();
 			}
 
-			ProcessStatusChanged?.Invoke(this, new ProcessEventArgs(ProcessStatus.Timeout));
-
-			Terminate();
+			return false;
 		}
 
 		public void Terminate()
@@ -98,7 +100,7 @@ namespace dTerm.UI.Wpf.Models
 		private void OnSystemProcessExited(object sender, EventArgs e)
 		{
 			_systemProcess.Exited -= OnSystemProcessExited;
-			ProcessStatusChanged?.Invoke(this, new ProcessEventArgs(ProcessStatus.Terminated));
+			ProcessTerminated?.Invoke(this, EventArgs.Empty);
 		}
 
 		private IntPtr FindHiddenConsoleWindowHandle()
