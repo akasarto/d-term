@@ -64,6 +64,8 @@ namespace dTerm.UI.Wpf.Services
 			viewInstance?.Owner?.Activate();
 
 			viewInstance?.Close();
+
+			consoleViewModel.Dispose();
 		}
 	}
 }

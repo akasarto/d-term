@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows;
+using System.Windows.Interop;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
@@ -35,19 +37,21 @@ namespace dTerm.UI.Wpf.ViewModels
 			TerminateConsoleInstanceCommand = new RelayCommand<IConsoleInstance>(TerminateConsoleInstance);
 		}
 
-		public IntPtr ShellViewHandle
-		{
-			get => _shellViewHandle;
-			set => Set(ref _shellViewHandle, value);
-		}
-
 		public IEnumerable<ConsoleDescriptor> ConsoleDescriptors => _consoleDescriptors;
+		public ObservableCollection<IConsoleInstance> ConsoleInstances { get; private set; }
 
 		public RelayCommand<ConsoleDescriptor> CreateConsoleInstanceCommand { get; private set; }
 		public RelayCommand<IConsoleInstance> HighlightConsoleInstanceCommand { get; private set; }
 		public RelayCommand<IConsoleInstance> TerminateConsoleInstanceCommand { get; private set; }
 
-		public ObservableCollection<IConsoleInstance> ConsoleInstances { get; private set; }
+		public IntPtr ViewHandle => _shellViewHandle;
+
+		public void OnViewLoaded(object sender, EventArgs args)
+		{
+			var interopHelper = new WindowInteropHelper(sender as Window);
+
+			_shellViewHandle = interopHelper.Handle;
+		}
 
 		public void OnViewClosing()
 		{
@@ -129,7 +133,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			_consoleViewModels.Add(consoleInstance.ProcessId, consoleViewModel);
 
-			_consoleService.ShowConsoleView(ShellViewHandle, consoleViewModel);
+			_consoleService.ShowConsoleView(ViewHandle, consoleViewModel);
 		}
 
 		private void DestroyConsoleView(IConsoleInstance consoleInstance)

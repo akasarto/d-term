@@ -1,6 +1,7 @@
 ﻿using dTerm.Core;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
+using System.Windows;
 using System.Windows.Interop;
 using WinApi.User32;
 
@@ -8,45 +9,21 @@ namespace dTerm.UI.Wpf.ViewModels
 {
 	public class ConsoleViewModel : ObservableObject, IDisposable
 	{
-		private string _title;
 		private IntPtr _shellViewHandle;
 		private IntPtr _consoleViewHandle;
 		private IConsoleInstance _consoleInstance;
 		private ConsoleHwndHost _consoleHwndHost;
+		private string _viewTitle;
 
 		public ConsoleViewModel(IntPtr shellViewHandle, IConsoleInstance consoleInstance)
 		{
-			if (shellViewHandle == IntPtr.Zero)
-			{
-				throw new ArgumentException(nameof(ConsoleViewModel), nameof(shellViewHandle));
-			}
-			_shellViewHandle = shellViewHandle;
+			_shellViewHandle = shellViewHandle != IntPtr.Zero ? shellViewHandle : throw new ArgumentOutOfRangeException(nameof(shellViewHandle), IntPtr.Zero, nameof(ConsoleViewModel));
 			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ConsoleViewModel));
 
 			SetTitle();
 		}
 
-		public string Title
-		{
-			get => _title;
-			set => Set(ref _title, value);
-		}
-
-		public ConsoleType Type { get; }
-
-		public IntPtr ConsoleViewHandle
-		{
-			get => _consoleViewHandle;
-			set
-			{
-				if (_consoleViewHandle != value)
-				{
-					Set(ref _consoleViewHandle, value);
-					DisableMaximizeButton();
-					SetWindowMessagesHook();
-				}
-			}
-		}
+		public IntPtr ConsoleViewHandle => _consoleViewHandle;
 
 		public IConsoleInstance Instance => _consoleInstance;
 
@@ -63,17 +40,31 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 		}
 
+		public string ViewTitle
+		{
+			get => _viewTitle;
+			set => Set(ref _viewTitle, value);
+		}
+
+		public void OnViewLoaded(object sender, EventArgs args)
+		{
+			var interopHelper = new WindowInteropHelper(sender as Window);
+
+			_consoleViewHandle = interopHelper.Handle;
+
+			DisableMaximizeButton();
+			SetWindowMessagesHook();
+		}
+
 		private void SetTitle()
 		{
-			Title = $"[PID {_consoleInstance.ProcessId}] {_consoleInstance.Name}";
+			ViewTitle = $"[PID {_consoleInstance.ProcessId}] {_consoleInstance.Name}";
 		}
 
 		private void DisableMaximizeButton()
 		{
 			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE);
-
 			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
-
 			User32Helpers.SetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
 		}
 
@@ -151,6 +142,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		protected virtual void Dispose(bool disposing)
 		{
 			_consoleHwndHost.Dispose();
+			_consoleHwndHost = null;
 		}
 
 		public void Dispose()
