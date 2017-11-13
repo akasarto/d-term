@@ -17,10 +17,9 @@ namespace dTerm.UI.Wpf.Infrastructure
 
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
+			_consoleInstance.SetOwner(hwndParent.Handle);
 			var childHandle = _consoleInstance.ProcessMainWindowHandle;
-
 			IntegrateConsole(childHandle, hwndParent.Handle);
-
 			return new HandleRef(this, childHandle);
 		}
 

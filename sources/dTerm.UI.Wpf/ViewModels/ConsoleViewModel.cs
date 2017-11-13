@@ -76,6 +76,12 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			switch (message)
 			{
+				case (WM.APP + 0x1): // View Highlight (Custom)
+					{
+						Show(hwnd, wParam);
+						break;
+					}
+
 				case WM.SYSCOMMAND:
 					{
 						var uCmdType = (SysCommand)wParam;
@@ -107,9 +113,7 @@ namespace dTerm.UI.Wpf.ViewModels
 							case WM.RBUTTONUP:
 							case WM.MBUTTONUP:
 								{
-									User32Methods.SetActiveWindow(hwnd);
-									User32Methods.SetForegroundWindow(wParam);
-									User32Methods.SendMessage(hwnd, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
+									Show(hwnd, wParam);
 									handled = true;
 								}
 								break;
@@ -129,6 +133,13 @@ namespace dTerm.UI.Wpf.ViewModels
 		public void Dispose()
 		{
 			Dispose(true);
+		}
+
+		private void Show(IntPtr ownerWindowHandle, IntPtr processWindowHandle)
+		{
+			User32Methods.SetActiveWindow(ownerWindowHandle);
+			User32Methods.SetForegroundWindow(processWindowHandle);
+			User32Methods.SendMessage(ownerWindowHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
 		}
 	}
 }

@@ -85,12 +85,12 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		private void HighlightConsoleInstance(IConsoleInstance consoleInstance)
 		{
-			System.Windows.MessageBox.Show(consoleInstance.Name, "Hightlight");
+			consoleInstance.ShowProcessView();
 		}
 
 		private void TerminateConsoleInstance(IConsoleInstance consoleInstance)
 		{
-			System.Windows.MessageBox.Show(consoleInstance.Name, "Terminate");
+			consoleInstance.Terminate();
 		}
 
 		private void OnConsoleProcessTerminated(object sender, EventArgs args)

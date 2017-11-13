@@ -18,6 +18,10 @@ namespace dTerm.Core
 
 		bool Initialize();
 
+		void SetOwner(IntPtr ownerHandle);
+
+		void ShowProcessView();
+
 		void Terminate();
 	}
 }

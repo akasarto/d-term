@@ -10,9 +10,11 @@ namespace dTerm.UI.Wpf.Models
 {
 	public class ConsoleInstance : ObservableObject, IConsoleInstance
 	{
+		private IntPtr _ownerHandle;
 		private string _consoleName;
 		private ConsoleType _consoleType;
 		private ConsoleProcessStartInfo _consoleProcessStartInfo;
+		private IntPtr _processMainWindowHandle;
 		private Process _systemProcess;
 		private int _timeoutSeconds;
 
@@ -37,18 +39,7 @@ namespace dTerm.UI.Wpf.Models
 
 		public IntPtr ProcessHandle => _systemProcess.Handle;
 
-		public IntPtr ProcessMainWindowHandle
-		{
-			get
-			{
-				if (_systemProcess.MainWindowHandle == IntPtr.Zero)
-				{
-					return FindHiddenConsoleWindowHandle();
-				}
-
-				return _systemProcess.MainWindowHandle;
-			}
-		}
+		public IntPtr ProcessMainWindowHandle => _processMainWindowHandle;
 
 		public ConsoleType Type => _consoleType;
 
@@ -63,7 +54,9 @@ namespace dTerm.UI.Wpf.Models
 			{
 				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 				{
-					if (ProcessMainWindowHandle != IntPtr.Zero)
+					_processMainWindowHandle = FindHiddenConsoleWindowHandle();
+
+					if (_processMainWindowHandle != IntPtr.Zero)
 					{
 						return true;
 					}
@@ -73,6 +66,21 @@ namespace dTerm.UI.Wpf.Models
 			}
 
 			return false;
+		}
+
+		public void SetOwner(IntPtr ownerHandle)
+		{
+			_ownerHandle = ownerHandle;
+		}
+
+		public void ShowProcessView()
+		{
+			if (!User32Methods.IsWindowVisible(ProcessMainWindowHandle))
+			{
+				User32Methods.ShowWindow(_ownerHandle, ShowWindowCommands.SW_SHOW);
+			}
+
+			User32Methods.SendMessage(_ownerHandle, ((uint)WM.APP + 0x1), _processMainWindowHandle, IntPtr.Zero);
 		}
 
 		public void Terminate()
@@ -126,6 +134,6 @@ namespace dTerm.UI.Wpf.Models
 		private int GetTimeoutInMiliseconds() => _timeoutSeconds * 1000;
 
 		[DllImport("user32.dll", ExactSpelling = true)]
-		public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
 	}
 }
