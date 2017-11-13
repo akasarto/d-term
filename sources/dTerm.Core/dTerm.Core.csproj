@@ -50,6 +50,7 @@
     <Compile Include="PathBuilders\ProgramFilesFolderPathBuilder.cs" />
     <Compile Include="ProcessStarters\ConsoleProcessStartInfo.cs" />
     <Compile Include="IConsoleInstance.cs" />
+    <Compile Include="ProcessTerminators\ConsoleProcessKiller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using dTerm.Core;
 using dTerm.Core.ProcessStarters;
+using dTerm.Core.ProcessTerminators;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Diagnostics;
@@ -97,7 +98,11 @@ namespace dTerm.UI.Wpf.Models
 				return;
 			}
 
-			_systemProcess.Kill();
+			var taskKiller = ConsoleProcessKiller.Create();
+
+			taskKiller.AddProcessId(_systemProcess.Id);
+
+			taskKiller.Execute();
 		}
 
 		private void CreateProcess()

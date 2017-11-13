@@ -1,8 +1,18 @@
 # DEV
 
-- Revisar atribuicao de view handle (shell)
-
 - Usar taskkill para matar processos
+
+- IConsoleInstance to IConsoleProcess
+
+- Add the ability to kill all running process
+
+- When console window is minimized/maximized, it will be added/removed from an observable collection.
+
+- Test positioning minimized consoles to the bottom of the shell view.
+
+- Add progress indicator to the console view when closing.
+
+- atualizar mvvm para utilizar reactive ui
 
 - Gerar instalador clickonce (github)
 

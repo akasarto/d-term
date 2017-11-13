@@ -1,4 +1,5 @@
 ﻿using dTerm.Core;
+using dTerm.Core.ProcessTerminators;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.Services;
@@ -55,11 +56,15 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public void OnViewClosing()
 		{
+			var processKiller = ConsoleProcessKiller.Create();
+
 			foreach (var instance in ConsoleInstances)
 			{
 				instance.ProcessTerminated -= OnConsoleProcessTerminated;
-				instance.Terminate();
+				processKiller.AddProcessId(instance.ProcessId);
 			}
+
+			processKiller.Execute();
 		}
 
 		private void CreateConsoleInstance(ConsoleDescriptor descriptor)
