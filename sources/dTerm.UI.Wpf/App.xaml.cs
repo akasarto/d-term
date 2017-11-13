@@ -46,7 +46,9 @@ namespace dTerm.UI.Wpf
 				new ConsoleDescriptor(ConsoleType.UbuntuBash, new ConsoleProcessStartInfo(new System32FolderPathBuilder("/bash.exe"))) { DisplayOrder = 4 }
 			};
 
-			Current.MainWindow = new ShellView(new ShellViewModel(consoleDescriptors, consoleService));
+			Current.MainWindow = new ShellView();
+
+			Current.MainWindow.DataContext = new ShellViewModel(consoleDescriptors, consoleService);
 
 			Current.MainWindow.Show();
 		}

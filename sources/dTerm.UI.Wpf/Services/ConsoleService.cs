@@ -28,9 +28,9 @@ namespace dTerm.UI.Wpf.Services
 			return _consoleInstanceFactory.Create(descriptor.Description, descriptor.ConsoleType, descriptor.ProcessStartInfo, descriptor.OperationsTimeoutInSeconds);
 		}
 
-		public ConsoleViewModel CreateConsoleViewModel(IConsoleInstance consoleInstance)
+		public ConsoleViewModel CreateConsoleViewModel(IntPtr shellViewHandle, IConsoleInstance consoleInstance)
 		{
-			return new ConsoleViewModel(consoleInstance);
+			return new ConsoleViewModel(shellViewHandle, consoleInstance);
 		}
 
 		public void ShowConsoleView(IntPtr ownerHandle, ConsoleViewModel consoleViewModel)

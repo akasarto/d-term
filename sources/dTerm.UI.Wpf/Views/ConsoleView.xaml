@@ -14,7 +14,6 @@
 	Title="{Binding Title, Mode=OneWay}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
-	ShowActivated="False"
 	Width="735"
 	Height="315"
 >

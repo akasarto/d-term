@@ -17,7 +17,7 @@ namespace dTerm.UI.Wpf.Behaviors
 
 		protected override void OnAttached()
 		{
-			AssociatedObject.Loaded += (sender, args) =>
+			AssociatedObject.SourceInitialized += (sender, args) =>
 			{
 				var windowInteropHelper = new WindowInteropHelper(AssociatedObject);
 

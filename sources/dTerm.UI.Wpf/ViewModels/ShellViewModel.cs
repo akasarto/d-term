@@ -125,7 +125,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		private void CreateConsoleView(IConsoleInstance consoleInstance)
 		{
-			var consoleViewModel = _consoleService.CreateConsoleViewModel(consoleInstance);
+			var consoleViewModel = _consoleService.CreateConsoleViewModel(_shellViewHandle, consoleInstance);
 
 			_consoleViewModels.Add(consoleInstance.ProcessId, consoleViewModel);
 

@@ -9,12 +9,18 @@ namespace dTerm.UI.Wpf.ViewModels
 	public class ConsoleViewModel : ObservableObject, IDisposable
 	{
 		private string _title;
+		private IntPtr _shellViewHandle;
 		private IntPtr _consoleViewHandle;
 		private IConsoleInstance _consoleInstance;
 		private ConsoleHwndHost _consoleHwndHost;
 
-		public ConsoleViewModel(IConsoleInstance consoleInstance)
+		public ConsoleViewModel(IntPtr shellViewHandle, IConsoleInstance consoleInstance)
 		{
+			if (shellViewHandle == IntPtr.Zero)
+			{
+				throw new ArgumentException(nameof(ConsoleViewModel), nameof(shellViewHandle));
+			}
+			_shellViewHandle = shellViewHandle;
 			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ConsoleViewModel));
 
 			SetTitle();
@@ -36,7 +42,6 @@ namespace dTerm.UI.Wpf.ViewModels
 				if (_consoleViewHandle != value)
 				{
 					Set(ref _consoleViewHandle, value);
-
 					DisableMaximizeButton();
 					SetWindowMessagesHook();
 				}
@@ -107,6 +112,8 @@ namespace dTerm.UI.Wpf.ViewModels
 							case SysCommand.SC_MINIMIZE:
 								{
 									_consoleInstance.IsVisible = false;
+									//User32Methods.SendMessage(_shellViewHandle, (uint)WM.ACTIVATE, IntPtr.Zero, IntPtr.Zero);
+									User32Methods.SetActiveWindow(_shellViewHandle);
 									User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
 									handled = true;
 								}
@@ -131,7 +138,6 @@ namespace dTerm.UI.Wpf.ViewModels
 							case WM.MBUTTONUP:
 								{
 									Show(hwnd, wParam);
-									//handled = true;
 								}
 								break;
 						}
