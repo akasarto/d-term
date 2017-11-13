@@ -1,11 +1,16 @@
 # DEV
 
-- Set window as foreground when the corresponding item is clicked (show if hidden)
+- revisar layout v1
+	- desativar maximizar.
+	- Ocultar chips quando view estiver visivel
+	- exibir chip qunado view estiver oculta
 
-- Close process from side item (create a new command and set the IsDeletable para true)
+- Revisar atribuicao de view handle
 
 - Shell view perde foco quando ultimo console eh fechado.
 
-- revisar layout v1
+- Gerar instalador clickonce (github)
+
+- divulgar
 
 - cmd snippets

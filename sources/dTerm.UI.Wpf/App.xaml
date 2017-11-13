@@ -56,7 +56,7 @@
 			<SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10" Color="{DynamicResource Primary400}" />
 			<SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10" Color="{DynamicResource Primary500Foreground}" />
 
-			<!-- General Geometries -->
+			<!-- General geometries -->
 			<Geometry x:Key="dTermGeometry">
 				M 508.13481 -528.16525 827.54182 -241.34929 392.34274 36.022141 317.94495 -47.487536 640.70828 -250.29676 409.68359 -455.09429 Z M 304.4189 30.483542 196.45819 11.09736 v -558.71945 l 107.96071 19.38618 z
 			</Geometry>
@@ -86,6 +86,7 @@
 				<Setter Property="Data" Value="{StaticResource dTermGeometry}" />
 			</Style>
 
+			<!-- Console icons -->
 			<DataTemplate DataType="{x:Type entities:ConsoleType}">
 				<ContentControl>
 					<ContentControl.Style>

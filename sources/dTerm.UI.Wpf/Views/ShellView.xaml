@@ -7,6 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:models="clr-namespace:dTerm.UI.Wpf.Models"
 	xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:behaviors="clr-namespace:dTerm.UI.Wpf.Behaviors"
 	xmlns:wndbase="clr-namespace:System.ComponentModel;assembly=WindowsBase"
@@ -28,6 +29,8 @@
 	x:Name="shellView"
 >
 
+	<!-- Meta -->
+
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Closing">
 			<ei:CallMethodAction TargetObject="{Binding}" MethodName="OnViewClosing" />
@@ -39,50 +42,49 @@
 		<behaviors:ViewHandleProviderBehavior Handle="{Binding ShellViewHandle, Mode=TwoWay}" />
 	</i:Interaction.Behaviors>
 
+	<!-- Resources -->
+
 	<mahapps:MetroWindow.Resources>
 
-		<Style x:Key="consoleDescriptorButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}">
-			<Setter Property="Margin" Value="7.5 0" />
-			<Setter Property="ToolTipService.Placement" Value="Center" />
-			<Setter Property="ToolTipService.VerticalOffset" Value="-50" />
-			<Setter Property="ToolTipService.InitialShowDelay" Value="750" />
-			<Setter Property="ToolTip" Value="{Binding Description}" />
-			<Setter Property="IsEnabled" Value="{Binding IsSupported}" />
-			<Setter Property="CommandParameter" Value="{Binding}" />
-			<Setter Property="Command" Value="{Binding DataContext.CreateConsoleInstanceCommand, ElementName=shellView}" />
-		</Style>
-
-		<!--
-		<DataTemplate x:Key="chipInstanceTemplate" DataType="{x:Type models:ConsoleInstance}">
-			<ContentControl>
-				<Border Margin="3.5">
-					<materialdesign:Chip>
-						<materialdesign:Chip.Style>
-							<Style TargetType="materialdesign:Chip">
-								<Setter Property="Icon">
-									<Setter.Value>
-										<ContentControl Content="{Binding Type}" />
-									</Setter.Value>
-								</Setter>
-								<Setter Property="Content">
-									<Setter.Value>
-										<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" TextAlignment="Center" />
-									</Setter.Value>
-								</Setter>
-								<Setter Property="Command" Value="{Binding DataContext.HighlightConsoleInstanceCommand, ElementName=shellView}" />
-								<Setter Property="CommandParameter" Value="{Binding}" />
-								<Setter Property="DeleteCommand" Value="{Binding DataContext.TerminateConsoleInstanceCommand, ElementName=shellView}" />
-								<Setter Property="DeleteCommandParameter" Value="{Binding}" />
-								<Setter Property="HorizontalAlignment" Value="Stretch" />
-								<Setter Property="VerticalAlignment" Value="Center" />
-								<Setter Property="IsDeletable" Value="True" />
-							</Style>
-						</materialdesign:Chip.Style>
-					</materialdesign:Chip>
-				</Border>
-			</ContentControl>
+		<DataTemplate x:Key="consoleDescriptorButttonTemplate" DataType="{x:Type models:ConsoleDescriptor}">
+			<Button>
+				<Button.Content>
+					<Viewbox Width="24" Height="24" Stretch="Uniform">
+						<ContentControl Content="{Binding ConsoleType}" />
+					</Viewbox>
+				</Button.Content>
+				<Button.Style>
+					<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}">
+						<Setter Property="Margin" Value="7.5 0" />
+						<Setter Property="ToolTipService.Placement" Value="Center" />
+						<Setter Property="ToolTipService.VerticalOffset" Value="-50" />
+						<Setter Property="ToolTipService.InitialShowDelay" Value="750" />
+						<Setter Property="ToolTip" Value="{Binding Description}" />
+						<Setter Property="IsEnabled" Value="{Binding IsSupported}" />
+						<Setter Property="CommandParameter" Value="{Binding}" />
+						<Setter Property="Command" Value="{Binding DataContext.CreateConsoleInstanceCommand, ElementName=shellView}" />
+					</Style>
+				</Button.Style>
+			</Button>
 		</DataTemplate>
-		-->
+
+		<DataTemplate x:Key="consoleInstanceChipTemplate" DataType="{x:Type models:ConsoleInstance}">
+			<Border Margin="7.5 0 7.5 0">
+				<materialdesign:Chip HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding Name}" Icon="{Binding Type}">
+					<materialdesign:Chip.Style>
+						<Style TargetType="materialdesign:Chip">
+							<Setter Property="Command" Value="{Binding DataContext.HighlightConsoleInstanceCommand, ElementName=shellView}" />
+							<Setter Property="CommandParameter" Value="{Binding}" />
+							<Setter Property="DeleteCommand" Value="{Binding DataContext.TerminateConsoleInstanceCommand, ElementName=shellView}" />
+							<Setter Property="DeleteCommandParameter" Value="{Binding}" />
+							<Setter Property="HorizontalAlignment" Value="Stretch" />
+							<Setter Property="VerticalAlignment" Value="Center" />
+							<Setter Property="IsDeletable" Value="True" />
+						</Style>
+					</materialdesign:Chip.Style>
+				</materialdesign:Chip>
+			</Border>
+		</DataTemplate>
 
 		<CollectionViewSource x:Key="consoleDescriptorsSource" Source="{Binding ConsoleDescriptors}">
 			<CollectionViewSource.SortDescriptions>
@@ -95,113 +97,46 @@
 
 	</mahapps:MetroWindow.Resources>
 
-	<Grid>
+	<!-- View contents -->
 
-		<!-- Instances -->
+	<Grid>
 
 		<ScrollViewer>
 
 			<ScrollViewer.Style>
 				<Style TargetType="ScrollViewer">
-					<Setter Property="Margin" Value="15 135 15 175" />
-					<Setter Property="VerticalAlignment" Value="Center" />
+					<Setter Property="Margin" Value="15 50 15 15" />
+					<Setter Property="VerticalAlignment" Value="Top" />
 					<Setter Property="HorizontalAlignment" Value="Right" />
 					<Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
 					<Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
 				</Style>
 			</ScrollViewer.Style>
 
-			<ItemsControl ItemsSource="{Binding ConsoleInstances}" Width="190">
+			<ItemsControl ItemsSource="{Binding ConsoleInstances}" ItemTemplate="{StaticResource consoleInstanceChipTemplate}">
 
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
-						<StackPanel />
+						<StackPanel Orientation="Horizontal" />
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
-
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Border Margin="3.5">
-							<materialdesign:Chip HorizontalAlignment="Stretch" VerticalContentAlignment="Center">
-								<materialdesign:Chip.Icon>
-									<ContentControl Content="{Binding Type}" />
-								</materialdesign:Chip.Icon>
-								<materialdesign:Chip.Content>
-									<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" TextAlignment="Center" />
-								</materialdesign:Chip.Content>
-								<materialdesign:Chip.Style>
-									<Style TargetType="materialdesign:Chip">
-										<Setter Property="Command" Value="{Binding DataContext.HighlightConsoleInstanceCommand, ElementName=shellView}" />
-										<Setter Property="CommandParameter" Value="{Binding}" />
-										<Setter Property="DeleteCommand" Value="{Binding DataContext.TerminateConsoleInstanceCommand, ElementName=shellView}" />
-										<Setter Property="DeleteCommandParameter" Value="{Binding}" />
-										<Setter Property="HorizontalAlignment" Value="Stretch" />
-										<Setter Property="VerticalAlignment" Value="Center" />
-										<Setter Property="IsDeletable" Value="True" />
-									</Style>
-								</materialdesign:Chip.Style>
-							</materialdesign:Chip>
-						</Border>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
 
 			</ItemsControl>
 
 		</ScrollViewer>
 
-		<Grid>
+		<Grid Margin="15 0 15 15" VerticalAlignment="Bottom">
 
-			<Grid.Style>
-				<Style TargetType="Grid">
-					<Setter Property="Margin" Value="15 0 15 15" />
-					<Setter Property="VerticalAlignment" Value="Bottom" />
-				</Style>
-			</Grid.Style>
+			<Separator Background="Black" BorderBrush="Black" Height="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
 
-			<!-- Line -->
+			<Border Margin="75 15" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 
-			<Separator>
-				<Separator.Style>
-					<Style TargetType="Separator">
-						<Setter Property="Height" Value="5" />
-						<Setter Property="Background" Value="Black" />
-						<Setter Property="BorderBrush" Value="Black" />
-						<Setter Property="BorderThickness" Value="5" />
-						<Setter Property="VerticalAlignment" Value="Center" />
-						<Setter Property="HorizontalAlignment" Value="Stretch" />
-					</Style>
-				</Separator.Style>
-			</Separator>
-
-			<!-- Console descriptors -->
-
-			<Border>
-
-				<Border.Style>
-					<Style TargetType="Border">
-						<Setter Property="Margin" Value="75 15" />
-						<Setter Property="VerticalAlignment" Value="Center" />
-						<Setter Property="HorizontalAlignment" Value="Right" />
-						<Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
-					</Style>
-				</Border.Style>
-
-				<ItemsControl ItemsSource="{Binding Source={StaticResource consoleDescriptorsSource}}">
-
+				<ItemsControl ItemsSource="{Binding Source={StaticResource consoleDescriptorsSource}}" ItemTemplate="{StaticResource consoleDescriptorButttonTemplate}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<StackPanel Margin="15 0" Orientation="Horizontal" />
 						</ItemsPanelTemplate>
 					</ItemsControl.ItemsPanel>
-
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Button Style="{DynamicResource consoleDescriptorButtonStyle}">
-								<ContentControl Content="{Binding ConsoleType}" />
-							</Button>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-
 				</ItemsControl>
 
 			</Border>

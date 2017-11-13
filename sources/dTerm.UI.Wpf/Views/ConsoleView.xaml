@@ -18,6 +18,8 @@
 	Width="735"
 	Height="315"
 >
+	<!-- Meta -->
+	
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Closing">
 			<ei:CallMethodAction TargetObject="{Binding}" MethodName="OnViewClosing" />
@@ -27,6 +29,8 @@
 	<i:Interaction.Behaviors>
 		<behaviors:ViewHandleProviderBehavior Handle="{Binding ConsoleViewHandle, Mode=TwoWay}" />
 	</i:Interaction.Behaviors>
+
+	<!-- View contents -->
 
 	<ContentControl Content="{Binding ConsoleHwndHost}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
