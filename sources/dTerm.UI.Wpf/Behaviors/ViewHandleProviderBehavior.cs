@@ -20,6 +20,7 @@ namespace dTerm.UI.Wpf.Behaviors
 			AssociatedObject.Loaded += (sender, args) =>
 			{
 				var windowInteropHelper = new WindowInteropHelper(AssociatedObject);
+
 				Handle = windowInteropHelper.Handle;
 			};
 		}

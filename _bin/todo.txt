@@ -1,7 +1,6 @@
 # DEV
 
 - revisar layout v1
-	- desativar maximizar.
 	- Ocultar chips quando view estiver visivel
 	- exibir chip qunado view estiver oculta
 

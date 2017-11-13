@@ -38,10 +38,26 @@ namespace dTerm.UI.Wpf.ViewModels
 				if (_consoleViewHandle != value)
 				{
 					Set(ref _consoleViewHandle, value);
-					var hwndSource = HwndSource.FromHwnd(_consoleViewHandle);
-					hwndSource.AddHook(new HwndSourceHook(WndProc));
+
+					DisableMaximizeButton();
+					SetWindowMessagesHook();
 				}
 			}
+		}
+
+		private void DisableMaximizeButton()
+		{
+			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE);
+
+			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
+
+			User32Helpers.SetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
+		}
+
+		private void SetWindowMessagesHook()
+		{
+			var hwndSource = HwndSource.FromHwnd(_consoleViewHandle);
+			hwndSource.AddHook(new HwndSourceHook(WndProc));
 		}
 
 		public IConsoleInstance Instance => _consoleInstance;
