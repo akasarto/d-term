@@ -1,12 +1,8 @@
 # DEV
 
-- revisar layout v1
-	- Ocultar chips quando view estiver visivel
-	- exibir chip qunado view estiver oculta
+- Revisar atribuicao de view handle (shell)
 
-- Revisar atribuicao de view handle
-
-- Shell view perde foco quando ultimo console eh fechado.
+- Usar taskkill para matar processos
 
 - Gerar instalador clickonce (github)
 

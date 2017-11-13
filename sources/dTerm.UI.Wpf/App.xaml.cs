@@ -41,7 +41,7 @@ namespace dTerm.UI.Wpf
 			var consoleDescriptors = new List<ConsoleDescriptor>()
 			{
 				new ConsoleDescriptor(ConsoleType.Cmd, new ConsoleProcessStartInfo(new SystemPathVarPathBuilder("/cmd.exe"))) { DisplayOrder = 1 },
-				new ConsoleDescriptor(ConsoleType.GitBash, new ConsoleProcessStartInfo(new ProgramFilesFolderPathBuilder("/git/bin/bash.exe"))) { DisplayOrder = 2 },
+				new ConsoleDescriptor(ConsoleType.GitBash, new ConsoleProcessStartInfo(new ProgramFilesFolderPathBuilder("/git/bin/sh.exe"), "--login -i")) { DisplayOrder = 2 },
 				new ConsoleDescriptor(ConsoleType.PowerShell, new ConsoleProcessStartInfo(new SystemPathVarPathBuilder("/powershell.exe"))) { DisplayOrder = 3 },
 				new ConsoleDescriptor(ConsoleType.UbuntuBash, new ConsoleProcessStartInfo(new System32FolderPathBuilder("/bash.exe"))) { DisplayOrder = 4 }
 			};

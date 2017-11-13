@@ -10,6 +10,7 @@ namespace dTerm.UI.Wpf.Models
 {
 	public class ConsoleInstance : ObservableObject, IConsoleInstance
 	{
+		private bool _isVisible = true;
 		private IntPtr _ownerHandle;
 		private string _consoleName;
 		private ConsoleType _consoleType;
@@ -28,6 +29,12 @@ namespace dTerm.UI.Wpf.Models
 		}
 
 		public event EventHandler ProcessTerminated;
+
+		public bool IsVisible
+		{
+			get => _isVisible;
+			set => Set(ref _isVisible, value);
+		}
 
 		public string Name
 		{

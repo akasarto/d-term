@@ -58,18 +58,12 @@ namespace dTerm.UI.Wpf.Services
 				throw new InvalidOperationException(nameof(CloseConsoleView), new ArgumentNullException(nameof(consoleViewModel), nameof(ConsoleService)));
 			}
 
-			if (!consoleViewModel.IsClosing)
-			{
-				var viewHandle = consoleViewModel.ConsoleViewHandle;
-				var viewInstance = HwndSource.FromHwnd(viewHandle)?.RootVisual as ConsoleView;
+			var viewHandle = consoleViewModel.ConsoleViewHandle;
+			var viewInstance = HwndSource.FromHwnd(viewHandle)?.RootVisual as ConsoleView;
 
-				if (viewInstance == null)
-				{
-					return;
-				}
+			viewInstance?.Owner?.Activate();
 
-				viewInstance.Close();
-			}
+			viewInstance?.Close();
 		}
 	}
 }

@@ -69,7 +69,7 @@
 		</DataTemplate>
 
 		<DataTemplate x:Key="consoleInstanceChipTemplate" DataType="{x:Type models:ConsoleInstance}">
-			<Border Margin="7.5 0 7.5 0">
+			<Border x:Name="chipWrapper" Margin="7.5 0 7.5 0">
 				<materialdesign:Chip HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding Name}" Icon="{Binding Type}">
 					<materialdesign:Chip.Style>
 						<Style TargetType="materialdesign:Chip">
@@ -84,6 +84,14 @@
 					</materialdesign:Chip.Style>
 				</materialdesign:Chip>
 			</Border>
+			<DataTemplate.Triggers>
+				<DataTrigger Binding="{Binding IsVisible}" Value="True">
+					<Setter TargetName="chipWrapper" Property="Visibility" Value="Collapsed" />
+				</DataTrigger>
+				<DataTrigger Binding="{Binding IsVisible}" Value="False">
+					<Setter TargetName="chipWrapper" Property="Visibility" Value="Visible" />
+				</DataTrigger>
+			</DataTemplate.Triggers>
 		</DataTemplate>
 
 		<CollectionViewSource x:Key="consoleDescriptorsSource" Source="{Binding ConsoleDescriptors}">
@@ -95,32 +103,28 @@
 			</CollectionViewSource.GroupDescriptions>
 		</CollectionViewSource>
 
+		<Style x:Key="hiddenConsoleInstancesScrollViewerStyle" TargetType="ScrollViewer">
+			<Setter Property="Margin" Value="15 50 15 15" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="HorizontalAlignment" Value="Right" />
+			<Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
+			<Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+		</Style>
+
 	</mahapps:MetroWindow.Resources>
 
 	<!-- View contents -->
 
 	<Grid>
 
-		<ScrollViewer>
-
-			<ScrollViewer.Style>
-				<Style TargetType="ScrollViewer">
-					<Setter Property="Margin" Value="15 50 15 15" />
-					<Setter Property="VerticalAlignment" Value="Top" />
-					<Setter Property="HorizontalAlignment" Value="Right" />
-					<Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
-					<Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
-				</Style>
-			</ScrollViewer.Style>
+		<ScrollViewer Style="{StaticResource hiddenConsoleInstancesScrollViewerStyle}">
 
 			<ItemsControl ItemsSource="{Binding ConsoleInstances}" ItemTemplate="{StaticResource consoleInstanceChipTemplate}">
-
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal" />
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
-
 			</ItemsControl>
 
 		</ScrollViewer>

@@ -20,8 +20,6 @@ namespace dTerm.UI.Wpf.ViewModels
 			SetTitle();
 		}
 
-		public bool IsClosing { get; private set; }
-
 		public string Title
 		{
 			get => _title;
@@ -45,21 +43,6 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 		}
 
-		private void DisableMaximizeButton()
-		{
-			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE);
-
-			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
-
-			User32Helpers.SetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
-		}
-
-		private void SetWindowMessagesHook()
-		{
-			var hwndSource = HwndSource.FromHwnd(_consoleViewHandle);
-			hwndSource.AddHook(new HwndSourceHook(WndProc));
-		}
-
 		public IConsoleInstance Instance => _consoleInstance;
 
 		public ConsoleHwndHost ConsoleHwndHost
@@ -75,15 +58,24 @@ namespace dTerm.UI.Wpf.ViewModels
 			}
 		}
 
-		public void OnViewClosing()
-		{
-			IsClosing = true;
-			_consoleInstance.Terminate();
-		}
-
 		private void SetTitle()
 		{
 			Title = $"[PID {_consoleInstance.ProcessId}] {_consoleInstance.Name}";
+		}
+
+		private void DisableMaximizeButton()
+		{
+			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE);
+
+			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
+
+			User32Helpers.SetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
+		}
+
+		private void SetWindowMessagesHook()
+		{
+			var hwndSource = HwndSource.FromHwnd(_consoleViewHandle);
+			hwndSource.AddHook(new HwndSourceHook(WndProc));
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -104,8 +96,17 @@ namespace dTerm.UI.Wpf.ViewModels
 
 						switch (uCmdType)
 						{
+							case SysCommand.SC_CLOSE:
+								{
+									// IConsoleService is responsible for closing the window
+									_consoleInstance.Terminate();
+									handled = true;
+								}
+								break;
+
 							case SysCommand.SC_MINIMIZE:
 								{
+									_consoleInstance.IsVisible = false;
 									User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
 									handled = true;
 								}
@@ -130,7 +131,7 @@ namespace dTerm.UI.Wpf.ViewModels
 							case WM.MBUTTONUP:
 								{
 									Show(hwnd, wParam);
-									handled = true;
+									//handled = true;
 								}
 								break;
 						}
@@ -156,6 +157,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			User32Methods.SetActiveWindow(ownerWindowHandle);
 			User32Methods.SetForegroundWindow(processWindowHandle);
 			User32Methods.SendMessage(ownerWindowHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
+			_consoleInstance.IsVisible = true;
 		}
 	}
 }
