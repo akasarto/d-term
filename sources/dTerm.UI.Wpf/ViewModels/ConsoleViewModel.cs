@@ -11,7 +11,6 @@ namespace dTerm.UI.Wpf.ViewModels
 {
 	public class ConsoleViewModel : ObservableObject, IDisposable
 	{
-		private bool _isClosing;
 		private IntPtr _shellViewHandle;
 		private IntPtr _consoleViewHandle;
 		private IConsoleInstance _consoleInstance;
@@ -41,12 +40,6 @@ namespace dTerm.UI.Wpf.ViewModels
 
 				return _consoleHwndHost;
 			}
-		}
-
-		public bool IsClosing
-		{
-			get => _isClosing;
-			set => Set(ref _isClosing, value);
 		}
 
 		public string ViewTitle
@@ -91,7 +84,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			{
 				case (WM.APP + 0x1): // View Highlight (Custom)
 					{
-						Show(hwnd, wParam);
+						ShowWindow(hwnd, wParam);
 					}
 					break;
 
@@ -110,7 +103,7 @@ namespace dTerm.UI.Wpf.ViewModels
 							case WM.RBUTTONUP:
 							case WM.MBUTTONUP:
 								{
-									Show(hwnd, wParam);
+									ShowWindow(hwnd, wParam);
 									handled = true;
 								}
 								break;
@@ -127,17 +120,16 @@ namespace dTerm.UI.Wpf.ViewModels
 							case SysCommand.SC_CLOSE:
 								{
 									// IConsoleService is responsible for closing the window
-									handled = true;
-									IsClosing = true;
 									_consoleInstance.Terminate();
+									HideWindow(hwnd);
+									handled = true;
 								}
 								break;
 
 							case SysCommand.SC_MINIMIZE:
 								{
 									EventBus.Publish(new HideConsoleMessage(_consoleInstance));
-									User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
-									User32Methods.SetActiveWindow(_shellViewHandle);
+									HideWindow(hwnd);
 									handled = true;
 								}
 								break;
@@ -160,7 +152,13 @@ namespace dTerm.UI.Wpf.ViewModels
 			Dispose(true);
 		}
 
-		private void Show(IntPtr ownerWindowHandle, IntPtr processWindowHandle)
+		private void HideWindow(IntPtr ownerWindowHandle)
+		{
+			User32Methods.ShowWindow(ownerWindowHandle, ShowWindowCommands.SW_HIDE);
+			User32Methods.SetActiveWindow(_shellViewHandle);
+		}
+
+		private void ShowWindow(IntPtr ownerWindowHandle, IntPtr processWindowHandle)
 		{
 			User32Methods.SetActiveWindow(ownerWindowHandle);
 			User32Methods.SetForegroundWindow(processWindowHandle);
