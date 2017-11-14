@@ -4,7 +4,6 @@ using dTerm.Core.ProcessTaskKillers;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using WinApi.User32;
 
 namespace dTerm.UI.Wpf.Models
@@ -126,7 +125,7 @@ namespace dTerm.UI.Wpf.Models
 				processId = 0;
 				_systemProcess.Refresh();
 				windowHandle = User32Methods.FindWindowEx(IntPtr.Zero, windowHandle, null, null);
-				threadId = GetWindowThreadProcessId(windowHandle, out processId);
+				threadId = NativeMethods.GetWindowThreadProcessId(windowHandle, out processId);
 				if (processId == _systemProcess.Id)
 				{
 					return windowHandle;
@@ -137,8 +136,5 @@ namespace dTerm.UI.Wpf.Models
 		}
 
 		private int GetTimeoutInMiliseconds() => _timeoutSeconds * 1000;
-
-		[DllImport("user32.dll", ExactSpelling = true)]
-		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
 	}
 }

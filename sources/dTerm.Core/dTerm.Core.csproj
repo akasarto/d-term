@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAppAssemblyInfo.cs">
+      <Link>Properties\SharedAppAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="ConsoleType.cs" />
     <Compile Include="Events\EventBus.cs" />
     <Compile Include="Events\IEventMessageHandler.cs" />
