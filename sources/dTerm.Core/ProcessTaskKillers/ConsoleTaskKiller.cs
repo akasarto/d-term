@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 
 namespace dTerm.Core.ProcessTaskKillers
 {
@@ -23,30 +24,36 @@ namespace dTerm.Core.ProcessTaskKillers
 				return;
 			}
 
-			using (var process = new Process())
+			//TODO: Review
+			var taskKillThread = new Thread(new ThreadStart(() =>
 			{
-				var pids = _consoleProcessIds.Distinct().ToList();
-
-				var args = $"{string.Join("", pids.Select(pid => $"/PID {pid} "))} /T /F";
-
-				process.StartInfo = new ProcessStartInfo()
+				using (var process = new Process())
 				{
-					FileName = "taskkill",
-					ErrorDialog = false,
-					UseShellExecute = false,
-					RedirectStandardOutput = true,
-					RedirectStandardError = true,
-					CreateNoWindow = true,
-					Arguments = args
-				};
+					var pids = _consoleProcessIds.Distinct().ToList();
 
-				process.Start();
+					var args = $"{string.Join("", pids.Select(pid => $"/PID {pid} "))} /T /F";
 
-				var output = process.StandardOutput.ReadToEnd();
-				var error = process.StandardError.ReadToEnd();
+					process.StartInfo = new ProcessStartInfo()
+					{
+						FileName = "taskkill",
+						ErrorDialog = false,
+						UseShellExecute = false,
+						RedirectStandardOutput = true,
+						RedirectStandardError = true,
+						CreateNoWindow = true,
+						Arguments = args
+					};
 
-				process.WaitForExit();
-			}
+					process.Start();
+
+					var output = process.StandardOutput.ReadToEnd();
+					var error = process.StandardError.ReadToEnd();
+
+					process.WaitForExit();
+				}
+			}));
+
+			taskKillThread.Start();
 		}
 
 		public static ConsoleTaskKiller Create() => new ConsoleTaskKiller();

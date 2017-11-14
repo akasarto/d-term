@@ -10,7 +10,7 @@ namespace dTerm.UI.Wpf.EventMessages
 
 		public ShowConsoleMessage(IConsoleInstance consoleInstance)
 		{
-			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(HideConsoleMessage));
+			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ShowConsoleMessage));
 		}
 
 		public IConsoleInstance ConsoleInstance => _consoleInstance;

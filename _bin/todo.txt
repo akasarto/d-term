@@ -1,14 +1,10 @@
-# DEV
-
-- Add the ability to kill all running process
-
-- verify why previous child do not deactivate
+# V1
 
 - Add progress indicator to the console view when closing.
 
-- atualizar mvvm para utilizar reactive ui
-
 - Gerar instalador clickonce (github)
+
+- atualizar mvvm para utilizar reactive ui
 
 - divulgar
 

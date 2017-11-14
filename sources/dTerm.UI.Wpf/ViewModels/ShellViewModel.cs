@@ -8,6 +8,7 @@ using dTerm.UI.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -90,13 +91,22 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			consoleInstance.ProcessTerminated += OnConsoleInstanceProcessTerminated;
 
-			if (!consoleInstance.Initialize())
+			//TODO: Review
+			var processInitThread = new Thread(new ThreadStart(() =>
 			{
-				//TODO: Notify process failure to start.
-				return;
-			}
+				if (!consoleInstance.Initialize())
+				{
+					//TODO: Notify process failure to start.
+					return;
+				}
 
-			CreateConsoleView(consoleInstance);
+				UIService.Invoke(() =>
+				{
+					CreateConsoleView(consoleInstance);
+				});
+			}));
+
+			processInitThread.Start();
 		}
 
 		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor descriptor)
