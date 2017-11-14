@@ -6,7 +6,7 @@ using System.Windows;
 
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyTitle("dTerm | WPF")]
+[assembly: AssemblyTitle("dTerm | General purpose console management tool.")]
 [assembly: AssemblyDescription("Primary user interface for this app.")]
 
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
