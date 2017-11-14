@@ -1,6 +1,6 @@
 ﻿using dTerm.Core;
 using dTerm.Core.ProcessStarters;
-using dTerm.Core.ProcessTerminators;
+using dTerm.Core.ProcessTaskKillers;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Diagnostics;
@@ -11,7 +11,6 @@ namespace dTerm.UI.Wpf.Models
 {
 	public class ConsoleInstance : ObservableObject, IConsoleInstance
 	{
-		private bool _isVisible = true;
 		private IntPtr _ownerHandle;
 		private string _consoleName;
 		private ConsoleType _consoleType;
@@ -30,12 +29,6 @@ namespace dTerm.UI.Wpf.Models
 		}
 
 		public event EventHandler ProcessTerminated;
-
-		public bool IsVisible
-		{
-			get => _isVisible;
-			set => Set(ref _isVisible, value);
-		}
 
 		public string Name
 		{
@@ -98,11 +91,11 @@ namespace dTerm.UI.Wpf.Models
 				return;
 			}
 
-			var taskKiller = ConsoleProcessKiller.Create();
+			var consoleTaskKiller = ConsoleTaskKiller.Create();
 
-			taskKiller.AddProcessId(_systemProcess.Id);
+			consoleTaskKiller.AddProcessId(_systemProcess.Id);
 
-			taskKiller.Execute();
+			consoleTaskKiller.Execute();
 		}
 
 		private void CreateProcess()

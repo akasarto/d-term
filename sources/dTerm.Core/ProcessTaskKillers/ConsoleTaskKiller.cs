@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
-namespace dTerm.Core.ProcessTerminators
+namespace dTerm.Core.ProcessTaskKillers
 {
-	public class ConsoleProcessKiller
+	public class ConsoleTaskKiller
 	{
 		private List<int> _consoleProcessIds = new List<int>();
 
 		public void AddProcessId(int consoleProcessId) => _consoleProcessIds.Add(consoleProcessId);
 
-		public void Execute()
+		public void Execute(bool throwOnEmpty = true)
 		{
 			if (_consoleProcessIds.Count <= 0)
 			{
-				throw new InvalidOperationException("No process ids provided.");
+				if (throwOnEmpty)
+				{
+					throw new InvalidOperationException("No process ids provided.");
+				}
+
+				return;
 			}
 
 			using (var process = new Process())
@@ -45,6 +49,6 @@ namespace dTerm.Core.ProcessTerminators
 			}
 		}
 
-		public static ConsoleProcessKiller Create() => new ConsoleProcessKiller();
+		public static ConsoleTaskKiller Create() => new ConsoleTaskKiller();
 	}
 }

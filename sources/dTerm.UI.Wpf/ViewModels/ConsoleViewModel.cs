@@ -1,4 +1,6 @@
 ﻿using dTerm.Core;
+using dTerm.Core.Events;
+using dTerm.UI.Wpf.EventMessages;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Windows;
@@ -25,7 +27,7 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public IntPtr ConsoleViewHandle => _consoleViewHandle;
 
-		public IConsoleInstance Instance => _consoleInstance;
+		public IConsoleInstance ConsoleInstance => _consoleInstance;
 
 		public ConsoleHwndHost ConsoleHwndHost
 		{
@@ -102,10 +104,9 @@ namespace dTerm.UI.Wpf.ViewModels
 
 							case SysCommand.SC_MINIMIZE:
 								{
-									_consoleInstance.IsVisible = false;
-									//User32Methods.SendMessage(_shellViewHandle, (uint)WM.ACTIVATE, IntPtr.Zero, IntPtr.Zero);
-									User32Methods.SetActiveWindow(_shellViewHandle);
+									EventBus.Publish(new HideConsoleMessage(_consoleInstance));
 									User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
+									User32Methods.SetActiveWindow(_shellViewHandle);
 									handled = true;
 								}
 								break;
@@ -155,7 +156,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			User32Methods.SetActiveWindow(ownerWindowHandle);
 			User32Methods.SetForegroundWindow(processWindowHandle);
 			User32Methods.SendMessage(ownerWindowHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
-			_consoleInstance.IsVisible = true;
+			EventBus.Publish(new ShowConsoleMessage(_consoleInstance));
 		}
 	}
 }

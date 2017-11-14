@@ -1,12 +1,13 @@
 ﻿using dTerm.Core;
-using dTerm.Core.ProcessTerminators;
+using dTerm.Core.Events;
+using dTerm.Core.ProcessTaskKillers;
+using dTerm.UI.Wpf.EventMessages;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -15,9 +16,9 @@ namespace dTerm.UI.Wpf.ViewModels
 	public class ShellViewModel : ObservableObject
 	{
 		private IntPtr _shellViewHandle;
+		private IConsoleService _consoleService;
 		private IEnumerable<ConsoleDescriptor> _consoleDescriptors;
 		private Dictionary<int, ConsoleViewModel> _consoleViewModels;
-		private IConsoleService _consoleService;
 
 		public ShellViewModel(IEnumerable<ConsoleDescriptor> consoleDescriptors, IConsoleService consoleService)
 		{
@@ -26,9 +27,12 @@ namespace dTerm.UI.Wpf.ViewModels
 			_consoleViewModels = new Dictionary<int, ConsoleViewModel>();
 
 			//
-			ConsoleInstances = new ObservableCollection<IConsoleInstance>();
-			ConsoleInstances.CollectionChanged += OnConsoleInstancesCollectionChanged;
+			SubscribeToEventMessages();
 
+			//
+			HiddenConsoleInstances = new ObservableCollection<IConsoleInstance>();
+
+			//
 			CreateConsoleInstanceCommand = new RelayCommand<ConsoleDescriptor>(
 				CreateConsoleInstance,
 				CanCreateConsoleProcessInstance
@@ -39,7 +43,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		}
 
 		public IEnumerable<ConsoleDescriptor> ConsoleDescriptors => _consoleDescriptors;
-		public ObservableCollection<IConsoleInstance> ConsoleInstances { get; private set; }
+		public ObservableCollection<IConsoleInstance> HiddenConsoleInstances { get; private set; }
 
 		public RelayCommand<ConsoleDescriptor> CreateConsoleInstanceCommand { get; private set; }
 		public RelayCommand<IConsoleInstance> HighlightConsoleInstanceCommand { get; private set; }
@@ -56,22 +60,35 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public void OnViewClosing()
 		{
-			var processKiller = ConsoleProcessKiller.Create();
+			var consoleTaskKiller = ConsoleTaskKiller.Create();
 
-			foreach (var instance in ConsoleInstances)
+			foreach (var consoleViewModel in _consoleViewModels.Values)
 			{
-				instance.ProcessTerminated -= OnConsoleProcessTerminated;
-				processKiller.AddProcessId(instance.ProcessId);
+				consoleViewModel.ConsoleInstance.ProcessTerminated -= OnConsoleInstanceProcessTerminated;
+				consoleTaskKiller.AddProcessId(consoleViewModel.ConsoleInstance.ProcessId);
 			}
 
-			processKiller.Execute();
+			consoleTaskKiller.Execute(throwOnEmpty: false);
+		}
+
+		private void SubscribeToEventMessages()
+		{
+			EventBus.Subscribe<HideConsoleMessage>((message) =>
+			{
+				HiddenConsoleInstances.Add(message.ConsoleInstance);
+			});
+
+			EventBus.Subscribe<ShowConsoleMessage>((message) =>
+			{
+				HiddenConsoleInstances.Remove(message.ConsoleInstance);
+			});
 		}
 
 		private void CreateConsoleInstance(ConsoleDescriptor descriptor)
 		{
 			var consoleInstance = _consoleService.CreateConsoleInstance(descriptor);
 
-			consoleInstance.ProcessTerminated += OnConsoleProcessTerminated;
+			consoleInstance.ProcessTerminated += OnConsoleInstanceProcessTerminated;
 
 			if (!consoleInstance.Initialize())
 			{
@@ -79,7 +96,7 @@ namespace dTerm.UI.Wpf.ViewModels
 				return;
 			}
 
-			ConsoleInstances.Add(consoleInstance);
+			CreateConsoleView(consoleInstance);
 		}
 
 		private bool CanCreateConsoleProcessInstance(ConsoleDescriptor descriptor)
@@ -102,33 +119,17 @@ namespace dTerm.UI.Wpf.ViewModels
 			consoleInstance.Terminate();
 		}
 
-		private void OnConsoleProcessTerminated(object sender, EventArgs args)
+		private void OnConsoleInstanceProcessTerminated(object sender, EventArgs args)
 		{
 			var instance = sender as IConsoleInstance;
 
 			if (instance != null)
 			{
-				UIService.Invoke(() => ConsoleInstances.Remove(instance));
-			}
-		}
-
-		private void OnConsoleInstancesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			switch (e.Action)
-			{
-				case NotifyCollectionChangedAction.Add:
-					foreach (IConsoleInstance consoleInstance in e.NewItems)
-					{
-						CreateConsoleView(consoleInstance);
-					}
-					break;
-
-				case NotifyCollectionChangedAction.Remove:
-					foreach (IConsoleInstance consoleInstance in e.OldItems)
-					{
-						DestroyConsoleView(consoleInstance);
-					}
-					break;
+				UIService.Invoke(() =>
+				{
+					HiddenConsoleInstances.Remove(instance);
+					DestroyConsoleView(instance);
+				});
 			}
 		}
 
@@ -137,7 +138,6 @@ namespace dTerm.UI.Wpf.ViewModels
 			var consoleViewModel = _consoleService.CreateConsoleViewModel(_shellViewHandle, consoleInstance);
 
 			_consoleViewModels.Add(consoleInstance.ProcessId, consoleViewModel);
-
 			_consoleService.ShowConsoleView(ViewHandle, consoleViewModel);
 		}
 
@@ -148,7 +148,6 @@ namespace dTerm.UI.Wpf.ViewModels
 			if (_consoleViewModels.ContainsKey(processId))
 			{
 				var consoleViewModel = _consoleViewModels[processId];
-
 				_consoleService?.CloseConsoleView(consoleViewModel);
 			}
 

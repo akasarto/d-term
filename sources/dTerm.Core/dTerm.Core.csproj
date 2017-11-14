@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleType.cs" />
+    <Compile Include="Events\EventBus.cs" />
+    <Compile Include="Events\IEventMessageHandler.cs" />
+    <Compile Include="Events\IEventMessage.cs" />
     <Compile Include="PathBuilders\IPathBuilder.cs" />
     <Compile Include="PathBuilders\PathBuilderBase.cs" />
     <Compile Include="PathBuilders\SystemPathVarPathBuilder.cs" />
@@ -50,12 +53,11 @@
     <Compile Include="PathBuilders\ProgramFilesFolderPathBuilder.cs" />
     <Compile Include="ProcessStarters\ConsoleProcessStartInfo.cs" />
     <Compile Include="IConsoleInstance.cs" />
-    <Compile Include="ProcessTerminators\ConsoleProcessKiller.cs" />
+    <Compile Include="ProcessTaskKillers\ConsoleTaskKiller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

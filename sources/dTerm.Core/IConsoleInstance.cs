@@ -6,8 +6,6 @@ namespace dTerm.Core
 	{
 		event EventHandler ProcessTerminated;
 
-		bool IsVisible { get; set; }
-
 		string Name { get; set; }
 
 		int ProcessId { get; }

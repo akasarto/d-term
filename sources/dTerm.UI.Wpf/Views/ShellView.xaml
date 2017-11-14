@@ -42,6 +42,15 @@
 
 	<mahapps:MetroWindow.Resources>
 
+		<Style x:Key="hiddenConsoleInstancesScrollViewerStyle" TargetType="ScrollViewer">
+			<Setter Property="Margin" Value="15 50 15 15" />
+			<Setter Property="VerticalAlignment" Value="Top" />
+			<Setter Property="HorizontalAlignment" Value="Right" />
+			<Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
+			<Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+			<Setter Property="FlowDirection" Value="RightToLeft" />
+		</Style>
+
 		<DataTemplate x:Key="consoleDescriptorButttonTemplate" DataType="{x:Type models:ConsoleDescriptor}">
 			<Button>
 				<Button.Content>
@@ -65,7 +74,7 @@
 		</DataTemplate>
 
 		<DataTemplate x:Key="consoleInstanceChipTemplate" DataType="{x:Type models:ConsoleInstance}">
-			<Border x:Name="chipWrapper" Margin="7.5 0 7.5 0">
+			<Border x:Name="chipWrapper" Margin="7.5 0 7.5 0" FlowDirection="LeftToRight">
 				<materialdesign:Chip HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding Name}" Icon="{Binding Type}">
 					<materialdesign:Chip.Style>
 						<Style TargetType="materialdesign:Chip">
@@ -99,14 +108,6 @@
 			</CollectionViewSource.GroupDescriptions>
 		</CollectionViewSource>
 
-		<Style x:Key="hiddenConsoleInstancesScrollViewerStyle" TargetType="ScrollViewer">
-			<Setter Property="Margin" Value="15 50 15 15" />
-			<Setter Property="VerticalAlignment" Value="Top" />
-			<Setter Property="HorizontalAlignment" Value="Right" />
-			<Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
-			<Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
-		</Style>
-
 	</mahapps:MetroWindow.Resources>
 
 	<!-- View contents -->
@@ -115,7 +116,7 @@
 
 		<ScrollViewer Style="{StaticResource hiddenConsoleInstancesScrollViewerStyle}">
 
-			<ItemsControl ItemsSource="{Binding ConsoleInstances}" ItemTemplate="{StaticResource consoleInstanceChipTemplate}">
+			<ItemsControl ItemsSource="{Binding HiddenConsoleInstances}" ItemTemplate="{StaticResource consoleInstanceChipTemplate}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal" />

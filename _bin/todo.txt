@@ -1,14 +1,8 @@
 # DEV
 
-- Usar taskkill para matar processos
-
-- IConsoleInstance to IConsoleProcess
-
 - Add the ability to kill all running process
 
-- When console window is minimized/maximized, it will be added/removed from an observable collection.
-
-- Test positioning minimized consoles to the bottom of the shell view.
+- verify why previous child do not deactivate
 
 - Add progress indicator to the console view when closing.
 
