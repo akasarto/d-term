@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dTerm.Core", "dTerm.Core\dTerm.Core.csproj", "{5265CFD5-C138-4141-B7F3-93DB796B4086}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dTerm.UI.Wpf", "dTerm.UI.Wpf\dTerm.UI.Wpf.csproj", "{EA11E444-28CF-490A-8A95-E1F619CFA900}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{F6757EFC-2F65-4A33-AB59-38BB89ADC382}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinApi", "WinApi\WinApi.csproj", "{DB0ADAF8-FB99-42BE-9ED7-78F99E44E675}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +25,16 @@ Global
 		{EA11E444-28CF-490A-8A95-E1F619CFA900}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA11E444-28CF-490A-8A95-E1F619CFA900}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA11E444-28CF-490A-8A95-E1F619CFA900}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB0ADAF8-FB99-42BE-9ED7-78F99E44E675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0ADAF8-FB99-42BE-9ED7-78F99E44E675}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0ADAF8-FB99-42BE-9ED7-78F99E44E675}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0ADAF8-FB99-42BE-9ED7-78F99E44E675}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DB0ADAF8-FB99-42BE-9ED7-78F99E44E675} = {F6757EFC-2F65-4A33-AB59-38BB89ADC382}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BF67C3E-869B-4662-BFDE-7951D2C10D14}
