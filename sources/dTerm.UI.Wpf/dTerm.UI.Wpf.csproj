@@ -238,8 +238,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EventMessages\HideConsoleMessage.cs" />
-    <Compile Include="EventMessages\ShowConsoleMessage.cs" />
+    <Compile Include="Models\HideConsoleMessage.cs" />
+    <Compile Include="Models\ShowConsoleMessage.cs" />
     <Compile Include="Infrastructure\ConsoleInstanceFactory.cs" />
     <Compile Include="Infrastructure\IConsoleInstanceFactory.cs" />
     <Compile Include="Infrastructure\NativeMethods.cs" />

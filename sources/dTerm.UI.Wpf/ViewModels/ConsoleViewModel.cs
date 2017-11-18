@@ -1,7 +1,7 @@
 ﻿using dTerm.Core;
 using dTerm.Core.Events;
-using dTerm.UI.Wpf.EventMessages;
 using dTerm.UI.Wpf.Infrastructure;
+using dTerm.UI.Wpf.Models;
 using System;
 using System.Windows;
 using System.Windows.Interop;

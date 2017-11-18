@@ -2,7 +2,7 @@
 using dTerm.Core.Events;
 using System;
 
-namespace dTerm.UI.Wpf.EventMessages
+namespace dTerm.UI.Wpf.Models
 {
 	public class HideConsoleMessage : IEventMessage
 	{

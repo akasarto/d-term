@@ -1,7 +1,6 @@
 ﻿using dTerm.Core;
 using dTerm.Core.Events;
 using dTerm.Core.ProcessTaskKillers;
-using dTerm.UI.Wpf.EventMessages;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.Services;
