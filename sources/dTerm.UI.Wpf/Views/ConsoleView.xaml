@@ -12,8 +12,9 @@
 	mc:Ignorable="d"
 	Title="{Binding ViewTitle, Mode=OneWay}"
 	WindowStartupLocation="CenterOwner"
-	SizeToContent="WidthAndHeight"
 	ShowInTaskbar="False"
+	Height="375"
+	Width="775"
 >
 	<!-- Meta -->
 
