@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using NetCoreEx.Geometry;
 using WinApi.Core;
-using WinApi.UxTheme;
 
 namespace WinApi.DwmApi
 {

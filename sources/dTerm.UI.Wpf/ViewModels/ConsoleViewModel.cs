@@ -74,6 +74,7 @@ namespace dTerm.UI.Wpf.ViewModels
 		{
 			var hwndSource = HwndSource.FromHwnd(_consoleViewHandle);
 			hwndSource.AddHook(new HwndSourceHook(WndProc));
+			ShowWindow(_shellViewHandle, _consoleViewHandle);
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -82,7 +83,19 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			switch (message)
 			{
-				case (WM.APP + 0x1): // View Highlight (Custom)
+				case WM.ACTIVATE:
+					{
+						handled = true;
+					}
+					break;
+
+				case WM.ACTIVATEAPP:
+					{
+						handled = true;
+					}
+					break;
+
+				case WMCustom.APPViewHighlight:
 					{
 						ShowWindow(hwnd, wParam);
 					}
@@ -99,9 +112,9 @@ namespace dTerm.UI.Wpf.ViewModels
 
 						switch (wMouseMsg)
 						{
-							case WM.LBUTTONUP:
-							case WM.RBUTTONUP:
-							case WM.MBUTTONUP:
+							case WM.LBUTTONDOWN:
+							case WM.RBUTTONDOWN:
+							case WM.MBUTTONDOWN:
 								{
 									ShowWindow(hwnd, wParam);
 									handled = true;
@@ -160,9 +173,10 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		private void ShowWindow(IntPtr ownerWindowHandle, IntPtr processWindowHandle)
 		{
-			User32Methods.SetActiveWindow(ownerWindowHandle);
 			User32Methods.SetForegroundWindow(processWindowHandle);
+			User32Methods.SetActiveWindow(ownerWindowHandle);
 			User32Methods.SendMessage(ownerWindowHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
+			User32Methods.SendMessage(ownerWindowHandle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
 			EventBus.Publish(new ShowConsoleMessage(_consoleInstance));
 		}
 	}

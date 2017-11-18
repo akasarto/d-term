@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using WinApi.Core;
-using WinApi.User32;
 
 namespace WinApi.UxTheme
 {

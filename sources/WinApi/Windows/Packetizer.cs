@@ -1,5 +1,4 @@
-﻿using System;
-using NetCoreEx.Geometry;
+﻿using NetCoreEx.Geometry;
 
 namespace WinApi.Windows
 {

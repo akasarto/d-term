@@ -1,5 +1,4 @@
-﻿using System;
-using WinApi.DwmApi;
+﻿using WinApi.DwmApi;
 using WinApi.User32;
 
 namespace WinApi.Windows.Helpers

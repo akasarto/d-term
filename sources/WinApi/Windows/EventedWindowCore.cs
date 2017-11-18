@@ -1,8 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using WinApi.Core;
-using WinApi.User32;
-using WinApi.Windows.Helpers;
+﻿using WinApi.User32;
 
 namespace WinApi.Windows
 {

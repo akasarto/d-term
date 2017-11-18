@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 
 namespace WinApi.Core
 {

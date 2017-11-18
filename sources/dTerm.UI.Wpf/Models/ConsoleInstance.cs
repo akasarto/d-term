@@ -80,7 +80,7 @@ namespace dTerm.UI.Wpf.Models
 				User32Methods.ShowWindow(_ownerHandle, ShowWindowCommands.SW_SHOW);
 			}
 
-			User32Methods.SendMessage(_ownerHandle, ((uint)WM.APP + 0x1), _processMainWindowHandle, IntPtr.Zero);
+			User32Methods.SendMessage(_ownerHandle, (uint)WMCustom.APPViewHighlight, _processMainWindowHandle, IntPtr.Zero);
 		}
 
 		public void Terminate()
