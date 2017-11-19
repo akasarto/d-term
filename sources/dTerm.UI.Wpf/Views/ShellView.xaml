@@ -1,16 +1,14 @@
-﻿<mahapps:MetroWindow
+﻿<Window
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-	xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:behaviors="clr-namespace:dTerm.UI.Wpf.Behaviors"
 	xmlns:models="clr-namespace:dTerm.UI.Wpf.Models"
 	xmlns:wndbase="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	x:Class="dTerm.UI.Wpf.Views.ShellView"
-	FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+	FontFamily="pack://application:,,,/mdThemes.Wpf;component/Resources/Roboto/#Roboto"
 	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
 	Background="{DynamicResource MaterialDesignPaper}"
 	TextOptions.TextFormattingMode="Ideal"
@@ -23,24 +21,21 @@
 	Title="dTerm" 
 	MinHeight="768" 
 	MinWidth="1024"
-	ShowTitleBar="False"
 	x:Name="shellView"
+
+	behaviors:OnWindowClosing.CallMethod="OnViewClosing"
+	behaviors:OnWindowLoaded.CallMethod="Init"
 >
 
 	<!-- Meta -->
 
-	<i:Interaction.Triggers>
-		<i:EventTrigger EventName="Closing">
-			<ei:CallMethodAction TargetObject="{Binding}" MethodName="OnViewClosing" />
-		</i:EventTrigger>
-		<i:EventTrigger EventName="Loaded">
-			<ei:CallMethodAction TargetObject="{Binding}" MethodName="OnViewLoaded" />
-		</i:EventTrigger>
-	</i:Interaction.Triggers>
+	<Window.DataContext>
+		<Binding Path="ShellViewModel" Source="{StaticResource locator}" />
+	</Window.DataContext>
 
 	<!-- Resources -->
 
-	<mahapps:MetroWindow.Resources>
+	<Window.Resources>
 
 		<Style x:Key="hiddenConsoleInstancesScrollViewerStyle" TargetType="ScrollViewer">
 			<Setter Property="Margin" Value="15 50 15 15" />
@@ -75,9 +70,9 @@
 
 		<DataTemplate x:Key="consoleInstanceChipTemplate" DataType="{x:Type models:ConsoleInstance}">
 			<Border x:Name="chipWrapper" Margin="7.5 0 7.5 0" FlowDirection="LeftToRight">
-				<materialdesign:Chip HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding Name}" Icon="{Binding Type}">
-					<materialdesign:Chip.Style>
-						<Style TargetType="materialdesign:Chip">
+				<md:Chip HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Content="{Binding Name}" Icon="{Binding Type}">
+					<md:Chip.Style>
+						<Style TargetType="md:Chip">
 							<Setter Property="Command" Value="{Binding DataContext.HighlightConsoleInstanceCommand, ElementName=shellView}" />
 							<Setter Property="CommandParameter" Value="{Binding}" />
 							<Setter Property="DeleteCommand" Value="{Binding DataContext.TerminateConsoleInstanceCommand, ElementName=shellView}" />
@@ -86,8 +81,8 @@
 							<Setter Property="VerticalAlignment" Value="Center" />
 							<Setter Property="IsDeletable" Value="True" />
 						</Style>
-					</materialdesign:Chip.Style>
-				</materialdesign:Chip>
+					</md:Chip.Style>
+				</md:Chip>
 			</Border>
 			<DataTemplate.Triggers>
 				<DataTrigger Binding="{Binding IsVisible}" Value="True">
@@ -108,7 +103,7 @@
 			</CollectionViewSource.GroupDescriptions>
 		</CollectionViewSource>
 
-	</mahapps:MetroWindow.Resources>
+	</Window.Resources>
 
 	<!-- View contents -->
 
@@ -150,4 +145,4 @@
 
 	</Grid>
 
-</mahapps:MetroWindow>
+</Window>

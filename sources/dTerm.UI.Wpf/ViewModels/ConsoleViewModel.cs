@@ -3,12 +3,11 @@ using dTerm.Core.Events;
 using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using System;
-using System.Windows;
 using System.Windows.Interop;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
-	public class ConsoleViewModel : ObservableObject, IDisposable
+	public class ConsoleViewModel : BaseViewModel, IDisposable
 	{
 		private IntPtr _shellViewHandle;
 		private IntPtr _consoleViewHandle;
@@ -47,11 +46,9 @@ namespace dTerm.UI.Wpf.ViewModels
 			set => Set(ref _viewTitle, value);
 		}
 
-		public void OnViewLoaded(object sender, EventArgs args)
+		public override void Init(IntPtr viewHandle)
 		{
-			var interopHelper = new WindowInteropHelper(sender as Window);
-
-			_consoleViewHandle = interopHelper.Handle;
+			_consoleViewHandle = viewHandle;
 
 			DisableMaximizeButton();
 			SetWindowMessagesHook();

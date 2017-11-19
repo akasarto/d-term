@@ -5,18 +5,25 @@ using dTerm.UI.Wpf.Infrastructure;
 using dTerm.UI.Wpf.Models;
 using dTerm.UI.Wpf.Services;
 using dTerm.UI.Wpf.ViewModels;
+using dTerm.UI.Wpf.Views;
 using System.Collections.Generic;
 
 namespace dTerm.UI.Wpf
 {
-	public static class Locator
+	public class Locator
 	{
-		public static ShellViewModel ShellViewModel => GetShellViewModelInstance();
+		public ShellView ShellView => GetShellView();
 
-		private static ShellViewModel GetShellViewModelInstance()
+		public ShellViewModel ShellViewModel => GetShellViewModel();
+
+		private ShellView GetShellView()
 		{
-			var consoleFactory = new ConsoleInstanceFactory();
-			var consoleService = new ConsoleService(consoleFactory);
+			return new ShellView();
+		}
+
+		private ShellViewModel GetShellViewModel()
+		{
+			var consoleService = GetConsoleService();
 
 			var consoleDescriptors = new List<ConsoleDescriptor>()
 			{
@@ -27,6 +34,18 @@ namespace dTerm.UI.Wpf
 			};
 
 			return new ShellViewModel(consoleDescriptors, consoleService);
+		}
+
+		private ConsoleService GetConsoleService()
+		{
+			var consoleInstanceFactory = GetConsoleInstanceFactory();
+
+			return new ConsoleService(consoleInstanceFactory);
+		}
+
+		private ConsoleInstanceFactory GetConsoleInstanceFactory()
+		{
+			return new ConsoleInstanceFactory();
 		}
 	}
 }

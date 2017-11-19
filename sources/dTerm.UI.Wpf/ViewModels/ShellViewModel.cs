@@ -8,12 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
-using System.Windows;
-using System.Windows.Interop;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
-	public class ShellViewModel : ObservableObject
+	public class ShellViewModel : BaseViewModel
 	{
 		private IntPtr _shellViewHandle;
 		private IConsoleService _consoleService;
@@ -51,11 +49,9 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		public IntPtr ViewHandle => _shellViewHandle;
 
-		public void OnViewLoaded(object sender, EventArgs args)
+		public override void Init(IntPtr viewHandle)
 		{
-			var interopHelper = new WindowInteropHelper(sender as Window);
-
-			_shellViewHandle = interopHelper.Handle;
+			_shellViewHandle = viewHandle;
 		}
 
 		public void OnViewClosing()
