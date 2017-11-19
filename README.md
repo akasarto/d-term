@@ -12,6 +12,13 @@
 ## Overview
 ![Overview](/media/dterm.gif?raw=true "Overview")
 
+## Thanks to the owners of the awesome libraries
+
+- [WinApi](https://github.com/prasannavl/WinApi) | Helped me save a lot of time writing win32 extern wrappers (Wish I'd found it earlier).
+- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit) | Primary theme
+- [MahApps](https://github.com/MahApps) | Metro window
+
+
 ## License
 
 MIT License
