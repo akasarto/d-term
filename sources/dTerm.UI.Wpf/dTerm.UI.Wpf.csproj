@@ -146,14 +146,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Locator.cs" />
     <Compile Include="Models\HideConsoleMessage.cs" />
     <Compile Include="Models\ShowConsoleMessage.cs" />
     <Compile Include="Infrastructure\ConsoleInstanceFactory.cs" />
     <Compile Include="Infrastructure\IConsoleInstanceFactory.cs" />
     <Compile Include="Infrastructure\NativeMethods.cs" />
     <Compile Include="Infrastructure\UIService.cs" />
-    <Compile Include="Infrastructure\Win32Param.cs" />
-    <Compile Include="Infrastructure\WMCustom.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Infrastructure\ObservableObject.cs" />
     <Compile Include="Infrastructure\ConsoleHwndHost.cs" />

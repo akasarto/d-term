@@ -4,7 +4,6 @@ using dTerm.Core.ProcessTaskKillers;
 using dTerm.UI.Wpf.Infrastructure;
 using System;
 using System.Diagnostics;
-using WinApi.User32;
 
 namespace dTerm.UI.Wpf.Models
 {
@@ -75,12 +74,12 @@ namespace dTerm.UI.Wpf.Models
 
 		public void ShowProcessView()
 		{
-			if (!User32Methods.IsWindowVisible(ProcessMainWindowHandle))
+			if (!NativeMethods.IsWindowVisible(ProcessMainWindowHandle))
 			{
-				User32Methods.ShowWindow(_ownerHandle, ShowWindowCommands.SW_SHOW);
+				NativeMethods.ShowWindow(_ownerHandle, ShowWindowCommands.SW_SHOW);
 			}
 
-			User32Methods.SendMessage(_ownerHandle, (uint)WMCustom.APPViewHighlight, _processMainWindowHandle, IntPtr.Zero);
+			NativeMethods.SendMessage(_ownerHandle, (uint)WM.APPViewHighlight, _processMainWindowHandle, IntPtr.Zero);
 		}
 
 		public void Terminate()
@@ -124,7 +123,7 @@ namespace dTerm.UI.Wpf.Models
 			{
 				processId = 0;
 				_systemProcess.Refresh();
-				windowHandle = User32Methods.FindWindowEx(IntPtr.Zero, windowHandle, null, null);
+				windowHandle = NativeMethods.FindWindowEx(IntPtr.Zero, windowHandle, null, null);
 				threadId = NativeMethods.GetWindowThreadProcessId(windowHandle, out processId);
 				if (processId == _systemProcess.Id)
 				{

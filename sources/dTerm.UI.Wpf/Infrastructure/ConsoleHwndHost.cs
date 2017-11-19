@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
-using WinApi.User32;
 
 namespace dTerm.UI.Wpf.Infrastructure
 {
@@ -25,16 +24,16 @@ namespace dTerm.UI.Wpf.Infrastructure
 
 		protected override void DestroyWindowCore(HandleRef hwnd)
 		{
-			User32Methods.DestroyWindow(hwnd.Handle);
+			NativeMethods.DestroyWindow(hwnd.Handle);
 		}
 
 		private void IntegrateConsole(IntPtr childHandle, IntPtr parentHandle)
 		{
 			//
-			User32Methods.SetParent(childHandle, parentHandle);
+			NativeMethods.SetParent(childHandle, parentHandle);
 
 			//
-			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE);
+			var newStyle = (WindowStyles)NativeMethods.GetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE);
 
 			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
 			newStyle &= ~WindowStyles.WS_MINIMIZEBOX;
@@ -45,7 +44,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 
 			newStyle |= WindowStyles.WS_CHILD;
 
-			User32Helpers.SetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
+			NativeMethods.SetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
 		}
 	}
 }

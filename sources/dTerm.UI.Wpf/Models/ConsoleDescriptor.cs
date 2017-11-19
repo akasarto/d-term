@@ -1,6 +1,5 @@
 ﻿using dTerm.Core;
 using dTerm.Core.ProcessStarters;
-using Humanizer;
 
 namespace dTerm.UI.Wpf.Models
 {
@@ -17,7 +16,8 @@ namespace dTerm.UI.Wpf.Models
 
 		public ConsoleType ConsoleType => _consoleType;
 
-		public string Description => _consoleType.Humanize();
+#warning review
+		public string Description => _consoleType.ToString();
 
 		public int DisplayOrder { get; set; }
 

@@ -5,7 +5,6 @@ using dTerm.UI.Wpf.Models;
 using System;
 using System.Windows;
 using System.Windows.Interop;
-using WinApi.User32;
 
 namespace dTerm.UI.Wpf.ViewModels
 {
@@ -65,9 +64,9 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		private void DisableMaximizeButton()
 		{
-			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE);
+			var newStyle = (WindowStyles)NativeMethods.GetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE);
 			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
-			User32Helpers.SetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
+			NativeMethods.SetWindowLongPtr(_consoleViewHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
 		}
 
 		private void SetWindowMessagesHook()
@@ -95,7 +94,7 @@ namespace dTerm.UI.Wpf.ViewModels
 					}
 					break;
 
-				case WMCustom.APPViewHighlight:
+				case WM.APPViewHighlight:
 					{
 						ShowWindow(hwnd, wParam);
 					}
@@ -170,16 +169,17 @@ namespace dTerm.UI.Wpf.ViewModels
 
 		private void HideWindow(IntPtr ownerWindowHandle)
 		{
-			User32Methods.ShowWindow(ownerWindowHandle, ShowWindowCommands.SW_HIDE);
-			User32Methods.SetActiveWindow(_shellViewHandle);
+			NativeMethods.ShowWindow(ownerWindowHandle, ShowWindowCommands.SW_HIDE);
+			NativeMethods.SetActiveWindow(_shellViewHandle);
 		}
 
 		private void ShowWindow(IntPtr ownerWindowHandle, IntPtr processWindowHandle)
 		{
-			User32Methods.SetForegroundWindow(processWindowHandle);
-			User32Methods.SetActiveWindow(ownerWindowHandle);
-			User32Methods.SendMessage(ownerWindowHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
-			User32Methods.SendMessage(ownerWindowHandle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
+			NativeMethods.SetForegroundWindow(processWindowHandle);
+			NativeMethods.SetActiveWindow(ownerWindowHandle);
+			NativeMethods.SendMessage(ownerWindowHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
+			NativeMethods.SendMessage(ownerWindowHandle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
+
 			EventBus.Publish(new ShowConsoleMessage(_consoleInstance));
 		}
 	}
