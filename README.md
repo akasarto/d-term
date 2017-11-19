@@ -1,6 +1,8 @@
 # About
 **dTerm** is a general purpose management terminal. It's primary objective was to allow multiple console instances to be visible under a single window. It currently supports embedding *Command Prompt*, *Git Bash*, *Power Shell* and *WSL (Ubuntu)* processes.
 
+![Overview](/media/dterm.gif?raw=true "Overview")
+
 ## Running
 
 - From code 
@@ -8,9 +10,6 @@
   - Make sure nuget packages are set to auto restore
   - Set _dTerm.UI.Wpf_ as the startup project.
   - F5 and you're good to go.
-
-## Overview
-![Overview](/media/dterm.gif?raw=true "Overview")
 
 ## Thanks to the owners of the awesome libraries
 
