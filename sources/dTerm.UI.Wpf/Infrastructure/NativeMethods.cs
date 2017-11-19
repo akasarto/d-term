@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace dTerm.UI.Wpf.Infrastructure
@@ -887,7 +888,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 		{
 			if (IntPtr.Size > 4)
 			{
-				return GetWindowLongPtr_x64(hwnd, (int)nIndex);
+				return GetWindowLongPtr(hwnd, (int)nIndex);
 			}
 
 			return new IntPtr(GetWindowLong(hwnd, (int)nIndex));
@@ -897,7 +898,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 		{
 			if (IntPtr.Size > 4)
 			{
-				return SetWindowLongPtr_x64(hwnd, (int)nIndex, dwNewLong);
+				return SetWindowLongPtr(hwnd, (int)nIndex, dwNewLong);
 			}
 
 			return new IntPtr(SetWindowLong(hwnd, (int)nIndex, dwNewLong.ToInt32()));
@@ -906,14 +907,16 @@ namespace dTerm.UI.Wpf.Infrastructure
 		[DllImport(user32Dll, CharSet = Properties.BuildCharSet)]
 		private static extern int GetWindowLong(IntPtr hwnd, int nIndex);
 
+		[SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist")]
 		[DllImport(user32Dll, CharSet = Properties.BuildCharSet, EntryPoint = "GetWindowLongPtr")]
-		private static extern IntPtr GetWindowLongPtr_x64(IntPtr hwnd, int nIndex);
+		private static extern IntPtr GetWindowLongPtr(IntPtr hwnd, int nIndex);
 
 		[DllImport(user32Dll, CharSet = Properties.BuildCharSet)]
 		private static extern int SetWindowLong(IntPtr hwnd, int nIndex, int dwNewLong);
 
+		[SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist")]
 		[DllImport(user32Dll, CharSet = Properties.BuildCharSet, EntryPoint = "SetWindowLongPtr")]
-		private static extern IntPtr SetWindowLongPtr_x64(IntPtr hwnd, int nIndex, IntPtr dwNewLong);
+		private static extern IntPtr SetWindowLongPtr(IntPtr hwnd, int nIndex, IntPtr dwNewLong);
 
 		[DllImport(user32Dll, ExactSpelling = true)]
 		public static extern IntPtr SetActiveWindow(IntPtr hWnd);

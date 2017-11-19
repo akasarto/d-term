@@ -16,8 +16,7 @@ namespace dTerm.UI.Wpf.Models
 
 		public ConsoleType ConsoleType => _consoleType;
 
-#warning review
-		public string Description => _consoleType.ToString();
+		public string Description => _consoleType.GetDisplayName();
 
 		public int DisplayOrder { get; set; }
 
