@@ -6,16 +6,22 @@
 ## Running
 
 - From code 
+  - Get Visual Studio 2017 Community v15.4+
   - `git clone https://github.com/akasarto/d-term.git`
   - Make sure nuget packages are set to auto restore
   - Set _dTerm.UI.Wpf_ as the startup project.
   - F5 and you're good to go.
 
+- From Installer *
+  - Go to the [releases](/releases/latest) page and download the *dTermSetup.zip*
+  - Extract the setup executable and execute
+
+\* The setup executable is a self signed ClickOnce installer that pulls data from GitHub itself. You may receive alerts from widows SmartScreen regarding unknown publisher and you can also check the intaller binariesf under the *installer* branch.
+
 ## Thanks to the owners of the awesome libraries
 
-- [WinApi](https://github.com/prasannavl/WinApi) | Helped me save a lot of time writing win32 extern wrappers (Wish I'd found it earlier).
-- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit) | Primary theme
-- [MahApps](https://github.com/MahApps) | Metro window
+- [WinApi](https://github.com/prasannavl/WinApi)
+- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
 
 
 ## License
