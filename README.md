@@ -13,7 +13,7 @@
   - F5 and you're good to go.
 
 - From Installer *
-  - Go to the [releases](/releases/latest) page and download the *dTermSetup.zip*
+  - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the *dTermSetup.zip*
   - Extract the setup executable and execute
 
 \* The setup executable is a self signed ClickOnce installer that pulls data from GitHub itself. You may receive alerts from widows SmartScreen regarding unknown publisher and you can also check the intaller binariesf under the *installer* branch.
