@@ -6,7 +6,7 @@ using System.Windows;
 
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyTitle("dTerm | General purpose console management tool.")]
-[assembly: AssemblyDescription("Primary user interface for this app.")]
+[assembly: AssemblyTitle("dTerm")]
+[assembly: AssemblyDescription("General purpose console management terminal.")]
 
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
