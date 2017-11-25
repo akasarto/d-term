@@ -38,7 +38,7 @@
 	<Window.Resources>
 
 		<Style x:Key="hiddenConsoleInstancesScrollViewerStyle" TargetType="ScrollViewer">
-			<Setter Property="Margin" Value="15 50 15 15" />
+			<Setter Property="Margin" Value="15 25 15 15" />
 			<Setter Property="VerticalAlignment" Value="Top" />
 			<Setter Property="HorizontalAlignment" Value="Right" />
 			<Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
@@ -139,9 +139,7 @@
 
 		</Grid>
 
-		<Ellipse Style="{DynamicResource logoMaskStyle}" />
-
-		<Path Style="{DynamicResource logoVisualStyle}" />
+		<Path Style="{StaticResource logoVisualStyle}" />
 
 	</Grid>
 

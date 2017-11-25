@@ -1,11 +1,11 @@
 ﻿<Application
 	x:Class="dTerm.UI.Wpf.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:dTerm.UI.Wpf"
-    xmlns:entities="clr-namespace:dTerm.Core;assembly=Sarto.dTerm.Core"
-    ShutdownMode="OnMainWindowClose"
+	xmlns:entities="clr-namespace:dTerm.Core;assembly=Sarto.dTerm.Core"
+	ShutdownMode="OnMainWindowClose"
 	Startup="Application_Startup"
 	Exit="Application_Exit"
 	DispatcherUnhandledException="OnDispatcherUnhandledException"
@@ -35,23 +35,15 @@
 			</Geometry>
 
 			<!-- Logo -->
-			<Style x:Key="logoMaskStyle" TargetType="Ellipse">
-				<Setter Property="Width" Value="175" />
-				<Setter Property="Height" Value="175" />
-				<Setter Property="Margin" Value="35 0 0 0" />
-				<Setter Property="VerticalAlignment" Value="Bottom" />
-				<Setter Property="HorizontalAlignment" Value="Left" />
-				<Setter Property="Fill" Value="{StaticResource MaterialDesignPaper}" />
-			</Style>
-
 			<Style x:Key="logoVisualStyle" TargetType="Path">
-				<Setter Property="Width" Value="175" />
-				<Setter Property="Height" Value="175" />
+				<Setter Property="Opacity" Value=".035" />
+				<Setter Property="Width" Value="275" />
+				<Setter Property="Height" Value="275" />
 				<Setter Property="Fill" Value="Black" />
 				<Setter Property="Stretch" Value="Uniform" />
 				<Setter Property="Margin" Value="60 0 0 15" />
-				<Setter Property="VerticalAlignment" Value="Bottom" />
-				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="HorizontalAlignment" Value="Center" />
 				<Setter Property="Data" Value="{StaticResource dTermGeometry}" />
 			</Style>
 
