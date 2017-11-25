@@ -54,7 +54,7 @@ namespace dTerm.UI.Wpf.ViewModels
 			SetWindowMessagesHook();
 		}
 
-		public void SetFocus(IntPtr viewHandle)
+		public void SetCursor(IntPtr viewHandle)
 		{
 			ShowWindow(viewHandle, _consoleInstance.ProcessMainWindowHandle);
 		}

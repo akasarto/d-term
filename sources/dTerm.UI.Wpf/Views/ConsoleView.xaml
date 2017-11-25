@@ -16,7 +16,7 @@
 	Width="775"
 
 	behaviors:OnWindowLoaded.CallMethod="Init"
-	behaviors:OnWindowRendered.CallMethod="SetFocus"
+	behaviors:OnWindowRendered.CallMethod="SetCursor"
 >
 
 	<!-- View contents -->
