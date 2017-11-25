@@ -79,23 +79,17 @@ namespace dTerm.UI.Wpf.ViewModels
 
 			switch (message)
 			{
-				case WM.ACTIVATE:
-					{
-						handled = true;
-					}
-					break;
-
-				case WM.ACTIVATEAPP:
-					{
-						handled = true;
-					}
-					break;
-
 				case WM.APPViewHighlight:
 					{
 						ShowWindow(hwnd, wParam);
 					}
 					break;
+
+				case WM.MOUSEACTIVATE:
+					{
+						handled = true;
+						return new IntPtr((int)MouseActivationResult.MA_NOACTIVATE);
+					}
 
 				case WM.SETCURSOR:
 					{
