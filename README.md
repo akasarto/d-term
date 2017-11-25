@@ -18,7 +18,14 @@
 
 \* The setup executable is a self signed ClickOnce installer that pulls data from GitHub itself. You may receive alerts from widows SmartScreen regarding unknown publisher and you can also check the intaller binariesf under the *installer* branch.
 
-## Thanks to the owners of the awesome libraries
+## Upcoming changes and features
+
+- DDD
+  - Consoles will get their own bounded context
+  - Another bounded context for command snippets management
+- Consoles will be loaded as plugins
+
+## Credits & Thanks
 
 - [WinApi](https://github.com/prasannavl/WinApi)
 - [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
