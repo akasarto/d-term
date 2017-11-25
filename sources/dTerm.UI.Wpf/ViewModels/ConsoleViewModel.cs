@@ -54,6 +54,11 @@ namespace dTerm.UI.Wpf.ViewModels
 			SetWindowMessagesHook();
 		}
 
+		public void SetFocus(IntPtr viewHandle)
+		{
+			ShowWindow(viewHandle, _consoleInstance.ProcessMainWindowHandle);
+		}
+
 		private void SetTitle()
 		{
 			ViewTitle = $"[PID {_consoleInstance.ProcessId}] {_consoleInstance.Name}";

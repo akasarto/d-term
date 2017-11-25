@@ -131,6 +131,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Behaviors\OnWindowClosing.cs" />
+    <Compile Include="Behaviors\OnWindowRendered.cs" />
     <Compile Include="Behaviors\OnWindowLoaded.cs" />
     <Compile Include="Locator.cs" />
     <Compile Include="Models\HideConsoleMessage.cs" />
