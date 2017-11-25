@@ -472,7 +472,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 		WS_VSCROLL = 0x00200000
 	}
 
-	public enum SysCommand
+	internal enum SysCommand
 	{
 		/// <summary>
 		///     Closes the window.
@@ -577,7 +577,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 		SC_VSCROLL = 0xF070
 	}
 
-	public enum WM
+	internal enum WM
 	{
 		NULL = 0x0000,
 		CREATE = 0x0001,
@@ -835,7 +835,7 @@ namespace dTerm.UI.Wpf.Infrastructure
 	}
 
 	[StructLayout(LayoutKind.Explicit)]
-	public struct Win32Param
+	internal struct Win32Param
 	{
 		[FieldOffset(0)]
 		public uint BaseValue;
@@ -862,9 +862,6 @@ namespace dTerm.UI.Wpf.Infrastructure
 
 		[DllImport(user32Dll, ExactSpelling = true)]
 		public static extern bool DestroyWindow(IntPtr hwnd);
-
-		[DllImport(user32Dll, ExactSpelling = true)]
-		public static extern bool CloseWindow(IntPtr hwnd);
 
 		[DllImport(user32Dll, CharSet = Properties.BuildCharSet)]
 		internal static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
@@ -904,6 +901,12 @@ namespace dTerm.UI.Wpf.Infrastructure
 			return new IntPtr(SetWindowLong(hwnd, (int)nIndex, dwNewLong.ToInt32()));
 		}
 
+		[DllImport(user32Dll, ExactSpelling = true)]
+		internal static extern IntPtr SetActiveWindow(IntPtr hWnd);
+
+		[DllImport(user32Dll, ExactSpelling = true)]
+		internal static extern bool SetForegroundWindow(IntPtr hwnd);
+
 		[DllImport(user32Dll, CharSet = Properties.BuildCharSet)]
 		private static extern int GetWindowLong(IntPtr hwnd, int nIndex);
 
@@ -917,11 +920,5 @@ namespace dTerm.UI.Wpf.Infrastructure
 		[SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist")]
 		[DllImport(user32Dll, CharSet = Properties.BuildCharSet, EntryPoint = "SetWindowLongPtr")]
 		private static extern IntPtr SetWindowLongPtr(IntPtr hwnd, int nIndex, IntPtr dwNewLong);
-
-		[DllImport(user32Dll, ExactSpelling = true)]
-		public static extern IntPtr SetActiveWindow(IntPtr hWnd);
-
-		[DllImport(user32Dll, ExactSpelling = true)]
-		public static extern bool SetForegroundWindow(IntPtr hwnd);
 	}
 }
