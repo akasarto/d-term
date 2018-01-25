@@ -1,0 +1,28 @@
+﻿<Window 
+	x:Class="UI.Wpf.Views.ShellView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:UI.Wpf"
+	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+	Background="{DynamicResource MaterialDesignPaper}"
+	TextElement.FontWeight="Medium"
+	TextElement.FontSize="14"
+	FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+	WindowStartupLocation="CenterScreen"
+	WindowState="Maximized"
+	mc:Ignorable="d"
+	Title="dTerm" 
+	MinHeight="768" 
+	MinWidth="1024"
+	x:Name="shellView"
+>
+
+	<Grid>
+
+		<Path Style="{StaticResource logoVisualStyle}" />
+
+	</Grid>
+
+</Window>

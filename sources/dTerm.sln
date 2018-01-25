@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dTerm.UI.Wpf", "dTerm.UI.Wp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_old", "_old", "{EE6090C3-B791-4F46-8683-880E7DFB7999}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Core", "App.Core\App.Core.csproj", "{FB83FABC-592E-4DA3-B8E0-73B8D44FA788}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Core", "App.Core\App.Core.csproj", "{FB83FABC-592E-4DA3-B8E0-73B8D44FA788}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Data.Core", "App.Data.Core\App.Data.Core.csproj", "{4A91F579-A14A-4D2E-9768-2B96AB88E434}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Data.Core", "App.Data.Core\App.Data.Core.csproj", "{4A91F579-A14A-4D2E-9768-2B96AB88E434}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Data.LiteDb", "App.Data.LiteDb\App.Data.LiteDb.csproj", "{0D11D3DD-D729-482C-9AA2-AEBF418B7B36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Data.LiteDb", "App.Data.LiteDb\App.Data.LiteDb.csproj", "{0D11D3DD-D729-482C-9AA2-AEBF418B7B36}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Shared Kernel", "1.Shared Kernel", "{56C34DEB-127F-4EB6-86FD-D31D48FB528C}"
 EndProject
@@ -21,11 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Data Persistence", "2.Dat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Console Processes", "3.Console Processes", "{AD661C5A-2907-456C-8B73-285A1D11BDD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Consoles.Core", "App.Consoles.Core\App.Consoles.Core.csproj", "{FC013908-5A89-4529-BB36-364DBF031386}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Consoles.Core", "App.Consoles.Core\App.Consoles.Core.csproj", "{FC013908-5A89-4529-BB36-364DBF031386}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Consoles.Warden", "App.Consoles.Warden\App.Consoles.Warden.csproj", "{A1B21026-DA38-4D7D-96BE-3DDBE4CE1B29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Consoles.Warden", "App.Consoles.Warden\App.Consoles.Warden.csproj", "{A1B21026-DA38-4D7D-96BE-3DDBE4CE1B29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.UI.Wpf", "App.UI.Wpf\App.UI.Wpf.csproj", "{AAE19DB2-1D97-4B3B-A7A8-768E80B61011}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Wpf", "UI.Wpf\UI.Wpf.csproj", "{3DC4A3D3-40F4-415C-A386-C3CA97D4DCD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +61,10 @@ Global
 		{A1B21026-DA38-4D7D-96BE-3DDBE4CE1B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1B21026-DA38-4D7D-96BE-3DDBE4CE1B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1B21026-DA38-4D7D-96BE-3DDBE4CE1B29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AAE19DB2-1D97-4B3B-A7A8-768E80B61011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AAE19DB2-1D97-4B3B-A7A8-768E80B61011}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AAE19DB2-1D97-4B3B-A7A8-768E80B61011}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AAE19DB2-1D97-4B3B-A7A8-768E80B61011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DC4A3D3-40F4-415C-A386-C3CA97D4DCD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DC4A3D3-40F4-415C-A386-C3CA97D4DCD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DC4A3D3-40F4-415C-A386-C3CA97D4DCD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DC4A3D3-40F4-415C-A386-C3CA97D4DCD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
