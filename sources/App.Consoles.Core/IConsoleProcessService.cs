@@ -2,6 +2,6 @@
 {
 	public interface IConsoleProcessService
 	{
-		IConsoleInstance Create(IProcessDescriptor descriptor);
+		IConsoleProcess Create(IProcessDescriptor descriptor);
 	}
 }

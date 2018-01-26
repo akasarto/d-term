@@ -7,7 +7,7 @@ namespace App.Consoles.Service
 {
 	public class ConsoleProcessService : IConsoleProcessService
 	{
-		public IConsoleInstance Create(IProcessDescriptor descriptor)
+		public IConsoleProcess Create(IProcessDescriptor descriptor)
 		{
 			var pathBuilder = GetPathBuilder(descriptor);
 
@@ -23,7 +23,7 @@ namespace App.Consoles.Service
 				Arguments = descriptor.Args
 			};
 
-			var consoleInstance = new ConsoleInstance(processStartInfo, descriptor.StartupTimeoutInSeconds);
+			var consoleInstance = new ConsoleProcess(processStartInfo, descriptor.StartupTimeoutInSeconds);
 
 			return consoleInstance;
 		}

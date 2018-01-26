@@ -15,7 +15,7 @@ namespace UI.Wpf.Views
 			SourceInitialized += ShellView_SourceInitialized;
 		}
 
-		private void ShellView_SourceInitialized(object sender, System.EventArgs e)
+		private void ShellView_SourceInitialized(object sender, EventArgs e)
 		{
 			var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
 			hwndSource.AddHook(new HwndSourceHook(WndProc));
@@ -27,6 +27,7 @@ namespace UI.Wpf.Views
 
 			switch (message)
 			{
+				/*
 				case WM.APPViewHighlight:
 					{
 						//ShowWindow(hwnd, wParam);
@@ -38,6 +39,7 @@ namespace UI.Wpf.Views
 						handled = true;
 						return new IntPtr((int)MouseActivationResult.MA_NOACTIVATE);
 					}
+				*/
 
 				case WM.SETCURSOR:
 					{
@@ -62,6 +64,7 @@ namespace UI.Wpf.Views
 					}
 					break;
 
+					/*
 				case WM.SYSCOMMAND:
 					{
 						var uCmdType = (SysCommand)wParam;
@@ -87,6 +90,7 @@ namespace UI.Wpf.Views
 						}
 					}
 					break;
+					*/
 			}
 
 			return IntPtr.Zero;

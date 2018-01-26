@@ -8,9 +8,9 @@ namespace dTerm.UI.Wpf.Infrastructure
 {
 	public class ConsoleHwndHost : HwndHost
 	{
-		private IConsoleInstance _consoleInstance;
+		private IConsoleProcess _consoleInstance;
 
-		public ConsoleHwndHost(IConsoleInstance consoleInstance)
+		public ConsoleHwndHost(IConsoleProcess consoleInstance)
 		{
 			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ConsoleHwndHost));
 		}

@@ -2,38 +2,50 @@
 using App.Win32Api;
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
+using System.IO;
 
 namespace App.Consoles.Service
 {
-	public class ConsoleInstance : IConsoleInstance
+	public class ConsoleProcess : IConsoleProcess
 	{
-		private readonly Guid _id = Guid.NewGuid();
 		private readonly Process _systemProcess;
 		private readonly ProcessStartInfo _processStartInfo = null;
 		private readonly int _startupTimeoutInSeconds;
 		private IntPtr _processMainWindowHandle;
 
-		public ConsoleInstance(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
+		public ConsoleProcess(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
 		{
-			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleInstance));
+			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleProcess));
 			if (startupTimeoutInSeconds <= 0)
 			{
-				throw new ArgumentOutOfRangeException(nameof(startupTimeoutInSeconds), startupTimeoutInSeconds, nameof(ConsoleInstance));
+				throw new ArgumentOutOfRangeException(nameof(startupTimeoutInSeconds), startupTimeoutInSeconds, nameof(ConsoleProcess));
 			}
 			_startupTimeoutInSeconds = startupTimeoutInSeconds;
 			_systemProcess = CreateProcess();
 		}
 
-		public Guid Id => _id;
+		public int Id => _systemProcess.Id;
 
-		public int ProcessId => _systemProcess.Id;
+		public bool IsStarted { get; private set; }
+
+		public bool IsSupported
+		{
+			get
+			{
+				var fileName = _processStartInfo.FileName;
+
+				if (string.IsNullOrWhiteSpace(fileName))
+				{
+					return new FileInfo(fileName).Exists;
+				}
+
+				return false;
+			}
+		}
 
 		public IntPtr MainWindowHandle => _processMainWindowHandle;
 
-		public IntPtr ProcessHandle => _systemProcess.Handle;
-
-		public bool Start()
+		public void Start()
 		{
 			var processStopwatch = Stopwatch.StartNew();
 			var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
@@ -48,14 +60,14 @@ namespace App.Consoles.Service
 
 					if (_processMainWindowHandle != IntPtr.Zero)
 					{
-						return true;
+						IsStarted = true;
 					}
 				}
 
 				_systemProcess.Kill();
 			}
 
-			return false;
+			IsStarted = false;
 		}
 
 		private Process CreateProcess()

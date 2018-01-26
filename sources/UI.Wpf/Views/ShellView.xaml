@@ -21,8 +21,18 @@
 
 	<Grid>
 
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<TabControl x:Name="ConsoleInstances">
+
+		</TabControl>
+		
 		<!--<Path Style="{StaticResource logoVisualStyle}" />-->
 
+		<!--
 		<Grid Margin="125">
 
 			<materialDesign:Card HorizontalAlignment="Stretch" VerticalAlignment="Stretch" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="32">
@@ -30,6 +40,7 @@
 			</materialDesign:Card>
 
 		</Grid>
+		-->
 
 		<Button 
 			Margin="25 15" 
