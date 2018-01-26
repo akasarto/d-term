@@ -39,6 +39,9 @@
   <PropertyGroup>
     <StartupObject>UI.Wpf.EntryPoint</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommandLine, Version=2.2.1.0, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.2.2.1\lib\net45\CommandLine.dll</HintPath>
@@ -119,6 +122,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\ConsoleHwndHost.cs" />
     <Compile Include="Infrastructure\StartupOptions.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -153,6 +157,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include=".editorconfig" />
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -165,6 +173,15 @@
   <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\App.Consoles.Core\App.Consoles.Core.csproj">
+      <Project>{FC013908-5A89-4529-BB36-364DBF031386}</Project>
+      <Name>App.Consoles.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\App.Consoles.Service\App.Consoles.Service.csproj">
+      <Project>{B82566AC-EE82-409F-A6D1-69B66371551E}</Project>
+      <Name>App.Consoles.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

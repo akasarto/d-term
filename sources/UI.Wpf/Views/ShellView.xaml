@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:local="clr-namespace:UI.Wpf"
 	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
 	Background="{DynamicResource MaterialDesignPaper}"
@@ -21,7 +22,27 @@
 
 	<Grid>
 
-		<Path Style="{StaticResource logoVisualStyle}" />
+		<!--<Path Style="{StaticResource logoVisualStyle}" />-->
+
+		<Grid Margin="175">
+
+			<materialDesign:Card HorizontalAlignment="Stretch" VerticalAlignment="Stretch" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="32">
+				DEPTH 5
+			</materialDesign:Card>
+
+		</Grid>
+
+		<Button 
+			Margin="25 15" 
+			VerticalAlignment="Bottom" 
+			HorizontalAlignment="Right" 
+			Command="{Binding CreateConsole}"
+			Style="{StaticResource MaterialDesignFloatingActionButton}">
+			<materialDesign:PackIcon 
+				Kind="Console" 
+				Height="24" 
+				Width="24"/>
+		</Button>
 
 	</Grid>
 

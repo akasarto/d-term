@@ -1,4 +1,6 @@
-﻿using CommandLine;
+﻿using App.Consoles.Core;
+using App.Consoles.Service;
+using CommandLine;
 using SimpleInjector;
 using System;
 using System.Globalization;
@@ -63,6 +65,8 @@ namespace UI.Wpf
 
 			container.Register<ShellView>();
 			container.Register<ShellViewModel>();
+
+			container.Register<IConsoleProcessService, ConsoleProcessService>(Lifestyle.Singleton);
 
 			return container;
 		}
