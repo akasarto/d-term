@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Wpf", "UI.Wpf\UI.Wpf.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Consoles.Service", "App.Consoles.Service\App.Consoles.Service.csproj", "{B82566AC-EE82-409F-A6D1-69B66371551E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Win32Api", "App.Win32Api\App.Win32Api.csproj", "{5D053F27-AAF5-4EB9-98B2-0D363D1D2BD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B82566AC-EE82-409F-A6D1-69B66371551E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B82566AC-EE82-409F-A6D1-69B66371551E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B82566AC-EE82-409F-A6D1-69B66371551E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D053F27-AAF5-4EB9-98B2-0D363D1D2BD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D053F27-AAF5-4EB9-98B2-0D363D1D2BD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D053F27-AAF5-4EB9-98B2-0D363D1D2BD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D053F27-AAF5-4EB9-98B2-0D363D1D2BD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{0D11D3DD-D729-482C-9AA2-AEBF418B7B36} = {727A3081-698A-4DEA-BE0F-219D732FA3B4}
 		{FC013908-5A89-4529-BB36-364DBF031386} = {AD661C5A-2907-456C-8B73-285A1D11BDD8}
 		{B82566AC-EE82-409F-A6D1-69B66371551E} = {AD661C5A-2907-456C-8B73-285A1D11BDD8}
+		{5D053F27-AAF5-4EB9-98B2-0D363D1D2BD7} = {56C34DEB-127F-4EB6-86FD-D31D48FB528C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BF67C3E-869B-4662-BFDE-7951D2C10D14}

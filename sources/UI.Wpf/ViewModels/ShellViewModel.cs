@@ -1,5 +1,6 @@
 ﻿using App.Consoles.Core;
 using App.Consoles.Service;
+using dTerm.UI.Wpf.Infrastructure;
 using ReactiveUI;
 using System;
 
@@ -18,17 +19,20 @@ namespace UI.Wpf.ViewModels
 
 		public ReactiveCommand CreateConsole { get; protected set; }
 
+		ConsoleHwndHost _consoleHwndHost;
+		public ConsoleHwndHost ConsoleHwndHost
+		{
+			get { return _consoleHwndHost; }
+			set { this.RaiseAndSetIfChanged(ref _consoleHwndHost, value); }
+		}
+
 		private void CreateConsoleExecute()
 		{
 			var instance = _consoleProcessService.Create(new ProcessDescriptor() { FilePath = @"/cmd.exe", PathType = PathType.SystemPathVar });
 
 			instance.Start();
 
-#warning test
-			ShowWindow(instance.MainWindowHandle, new IntPtr(5));
+			ConsoleHwndHost = new ConsoleHwndHost(instance);
 		}
-
-		[System.Runtime.InteropServices.DllImport("user32.dll", ExactSpelling = true)]
-		internal static extern bool ShowWindow(IntPtr hwnd, IntPtr nCmdShow);
 	}
 }

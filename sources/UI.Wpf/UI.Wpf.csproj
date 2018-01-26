@@ -125,7 +125,14 @@
     <Compile Include="Infrastructure\ConsoleHwndHost.cs" />
     <Compile Include="Infrastructure\StartupOptions.cs" />
     <Compile Include="EntryPoint.cs" />
+    <Compile Include="Views\Console\ConsoleInstanceView.xaml.cs">
+      <DependentUpon>ConsoleInstanceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Page Include="Views\Console\ConsoleInstanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -181,6 +188,10 @@
     <ProjectReference Include="..\App.Consoles.Service\App.Consoles.Service.csproj">
       <Project>{B82566AC-EE82-409F-A6D1-69B66371551E}</Project>
       <Name>App.Consoles.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\App.Win32Api\App.Win32Api.csproj">
+      <Project>{5D053F27-AAF5-4EB9-98B2-0D363D1D2BD7}</Project>
+      <Name>App.Win32Api</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
 ﻿using App.Consoles.Core;
+using App.Win32Api;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -57,12 +58,6 @@ namespace App.Consoles.Service
 			return false;
 		}
 
-		[DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Unicode)]
-		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
-
-		[DllImport("user32.dll", CharSet = CharSet.Unicode)]
-		private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
-
 		private Process CreateProcess()
 		{
 			var process = new Process()
@@ -84,8 +79,8 @@ namespace App.Consoles.Service
 			{
 				processId = 0;
 				_systemProcess.Refresh();
-				windowHandle = FindWindowEx(IntPtr.Zero, windowHandle, null, null);
-				threadId = GetWindowThreadProcessId(windowHandle, out processId);
+				windowHandle = NativeMethods.FindWindowEx(IntPtr.Zero, windowHandle, null, null);
+				threadId = NativeMethods.GetWindowThreadProcessId(windowHandle, out processId);
 				if (processId == _systemProcess.Id)
 				{
 					return windowHandle;
