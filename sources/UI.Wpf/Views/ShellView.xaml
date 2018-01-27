@@ -13,26 +13,69 @@
 	TextElement.FontSize="14"
 	WindowState="Maximized"
 	mc:Ignorable="d"
-	Title="dTerm" 
-	MinHeight="768" 
+	Title="dTerm"
 	MinWidth="1024"
+	MinHeight="768" 
 	x:Name="shellView"
 >
 
+	<!--
+	<Window.Resources>
+
+		<Style x:Key="processTabsStyle" BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
+			<Setter Property="Margin" Value="35 35 35 35" />
+			<Setter Property="Grid.Column" Value="1" />
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="VerticalAlignment" Value="Stretch" />
+			<Setter Property="TabStripPlacement" Value="Right" />
+			<Setter Property="ItemsSource" Value="{Binding Consoles}" />
+			<Setter Property="SelectedValue" Value="{Binding SelectedConsole}" />
+			<Setter Property="ItemContainerStyle">
+				<Setter.Value>
+					<Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
+						<EventSetter Event="ButtonBase.Click" Handler="TabItem_Click" />
+					</Style>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		
+	</Window.Resources>
+	-->
+
 	<Grid>
 
+		<!--
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<TabControl x:Name="ConsoleInstances">
+		<TabControl Style="{DynamicResource processTabsStyle}">
 
+			<TabControl.Resources>
+				<Style TargetType="{x:Type TabPanel}">
+					<Setter Property="Margin" Value="35 15 15 15"/>
+					<Setter Property="VerticalAlignment" Value="Center"/>
+					<Setter Property="HorizontalAlignment" Value="Center"/>
+				</Style>
+			</TabControl.Resources>
+
+			<TabControl.ItemTemplate>
+				<DataTemplate>
+					<materialDesign:Chip Margin="0 3.5" Content="Aaa">
+						<materialDesign:Chip.Icon>
+							<materialDesign:PackIcon Kind="Console"/>
+						</materialDesign:Chip.Icon>
+					</materialDesign:Chip>
+				</DataTemplate>
+			</TabControl.ItemTemplate>
+
+			<TabItem Header="Urrp!"></TabItem>
+			
 		</TabControl>
-		
-		<!--<Path Style="{StaticResource logoVisualStyle}" />-->
 
-		<!--
 		<Grid Margin="125">
 
 			<materialDesign:Card HorizontalAlignment="Stretch" VerticalAlignment="Stretch" materialDesign:ShadowAssist.ShadowDepth="Depth3" Padding="32">
@@ -42,7 +85,25 @@
 		</Grid>
 		-->
 
-		<Button 
+		<!--<Path Style="{StaticResource logoVisualStyle}" />-->
+		
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<GroupBox
+			Header="Shadow Header"
+			Style="{DynamicResource MaterialDesignGroupBox}"
+			Margin="16"
+			materialDesign:ShadowAssist.ShadowDepth="Depth3"
+			BorderThickness="0">
+			<!--<ContentControl Margin="7.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding ConsoleHwndHost}" />-->
+			<Border Margin="7.5" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+		</GroupBox>
+
+		<Button
+			Grid.Row="1"
 			Margin="25 15" 
 			VerticalAlignment="Bottom" 
 			HorizontalAlignment="Right" 

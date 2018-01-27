@@ -61,6 +61,7 @@ namespace App.Consoles.Service
 					if (_processMainWindowHandle != IntPtr.Zero)
 					{
 						IsStarted = true;
+						return;
 					}
 				}
 
