@@ -24,6 +24,65 @@
 
 	<Grid>
 
+		<StackPanel>
+			<materialDesign:ColorZone Mode="Inverted" Padding="16">
+				<DockPanel>
+					<materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges">
+						<ListBox>
+							<ListBoxItem>
+								Hello World
+							</ListBoxItem>
+							<ListBoxItem>
+								Nice Popup
+							</ListBoxItem>
+							<ListBoxItem>
+								Goodbye.
+							</ListBoxItem>
+						</ListBox>
+					</materialDesign:PopupBox>
+					<StackPanel Orientation="Horizontal">
+						<ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
+						<TextBlock VerticalAlignment="Center" Margin="16 0 0 0">Material Design In XAML Toolkit</TextBlock>
+					</StackPanel>
+				</DockPanel>
+			</materialDesign:ColorZone>
+			<Grid>
+				<DockPanel Margin="15" LastChildFill="False">
+					<StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+						<materialDesign:PackIcon Kind="Console" Width="24" Height="24" VerticalAlignment="Center" />
+						<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">Available Consoles</TextBlock>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+						<Button Margin="0 0 7.5 0" x:Name="Root" ToolTip="Wiki Article" ToolTipService.InitialShowDelay="0" Style="{DynamicResource MaterialDesignFlatButton}">
+							<TextBlock Margin="0 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="CMD" VerticalAlignment="Center" />
+						</Button>
+					</StackPanel>
+				</DockPanel>
+				<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
+			</Grid>
+			<!--<Grid>
+				<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+					<StackPanel Margin="16" Orientation="Horizontal">
+						<materialDesign:PackIcon Kind="Console" Width="24" Height="24" VerticalAlignment="Center" />
+						<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">Available Consoles</TextBlock>
+						<Grid Margin="16 0 0 0">
+							<StackPanel Orientation="Horizontal">
+								<Button Margin="0 0 7.5 0" x:Name="Root" ToolTip="Wiki Article" ToolTipService.InitialShowDelay="0" Style="{DynamicResource MaterialDesignFlatButton}">
+									<TextBlock Margin="0 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="CMD" VerticalAlignment="Center" />
+								</Button>
+							</StackPanel>
+						</Grid>
+					</StackPanel>
+				</ScrollViewer>
+				<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
+			</Grid>-->
+		</StackPanel>
+
+	</Grid>
+
+	<!--
+	<Grid>
+
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
@@ -47,16 +106,14 @@
 									<Grid Name="Panel" Margin="0 25 15 25">
 										<ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" />
 									</Grid>
-									<!--
 									<ControlTemplate.Triggers>
 										<Trigger Property="IsSelected" Value="True">
-											<Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
+											<Setter TargetName="Panel" Property="Background" Value="Transparent" />
 										</Trigger>
 										<Trigger Property="IsSelected" Value="False">
-											<Setter TargetName="Panel" Property="Background" Value="White" />
+											<Setter TargetName="Panel" Property="Background" Value="Transparent" />
 										</Trigger>
 									</ControlTemplate.Triggers>
-									-->
 								</ControlTemplate>
 							</Setter.Value>
 						</Setter>
@@ -97,22 +154,6 @@
 					</DataTemplate>
 				</TabControl.ContentTemplate>
 
-				<!--
-				<TabItem>
-
-					<TabItem.Header>
-						<materialDesign:Chip Content="Twitter" IconBackground="{DynamicResource PrimaryHueDarkBrush}" IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
-							<materialDesign:Chip.Icon>
-								<materialDesign:PackIcon Kind="Twitter"></materialDesign:PackIcon>
-							</materialDesign:Chip.Icon>
-						</materialDesign:Chip>
-					</TabItem.Header>
-
-					<views:ConsoleInstanceView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-
-				</TabItem>
-				-->
-
 			</TabControl>
 
 		</Grid>
@@ -134,5 +175,6 @@
 		<Path Style="{StaticResource logoVisualStyle}" />
 
 	</Grid>
+	-->
 
 </Window>
