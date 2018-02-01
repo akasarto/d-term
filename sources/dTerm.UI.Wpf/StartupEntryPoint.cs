@@ -5,12 +5,11 @@ using SimpleInjector;
 using System;
 using System.Globalization;
 using dTerm.UI.Wpf.Infrastructure;
-using dTerm.UI.Wpf.ViewModels;
-using dTerm.UI.Wpf.Views;
+using dTerm.UI.Wpf.Shell;
 
 namespace dTerm.UI.Wpf
 {
-	public class EntryPoint
+	public class StartupEntryPoint
 	{
 		[STAThread]
 		public static void Main(string[] args)
@@ -39,9 +38,9 @@ namespace dTerm.UI.Wpf
 			}
 		}
 
-		private static StartupOptions ParseArgs(string[] rawArgs)
+		private static StartupArgs ParseArgs(string[] rawArgs)
 		{
-			var result = new StartupOptions();
+			var result = new StartupArgs();
 			var parser = new Parser(
 				config =>
 				{
@@ -53,7 +52,7 @@ namespace dTerm.UI.Wpf
 			);
 
 			parser
-				.ParseArguments<StartupOptions>(rawArgs)
+				.ParseArguments<StartupArgs>(rawArgs)
 				.WithParsed(parsedArgs => result = parsedArgs);
 
 			return result;

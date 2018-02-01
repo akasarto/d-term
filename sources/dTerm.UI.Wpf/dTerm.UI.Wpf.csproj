@@ -37,7 +37,7 @@
     <ApplicationIcon>Assets\dTerm.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>dTerm.UI.Wpf.EntryPoint</StartupObject>
+    <StartupObject>dTerm.UI.Wpf.StartupEntryPoint</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -122,18 +122,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Infrastructure\ConsoleHwndHost.cs" />
-    <Compile Include="Infrastructure\StartupOptions.cs" />
-    <Compile Include="EntryPoint.cs" />
-    <Compile Include="Views\Console\ConsoleInstanceView.xaml.cs">
+    <Compile Include="Consoles\ConsoleHwndHost.cs" />
+    <Compile Include="StartupArgs.cs" />
+    <Compile Include="StartupContainer.cs" />
+    <Compile Include="StartupEntryPoint.cs" />
+    <Compile Include="Consoles\ConsoleInstanceViewModel.cs" />
+    <Compile Include="Consoles\ConsoleInstanceView.xaml.cs">
       <DependentUpon>ConsoleInstanceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Page Include="Views\Console\ConsoleInstanceView.xaml">
+    <Compile Include="Shell\ShellViewModel.cs" />
+    <Page Include="Consoles\ConsoleInstanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ShellView.xaml">
+    <Page Include="Shell\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -141,7 +143,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\ShellView.xaml.cs">
+    <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -180,9 +182,7 @@
   <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Console\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\dTerm.Consoles.Core\dTerm.Consoles.Core.csproj">
       <Project>{71CD7721-71EE-4E19-9674-15582AEE93EC}</Project>

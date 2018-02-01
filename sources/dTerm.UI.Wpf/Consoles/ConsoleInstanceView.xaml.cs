@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace dTerm.UI.Wpf.Views
+namespace dTerm.UI.Wpf.Consoles
 {
 	public partial class ConsoleInstanceView : UserControl
 	{

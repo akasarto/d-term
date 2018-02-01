@@ -4,20 +4,20 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
-namespace dTerm.UI.Wpf.Infrastructure
+namespace dTerm.UI.Wpf.Consoles
 {
 	public class ConsoleHwndHost : HwndHost
 	{
-		private IConsoleProcess _consoleInstance;
+		private IConsoleProcess _consoleProcess;
 
-		public ConsoleHwndHost(IConsoleProcess consoleInstance)
+		public ConsoleHwndHost(IConsoleProcess consoleProcess)
 		{
-			_consoleInstance = consoleInstance ?? throw new ArgumentNullException(nameof(consoleInstance), nameof(ConsoleHwndHost));
+			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleHwndHost));
 		}
 
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
-			var childHandle = _consoleInstance.MainWindowHandle;
+			var childHandle = _consoleProcess.MainWindowHandle;
 			IntegrateConsole(childHandle, hwndParent.Handle);
 			return new HandleRef(this, childHandle);
 		}

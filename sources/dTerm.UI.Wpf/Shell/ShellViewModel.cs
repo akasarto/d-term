@@ -1,9 +1,10 @@
 ﻿using dTerm.Consoles.Core;
-using dTerm.UI.Wpf.Infrastructure;
+using dTerm.Consoles.Processes;
+using dTerm.UI.Wpf.Consoles;
 using ReactiveUI;
 using System;
 
-namespace dTerm.UI.Wpf.ViewModels
+namespace dTerm.UI.Wpf.Shell
 {
 	public class ShellViewModel : ReactiveObject
 	{
@@ -16,28 +17,27 @@ namespace dTerm.UI.Wpf.ViewModels
 			CreateConsole = ReactiveCommand.Create(CreateConsoleExecute);
 		}
 
-		public ReactiveCommand CreateConsole { get; protected set; }
+		public ReactiveList<ConsoleInstanceViewModel> ConsoleInstances { get; set; } = new ReactiveList<ConsoleInstanceViewModel>();
 
-		ConsoleHwndHost _consoleHwndHost;
-		public ConsoleHwndHost ConsoleHwndHost
-		{
-			get { return _consoleHwndHost; }
-			set { this.RaiseAndSetIfChanged(ref _consoleHwndHost, value); }
-		}
+		public ReactiveCommand CreateConsole { get; protected set; }
 
 		private void CreateConsoleExecute()
 		{
-			/*
-			var instance = _consoleProcessService.Create(new ProcessDescriptor()
+			var consoleProcess = _consoleProcessService.Create(new ProcessDescriptor()
 			{
 				FilePath = @"/cmd.exe",
 				PathType = PathType.SystemPathVar
 			});
 
-			instance.Start();
+			consoleProcess.Start();
 
-			ConsoleHwndHost = new ConsoleHwndHost(instance);
-			*/
+			var consoleInstanceViewModel = new ConsoleInstanceViewModel(consoleProcess)
+			{
+				Name = DateTime.Now.Millisecond.ToString()
+			};
+
+			ConsoleInstances.Add(consoleInstanceViewModel);
+
 		}
 	}
 }

@@ -2,9 +2,9 @@
 using System;
 using System.Windows;
 using System.Windows.Interop;
-using dTerm.UI.Wpf.ViewModels;
+using System.Windows.Controls;
 
-namespace dTerm.UI.Wpf.Views
+namespace dTerm.UI.Wpf.Shell
 {
 	public partial class ShellView : Window
 	{
@@ -13,6 +13,12 @@ namespace dTerm.UI.Wpf.Views
 			InitializeComponent();
 			DataContext = viewModel;
 			SourceInitialized += ShellView_SourceInitialized;
+		}
+
+		private void TabItem_Click(object sender, RoutedEventArgs e)
+		{
+			((TabItem)sender).IsSelected = true;
+			e.Handled = true;
 		}
 
 		private void ShellView_SourceInitialized(object sender, EventArgs e)
