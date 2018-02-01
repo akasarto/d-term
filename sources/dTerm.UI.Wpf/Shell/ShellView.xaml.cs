@@ -105,9 +105,9 @@ namespace dTerm.UI.Wpf.Shell
 		private void ShowWindow(IntPtr ownerWindowHandle, IntPtr processWindowHandle)
 		{
 			NativeMethods.SetForegroundWindow(processWindowHandle);
-			NativeMethods.SetActiveWindow(ownerWindowHandle);
-			NativeMethods.SendMessage(ownerWindowHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
-			NativeMethods.SendMessage(ownerWindowHandle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
+			//NativeMethods.SetActiveWindow(ownerWindowHandle);
+			//NativeMethods.SendMessage(ownerWindowHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
+			//NativeMethods.SendMessage(ownerWindowHandle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
 
 			//EventBus.Publish(new ShowConsoleMessage(_consoleInstance));
 		}

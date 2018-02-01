@@ -44,7 +44,7 @@
 						<Setter Property="Template">
 							<Setter.Value>
 								<ControlTemplate TargetType="TabItem">
-									<Grid Name="Panel" Margin="15">
+									<Grid Name="Panel" Margin="0 25 15 25">
 										<ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" />
 									</Grid>
 									<!--
@@ -81,7 +81,7 @@
 
 				<TabControl.ItemTemplate>
 					<DataTemplate>
-						<materialDesign:Chip Margin="0 3.5" Content="{Binding Name}">
+						<materialDesign:Chip Content="{Binding Name}">
 							<materialDesign:Chip.Icon>
 								<materialDesign:PackIcon Kind="Console"/>
 							</materialDesign:Chip.Icon>
@@ -91,9 +91,9 @@
 
 				<TabControl.ContentTemplate>
 					<DataTemplate>
-						<materialDesign:Card Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth4" materialDesign:ShadowAssist.ShadowEdges="All" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+						<Border Margin="15 0 15 15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 							<consoles:ConsoleInstanceView DataContext="{Binding}" />
-						</materialDesign:Card>
+						</Border>
 					</DataTemplate>
 				</TabControl.ContentTemplate>
 
@@ -117,15 +117,15 @@
 
 		</Grid>
 
-		<Grid Grid.Row="1" Margin="15 0 15 0">
+		<Grid Grid.Row="1">
 
-			<Separator Background="Black" BorderBrush="Black" Height="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+			<Separator Background="Black" BorderBrush="Black" Height="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15 0 15 25" />
 
-			<Border HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}" Margin="35 0 35 25" Padding="15 0">
+			<Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}" Margin="15 0 35 25" Padding="15 0">
 				<Button
 					Command="{Binding CreateConsole}"
 					Style="{StaticResource MaterialDesignFloatingActionButton}">
-					<materialDesign:PackIcon Kind="Console" />
+					<materialDesign:PackIcon Kind="Console" Width="24" Height="24" />
 				</Button>
 			</Border>
 

@@ -37,7 +37,6 @@ namespace dTerm.UI.Wpf.Shell
 			};
 
 			ConsoleInstances.Add(consoleInstanceViewModel);
-
 		}
 	}
 }
