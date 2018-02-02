@@ -17,6 +17,15 @@ namespace dTerm.UI.Wpf.Shell
 			CreateConsole = ReactiveCommand.Create(CreateConsoleExecute);
 		}
 
+
+		private ConsoleHwndHost _tmp = null;
+		public ConsoleHwndHost Tmp
+		{
+			get => _tmp;
+			set => this.RaiseAndSetIfChanged(ref _tmp, value);
+		}
+
+
 		public ReactiveList<ConsoleInstanceViewModel> ConsoleInstances { get; set; } = new ReactiveList<ConsoleInstanceViewModel>();
 
 		public ReactiveCommand CreateConsole { get; protected set; }
@@ -31,12 +40,13 @@ namespace dTerm.UI.Wpf.Shell
 
 			consoleProcess.Start();
 
-			var consoleInstanceViewModel = new ConsoleInstanceViewModel(consoleProcess)
-			{
-				Name = DateTime.Now.Millisecond.ToString()
-			};
+			Tmp = new ConsoleHwndHost(consoleProcess);
+			//var consoleInstanceViewModel = new ConsoleInstanceViewModel(consoleProcess)
+			//{
+			//	Name = DateTime.Now.Millisecond.ToString()
+			//};
 
-			ConsoleInstances.Add(consoleInstanceViewModel);
+			//ConsoleInstances.Add(consoleInstanceViewModel);
 		}
 	}
 }

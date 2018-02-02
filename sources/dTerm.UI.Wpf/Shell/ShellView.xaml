@@ -24,157 +24,76 @@
 
 	<Grid>
 
-		<StackPanel>
-			<materialDesign:ColorZone Mode="Inverted" Padding="16">
-				<DockPanel>
-					<materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges">
-						<ListBox>
-							<ListBoxItem>
-								Hello World
-							</ListBoxItem>
-							<ListBoxItem>
-								Nice Popup
-							</ListBoxItem>
-							<ListBoxItem>
-								Goodbye.
-							</ListBoxItem>
-						</ListBox>
-					</materialDesign:PopupBox>
-					<StackPanel Orientation="Horizontal">
-						<ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
-						<TextBlock VerticalAlignment="Center" Margin="16 0 0 0">Material Design In XAML Toolkit</TextBlock>
-					</StackPanel>
-				</DockPanel>
-			</materialDesign:ColorZone>
-			<Grid>
-				<DockPanel Margin="15" LastChildFill="False">
-					<StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-						<materialDesign:PackIcon Kind="Console" Width="24" Height="24" VerticalAlignment="Center" />
-						<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">Available Consoles</TextBlock>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-						<Button Margin="0 0 7.5 0" x:Name="Root" ToolTip="Wiki Article" ToolTipService.InitialShowDelay="0" Style="{DynamicResource MaterialDesignFlatButton}">
-							<TextBlock Margin="0 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="CMD" VerticalAlignment="Center" />
-						</Button>
-					</StackPanel>
-				</DockPanel>
-				<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
-			</Grid>
-			<!--<Grid>
-				<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-					<StackPanel Margin="16" Orientation="Horizontal">
-						<materialDesign:PackIcon Kind="Console" Width="24" Height="24" VerticalAlignment="Center" />
-						<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">Available Consoles</TextBlock>
-						<Grid Margin="16 0 0 0">
-							<StackPanel Orientation="Horizontal">
-								<Button Margin="0 0 7.5 0" x:Name="Root" ToolTip="Wiki Article" ToolTipService.InitialShowDelay="0" Style="{DynamicResource MaterialDesignFlatButton}">
-									<TextBlock Margin="0 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="CMD" VerticalAlignment="Center" />
-								</Button>
-							</StackPanel>
-						</Grid>
-					</StackPanel>
-				</ScrollViewer>
-				<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
-			</Grid>-->
-		</StackPanel>
-
-	</Grid>
-
-	<!--
-	<Grid>
-
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<Grid>
-
-			<TabControl BorderThickness="0" ItemsSource="{Binding ConsoleInstances}" IsSynchronizedWithCurrentItem="True">
-
-				<TabControl.Resources>
-
-					<Style TargetType="{x:Type TabPanel}">
-						<Setter Property="VerticalAlignment" Value="Center"/>
-						<Setter Property="HorizontalAlignment" Value="Right"/>
-					</Style>
-
-					<Style TargetType="{x:Type TabItem}">
-						<Setter Property="Template">
-							<Setter.Value>
-								<ControlTemplate TargetType="TabItem">
-									<Grid Name="Panel" Margin="0 25 15 25">
-										<ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" />
-									</Grid>
-									<ControlTemplate.Triggers>
-										<Trigger Property="IsSelected" Value="True">
-											<Setter TargetName="Panel" Property="Background" Value="Transparent" />
-										</Trigger>
-										<Trigger Property="IsSelected" Value="False">
-											<Setter TargetName="Panel" Property="Background" Value="Transparent" />
-										</Trigger>
-									</ControlTemplate.Triggers>
-								</ControlTemplate>
-							</Setter.Value>
-						</Setter>
-					</Style>
-
-					<Style BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
-						<Setter Property="Background" Value="Transparent" />
-						<Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
-						<Setter Property="HorizontalAlignment" Value="Stretch" />
-						<Setter Property="VerticalAlignment" Value="Stretch" />
-						<Setter Property="TabStripPlacement" Value="Top" />
-						<Setter Property="ItemContainerStyle">
-							<Setter.Value>
-								<Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
-									<EventSetter Event="ButtonBase.Click" Handler="TabItem_Click" />
-								</Style>
-							</Setter.Value>
-						</Setter>
-					</Style>
-
-				</TabControl.Resources>
-
-				<TabControl.ItemTemplate>
-					<DataTemplate>
-						<materialDesign:Chip Content="{Binding Name}">
-							<materialDesign:Chip.Icon>
-								<materialDesign:PackIcon Kind="Console"/>
-							</materialDesign:Chip.Icon>
-						</materialDesign:Chip>
-					</DataTemplate>
-				</TabControl.ItemTemplate>
-
-				<TabControl.ContentTemplate>
-					<DataTemplate>
-						<Border Margin="15 0 15 15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-							<consoles:ConsoleInstanceView DataContext="{Binding}" />
-						</Border>
-					</DataTemplate>
-				</TabControl.ContentTemplate>
-
-			</TabControl>
-
-		</Grid>
-
-		<Grid Grid.Row="1">
-
-			<Separator Background="Black" BorderBrush="Black" Height="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="15 0 15 25" />
-
-			<Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}" Margin="15 0 35 25" Padding="15 0">
-				<Button
-					Command="{Binding CreateConsole}"
-					Style="{StaticResource MaterialDesignFloatingActionButton}">
-					<materialDesign:PackIcon Kind="Console" Width="24" Height="24" />
+		<materialDesign:ColorZone Mode="Inverted" Padding="16" Grid.Row="0">
+			<DockPanel LastChildFill="False">
+				<StackPanel Orientation="Horizontal">
+					<ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
+					<TextBlock VerticalAlignment="Center" Margin="16 0 0 0">Material Design In XAML Toolkit</TextBlock>
+				</StackPanel>
+				<Button DockPanel.Dock="Right" Cursor="Hand" Command="{Binding CreateConsole}" VerticalAlignment="Center">
+					<Button.Style>
+						<Style TargetType="Button">
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate>
+										<Border Background="Transparent">
+											<materialDesign:PackIcon Kind="Settings" Margin="4 0 4 0" Width="24" Height="24" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=materialDesign:ColorZone}, Path=Foreground}" />
+										</Border>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</Button.Style>
 				</Button>
-			</Border>
+			</DockPanel>
+		</materialDesign:ColorZone>
 
-		</Grid>
+		<StackPanel Grid.Row="1">
+			<DockPanel Margin="15" LastChildFill="False">
+				<StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+					<materialDesign:PackIcon Kind="Console" Width="24" Height="24" VerticalAlignment="Center" />
+					<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">Available Consoles</TextBlock>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+					<materialDesign:Chip Margin="15 0 0 0" Icon="C">Cmd</materialDesign:Chip>
+					<materialDesign:Chip Margin="15 0 0 0" Icon="G">Git Bash</materialDesign:Chip>
+					<materialDesign:Chip Margin="15 0 0 0" Icon="P">Power Shell</materialDesign:Chip>
+					<materialDesign:Chip Margin="15 0 0 0" Icon="U">Ubuntu Bash</materialDesign:Chip>
+					<Border BorderBrush="{DynamicResource MaterialDesignDivider}" Margin="15 0 15 0" BorderThickness="1 0 0 0" />
+					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" PlacementMode="BottomAndAlignCentres">
+						<StackPanel>
+							<Button ToolTip="GitHub" Command="{Binding CreateConsole}">
+								<materialDesign:PackIcon Kind="GithubCircle" Height="20" Width="20" />
+							</Button>
+							<Button ToolTip="Twitter" Background="{DynamicResource PrimaryHueMidBrush}" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}">
+								<materialDesign:PackIcon Kind="Twitter" />
+							</Button>
+							<Button ToolTip="Chat">
+								<materialDesign:PackIcon Kind="Message" />
+							</Button>
+							<Button ToolTip="Email" Background="{DynamicResource SecondaryAccentBrush}" Foreground="{DynamicResource SecondaryAccentForegroundBrush}">
+								<materialDesign:PackIcon Kind="Email" />
+							</Button>
+							<Button ToolTip="Feel like you want to make a donation?">
+								<materialDesign:PackIcon Kind="Gift" />
+							</Button>
+						</StackPanel>
+					</materialDesign:PopupBox>
+				</StackPanel>
+			</DockPanel>
+			<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
+		</StackPanel>
 
-		<Path Style="{StaticResource logoVisualStyle}" />
+		<Path Style="{StaticResource logoVisualStyle}" Grid.Row="2" />
+
+		<ContentControl Content="{Binding Tmp}" Grid.Row="2" />
 
 	</Grid>
-	-->
 
 </Window>

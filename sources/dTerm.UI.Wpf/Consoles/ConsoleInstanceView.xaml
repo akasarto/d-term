@@ -12,20 +12,7 @@
 
 	<Grid>
 
-		<GroupBox
-				Margin="0"
-				Header="Cmd"
-				Style="{DynamicResource MaterialDesignGroupBox}"
-				materialDesign:ShadowAssist.ShadowDepth="Depth3"
-				BorderThickness="0">
-
-			<Grid>
-
-				<ContentControl Margin="7.5 7.5 7.5 0" Content="{Binding ProcessHost}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-
-			</Grid>
-
-		</GroupBox>
+		<ContentControl Content="{Binding ProcessHost}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
 	</Grid>
 
