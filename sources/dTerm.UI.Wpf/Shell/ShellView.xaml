@@ -6,6 +6,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:consoles="clr-namespace:dTerm.UI.Wpf.Consoles"
+	xmlns:dockablz="clr-namespace:Dragablz.Dockablz;assembly=Dragablz"
+	xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
     FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
 	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
 	Background="{DynamicResource MaterialDesignPaper}"
@@ -36,21 +38,17 @@
 					<ToggleButton Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
 					<TextBlock VerticalAlignment="Center" Margin="16 0 0 0">Material Design In XAML Toolkit</TextBlock>
 				</StackPanel>
-				<Button DockPanel.Dock="Right" Cursor="Hand" Command="{Binding CreateConsole}" VerticalAlignment="Center">
-					<Button.Style>
-						<Style TargetType="Button">
-							<Setter Property="Template">
-								<Setter.Value>
-									<ControlTemplate>
-										<Border Background="Transparent">
-											<materialDesign:PackIcon Kind="Settings" Margin="4 0 4 0" Width="24" Height="24" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=materialDesign:ColorZone}, Path=Foreground}" />
-										</Border>
-									</ControlTemplate>
-								</Setter.Value>
-							</Setter>
-						</Style>
-					</Button.Style>
-				</Button>
+				<ListBox Style="{StaticResource MaterialDesignToolToggleListBox}" SelectedIndex="0" DockPanel.Dock="Right" VerticalAlignment="Center">
+					<ListBoxItem>
+						<materialDesign:PackIcon Kind="GridLarge" />
+					</ListBoxItem>
+					<ListBoxItem>
+						<materialDesign:PackIcon Kind="ReorderVertical" />
+					</ListBoxItem>
+					<ListBoxItem>
+						<materialDesign:PackIcon Kind="ReorderHorizontal" />
+					</ListBoxItem>
+				</ListBox>
 			</DockPanel>
 		</materialDesign:ColorZone>
 
@@ -61,38 +59,40 @@
 					<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">Available Consoles</TextBlock>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-					<materialDesign:Chip Margin="15 0 0 0" Icon="C">Cmd</materialDesign:Chip>
-					<materialDesign:Chip Margin="15 0 0 0" Icon="G">Git Bash</materialDesign:Chip>
-					<materialDesign:Chip Margin="15 0 0 0" Icon="P">Power Shell</materialDesign:Chip>
-					<materialDesign:Chip Margin="15 0 0 0" Icon="U">Ubuntu Bash</materialDesign:Chip>
+					<Button Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="Cmd">
+						<materialDesign:PackIcon Kind="Console" Height="24" Width="24" />
+					</Button>
+					<Button Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="Git Bash">
+						<materialDesign:PackIcon Kind="Git" Height="24" Width="24" />
+					</Button>
+					<Button Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="Power Shell">
+						<materialDesign:PackIcon Kind="Power" Height="24" Width="24" />
+					</Button>
+					<Button Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="Ubuntu Bash">
+						<materialDesign:PackIcon Kind="Ubuntu" Height="24" Width="24" />
+					</Button>
 					<Border BorderBrush="{DynamicResource MaterialDesignDivider}" Margin="15 0 15 0" BorderThickness="1 0 0 0" />
-					<materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" PlacementMode="BottomAndAlignCentres">
-						<StackPanel>
-							<Button ToolTip="GitHub" Command="{Binding CreateConsole}">
-								<materialDesign:PackIcon Kind="GithubCircle" Height="20" Width="20" />
-							</Button>
-							<Button ToolTip="Twitter" Background="{DynamicResource PrimaryHueMidBrush}" Foreground="{DynamicResource PrimaryHueMidForegroundBrush}">
-								<materialDesign:PackIcon Kind="Twitter" />
-							</Button>
-							<Button ToolTip="Chat">
-								<materialDesign:PackIcon Kind="Message" />
-							</Button>
-							<Button ToolTip="Email" Background="{DynamicResource SecondaryAccentBrush}" Foreground="{DynamicResource SecondaryAccentForegroundBrush}">
-								<materialDesign:PackIcon Kind="Email" />
-							</Button>
-							<Button ToolTip="Feel like you want to make a donation?">
-								<materialDesign:PackIcon Kind="Gift" />
-							</Button>
-						</StackPanel>
-					</materialDesign:PopupBox>
+					<Button Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="MaterialDesignFloatingActionButton">
+						<materialDesign:PackIcon Kind="Settings" Height="24" Width="24" />
+					</Button>
 				</StackPanel>
 			</DockPanel>
 			<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
 		</StackPanel>
 
 		<Path Style="{StaticResource logoVisualStyle}" Grid.Row="2" />
-
-		<ContentControl Content="{Binding Tmp}" Grid.Row="2" />
+		
+		<dockablz:Layout x:Name="MdiLayout" FloatingItemHeaderMemberPath="Name" FloatingItemDisplayMemberPath="ProcessHost" FloatingItemsSource="{Binding ConsoleInstances}" Grid.Row="2">
+			<!--
+				<dockablz:Layout.FloatingItemTemplate>
+					<DataTemplate>
+						<Border Margin="15 0 15 15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+							<consoles:ConsoleInstanceView DataContext="{Binding}" />
+						</Border>
+					</DataTemplate>
+				</dockablz:Layout.FloatingItemTemplate>
+				-->
+		</dockablz:Layout>
 
 	</Grid>
 
