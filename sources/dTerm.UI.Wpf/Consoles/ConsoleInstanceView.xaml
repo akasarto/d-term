@@ -12,9 +12,10 @@
 
 	<Grid>
 
-		<ContentControl Content="{Binding ProcessHost}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+		<!--<ContentControl Content="{Binding ProcessHost}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->
 
-		<Border Margin="7.5" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Border Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<!--
 			<Border.Style>
 				<Style TargetType="Border">
 					<Style.Triggers>
@@ -24,6 +25,7 @@
 					</Style.Triggers>
 				</Style>
 			</Border.Style>
+			-->
 		</Border>
 
 	</Grid>

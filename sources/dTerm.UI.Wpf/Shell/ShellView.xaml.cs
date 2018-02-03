@@ -28,7 +28,7 @@ namespace dTerm.UI.Wpf.Shell
 
 		private void ConsoleInstances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			Layout.TileFloatingItemsCommand.Execute(null, MdiLayout);
+			Layout.TileFloatingItemsCommand.Execute(null, consolesContainer);
 		}
 
 		private void TabItem_Click(object sender, RoutedEventArgs e)

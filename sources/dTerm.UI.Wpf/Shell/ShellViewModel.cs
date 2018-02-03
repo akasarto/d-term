@@ -30,7 +30,7 @@ namespace dTerm.UI.Wpf.Shell
 				PathType = PathType.SystemPathVar
 			});
 
-			consoleProcess.Start();
+			//consoleProcess.Start();
 
 			var consoleInstanceViewModel = new ConsoleInstanceViewModel(consoleProcess)
 			{

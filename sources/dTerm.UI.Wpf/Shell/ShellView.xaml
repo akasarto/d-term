@@ -30,78 +30,59 @@
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<materialDesign:ColorZone Mode="Inverted" Padding="16" Grid.Row="0">
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-				<TextBlock VerticalAlignment="Center" FontSize="22">Consoles Workspace</TextBlock>
-			</StackPanel>
-		</materialDesign:ColorZone>
-		<StackPanel Grid.Row="1">
-			<DockPanel Margin="15" LastChildFill="False">
-				<ListBox Style="{StaticResource MaterialDesignToolToggleListBox}" SelectedIndex="0" DockPanel.Dock="Left" VerticalAlignment="Center">
-					<ListBoxItem>
+		<ToolBarTray VerticalAlignment="Center" Grid.Row="0">
+			<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Arrange" FontWeight="Bold">
+				<ListBox SelectedIndex="0">
+					<ListBoxItem ToolTip="As Grid">
 						<materialDesign:PackIcon Kind="GridLarge" />
 					</ListBoxItem>
-					<ListBoxItem>
+					<ListBoxItem ToolTip="Vertically">
 						<materialDesign:PackIcon Kind="ReorderVertical" />
 					</ListBoxItem>
-					<ListBoxItem>
+					<ListBoxItem ToolTip="Horizontally">
 						<materialDesign:PackIcon Kind="ReorderHorizontal" />
 					</ListBoxItem>
 				</ListBox>
-				<StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-					<Button Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="Cmd">
-						<materialDesign:PackIcon Kind="Console" Height="24" Width="24" />
-					</Button>
-					<Button Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="Git Bash">
-						<materialDesign:PackIcon Kind="Git" Height="24" Width="24" />
-					</Button>
-					<Button Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="Power Shell">
-						<materialDesign:PackIcon Kind="Power" Height="24" Width="24" />
-					</Button>
-					<Button Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" ToolTip="Ubuntu Bash">
-						<materialDesign:PackIcon Kind="Ubuntu" Height="24" Width="24" />
-					</Button>
-					<Border BorderBrush="{DynamicResource MaterialDesignDivider}" Margin="15 0 15 0" BorderThickness="1 0 0 0" />
-					<Button Style="{StaticResource MaterialDesignFloatingActionDarkButton}" ToolTip="Configure Consoles" Command="{Binding CreateConsole}">
-						<materialDesign:PackIcon Kind="Settings" Height="24" Width="24" />
-					</Button>
-				</StackPanel>
-			</DockPanel>
-			<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
-		</StackPanel>
+			</ToolBar>
+			<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Processes" FontWeight="Bold">
+				<Button ToolTip="Configure">
+					<materialDesign:PackIcon Kind="Settings" />
+				</Button>
+				<Separator />
+				<Button ToolTip="Command Prompt" Command="{Binding CreateConsole}">
+					<materialDesign:PackIcon Kind="Console" />
+				</Button>
+				<Button ToolTip="Git Bash">
+					<materialDesign:PackIcon Kind="Git" />
+				</Button>
+				<Button ToolTip="Power Shell">
+					<materialDesign:PackIcon Kind="Power" />
+				</Button>
+				<Button ToolTip="Ubuntu Bash">
+					<materialDesign:PackIcon Kind="Ubuntu" />
+				</Button>
+			</ToolBar>
+		</ToolBarTray>
 
-		<Path Style="{StaticResource logoVisualStyle}" Grid.Row="2" />
-
-		<dockablz:Layout x:Name="MdiLayout" FloatingItemsSource="{Binding ConsoleInstances}" Grid.Row="2">
+		<dockablz:Layout x:Name="consolesContainer" FloatingItemsSource="{Binding ConsoleInstances}" Margin="0" Grid.Row="1">
 			<dockablz:Layout.FloatingItemContainerStyle>
 				<Style TargetType="{x:Type dragablz:DragablzItem}">
 					<Style.Setters>
-						<Setter Property="Canvas.Left" Value="{Binding X, RelativeSource={RelativeSource Self}}" />
-						<Setter Property="Canvas.Top" Value="{Binding Y, RelativeSource={RelativeSource Self}}" />
 						<Setter Property="Template">
 							<Setter.Value>
 								<ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
 									<Border Background="{DynamicResource MaterialDesignBackground}" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 										<materialDesign:Card Margin="1" UseLayoutRounding="False" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-											<ContentControl Content="{Binding ProcessHost}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+											<consoles:ConsoleInstanceView Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 										</materialDesign:Card>
 									</Border>
 								</ControlTemplate>
 							</Setter.Value>
 						</Setter>
 					</Style.Setters>
-					<Style.Triggers>
-						<Trigger Property="IsDragging" Value="True">
-							<Setter Property="Opacity" Value=".95" />
-						</Trigger>
-						<Trigger Property="IsSiblingDragging" Value="True">
-							<Setter Property="Opacity" Value=".5" />
-						</Trigger>
-					</Style.Triggers>
 				</Style>
 			</dockablz:Layout.FloatingItemContainerStyle>
 		</dockablz:Layout>
