@@ -1,11 +1,11 @@
 ﻿using CommandLine;
 using dTerm.Consoles.Core;
 using dTerm.Consoles.Processes;
+using dTerm.UI.Wpf.Infrastructure;
+using dTerm.UI.Wpf.Shell;
 using SimpleInjector;
 using System;
 using System.Globalization;
-using dTerm.UI.Wpf.Infrastructure;
-using dTerm.UI.Wpf.Shell;
 
 namespace dTerm.UI.Wpf
 {

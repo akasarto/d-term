@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleEntity.cs" />
     <Compile Include="IConsoleProcess.cs" />
     <Compile Include="IConsoleProcessService.cs" />
     <Compile Include="IProcessDescriptor.cs" />
