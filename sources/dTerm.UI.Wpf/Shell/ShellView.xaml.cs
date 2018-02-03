@@ -3,16 +3,32 @@ using System;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Controls;
+using System.Collections.Specialized;
+using Dragablz.Dockablz;
 
 namespace dTerm.UI.Wpf.Shell
 {
 	public partial class ShellView : Window
 	{
+		private ShellViewModel _viewModel = null;
+
 		public ShellView(ShellViewModel viewModel)
 		{
 			InitializeComponent();
-			DataContext = viewModel;
+			_viewModel = viewModel;
+			DataContext = _viewModel;
 			SourceInitialized += ShellView_SourceInitialized;
+			Loaded += ShellView_Loaded;
+		}
+
+		private void ShellView_Loaded(object sender, RoutedEventArgs e)
+		{
+			_viewModel.ConsoleInstances.CollectionChanged += ConsoleInstances_CollectionChanged;
+		}
+
+		private void ConsoleInstances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			Layout.TileFloatingItemsCommand.Execute(null, MdiLayout);
 		}
 
 		private void TabItem_Click(object sender, RoutedEventArgs e)

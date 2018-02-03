@@ -3,6 +3,7 @@ using dTerm.Consoles.Processes;
 using dTerm.UI.Wpf.Consoles;
 using ReactiveUI;
 using System;
+using System.Windows;
 
 namespace dTerm.UI.Wpf.Shell
 {
