@@ -8,6 +8,7 @@
 	xmlns:dockablz="clr-namespace:Dragablz.Dockablz;assembly=Dragablz"
 	xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
 	xmlns:consoles="clr-namespace:dTerm.UI.Wpf.Consoles"
+	xmlns:notebook="clr-namespace:dTerm.UI.Wpf.Notebook"
 	TextElement.FontSize="14"
 	TextElement.FontWeight="Medium"
 	TextOptions.TextFormattingMode="Ideal"
@@ -25,6 +26,14 @@
 	MinHeight="800"
 	x:Name="shellView"
 >
+
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/FormFlipper/dTermFormFlipper.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
 
 	<Grid>
 
@@ -49,9 +58,16 @@
 					</StackPanel>
 				</materialDesign:ColorZone>
 
-				<Button Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="MaterialDesignFloatingActionMiniDarkButton" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="0 15">
-					<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
-				</Button>
+				<materialDesign:Flipper Style="{StaticResource dTermFormFlipperdFlipper}" HorizontalAlignment="Stretch">
+					<materialDesign:Flipper.FrontContent>
+						<Button Command="{x:Static materialDesign:Flipper.FlipCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="MaterialDesignFloatingActionMiniDarkButton" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="0 15">
+							<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+						</Button>
+					</materialDesign:Flipper.FrontContent>
+					<materialDesign:Flipper.BackContent>
+						<notebook:NoteForm Height="275" Width="350" Margin="15" />
+					</materialDesign:Flipper.BackContent>
+				</materialDesign:Flipper>
 
 				<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
 
@@ -136,7 +152,6 @@
 															<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth3}" />
 															<DiscreteObjectKeyFrame KeyTime="0:0:0.22" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
 														</ObjectAnimationUsingKeyFrames>
-
 													</Storyboard>
 												</BeginStoryboard>
 											</Trigger.ExitActions>
@@ -151,11 +166,18 @@
 					<DataTemplate>
 						<Border Width="312.5" Margin="15 0 0 0">
 							<Expander Header="Expander Example 1b" Background="Transparent">
-								<StackPanel TextBlock.Foreground="{DynamicResource MaterialDesignBody}" Margin="22.5 7.5 30 15">
-									<TextBlock Text="Your Content" />
-									<TextBlock Opacity=".68" Text="{Binding Name}" TextWrapping="Wrap" />
-									<Button Content="Tss" Command="{x:Static materialDesign:Flipper.FlipCommand}" />
-								</StackPanel>
+								<materialDesign:Flipper Style="{StaticResource dTermFormFlipperdFlipper}" HorizontalAlignment="Stretch" Margin="22.5 7.5 30 15">
+									<materialDesign:Flipper.FrontContent>
+										<StackPanel TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+											<TextBlock Text="Your Content" />
+											<TextBlock Opacity=".68" Text="{Binding Name}" TextWrapping="Wrap" />
+											<Button Content="Edit" Command="{x:Static materialDesign:Flipper.FlipCommand}" />
+										</StackPanel>
+									</materialDesign:Flipper.FrontContent>
+									<materialDesign:Flipper.BackContent>
+										<notebook:NoteForm HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 0 0 15" />
+									</materialDesign:Flipper.BackContent>
+								</materialDesign:Flipper>
 							</Expander>
 						</Border>
 					</DataTemplate>

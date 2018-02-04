@@ -125,6 +125,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Consoles\ConsoleHwndHost.cs" />
+    <Compile Include="Notebook\NoteForm.xaml.cs">
+      <DependentUpon>NoteForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
@@ -134,6 +137,14 @@
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
     <Page Include="Consoles\ConsoleInstanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FormFlipper\dTermFormFlipper.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notebook\NoteForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,9 +195,7 @@
   <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Notebook\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\dTerm.Consoles.Core\dTerm.Consoles.Core.csproj">
       <Project>{71CD7721-71EE-4E19-9674-15582AEE93EC}</Project>
