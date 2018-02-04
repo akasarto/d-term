@@ -166,12 +166,17 @@
 					<DataTemplate>
 						<Border Width="312.5" Margin="15 0 0 0">
 							<Expander Header="Expander Example 1b" Background="Transparent">
-								<materialDesign:Flipper Style="{StaticResource dTermFormFlipperdFlipper}" HorizontalAlignment="Stretch" Margin="22.5 7.5 30 15">
+								<materialDesign:Flipper Style="{StaticResource dTermFormFlipperdFlipper}" HorizontalAlignment="Stretch" Margin="26.5 7.5 30 15">
 									<materialDesign:Flipper.FrontContent>
 										<StackPanel TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
 											<TextBlock Text="Your Content" />
-											<TextBlock Opacity=".68" Text="{Binding Name}" TextWrapping="Wrap" />
-											<Button Content="Edit" Command="{x:Static materialDesign:Flipper.FlipCommand}" />
+											<TextBlock Opacity=".65" Text="{Binding Name}" TextWrapping="Wrap" />
+											<Button Command="{x:Static materialDesign:Flipper.FlipCommand}" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right">
+												<StackPanel Orientation="Horizontal">
+													<materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center" />
+													<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center">Edit</TextBlock>
+												</StackPanel>
+											</Button>
 										</StackPanel>
 									</materialDesign:Flipper.FrontContent>
 									<materialDesign:Flipper.BackContent>
