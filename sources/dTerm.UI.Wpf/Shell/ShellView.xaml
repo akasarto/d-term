@@ -29,115 +29,141 @@
 	<Grid>
 
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="315" />
+			<ColumnDefinition Width="375" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Grid Grid.Column="0">
+		<Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-			<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
 
-				<materialDesign:ColorZone Mode="Inverted" Padding="15" Grid.Row="0">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-						<TextBlock VerticalAlignment="Center" FontSize="22">Notebook</TextBlock>
-					</StackPanel>
-				</materialDesign:ColorZone>
-
-				<Button Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="MaterialDesignFloatingActionMiniDarkButton" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="0 15">
-					<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
-				</Button>
-
-				<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
-
-				<Grid Margin="11">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="Auto" />
-					</Grid.ColumnDefinitions>
-					<TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Search notes..." materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" />
-					<Button Style="{DynamicResource MaterialDesignToolButton}" Grid.Column="1">
-						<materialDesign:PackIcon Kind="Magnify" Opacity=".56" Margin="7.5 7.5 0 0 "/>
-					</Button>
-				</Grid>
-
-				<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
-
-				<StackPanel>
-					<Expander HorizontalAlignment="Stretch" Header="Expander Example 2a">
-						<StackPanel Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}" Margin="24,8,24,16">
-							<TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." TextWrapping="Wrap" />
-							<StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal" Margin="8">
-								<Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0" materialDesign:RippleAssist.IsCentered="True">
-									<materialDesign:PackIcon Kind="ShareVariant" />
-								</Button>
-								<Button Style="{StaticResource MaterialDesignToolButton}" Width="30" Padding="2 0 2 0" materialDesign:RippleAssist.IsCentered="True">
-									<materialDesign:PackIcon Kind="Heart" />
-								</Button>
-								<Button Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Right">
-									<StackPanel Orientation="Horizontal">
-										<materialDesign:PackIcon Kind="ContentCopy" />
-										<TextBlock Margin="8 0 0 0" VerticalAlignment="Center">Copy</TextBlock>
-									</StackPanel>
-								</Button>
-							</StackPanel>
-						</StackPanel>
-					</Expander>
-					<Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
-					<Expander HorizontalAlignment="Stretch" Header="Expander Example 2b">
-						<StackPanel Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}" Margin="24,8,24,16">
-							<TextBlock Text="Your Content" />
-							<TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." TextWrapping="Wrap" />
-						</StackPanel>
-					</Expander>
-					<Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
-					<Expander HorizontalAlignment="Stretch" Header="Expander Example 2c">
-						<StackPanel Orientation="Vertical" TextBlock.Foreground="{DynamicResource MaterialDesignBody}" Margin="24,8,24,16">
-							<TextBlock Text="Your Content" />
-							<TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." TextWrapping="Wrap" />
-						</StackPanel>
-					</Expander>
+			<materialDesign:ColorZone Mode="Inverted" Padding="15" Grid.Row="0">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+					<TextBlock VerticalAlignment="Center" FontSize="22">Notebook</TextBlock>
 				</StackPanel>
+			</materialDesign:ColorZone>
 
-				<!--
-				<ListView ItemsSource="{Binding ConsoleInstances}">
-					<ListView.View>
-						<GridView>
-							<GridViewColumn DisplayMemberBinding="{Binding Code}" Header="Code" />
-							<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
-							<GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Description" />
-						</GridView>
-					</ListView.View>
-				</ListView>
-				-->
+			<Button Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="MaterialDesignFloatingActionMiniDarkButton" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="0 15" Grid.Row="1">
+				<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+			</Button>
 
-				<!--<TextBox Style="{StaticResource MaterialDesignTextFieldBoxTextBox}" Margin="7.5 15" VerticalAlignment="Top" Height="175" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="Quick draft" />-->
+			<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" Grid.Row="2" />
 
-				<!--
-				<Border Padding="0 15 15 15">
-					<DockPanel LastChildFill="False">
-						<StackPanel Orientation="Horizontal" materialDesign:RippleAssist.IsCentered="True" DockPanel.Dock="Left">
-							<materialDesign:ColorZone Mode="Standard" Padding="7.5 3.5" CornerRadius="2" Panel.ZIndex="1" Margin="15 0 0 0" materialDesign:ShadowAssist.ShadowDepth="Depth1">
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<TextBox Grid.Column="0" Margin="8 0 0 0" materialDesign:HintAssist.Hint="Build a search bar" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
-									<Button Style="{DynamicResource MaterialDesignToolButton}" Grid.Column="1">
-										<materialDesign:PackIcon Kind="Magnify" Opacity=".56" Margin="8 0 0 0" />
-									</Button>
-								</Grid>
-							</materialDesign:ColorZone>
-						</StackPanel>
-						<Button Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="MaterialDesignFloatingActionMiniDarkButton" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="75 0 0 0">
-							<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
-						</Button>
-					</DockPanel>
-				</Border>
-				-->
+			<Grid Margin="11" Grid.Row="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Search notes..." materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" />
+				<Button Style="{DynamicResource MaterialDesignToolButton}" Grid.Column="1">
+					<materialDesign:PackIcon Kind="Magnify" Opacity=".56" Margin="7.5 7.5 0 0 "/>
+				</Button>
+			</Grid>
 
-			</StackPanel>
+			<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" Grid.Row="4" />
+
+			<dragablz:DragablzItemsControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 15 0 0" x:Name="DragablzItemsControl" ItemsSource="{Binding ConsoleInstances}" Grid.Row="5">
+				<dragablz:DragablzItemsControl.PositionMonitor>
+					<dragablz:VerticalPositionMonitor OrderChanged="StackPositionMonitor_OnOrderChanged" />
+				</dragablz:DragablzItemsControl.PositionMonitor>
+				<dragablz:DragablzItemsControl.ItemsOrganiser>
+					<dragablz:VerticalOrganiser />
+				</dragablz:DragablzItemsControl.ItemsOrganiser>
+				<dragablz:DragablzItemsControl.ItemContainerStyle>
+					<Style TargetType="dragablz:DragablzItem">
+						<Setter Property="Padding" Value="0 4 0 4" />
+						<Setter Property="Margin" Value="15 0 15 0" />
+						<Setter Property="HorizontalAlignment" Value="Stretch" />
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
+									<ControlTemplate.Resources>
+										<SineEase x:Key="Ease" EasingMode="EaseInOut" />
+									</ControlTemplate.Resources>
+									<Grid RenderTransformOrigin=".1, .1">
+										<materialDesign:Card Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" Margin="{TemplateBinding Control.Padding}" x:Name="Card" />
+										<Thumb dragablz:DragablzItem.IsCustomThumb="True">
+											<Thumb.Template>
+												<ControlTemplate>
+													<Border Padding="0 7.5" Width="35" HorizontalAlignment="Left">
+														<Grid Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+															<materialDesign:PackIcon Width="24" Height="24" Kind="DragHorizontal" VerticalAlignment="Center" HorizontalAlignment="Center" />
+														</Grid>
+													</Border>
+												</ControlTemplate>
+											</Thumb.Template>
+										</Thumb>
+										<Grid.RenderTransform>
+											<ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
+										</Grid.RenderTransform>
+									</Grid>
+									<ControlTemplate.Triggers>
+										<Trigger Property="IsDragging" Value="True">
+											<Trigger.EnterActions>
+												<BeginStoryboard>
+													<Storyboard>
+														<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
+															<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1.005" EasingFunction="{StaticResource Ease}" />
+														</DoubleAnimationUsingKeyFrames>
+														<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
+															<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1.005" EasingFunction="{StaticResource Ease}" />
+														</DoubleAnimationUsingKeyFrames>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Card" Storyboard.TargetProperty="(materialDesign:ShadowAssist.ShadowDepth)">
+															<DiscreteObjectKeyFrame KeyTime="0:0:0.08" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
+															<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth3}" />
+															<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth4}" />
+														</ObjectAnimationUsingKeyFrames>
+													</Storyboard>
+												</BeginStoryboard>
+											</Trigger.EnterActions>
+											<Trigger.ExitActions>
+												<BeginStoryboard>
+													<Storyboard>
+														<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
+															<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" EasingFunction="{StaticResource Ease}" />
+														</DoubleAnimationUsingKeyFrames>
+														<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
+															<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" EasingFunction="{StaticResource Ease}" />
+														</DoubleAnimationUsingKeyFrames>
+														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Card" Storyboard.TargetProperty="(materialDesign:ShadowAssist.ShadowDepth)">
+															<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth4}" />
+															<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth3}" />
+															<DiscreteObjectKeyFrame KeyTime="0:0:0.22" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
+														</ObjectAnimationUsingKeyFrames>
+
+													</Storyboard>
+												</BeginStoryboard>
+											</Trigger.ExitActions>
+										</Trigger>
+									</ControlTemplate.Triggers>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</dragablz:DragablzItemsControl.ItemContainerStyle>
+				<dragablz:DragablzItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Expander Width="350" HorizontalAlignment="Stretch">
+							<Expander.Header>
+								<TextBlock Text="Expander Example 1b" Margin="15 0 0 0" />
+							</Expander.Header>
+							<StackPanel TextBlock.Foreground="{DynamicResource MaterialDesignBody}" Margin="40 7.5 30 15">
+								<TextBlock Text="Your Content" />
+								<TextBlock Opacity=".68" Text="{Binding Name}" TextWrapping="Wrap" />
+								<Button Content="Tss" />
+							</StackPanel>
+						</Expander>
+					</DataTemplate>
+				</dragablz:DragablzItemsControl.ItemTemplate>
+			</dragablz:DragablzItemsControl>
 
 		</Grid>
 
