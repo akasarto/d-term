@@ -184,7 +184,9 @@
   <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Notebook\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dTerm.Consoles.Core\dTerm.Consoles.Core.csproj">
       <Project>{71CD7721-71EE-4E19-9674-15582AEE93EC}</Project>
