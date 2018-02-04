@@ -60,7 +60,7 @@ namespace dTerm.UI.Wpf.Shell
 
 		private void ConsoleInstances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			Layout.TileFloatingItemsVerticallyCommand.Execute(null, consolesContainer);
+			Layout.TileFloatingItemsCommand.Execute(null, consolesContainer);
 		}
 
 		private void TabItem_Click(object sender, RoutedEventArgs e)
@@ -71,8 +71,8 @@ namespace dTerm.UI.Wpf.Shell
 
 		private void ShellView_SourceInitialized(object sender, EventArgs e)
 		{
-			//var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
-			//hwndSource.AddHook(new HwndSourceHook(WndProc));
+			var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+			hwndSource.AddHook(new HwndSourceHook(WndProc));
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
