@@ -1,10 +1,9 @@
 ﻿using Consoles.Core;
-using ReactiveUI;
 using System;
 
 namespace UI.Wpf.Consoles
 {
-	public class ConsoleInstanceViewModel : ReactiveObject
+	public class ConsoleInstanceViewModel
 	{
 		private readonly IConsoleProcess _consoleProcess = null;
 		private readonly ConsoleHwndHost _processHost = null;

@@ -2,15 +2,12 @@
 using Consoles.Core;
 using Consoles.Processes;
 using Notebook.Core;
-using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using UI.Wpf.Consoles;
-using UI.Wpf.Notebook;
 
 namespace UI.Wpf.Shell
 {
-	public class ShellViewModel : ReactiveObject
+	public class ShellViewModel
 	{
 		private readonly IMapper _mapper = null;
 		private readonly INotebookRepository _notebookRepository = null;
@@ -23,13 +20,20 @@ namespace UI.Wpf.Shell
 			_consoleProcessService = consoleProcessService ?? throw new ArgumentNullException(nameof(consoleProcessService), nameof(ShellViewModel));
 
 			SetupCommands();
-			SetupData();
 		}
 
-		public ReactiveList<NoteViewModel> Notes { get; set; }
-		public ReactiveList<ConsoleInstanceViewModel> ConsoleInstances { get; set; }
+		//public ReactiveCommand CreateConsole { get; protected set; }
 
-		public ReactiveCommand CreateConsole { get; protected set; }
+		//public ReactiveList<ConsoleInstanceViewModel> ConsoleInstances { get; set; } = new ReactiveList<ConsoleInstanceViewModel>();
+
+		//public ReactiveList<NoteViewModel> Notes { get; set; } = new ReactiveList<NoteViewModel>();
+
+		public void Initialize()
+		{
+			// var notes = await _notebookRepository.GetAll();
+			//var notesViewModel = _mapper.Map<List<NoteViewModel>>(notes);
+			//Notes = new ReactiveList<NoteViewModel>(notesViewModel);
+		}
 
 		private void CreateConsoleExecute()
 		{
@@ -46,22 +50,12 @@ namespace UI.Wpf.Shell
 				Name = DateTime.Now.Millisecond.ToString()
 			};
 
-			ConsoleInstances.Add(consoleInstanceViewModel);
+			//ConsoleInstances.Add(consoleInstanceViewModel);
 		}
 
 		private void SetupCommands()
 		{
-			CreateConsole = ReactiveCommand.Create(CreateConsoleExecute);
-		}
-
-		private void SetupData()
-		{
-			ConsoleInstances = new ReactiveList<ConsoleInstanceViewModel>();
-
-			var notes = _notebookRepository.GetAll();
-			var notesViewModel = _mapper.Map<List<NoteViewModel>>(notes);
-
-			Notes = new ReactiveList<NoteViewModel>(notesViewModel);
+			//CreateConsole = ReactiveCommand.Create(CreateConsoleExecute);
 		}
 	}
 }

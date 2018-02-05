@@ -55,7 +55,7 @@ namespace UI.Wpf.Shell
 
 		private void ShellView_Loaded(object sender, RoutedEventArgs e)
 		{
-			_viewModel.ConsoleInstances.CollectionChanged += ConsoleInstances_CollectionChanged;
+			//_viewModel.ConsoleInstances.CollectionChanged += ConsoleInstances_CollectionChanged;
 		}
 
 		private void ConsoleInstances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
