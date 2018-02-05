@@ -3,7 +3,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<SineEase x:Key="FlipEase" EasingMode="EaseInOut" />
+	<!--<SineEase x:Key="FlipEase" EasingMode="EaseInOut" />
 
 	<Style TargetType="{x:Type materialDesign:Flipper}">
 		<Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
@@ -96,7 +96,7 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</Style>-->
 
 	<Style x:Key="dTermFormFlipperdFlipper" TargetType="{x:Type materialDesign:Flipper}" BasedOn="{StaticResource {x:Type materialDesign:Flipper}}">
 		<Setter Property="Template">

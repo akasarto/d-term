@@ -23,6 +23,8 @@
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
 
+				<ResourceDictionary Source="/FormFlipper/dTermFormFlipper.xaml" />
+
 			</ResourceDictionary.MergedDictionaries>
 
 			<!-- Geometries -->

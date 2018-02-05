@@ -2,16 +2,12 @@
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Controls;
-using System.Collections.Specialized;
-using Dragablz.Dockablz;
-using Dragablz;
 using Shared.Kernel;
 
 namespace UI.Wpf.Shell
 {
 	public partial class ShellView : Window
 	{
-		private object[] _order;
 		private ShellViewModel _viewModel = null;
 
 		public ShellView(ShellViewModel viewModel)
@@ -20,47 +16,6 @@ namespace UI.Wpf.Shell
 			_viewModel = viewModel;
 			DataContext = _viewModel;
 			SourceInitialized += ShellView_SourceInitialized;
-			Loaded += ShellView_Loaded;
-
-			AddHandler(DragablzItem.DragStarted, new DragablzDragStartedEventHandler(ItemDragStarted), true);
-			AddHandler(DragablzItem.DragCompleted, new DragablzDragCompletedEventHandler(ItemDragCompleted), true);
-		}
-
-		private void ItemDragStarted(object sender, DragablzDragStartedEventArgs e)
-		{
-			var item = e.DragablzItem.DataContext;
-
-			System.Diagnostics.Trace.WriteLine($"User started to drag item: {item}.");
-		}
-
-		private void ItemDragCompleted(object sender, DragablzDragCompletedEventArgs e)
-		{
-			var item = e.DragablzItem.DataContext;
-			System.Diagnostics.Trace.WriteLine($"User finished dragging item: {item}.");
-
-			if (_order == null) return;
-
-			System.Diagnostics.Trace.Write("Order is now: ");
-			foreach (var i in _order)
-			{
-				System.Diagnostics.Trace.Write(i + " ");
-			}
-			System.Diagnostics.Trace.WriteLine("");
-		}
-
-		private void StackPositionMonitor_OnOrderChanged(object sender, OrderChangedEventArgs e)
-		{
-			_order = e.NewOrder;
-		}
-
-		private void ShellView_Loaded(object sender, RoutedEventArgs e)
-		{
-			//_viewModel.ConsoleInstances.CollectionChanged += ConsoleInstances_CollectionChanged;
-		}
-
-		private void ConsoleInstances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			Layout.TileFloatingItemsCommand.Execute(null, consolesContainer);
 		}
 
 		private void TabItem_Click(object sender, RoutedEventArgs e)

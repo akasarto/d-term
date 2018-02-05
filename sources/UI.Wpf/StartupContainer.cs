@@ -7,6 +7,7 @@ using Notebook.Data.LiteDB;
 using SimpleInjector;
 using UI.Wpf.Consoles;
 using UI.Wpf.MapperProfiles;
+using UI.Wpf.Notebook;
 using UI.Wpf.Shell;
 
 namespace UI.Wpf
@@ -18,8 +19,14 @@ namespace UI.Wpf
 			Register<ShellView>();
 			Register<ShellViewModel>();
 
+			Register<ConsolesAreaView>();
+			Register<ConsolesAreaViewModel>();
+
 			Register<ConsoleInstanceView>();
 			Register<ConsoleInstanceViewModel>();
+
+			Register<NotebookAreaView>();
+			Register<NotebookAreaViewModel>();
 
 			Register<IConsolesRepository, ConsolesRepository>();
 			Register<INotebookRepository, NotebookRepository>();

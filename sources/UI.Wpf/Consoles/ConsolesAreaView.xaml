@@ -1,0 +1,94 @@
+﻿<UserControl
+	x:Class="UI.Wpf.Consoles.ConsolesAreaView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:dockablz="clr-namespace:Dragablz.Dockablz;assembly=Dragablz"
+	xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+	xmlns:local="clr-namespace:UI.Wpf.Consoles"
+	Background="{DynamicResource MaterialDesignPaper}"
+	mc:Ignorable="d"
+	d:DesignWidth="1024"
+	d:DesignHeight="768"
+>
+
+	<Grid Grid.Column="2">
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Grid Grid.Row="0">
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<materialDesign:ColorZone Mode="Inverted" Padding="15" Grid.Column="0" VerticalAlignment="Stretch" materialDesign:ShadowAssist.ShadowEdges="Right" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+					<TextBlock VerticalAlignment="Center" FontSize="22" Margin="0 0 35 0"><Run Text="Consoles"/></TextBlock>
+				</StackPanel>
+			</materialDesign:ColorZone>
+
+			<ToolBarTray VerticalAlignment="Center" Grid.Column="1" Margin="3 0 0 0">
+				<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Arrange" FontWeight="Bold">
+					<ListBox SelectedIndex="0">
+						<ListBoxItem ToolTip="As Grid">
+							<materialDesign:PackIcon Kind="GridLarge" />
+						</ListBoxItem>
+						<ListBoxItem ToolTip="Vertically">
+							<materialDesign:PackIcon Kind="ReorderVertical" />
+						</ListBoxItem>
+						<ListBoxItem ToolTip="Horizontally">
+							<materialDesign:PackIcon Kind="ReorderHorizontal" />
+						</ListBoxItem>
+					</ListBox>
+				</ToolBar>
+				<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Processes" FontWeight="Bold">
+					<Button ToolTip="Configure">
+						<materialDesign:PackIcon Kind="Settings" />
+					</Button>
+					<Separator />
+					<Button ToolTip="Command Prompt" Command="{Binding CreateInstance}">
+						<materialDesign:PackIcon Kind="Console" />
+					</Button>
+					<Button ToolTip="Git Bash">
+						<materialDesign:PackIcon Kind="Git" />
+					</Button>
+					<Button ToolTip="Power Shell">
+						<materialDesign:PackIcon Kind="Power" />
+					</Button>
+					<Button ToolTip="Ubuntu Bash">
+						<materialDesign:PackIcon Kind="Ubuntu" />
+					</Button>
+				</ToolBar>
+			</ToolBarTray>
+
+		</Grid>
+
+		<dockablz:Layout x:Name="consolesContainer" FloatingItemsSource="{Binding Instances}" Margin="0" Grid.Row="2">
+			<dockablz:Layout.FloatingItemContainerStyle>
+				<Style TargetType="{x:Type dragablz:DragablzItem}">
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
+								<Border Background="{DynamicResource MaterialDesignBackground}" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+									<materialDesign:Card Margin="1" UseLayoutRounding="False" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+										<local:ConsoleInstanceView Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+									</materialDesign:Card>
+								</Border>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</dockablz:Layout.FloatingItemContainerStyle>
+		</dockablz:Layout>
+
+	</Grid>
+
+</UserControl>

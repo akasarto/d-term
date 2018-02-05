@@ -1,14 +1,12 @@
 ﻿<Window
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:dockablz="clr-namespace:Dragablz.Dockablz;assembly=Dragablz"
-	xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
 	xmlns:consoles="clr-namespace:UI.Wpf.Consoles"
 	xmlns:notebook="clr-namespace:UI.Wpf.Notebook"
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 	x:Class="UI.Wpf.Shell.ShellView"
 	TextElement.FontSize="14"
 	TextElement.FontWeight="Medium"
@@ -28,14 +26,6 @@
 	x:Name="shellView"
 >
 
-	<Window.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/FormFlipper/dTermFormFlipper.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</Window.Resources>
-
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Loaded">
 			<ei:CallMethodAction TargetObject="{Binding}" MethodName="Initialize" />
@@ -50,231 +40,11 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-
-			<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-				<materialDesign:ColorZone Mode="Inverted" Padding="15">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-						<TextBlock VerticalAlignment="Center" FontSize="22"><Run Text="Notebook"/></TextBlock>
-					</StackPanel>
-				</materialDesign:ColorZone>
-
-				<materialDesign:Flipper Style="{StaticResource dTermFormFlipperdFlipper}" HorizontalAlignment="Stretch">
-					<materialDesign:Flipper.FrontContent>
-						<Button Command="{x:Static materialDesign:Flipper.FlipCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="MaterialDesignFloatingActionMiniDarkButton" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="0 15">
-							<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
-						</Button>
-					</materialDesign:Flipper.FrontContent>
-					<materialDesign:Flipper.BackContent>
-						<notebook:NoteFormView Height="275" Width="350" Margin="15" />
-					</materialDesign:Flipper.BackContent>
-				</materialDesign:Flipper>
-
-				<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
-
-				<Grid Margin="12.5">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="Auto" />
-					</Grid.ColumnDefinitions>
-					<TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Search notes..." materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" />
-					<Button Style="{DynamicResource MaterialDesignToolButton}" Grid.Column="1">
-						<materialDesign:PackIcon Kind="Magnify" Opacity=".56" Margin="7.5 7.5 0 0 "/>
-					</Button>
-				</Grid>
-
-				<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
-
-			</StackPanel>
-
-			<dragablz:DragablzItemsControl Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 15 0 0" x:Name="DragablzItemsControl" ItemsSource="{Binding Notes}">
-				<dragablz:DragablzItemsControl.PositionMonitor>
-					<dragablz:VerticalPositionMonitor OrderChanged="StackPositionMonitor_OnOrderChanged" />
-				</dragablz:DragablzItemsControl.PositionMonitor>
-				<dragablz:DragablzItemsControl.ItemsOrganiser>
-					<dragablz:VerticalOrganiser />
-				</dragablz:DragablzItemsControl.ItemsOrganiser>
-				<dragablz:DragablzItemsControl.ItemContainerStyle>
-					<Style TargetType="{x:Type dragablz:DragablzItem}">
-						<Setter Property="Padding" Value="7.5 3.5" />
-						<Setter Property="Template">
-							<Setter.Value>
-								<ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
-									<ControlTemplate.Resources>
-										<SineEase x:Key="Ease" EasingMode="EaseInOut" />
-									</ControlTemplate.Resources>
-									<Grid RenderTransformOrigin=".1, .1">
-										<Grid.RenderTransform>
-											<ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
-										</Grid.RenderTransform>
-										<materialDesign:Card Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" x:Name="Card" />
-										<Thumb dragablz:DragablzItem.IsCustomThumb="True">
-											<Thumb.Template>
-												<ControlTemplate>
-													<Border Margin="15 1.5 0 0" Width="35" HorizontalAlignment="Left">
-														<Grid Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-															<materialDesign:PackIcon Width="24" Height="24" Kind="DragHorizontal" VerticalAlignment="Center" HorizontalAlignment="Center" />
-														</Grid>
-													</Border>
-												</ControlTemplate>
-											</Thumb.Template>
-										</Thumb>
-									</Grid>
-									<ControlTemplate.Triggers>
-										<Trigger Property="IsDragging" Value="True">
-											<Trigger.EnterActions>
-												<BeginStoryboard>
-													<Storyboard>
-														<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
-															<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1.005" EasingFunction="{StaticResource Ease}" />
-														</DoubleAnimationUsingKeyFrames>
-														<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
-															<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1.005" EasingFunction="{StaticResource Ease}" />
-														</DoubleAnimationUsingKeyFrames>
-														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Card" Storyboard.TargetProperty="(materialDesign:ShadowAssist.ShadowDepth)">
-															<DiscreteObjectKeyFrame KeyTime="0:0:0.08" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
-															<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth3}" />
-															<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth4}" />
-														</ObjectAnimationUsingKeyFrames>
-													</Storyboard>
-												</BeginStoryboard>
-											</Trigger.EnterActions>
-											<Trigger.ExitActions>
-												<BeginStoryboard>
-													<Storyboard>
-														<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
-															<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" EasingFunction="{StaticResource Ease}" />
-														</DoubleAnimationUsingKeyFrames>
-														<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
-															<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" EasingFunction="{StaticResource Ease}" />
-														</DoubleAnimationUsingKeyFrames>
-														<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Card" Storyboard.TargetProperty="(materialDesign:ShadowAssist.ShadowDepth)">
-															<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth4}" />
-															<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth3}" />
-															<DiscreteObjectKeyFrame KeyTime="0:0:0.22" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
-														</ObjectAnimationUsingKeyFrames>
-													</Storyboard>
-												</BeginStoryboard>
-											</Trigger.ExitActions>
-										</Trigger>
-									</ControlTemplate.Triggers>
-								</ControlTemplate>
-							</Setter.Value>
-						</Setter>
-					</Style>
-				</dragablz:DragablzItemsControl.ItemContainerStyle>
-				<dragablz:DragablzItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Border Width="312.5" Margin="15 0 0 0">
-							<Expander Header="{Binding Title}" Background="Transparent">
-								<materialDesign:Flipper Style="{StaticResource dTermFormFlipperdFlipper}" HorizontalAlignment="Stretch" Margin="26.5 7.5 30 15">
-									<materialDesign:Flipper.FrontContent>
-										<StackPanel TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-											<TextBlock Opacity=".65" Text="{Binding Description}" TextWrapping="Wrap" />
-											<Button Command="{x:Static materialDesign:Flipper.FlipCommand}" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right">
-												<StackPanel Orientation="Horizontal">
-													<materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center" />
-													<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center"><Run Text="Edit"/></TextBlock>
-												</StackPanel>
-											</Button>
-										</StackPanel>
-									</materialDesign:Flipper.FrontContent>
-									<materialDesign:Flipper.BackContent>
-										<notebook:NoteFormView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 0 0 15" />
-									</materialDesign:Flipper.BackContent>
-								</materialDesign:Flipper>
-							</Expander>
-						</Border>
-					</DataTemplate>
-				</dragablz:DragablzItemsControl.ItemTemplate>
-			</dragablz:DragablzItemsControl>
-
-		</Grid>
+		<notebook:NotebookAreaView Grid.Column="0" DataContext="{Binding NotebookAreaViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
 		<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="1" Grid.Column="1" />
 
-		<Grid Grid.Column="2">
-
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-
-			<Grid Grid.Row="0">
-
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-
-				<materialDesign:ColorZone Mode="Inverted" Padding="15" Grid.Column="0" VerticalAlignment="Stretch" materialDesign:ShadowAssist.ShadowEdges="Right" materialDesign:ShadowAssist.ShadowDepth="Depth1">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-						<TextBlock VerticalAlignment="Center" FontSize="22" Margin="0 0 35 0"><Run Text="Consoles"/></TextBlock>
-					</StackPanel>
-				</materialDesign:ColorZone>
-
-				<ToolBarTray VerticalAlignment="Center" Grid.Column="1" Margin="3 0 0 0">
-					<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Arrange" FontWeight="Bold">
-						<ListBox SelectedIndex="0">
-							<ListBoxItem ToolTip="As Grid">
-								<materialDesign:PackIcon Kind="GridLarge" />
-							</ListBoxItem>
-							<ListBoxItem ToolTip="Vertically">
-								<materialDesign:PackIcon Kind="ReorderVertical" />
-							</ListBoxItem>
-							<ListBoxItem ToolTip="Horizontally">
-								<materialDesign:PackIcon Kind="ReorderHorizontal" />
-							</ListBoxItem>
-						</ListBox>
-					</ToolBar>
-					<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Processes" FontWeight="Bold">
-						<Button ToolTip="Configure">
-							<materialDesign:PackIcon Kind="Settings" />
-						</Button>
-						<Separator />
-						<Button ToolTip="Command Prompt" Command="{Binding CreateConsole}">
-							<materialDesign:PackIcon Kind="Console" />
-						</Button>
-						<Button ToolTip="Git Bash">
-							<materialDesign:PackIcon Kind="Git" />
-						</Button>
-						<Button ToolTip="Power Shell">
-							<materialDesign:PackIcon Kind="Power" />
-						</Button>
-						<Button ToolTip="Ubuntu Bash">
-							<materialDesign:PackIcon Kind="Ubuntu" />
-						</Button>
-					</ToolBar>
-				</ToolBarTray>
-
-			</Grid>
-
-			<dockablz:Layout x:Name="consolesContainer" FloatingItemsSource="{Binding ConsoleInstances}" Margin="0" Grid.Row="2">
-				<dockablz:Layout.FloatingItemContainerStyle>
-					<Style TargetType="{x:Type dragablz:DragablzItem}">
-						<Setter Property="Template">
-							<Setter.Value>
-								<ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
-									<Border Background="{DynamicResource MaterialDesignBackground}" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-										<materialDesign:Card Margin="1" UseLayoutRounding="False" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-											<consoles:ConsoleInstanceView Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-										</materialDesign:Card>
-									</Border>
-								</ControlTemplate>
-							</Setter.Value>
-						</Setter>
-					</Style>
-				</dockablz:Layout.FloatingItemContainerStyle>
-			</dockablz:Layout>
-
-		</Grid>
+		<consoles:ConsolesAreaView Grid.Column="2" DataContext="{Binding ConsolesAreaViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
 	</Grid>
 
