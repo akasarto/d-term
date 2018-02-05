@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Consoles.Core\Consoles.Core.csproj" />
+    <PackageReference Include="LiteDB" Version="4.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Notebook.Core\Notebook.Core.csproj" />
   </ItemGroup>
 
 </Project>

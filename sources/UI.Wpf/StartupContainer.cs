@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Consoles.Core;
-using Consoles.Data.SQLite;
+using Consoles.Data.LiteDB;
 using Consoles.Processes;
 using Notebook.Core;
-using Notebook.Data.SQLite;
+using Notebook.Data.LiteDB;
 using SimpleInjector;
 using UI.Wpf.Consoles;
 using UI.Wpf.MapperProfiles;
