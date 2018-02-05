@@ -8,5 +8,6 @@ namespace Notebook.Core
 		public int Index { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
+		public DateTime UTCCreation { get; set; }
 	}
 }

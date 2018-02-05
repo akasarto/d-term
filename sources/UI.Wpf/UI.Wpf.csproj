@@ -169,8 +169,8 @@
     </ApplicationDefinition>
     <Compile Include="Consoles\ConsoleHwndHost.cs" />
     <Compile Include="MapperProfiles\DefaultMapProfile.cs" />
-    <Compile Include="Notebook\NoteForm.xaml.cs">
-      <DependentUpon>NoteForm.xaml</DependentUpon>
+    <Compile Include="Notebook\NoteFormView.xaml.cs">
+      <DependentUpon>NoteFormView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notebook\NoteViewModel.cs" />
     <Compile Include="StartupArgs.cs" />
@@ -189,7 +189,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notebook\NoteForm.xaml">
+    <Page Include="Notebook\NoteFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

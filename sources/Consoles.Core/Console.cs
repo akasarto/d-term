@@ -10,5 +10,6 @@ namespace Consoles.Core
 		public string ProcessArgs { get; set; }
 		public string ProcessFilePath { get; set; }
 		public PathType ProcessPathType { get; set; }
+		public DateTime UTCCreation { get; set; }
 	}
 }

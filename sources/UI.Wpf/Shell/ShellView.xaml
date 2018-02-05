@@ -65,7 +65,7 @@
 						</Button>
 					</materialDesign:Flipper.FrontContent>
 					<materialDesign:Flipper.BackContent>
-						<notebook:NoteForm Height="275" Width="350" Margin="15" />
+						<notebook:NoteFormView Height="275" Width="350" Margin="15" />
 					</materialDesign:Flipper.BackContent>
 				</materialDesign:Flipper>
 
@@ -179,7 +179,7 @@
 										</StackPanel>
 									</materialDesign:Flipper.FrontContent>
 									<materialDesign:Flipper.BackContent>
-										<notebook:NoteForm HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 0 0 15" />
+										<notebook:NoteFormView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 0 0 15" />
 									</materialDesign:Flipper.BackContent>
 								</materialDesign:Flipper>
 							</Expander>

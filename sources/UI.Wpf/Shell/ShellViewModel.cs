@@ -1,12 +1,12 @@
-﻿using Consoles.Core;
+﻿using AutoMapper;
+using Consoles.Core;
 using Consoles.Processes;
-using UI.Wpf.Consoles;
+using Notebook.Core;
 using ReactiveUI;
 using System;
-using Notebook.Core;
-using AutoMapper;
-using UI.Wpf.Notebook;
 using System.Collections.Generic;
+using UI.Wpf.Consoles;
+using UI.Wpf.Notebook;
 
 namespace UI.Wpf.Shell
 {
@@ -22,15 +22,12 @@ namespace UI.Wpf.Shell
 			_notebookRepository = notebookRepository ?? throw new ArgumentNullException(nameof(notebookRepository), nameof(ShellViewModel));
 			_consoleProcessService = consoleProcessService ?? throw new ArgumentNullException(nameof(consoleProcessService), nameof(ShellViewModel));
 
-			CreateConsole = ReactiveCommand.Create(CreateConsoleExecute);
-
-			var notes = _notebookRepository.GetAll();
-			var notesViewModel = _mapper.Map<List<NoteViewModel>>(notes);
-			Notes = new ReactiveList<NoteViewModel>(notesViewModel);
+			SetupCommands();
+			SetupData();
 		}
 
 		public ReactiveList<NoteViewModel> Notes { get; set; }
-		public ReactiveList<ConsoleInstanceViewModel> ConsoleInstances { get; set; } = new ReactiveList<ConsoleInstanceViewModel>();
+		public ReactiveList<ConsoleInstanceViewModel> ConsoleInstances { get; set; }
 
 		public ReactiveCommand CreateConsole { get; protected set; }
 
@@ -50,6 +47,21 @@ namespace UI.Wpf.Shell
 			};
 
 			ConsoleInstances.Add(consoleInstanceViewModel);
+		}
+
+		private void SetupCommands()
+		{
+			CreateConsole = ReactiveCommand.Create(CreateConsoleExecute);
+		}
+
+		private void SetupData()
+		{
+			ConsoleInstances = new ReactiveList<ConsoleInstanceViewModel>();
+
+			var notes = _notebookRepository.GetAll();
+			var notesViewModel = _mapper.Map<List<NoteViewModel>>(notes);
+
+			Notes = new ReactiveList<NoteViewModel>(notesViewModel);
 		}
 	}
 }
