@@ -1,6 +1,4 @@
 ﻿using CommandLine;
-using Consoles.Core;
-using Consoles.Processes;
 using UI.Wpf.Infrastructure;
 using UI.Wpf.Shell;
 using SimpleInjector;
@@ -15,7 +13,7 @@ namespace UI.Wpf
 		public static void Main(string[] args)
 		{
 			var app = new App();
-			var container = CreateContainer();
+			var container = new StartupContainer();
 			var hasArguments = (args?.Length ?? 0) > 0;
 
 			app.InitializeComponent();
@@ -56,18 +54,6 @@ namespace UI.Wpf
 				.WithParsed(parsedArgs => result = parsedArgs);
 
 			return result;
-		}
-
-		private static Container CreateContainer()
-		{
-			var container = new Container();
-
-			container.Register<ShellView>();
-			container.Register<ShellViewModel>();
-
-			container.Register<IConsoleProcessService, ConsoleProcessService>(Lifestyle.Singleton);
-
-			return container;
 		}
 	}
 }

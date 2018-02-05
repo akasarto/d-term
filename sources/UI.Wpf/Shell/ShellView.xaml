@@ -86,7 +86,7 @@
 
 			</StackPanel>
 
-			<dragablz:DragablzItemsControl Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 15 0 0" x:Name="DragablzItemsControl" ItemsSource="{Binding ConsoleInstances}">
+			<dragablz:DragablzItemsControl Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 15 0 0" x:Name="DragablzItemsControl" ItemsSource="{Binding Notes}">
 				<dragablz:DragablzItemsControl.PositionMonitor>
 					<dragablz:VerticalPositionMonitor OrderChanged="StackPositionMonitor_OnOrderChanged" />
 				</dragablz:DragablzItemsControl.PositionMonitor>
@@ -165,12 +165,11 @@
 				<dragablz:DragablzItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Border Width="312.5" Margin="15 0 0 0">
-							<Expander Header="Expander Example 1b" Background="Transparent">
+							<Expander Header="{Binding Title}" Background="Transparent">
 								<materialDesign:Flipper Style="{StaticResource dTermFormFlipperdFlipper}" HorizontalAlignment="Stretch" Margin="26.5 7.5 30 15">
 									<materialDesign:Flipper.FrontContent>
 										<StackPanel TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
-											<TextBlock Text="Your Content" />
-											<TextBlock Opacity=".65" Text="{Binding Name}" TextWrapping="Wrap" />
+											<TextBlock Opacity=".65" Text="{Binding Description}" TextWrapping="Wrap" />
 											<Button Command="{x:Static materialDesign:Flipper.FlipCommand}" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right">
 												<StackPanel Orientation="Horizontal">
 													<materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center" />
