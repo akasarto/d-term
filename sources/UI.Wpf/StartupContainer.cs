@@ -16,23 +16,26 @@ namespace UI.Wpf
 	{
 		public StartupContainer()
 		{
+			//
 			Register<ShellView>();
 			Register<ShellViewModel>();
 
-			Register<ConsoleAreaView>();
+			//
 			Register<ConsoleAreaViewModel>();
-
-			Register<ConsoleInstanceView>();
 			Register<ConsoleInstanceViewModel>();
 
-			Register<NotebookAreaView>();
+			//
 			Register<NotebookAreaViewModel>();
+			Register<NotesListViewModel>();
 
+			//
 			Register<IConsolesRepository, ConsolesRepository>();
 			Register<INotebookRepository, NotebookRepository>();
 
+			//
 			Register<IConsoleProcessService, ConsoleProcessService>(Lifestyle.Singleton);
 
+			//
 			Register<IMapper>(() =>
 			{
 				var mapConfig = new MapperConfiguration(cfg =>

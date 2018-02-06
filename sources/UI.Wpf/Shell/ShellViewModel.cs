@@ -29,12 +29,5 @@ namespace UI.Wpf.Shell
 		/// Notebooks Area View Model
 		/// </summary>
 		public NotebookAreaViewModel NotebookAreaViewModel => _notebookAreaViewModel;
-
-		/// <summary>
-		/// Initializer called by the view.
-		/// </summary>
-		public void Initialize()
-		{
-		}
 	}
 }

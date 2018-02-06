@@ -17,12 +17,6 @@
 	x:Name="notebookAreaControl"
 	>
 
-	<i:Interaction.Triggers>
-		<i:EventTrigger EventName="Loaded">
-			<ei:CallMethodAction TargetObject="{Binding}" MethodName="Initialize" />
-		</i:EventTrigger>
-	</i:Interaction.Triggers>
-
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 		<Grid.RowDefinitions>
@@ -48,6 +42,7 @@
 			Grid.Row="2" />
 
 		<local:NotesListView
+			DataContext="{Binding NotesListViewModel}"
 			Grid.Row="3"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch" />

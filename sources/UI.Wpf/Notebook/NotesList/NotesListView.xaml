@@ -15,6 +15,12 @@
 	d:DesignHeight="315"
 >
 
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="Loaded">
+			<ei:CallMethodAction TargetObject="{Binding}" MethodName="Initialize" />
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
+
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 		<Grid.RowDefinitions>

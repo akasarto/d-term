@@ -26,12 +26,6 @@
 	x:Name="shellView"
 >
 
-	<i:Interaction.Triggers>
-		<i:EventTrigger EventName="Loaded">
-			<ei:CallMethodAction TargetObject="{Binding}" MethodName="Initialize" />
-		</i:EventTrigger>
-	</i:Interaction.Triggers>
-
 	<Grid>
 
 		<Grid.ColumnDefinitions>

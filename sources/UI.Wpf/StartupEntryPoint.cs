@@ -24,9 +24,9 @@ namespace UI.Wpf
 
 				if (options.Verify)
 				{
-					System.Console.WriteLine("Verifying...");
+					Console.WriteLine("Verifying...");
 					container.Verify(VerificationOption.VerifyAndDiagnose);
-					System.Console.WriteLine("Verification complete.");
+					Console.WriteLine("Verification complete.");
 				}
 			}
 			else
@@ -45,7 +45,7 @@ namespace UI.Wpf
 					config.EnableDashDash = true;
 					config.IgnoreUnknownArguments = true;
 					config.ParsingCulture = CultureInfo.GetCultureInfo("en-US");
-					config.HelpWriter = System.Console.Error;
+					config.HelpWriter = Console.Error;
 				}
 			);
 
