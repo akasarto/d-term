@@ -42,7 +42,7 @@
 
 		<Border Grid.Row="1" BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
 
-		<dragablz:DragablzItemsControl Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 15 0 0" x:Name="notebookItemsControl" ItemsSource="{Binding Notes}">
+		<dragablz:DragablzItemsControl Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 15 0 0" x:Name="notebookItemsControl" ItemsSource="{Binding Notes}">
 			<dragablz:DragablzItemsControl.PositionMonitor>
 				<dragablz:VerticalPositionMonitor OrderChanged="StackPositionMonitor_OnOrderChanged" />
 			</dragablz:DragablzItemsControl.PositionMonitor>

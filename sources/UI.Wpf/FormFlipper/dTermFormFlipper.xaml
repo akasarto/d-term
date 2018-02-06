@@ -70,11 +70,12 @@
 						</VisualStateManager.VisualStateGroups>
 						<materialDesign:Plane3D x:Name="PART_Plane3D" RotationY="0" ZFactor="2.055">
 							<materialDesign:Card
+								Padding="3.5"
+								Background="{TemplateBinding Background}"
+								BorderBrush="Transparent"
+								BorderThickness="0"
 								materialDesign:ShadowAssist.ShadowDepth="Depth0"
-								materialDesign:ShadowAssist.ShadowEdges="None"
-								BorderThickness="{TemplateBinding BorderThickness}"
-								BorderBrush="{TemplateBinding BorderBrush}"
-								Background="{TemplateBinding Background}">
+								materialDesign:ShadowAssist.ShadowEdges="None">
 								<Grid>
 									<ContentPresenter
 											x:Name="FrontContentPresenter"

@@ -22,8 +22,14 @@ namespace UI.Wpf.Notebook
 			_notebookRepository = notebookRepository ?? throw new ArgumentNullException(nameof(notebookRepository), nameof(NotesListViewModel));
 		}
 
+		/// <summary>
+		/// Current notes list
+		/// </summary>
 		public ReactiveList<NoteViewModel> Notes { get; set; } = new ReactiveList<NoteViewModel>();
 
+		/// <summary>
+		/// Initializer method called by the view.
+		/// </summary>
 		public void Initialize()
 		{
 			var notesObsevable = Observable.Start(LoadNotes);
@@ -35,6 +41,9 @@ namespace UI.Wpf.Notebook
 			});
 		}
 
+		/// <summary>
+		/// Load items from repository.
+		/// </summary>
 		private List<NoteViewModel> LoadNotes()
 		{
 			var notes = _notebookRepository.GetAll();
