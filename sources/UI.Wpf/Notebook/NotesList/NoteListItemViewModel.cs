@@ -6,11 +6,19 @@ namespace UI.Wpf.Notebook
 	public class NoteListItemViewModel : ReactiveObject
 	{
 		private bool _isEditing = false;
+		private NoteViewModel _note;
 
 		public NoteListItemViewModel()
 		{
 			EditCommand = ReactiveCommand.Create(() =>
 			{
+				Note = new NoteViewModel();
+
+				Note.Id = this.Id;
+				Note.Index = this.Index;
+				Note.Title = this.Title;
+				Note.Description = this.Description;
+
 				IsEditing = true;
 			});
 
@@ -21,7 +29,7 @@ namespace UI.Wpf.Notebook
 
 			SaveCommand = ReactiveCommand.Create(() =>
 			{
-				System.Windows.MessageBox.Show("Save");
+				System.Windows.MessageBox.Show(Note?.Description ?? ":(");
 			});
 		}
 
@@ -34,6 +42,12 @@ namespace UI.Wpf.Notebook
 		{
 			get => _isEditing;
 			set => this.RaiseAndSetIfChanged(ref _isEditing, value);
+		}
+
+		public NoteViewModel Note
+		{
+			get => _note;
+			set => this.RaiseAndSetIfChanged(ref _note, value);
 		}
 
 		public ReactiveCommand EditCommand { get; protected set; }

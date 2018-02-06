@@ -21,11 +21,11 @@ namespace UI.Wpf
 			Register<ShellViewModel>();
 
 			//
-			Register<ConsoleAreaViewModel>();
+			Register<ConsolesWorkspaceViewModel>();
 			Register<ConsoleInstanceViewModel>();
 
 			//
-			Register<NotebookViewModel>();
+			Register<NotebookWorkspaceViewModel>();
 			Register<NotesListViewModel>();
 
 			//

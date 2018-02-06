@@ -20,7 +20,7 @@
 				Margin="0 12.5 0 0"
 				materialDesign:HintAssist.Hint="Title"
 				materialDesign:HintAssist.IsFloating="True"
-				Text="Git Prune" />
+				Text="{Binding Note.Title}" />
 
 		<TextBox
 				AcceptsReturn="True"
@@ -31,7 +31,8 @@
 				TextWrapping="Wrap"
 				Style="{StaticResource MaterialDesignTextAreaTextBox}"
 				HorizontalAlignment="Stretch"
-				VerticalScrollBarVisibility="Auto" />
+				VerticalScrollBarVisibility="Auto"
+				Text="{Binding Note.Description}"/>
 
 		<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Right">
 
