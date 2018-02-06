@@ -7,19 +7,32 @@ namespace UI.Wpf.Shell
 {
 	public class ShellViewModel : ReactiveObject
 	{
-		private readonly ConsolesAreaViewModel _consolesAreaViewModel = null;
+		//
+		private readonly ConsoleAreaViewModel _consolesAreaViewModel = null;
 		private readonly NotebookAreaViewModel _notebookAreaViewModel = null;
 
-		public ShellViewModel(ConsolesAreaViewModel consolesAreaViewModel, NotebookAreaViewModel notebookAreaViewModel)
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
+		public ShellViewModel(ConsoleAreaViewModel consolesAreaViewModel, NotebookAreaViewModel notebookAreaViewModel)
 		{
 			_consolesAreaViewModel = consolesAreaViewModel ?? throw new ArgumentNullException(nameof(consolesAreaViewModel), nameof(ShellViewModel));
 			_notebookAreaViewModel = notebookAreaViewModel ?? throw new ArgumentNullException(nameof(notebookAreaViewModel), nameof(ShellViewModel));
 		}
 
-		public ConsolesAreaViewModel ConsolesAreaViewModel => _consolesAreaViewModel;
+		/// <summary>
+		/// Consoles Area View Model
+		/// </summary>
+		public ConsoleAreaViewModel ConsolesAreaViewModel => _consolesAreaViewModel;
 
+		/// <summary>
+		/// Notebooks Area View Model
+		/// </summary>
 		public NotebookAreaViewModel NotebookAreaViewModel => _notebookAreaViewModel;
 
+		/// <summary>
+		/// Initializer called by the view.
+		/// </summary>
 		public void Initialize()
 		{
 		}

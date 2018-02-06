@@ -170,18 +170,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Consoles\ConsoleHwndHost.cs" />
-    <Compile Include="Consoles\ConsolesAreaView.xaml.cs">
-      <DependentUpon>ConsolesAreaView.xaml</DependentUpon>
+    <Compile Include="Consoles\ConsoleAreaView.xaml.cs">
+      <DependentUpon>ConsoleAreaView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ConsolesAreaViewModel.cs" />
+    <Compile Include="Consoles\ConsoleAreaViewModel.cs" />
     <Compile Include="MapperProfiles\DefaultMapProfile.cs" />
+    <Compile Include="Notebook\AddNoteView.xaml.cs">
+      <DependentUpon>AddNoteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Notebook\NoteFormView.xaml.cs">
+      <DependentUpon>NoteFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Notebook\NoteFormViewModel.cs" />
     <Compile Include="Notebook\NotebookAreaView.xaml.cs">
       <DependentUpon>NotebookAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notebook\NotebookAreaViewModel.cs" />
-    <Compile Include="Notebook\NoteFormView.xaml.cs">
-      <DependentUpon>NoteFormView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Notebook\NoteViewModel.cs" />
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
@@ -195,7 +199,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ConsolesAreaView.xaml">
+    <Page Include="Consoles\ConsoleAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,11 +207,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notebook\NotebookAreaView.xaml">
+    <Page Include="Notebook\AddNoteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Notebook\NoteFormView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notebook\NotebookAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

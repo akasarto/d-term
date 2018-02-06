@@ -19,8 +19,8 @@ namespace UI.Wpf
 			Register<ShellView>();
 			Register<ShellViewModel>();
 
-			Register<ConsolesAreaView>();
-			Register<ConsolesAreaViewModel>();
+			Register<ConsoleAreaView>();
+			Register<ConsoleAreaViewModel>();
 
 			Register<ConsoleInstanceView>();
 			Register<ConsoleInstanceViewModel>();

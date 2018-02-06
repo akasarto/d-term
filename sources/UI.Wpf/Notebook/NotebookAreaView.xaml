@@ -36,14 +36,18 @@
 				</StackPanel>
 			</materialDesign:ColorZone>
 
-			<materialDesign:Flipper Style="{StaticResource dTermFormFlipperdFlipper}" HorizontalAlignment="Stretch">
+			<materialDesign:Flipper Style="{StaticResource dTermFormFlipper}" HorizontalAlignment="Stretch">
 				<materialDesign:Flipper.FrontContent>
+					
 					<Button Command="{x:Static materialDesign:Flipper.FlipCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="MaterialDesignFloatingActionMiniDarkButton" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="0 15">
 						<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
 					</Button>
+					
 				</materialDesign:Flipper.FrontContent>
 				<materialDesign:Flipper.BackContent>
+					
 					<local:NoteFormView Height="275" Width="350" Margin="15" />
+					
 				</materialDesign:Flipper.BackContent>
 			</materialDesign:Flipper>
 
@@ -142,9 +146,12 @@
 			</dragablz:DragablzItemsControl.ItemContainerStyle>
 			<dragablz:DragablzItemsControl.ItemTemplate>
 				<DataTemplate>
+					
 					<Border Width="312.5" Margin="15 0 0 0">
+						
 						<Expander Header="{Binding Title}" Background="Transparent">
-							<materialDesign:Flipper Style="{StaticResource dTermFormFlipperdFlipper}" HorizontalAlignment="Stretch" Margin="26.5 7.5 30 15">
+							
+							<materialDesign:Flipper Style="{StaticResource dTermFormFlipper}" HorizontalAlignment="Stretch" Margin="26.5 7.5 30 15">
 								<materialDesign:Flipper.FrontContent>
 									<StackPanel TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
 										<TextBlock Opacity=".65" Text="{Binding Description}" TextWrapping="Wrap" />
@@ -160,8 +167,11 @@
 									<local:NoteFormView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0 0 0 15" />
 								</materialDesign:Flipper.BackContent>
 							</materialDesign:Flipper>
+							
 						</Expander>
+						
 					</Border>
+					
 				</DataTemplate>
 			</dragablz:DragablzItemsControl.ItemTemplate>
 		</dragablz:DragablzItemsControl>

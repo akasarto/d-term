@@ -98,7 +98,7 @@
 		</Setter>
 	</Style>-->
 
-	<Style x:Key="dTermFormFlipperdFlipper" TargetType="{x:Type materialDesign:Flipper}" BasedOn="{StaticResource {x:Type materialDesign:Flipper}}">
+	<Style x:Key="dTermFormFlipper" TargetType="{x:Type materialDesign:Flipper}" BasedOn="{StaticResource {x:Type materialDesign:Flipper}}">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type materialDesign:Flipper}">

@@ -5,13 +5,13 @@ using System;
 
 namespace UI.Wpf.Consoles
 {
-	public class ConsolesAreaViewModel : ReactiveObject
+	public class ConsoleAreaViewModel : ReactiveObject
 	{
 		private readonly IConsoleProcessService _consoleProcessService = null;
 
-		public ConsolesAreaViewModel(IConsoleProcessService consoleProcessService)
+		public ConsoleAreaViewModel(IConsoleProcessService consoleProcessService)
 		{
-			_consoleProcessService = consoleProcessService ?? throw new ArgumentNullException(nameof(consoleProcessService), nameof(ConsolesAreaViewModel));
+			_consoleProcessService = consoleProcessService ?? throw new ArgumentNullException(nameof(consoleProcessService), nameof(ConsoleAreaViewModel));
 
 			CreateInstance = ReactiveCommand.Create(CreateInstanceAction);
 		}

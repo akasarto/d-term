@@ -4,9 +4,9 @@ using System.Windows.Controls;
 
 namespace UI.Wpf.Consoles
 {
-	public partial class ConsolesAreaView : UserControl
+	public partial class ConsoleAreaView : UserControl
 	{
-		public ConsolesAreaView()
+		public ConsoleAreaView()
 		{
 			InitializeComponent();
 		}

@@ -44,7 +44,7 @@
 
 		<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="1" Grid.Column="1" />
 
-		<consoles:ConsolesAreaView Grid.Column="2" DataContext="{Binding ConsolesAreaViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+		<consoles:ConsoleAreaView Grid.Column="2" DataContext="{Binding ConsolesAreaViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
 	</Grid>
 
