@@ -86,9 +86,7 @@
 			<dragablz:DragablzItemsControl.ItemTemplate>
 				<DataTemplate>
 					<Border Width="312.5" Margin="15 0 0 0">
-						<Expander Header="{Binding Title}" Background="Transparent">
-							<local:NoteListItemView Margin="26.5 7.5 30 15" />
-						</Expander>
+						<local:NoteListItemView Background="Transparent" />
 					</Border>
 				</DataTemplate>
 			</dragablz:DragablzItemsControl.ItemTemplate>
