@@ -29,13 +29,13 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 
-			<materialDesign:ColorZone Mode="Inverted" Padding="15" Grid.Column="0" VerticalAlignment="Stretch" materialDesign:ShadowAssist.ShadowEdges="Right" materialDesign:ShadowAssist.ShadowDepth="Depth1">
+			<materialDesign:ColorZone Mode="Inverted" Padding="15" Grid.Column="0" VerticalAlignment="Stretch" materialDesign:ShadowAssist.ShadowEdges="Right" materialDesign:ShadowAssist.ShadowDepth="Depth3">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-					<TextBlock VerticalAlignment="Center" FontSize="22" Margin="0 0 35 0"><Run Text="Consoles"/></TextBlock>
+					<TextBlock VerticalAlignment="Center" FontSize="22" Margin="0 0 35 0" Text="Consoles" />
 				</StackPanel>
 			</materialDesign:ColorZone>
 
-			<ToolBarTray VerticalAlignment="Center" Grid.Column="1" Margin="3 0 0 0">
+			<ToolBarTray VerticalAlignment="Center" Grid.Column="1" Margin="7.5 0 0 0">
 				<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Arrange" FontWeight="Bold">
 					<ListBox SelectedIndex="0">
 						<ListBoxItem ToolTip="As Grid">
