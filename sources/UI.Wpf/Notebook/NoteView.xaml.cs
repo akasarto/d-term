@@ -7,7 +7,7 @@ namespace UI.Wpf.Notebook
 		public NoteView()
 		{
 			InitializeComponent();
-			DataContext = new NoteViewModel();
+			DataContext = new NoteListItemViewModel();
 		}
 	}
 }

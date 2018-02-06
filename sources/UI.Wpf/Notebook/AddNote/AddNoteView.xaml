@@ -15,7 +15,7 @@
 	d:DesignWidth="375"
 >
 
-	<materialDesign:Flipper IsFlipped="{Binding IsAdding}" Style="{StaticResource dTermFormFlipper}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+	<materialDesign:Flipper IsFlipped="{Binding IsAdding}" Style="{StaticResource notebookFormFlipper}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 		<materialDesign:Flipper.FrontContent>
 

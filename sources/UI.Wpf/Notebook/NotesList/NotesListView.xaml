@@ -7,13 +7,23 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wndbase="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
 	xmlns:local="clr-namespace:UI.Wpf.Notebook"
-	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	mc:Ignorable="d"
 	d:DesignWidth="275"
 	d:DesignHeight="315"
 >
+
+	<UserControl.Resources>
+
+		<CollectionViewSource x:Key="notesColllection" Source="{Binding Notes}">
+			<CollectionViewSource.SortDescriptions>
+				<wndbase:SortDescription PropertyName="Index" />
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+
+	</UserControl.Resources>
 
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Loaded">
@@ -29,114 +39,60 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
+		<!-- Search Box -->
 		<Grid Grid.Row="0" Margin="12.5">
+
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-			<TextBox Grid.Column="0" materialDesign:HintAssist.Hint="Search notes..." materialDesign:TextFieldAssist.DecorationVisibility="Hidden" BorderThickness="0" />
-			<Button Style="{DynamicResource MaterialDesignToolButton}" Grid.Column="1">
-				<materialDesign:PackIcon Kind="Magnify" Opacity=".56" Margin="7.5 7.5 0 0 "/>
+
+			<TextBox
+				BorderThickness="0"
+				Grid.Column="0"
+				materialDesign:HintAssist.Hint="Search notes..."
+				materialDesign:TextFieldAssist.DecorationVisibility="Hidden" />
+
+			<Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}">
+				<materialDesign:PackIcon Kind="Magnify" Margin="7.5 7.5 0 0 " Opacity=".56" />
 			</Button>
+
 		</Grid>
 
-		<Border Grid.Row="1" BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" />
+		<!---->
+		<Border
+			BorderBrush="{DynamicResource MaterialDesignDivider}"
+			BorderThickness="0 0 0 1"
+			Grid.Row="1" />
 
-		<dragablz:DragablzItemsControl Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 15 0 0" x:Name="notebookItemsControl" ItemsSource="{Binding Notes}">
-			<dragablz:DragablzItemsControl.PositionMonitor>
-				<dragablz:VerticalPositionMonitor OrderChanged="StackPositionMonitor_OnOrderChanged" />
-			</dragablz:DragablzItemsControl.PositionMonitor>
+		<!-- Notes List -->
+		<dragablz:DragablzItemsControl
+			Grid.Row="2"
+			HorizontalAlignment="Stretch"
+			ItemsSource="{Binding Source={StaticResource notesColllection}}"
+			ItemContainerStyle="{StaticResource notebookDraggableContainer}"
+			VerticalAlignment="Stretch"
+			Margin="0 15 0 0"
+			x:Name="notebookItemsControl">
+
 			<dragablz:DragablzItemsControl.ItemsOrganiser>
 				<dragablz:VerticalOrganiser />
 			</dragablz:DragablzItemsControl.ItemsOrganiser>
-			<dragablz:DragablzItemsControl.ItemContainerStyle>
-				<Style TargetType="{x:Type dragablz:DragablzItem}">
-					<Setter Property="Padding" Value="7.5 3.5" />
-					<Setter Property="Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
-								<ControlTemplate.Resources>
-									<SineEase x:Key="Ease" EasingMode="EaseInOut" />
-								</ControlTemplate.Resources>
-								<Grid RenderTransformOrigin=".1, .1">
-									<Grid.RenderTransform>
-										<ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
-									</Grid.RenderTransform>
-									<materialDesign:Card Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" x:Name="Card" />
-									<Thumb dragablz:DragablzItem.IsCustomThumb="True">
-										<Thumb.Template>
-											<ControlTemplate>
-												<Border Margin="15 1.5 0 0" Width="35" HorizontalAlignment="Left">
-													<Grid Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-														<materialDesign:PackIcon Width="24" Height="24" Kind="DragHorizontal" VerticalAlignment="Center" HorizontalAlignment="Center" />
-													</Grid>
-												</Border>
-											</ControlTemplate>
-										</Thumb.Template>
-									</Thumb>
-								</Grid>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsDragging" Value="True">
-										<Trigger.EnterActions>
-											<BeginStoryboard>
-												<Storyboard>
-													<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
-														<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1.005" EasingFunction="{StaticResource Ease}" />
-													</DoubleAnimationUsingKeyFrames>
-													<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
-														<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1.005" EasingFunction="{StaticResource Ease}" />
-													</DoubleAnimationUsingKeyFrames>
-													<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Card" Storyboard.TargetProperty="(materialDesign:ShadowAssist.ShadowDepth)">
-														<DiscreteObjectKeyFrame KeyTime="0:0:0.08" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
-														<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth3}" />
-														<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth4}" />
-													</ObjectAnimationUsingKeyFrames>
-												</Storyboard>
-											</BeginStoryboard>
-										</Trigger.EnterActions>
-										<Trigger.ExitActions>
-											<BeginStoryboard>
-												<Storyboard>
-													<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleX">
-														<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" EasingFunction="{StaticResource Ease}" />
-													</DoubleAnimationUsingKeyFrames>
-													<DoubleAnimationUsingKeyFrames Storyboard.TargetName="ScaleTransform" Storyboard.TargetProperty="ScaleY">
-														<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" EasingFunction="{StaticResource Ease}" />
-													</DoubleAnimationUsingKeyFrames>
-													<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Card" Storyboard.TargetProperty="(materialDesign:ShadowAssist.ShadowDepth)">
-														<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth4}" />
-														<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth3}" />
-														<DiscreteObjectKeyFrame KeyTime="0:0:0.22" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
-													</ObjectAnimationUsingKeyFrames>
-												</Storyboard>
-											</BeginStoryboard>
-										</Trigger.ExitActions>
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</dragablz:DragablzItemsControl.ItemContainerStyle>
+
+			<dragablz:DragablzItemsControl.PositionMonitor>
+				<dragablz:VerticalPositionMonitor OrderChanged="StackPositionMonitor_OnOrderChanged" />
+			</dragablz:DragablzItemsControl.PositionMonitor>
+
 			<dragablz:DragablzItemsControl.ItemTemplate>
 				<DataTemplate>
-
 					<Border Width="312.5" Margin="15 0 0 0">
-
 						<Expander Header="{Binding Title}" Background="Transparent">
-
-							<Grid Margin="26.5 7.5 30 15">
-
-
-
-							</Grid>
-
+							<local:NoteListItemView Margin="26.5 7.5 30 15" />
 						</Expander>
-
 					</Border>
-
 				</DataTemplate>
 			</dragablz:DragablzItemsControl.ItemTemplate>
+
 		</dragablz:DragablzItemsControl>
 
 	</Grid>

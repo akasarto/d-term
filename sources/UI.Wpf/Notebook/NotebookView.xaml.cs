@@ -2,9 +2,9 @@
 
 namespace UI.Wpf.Notebook
 {
-	public partial class NotebookAreaView : UserControl
+	public partial class NotebookView : UserControl
 	{
-		public NotebookAreaView()
+		public NotebookView()
 		{
 			InitializeComponent();
 		}

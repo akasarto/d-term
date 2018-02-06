@@ -25,7 +25,7 @@ namespace UI.Wpf.Notebook
 		/// <summary>
 		/// Current notes list
 		/// </summary>
-		public ReactiveList<NoteViewModel> Notes { get; set; } = new ReactiveList<NoteViewModel>();
+		public ReactiveList<NoteListItemViewModel> Notes { get; set; } = new ReactiveList<NoteListItemViewModel>();
 
 		/// <summary>
 		/// Initializer method called by the view.
@@ -36,7 +36,7 @@ namespace UI.Wpf.Notebook
 
 			notesObsevable.Subscribe(notes =>
 			{
-				Notes = new ReactiveList<NoteViewModel>(notes);
+				Notes = new ReactiveList<NoteListItemViewModel>(notes);
 				this.RaisePropertyChanged(nameof(Notes));
 			});
 		}
@@ -44,10 +44,10 @@ namespace UI.Wpf.Notebook
 		/// <summary>
 		/// Load items from repository.
 		/// </summary>
-		private List<NoteViewModel> LoadNotes()
+		private List<NoteListItemViewModel> LoadNotes()
 		{
 			var notes = _notebookRepository.GetAll();
-			return _mapper.Map<List<NoteViewModel>>(notes);
+			return _mapper.Map<List<NoteListItemViewModel>>(notes);
 		}
 	}
 }

@@ -25,15 +25,18 @@ namespace UI.Wpf.Notebook
 		private void ItemDragCompleted(object sender, DragablzDragCompletedEventArgs e)
 		{
 			var item = e.DragablzItem.DataContext;
+
 			System.Diagnostics.Trace.WriteLine($"User finished dragging item: {item}.");
 
 			if (_noteItems == null) return;
 
 			System.Diagnostics.Trace.Write("Order is now: ");
+
 			foreach (var i in _noteItems)
 			{
 				System.Diagnostics.Trace.Write(i + " ");
 			}
+
 			System.Diagnostics.Trace.WriteLine("");
 		}
 

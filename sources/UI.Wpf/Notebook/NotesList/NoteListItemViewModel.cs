@@ -2,7 +2,7 @@
 
 namespace UI.Wpf.Notebook
 {
-	public class NoteViewModel
+	public class NoteListItemViewModel
 	{
 		public bool Adding { get; set; }
 

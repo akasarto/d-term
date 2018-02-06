@@ -9,15 +9,15 @@ namespace UI.Wpf.Shell
 	{
 		//
 		private readonly ConsoleAreaViewModel _consolesAreaViewModel = null;
-		private readonly NotebookAreaViewModel _notebookAreaViewModel = null;
+		private readonly NotebookViewModel _notebookViewModel = null;
 
 		/// <summary>
 		/// Constructor.
 		/// </summary>
-		public ShellViewModel(ConsoleAreaViewModel consolesAreaViewModel, NotebookAreaViewModel notebookAreaViewModel)
+		public ShellViewModel(ConsoleAreaViewModel consolesAreaViewModel, NotebookViewModel notebookViewModel)
 		{
 			_consolesAreaViewModel = consolesAreaViewModel ?? throw new ArgumentNullException(nameof(consolesAreaViewModel), nameof(ShellViewModel));
-			_notebookAreaViewModel = notebookAreaViewModel ?? throw new ArgumentNullException(nameof(notebookAreaViewModel), nameof(ShellViewModel));
+			_notebookViewModel = notebookViewModel ?? throw new ArgumentNullException(nameof(notebookViewModel), nameof(ShellViewModel));
 		}
 
 		/// <summary>
@@ -26,8 +26,8 @@ namespace UI.Wpf.Shell
 		public ConsoleAreaViewModel ConsolesAreaViewModel => _consolesAreaViewModel;
 
 		/// <summary>
-		/// Notebooks Area View Model
+		/// Notebook Area View Model
 		/// </summary>
-		public NotebookAreaViewModel NotebookAreaViewModel => _notebookAreaViewModel;
+		public NotebookViewModel NotebookAreaViewModel => _notebookViewModel;
 	}
 }

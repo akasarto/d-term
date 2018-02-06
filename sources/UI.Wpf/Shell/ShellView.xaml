@@ -34,11 +34,25 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<notebook:NotebookAreaView Grid.Column="0" DataContext="{Binding NotebookAreaViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+		<!-- Notebook -->
+		<notebook:NotebookView
+			DataContext="{Binding NotebookAreaViewModel}"
+			Grid.Column="0"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch" />
 
-		<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="1" Grid.Column="1" />
+		<!---->
+		<Border
+			BorderBrush="{DynamicResource MaterialDesignDivider}"
+			BorderThickness="1"
+			Grid.Column="1" />
 
-		<consoles:ConsoleAreaView Grid.Column="2" DataContext="{Binding ConsolesAreaViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+		<!-- Consoles -->
+		<consoles:ConsoleAreaView
+			DataContext="{Binding ConsolesAreaViewModel}"
+			Grid.Column="2"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch" />
 
 	</Grid>
 

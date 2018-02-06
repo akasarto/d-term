@@ -1,15 +1,11 @@
 ﻿<UserControl
-	x:Class="UI.Wpf.Notebook.NotebookAreaView"
+	x:Class="UI.Wpf.Notebook.NotebookView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
 	xmlns:local="clr-namespace:UI.Wpf.Notebook"
-	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	Background="{DynamicResource MaterialDesignPaper}"
 	mc:Ignorable="d" 
 	d:DesignWidth="375"
@@ -26,21 +22,25 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
+		<!-- Area Header -->
 		<materialDesign:ColorZone Grid.Row="0" Mode="Inverted" Padding="15">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 				<TextBlock VerticalAlignment="Center" FontSize="22" Text="Notebook" />
 			</StackPanel>
 		</materialDesign:ColorZone>
 
+		<!-- Add Note -->
 		<local:AddNoteView
 			Grid.Row="1"
 			HorizontalAlignment="Stretch" />
 
+		<!---->
 		<Border
 			BorderBrush="{DynamicResource MaterialDesignDivider}"
 			BorderThickness="0 0 0 1"
 			Grid.Row="2" />
 
+		<!-- Notes List -->
 		<local:NotesListView
 			DataContext="{Binding NotesListViewModel}"
 			Grid.Row="3"

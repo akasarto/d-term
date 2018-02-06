@@ -3,7 +3,7 @@ using System;
 
 namespace UI.Wpf.Notebook
 {
-	public class NotebookAreaViewModel : ReactiveObject
+	public class NotebookViewModel : ReactiveObject
 	{
 		//
 		private readonly NotesListViewModel _notesListViewModel = null;
@@ -11,9 +11,9 @@ namespace UI.Wpf.Notebook
 		/// <summary>
 		/// Constructor.
 		/// </summary>
-		public NotebookAreaViewModel(NotesListViewModel notesListViewModel)
+		public NotebookViewModel(NotesListViewModel notesListViewModel)
 		{
-			_notesListViewModel = notesListViewModel ?? throw new ArgumentNullException(nameof(notesListViewModel), nameof(NotebookAreaViewModel));
+			_notesListViewModel = notesListViewModel ?? throw new ArgumentNullException(nameof(notesListViewModel), nameof(NotebookViewModel));
 		}
 
 		/// <summary>

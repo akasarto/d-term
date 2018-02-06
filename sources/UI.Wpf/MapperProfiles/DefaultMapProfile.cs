@@ -8,8 +8,8 @@ namespace UI.Wpf.MapperProfiles
 	{
 		public DefaultMapProfile()
 		{
-			CreateMap<Note, NoteViewModel>();
-			CreateMap<NoteViewModel, Note>();
+			CreateMap<Note, NoteListItemViewModel>();
+			CreateMap<NoteListItemViewModel, Note>();
 		}
 	}
 }
