@@ -12,7 +12,7 @@ namespace UI.Wpf.Shell
 		private readonly NotebookAreaViewModel _notebookAreaViewModel = null;
 
 		/// <summary>
-		/// Constructor method.
+		/// Constructor.
 		/// </summary>
 		public ShellViewModel(ConsoleAreaViewModel consolesAreaViewModel, NotebookAreaViewModel notebookAreaViewModel)
 		{

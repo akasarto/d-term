@@ -2,11 +2,12 @@
 
 namespace UI.Wpf.Notebook
 {
-	public partial class NoteFormView : UserControl
+	public partial class NoteView : UserControl
 	{
-		public NoteFormView()
+		public NoteView()
 		{
 			InitializeComponent();
+			DataContext = new NoteViewModel();
 		}
 	}
 }

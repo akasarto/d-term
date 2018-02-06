@@ -175,13 +175,20 @@
     </Compile>
     <Compile Include="Consoles\ConsoleAreaViewModel.cs" />
     <Compile Include="MapperProfiles\DefaultMapProfile.cs" />
-    <Compile Include="Notebook\AddNoteView.xaml.cs">
+    <Compile Include="Notebook\AddNote\AddNoteView.xaml.cs">
       <DependentUpon>AddNoteView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Notebook\NoteFormView.xaml.cs">
+    <Compile Include="Notebook\AddNote\AddNoteViewModel.cs" />
+    <Compile Include="Notebook\NotesList\NotesListViewModel.cs" />
+    <Compile Include="Notebook\NotesList\NotesListView.xaml.cs">
+      <DependentUpon>NotesListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Notebook\NoteView.xaml.cs">
+      <DependentUpon>NoteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Notebook\NoteForm\NoteFormView.xaml.cs">
       <DependentUpon>NoteFormView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Notebook\NoteFormViewModel.cs" />
     <Compile Include="Notebook\NotebookAreaView.xaml.cs">
       <DependentUpon>NotebookAreaView.xaml</DependentUpon>
     </Compile>
@@ -207,11 +214,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notebook\AddNoteView.xaml">
+    <Page Include="Notebook\AddNote\AddNoteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notebook\NoteFormView.xaml">
+    <Page Include="Notebook\NotesList\NotesListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notebook\NoteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notebook\NoteForm\NoteFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -266,7 +281,9 @@
   <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Notebook\NoteDetails\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Consoles.Core\Consoles.Core.csproj">
       <Project>{0194DF4A-3F2F-42FB-A7C8-3C80F3A677E4}</Project>

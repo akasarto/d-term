@@ -1,40 +1,24 @@
-﻿using AutoMapper;
-using Notebook.Core;
-using ReactiveUI;
+﻿using ReactiveUI;
 using System;
-using System.Collections.Generic;
-using System.Reactive.Linq;
 
 namespace UI.Wpf.Notebook
 {
 	public class NotebookAreaViewModel : ReactiveObject
 	{
-		private readonly IMapper _mapper = null;
-		private readonly INotebookRepository _notebookRepository = null;
+		//
+		private readonly NotesListViewModel _notesListViewModel = null;
 
-		public NotebookAreaViewModel(IMapper mapper, INotebookRepository notebookRepository)
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		public NotebookAreaViewModel(NotesListViewModel notesListViewModel)
 		{
-			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper), nameof(NotebookAreaViewModel));
-			_notebookRepository = notebookRepository ?? throw new ArgumentNullException(nameof(notebookRepository), nameof(NotebookAreaViewModel));
+			_notesListViewModel = notesListViewModel ?? throw new ArgumentNullException(nameof(notesListViewModel), nameof(NotebookAreaViewModel));
 		}
 
-		public ReactiveList<NoteViewModel> Notes { get; set; } = new ReactiveList<NoteViewModel>();
-
-		public void Initialize()
-		{
-			var notesObsevable = Observable.Start(LoadNotes);
-
-			notesObsevable.Subscribe(notes =>
-			{
-				Notes = new ReactiveList<NoteViewModel>(notes);
-				this.RaisePropertyChanged(nameof(Notes));
-			});
-		}
-
-		private List<NoteViewModel> LoadNotes()
-		{
-			var notes = _notebookRepository.GetAll();
-			return _mapper.Map<List<NoteViewModel>>(notes);
-		}
+		/// <summary>
+		/// NOtes List View Model
+		/// </summary>
+		public NotesListViewModel NotesListViewModel => _notesListViewModel;
 	}
 }
