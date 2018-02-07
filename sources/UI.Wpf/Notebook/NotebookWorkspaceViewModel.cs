@@ -6,26 +6,26 @@ namespace UI.Wpf.Notebook
 	public class NotebookWorkspaceViewModel : ReactiveObject
 	{
 		//
-		private readonly NoteCardsListViewModel _noteCardsListViewModel = null;
-		private readonly NoteCardViewModel _noteCardViewModel = null;
+		private readonly NoteAddViewModel _noteAddViewModel = null;
+		private readonly NoteDetailsListListViewModel _noteCardsListViewModel = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public NotebookWorkspaceViewModel(NoteCardsListViewModel noteCardsListViewModel, NoteCardViewModel noteCardViewModel)
+		public NotebookWorkspaceViewModel(NoteAddViewModel noteAddViewModel, NoteDetailsListListViewModel noteCardsListViewModel)
 		{
+			_noteAddViewModel = noteAddViewModel ?? throw new ArgumentNullException(nameof(noteAddViewModel), nameof(NotebookWorkspaceViewModel));
 			_noteCardsListViewModel = noteCardsListViewModel ?? throw new ArgumentNullException(nameof(noteCardsListViewModel), nameof(NotebookWorkspaceViewModel));
-			_noteCardViewModel = noteCardViewModel ?? throw new ArgumentNullException(nameof(noteCardViewModel), nameof(NotebookWorkspaceViewModel));
 		}
-
-		/// <summary>
-		/// Note Cards List View Model
-		/// </summary>
-		public NoteCardsListViewModel NoteCardsListViewModel => _noteCardsListViewModel;
 
 		/// <summary>
 		/// Add Note View Model
 		/// </summary>
-		public NoteCardViewModel AddNoteViewModel => _noteCardViewModel;
+		public NoteAddViewModel NoteAddViewModel => _noteAddViewModel;
+
+		/// <summary>
+		/// Note Cards List View Model
+		/// </summary>
+		public NoteDetailsListListViewModel NoteCardsListViewModel => _noteCardsListViewModel;
 	}
 }

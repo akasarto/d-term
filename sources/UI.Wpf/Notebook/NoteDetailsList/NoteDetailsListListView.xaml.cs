@@ -3,11 +3,11 @@ using System.Windows.Controls;
 
 namespace UI.Wpf.Notebook
 {
-	public partial class NoteCardsListView : UserControl
+	public partial class NoteDetailsListListView : UserControl
 	{
 		private object[] _noteItems;
 
-		public NoteCardsListView()
+		public NoteDetailsListListView()
 		{
 			InitializeComponent();
 

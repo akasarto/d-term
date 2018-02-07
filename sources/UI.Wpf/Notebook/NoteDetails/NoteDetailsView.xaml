@@ -1,0 +1,42 @@
+﻿<UserControl
+	x:Class="UI.Wpf.Notebook.NoteDetailsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:UI.Wpf.Notebook"
+	mc:Ignorable="d" 
+	d:DesignHeight="375"
+	d:DesignWidth="375"
+	x:Name="noteManagerControl"
+>
+
+	<materialDesign:Flipper IsFlipped="{Binding IsFlipped}" Style="{StaticResource notebookFormFlipper}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+		<materialDesign:Flipper.FrontContent>
+
+			<StackPanel>
+
+				<TextBlock Opacity=".65" Text="{Binding Id}" TextWrapping="Wrap" />
+
+				<Button Command="{Binding EditCommand}" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right">
+					<StackPanel Orientation="Horizontal">
+						<materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center" />
+						<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center" Text="Edit" />
+					</StackPanel>
+				</Button>
+
+			</StackPanel>
+
+		</materialDesign:Flipper.FrontContent>
+
+		<materialDesign:Flipper.BackContent>
+
+			<local:NoteFormView Data="{Binding FormData}" CancelCommand="{Binding CancelCommand}" SaveCommand="{Binding SaveCommand}" />
+
+		</materialDesign:Flipper.BackContent>
+
+	</materialDesign:Flipper>
+
+</UserControl>

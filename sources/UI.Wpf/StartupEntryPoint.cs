@@ -4,6 +4,7 @@ using UI.Wpf.Shell;
 using SimpleInjector;
 using System;
 using System.Globalization;
+using UI.Wpf.Mappings;
 
 namespace UI.Wpf
 {
@@ -28,12 +29,15 @@ namespace UI.Wpf
 					container.Verify(VerificationOption.VerifyAndDiagnose);
 					Console.WriteLine("Verification complete.");
 				}
+
+				return;
 			}
-			else
-			{
-				var shellView = container.GetInstance<ShellView>();
-				app.Run(shellView);
-			}
+
+			MapperInitializer.Initialize(container);
+
+			var shellView = container.GetInstance<ShellView>();
+
+			app.Run(shellView);
 		}
 
 		private static StartupArgs ParseArgs(string[] rawArgs)

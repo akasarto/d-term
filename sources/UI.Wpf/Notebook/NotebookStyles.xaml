@@ -151,22 +151,24 @@
 								materialDesign:ShadowAssist.ShadowEdges="None">
 								<Grid>
 									<ContentPresenter
-											x:Name="FrontContentPresenter"
-											Margin="{TemplateBinding Padding}"
 											Content="{TemplateBinding FrontContent}" 
 											ContentTemplate="{TemplateBinding FrontContentTemplate}" 
 											ContentTemplateSelector="{TemplateBinding FrontContentTemplateSelector}" 
 											ContentStringFormat="{TemplateBinding FrontContentStringFormat}"
-											RenderTransformOrigin=".5,.5" />
-									<ContentPresenter
-											x:Name="BackContentPresenter"
-											Visibility="Collapsed"
+											DataContext="{TemplateBinding DataContext}"
 											Margin="{TemplateBinding Padding}"
+											RenderTransformOrigin=".5,.5"
+											x:Name="FrontContentPresenter" />
+									<ContentPresenter
 											Content="{TemplateBinding BackContent}"
 											ContentTemplate="{TemplateBinding BackContentTemplate}" 
 											ContentTemplateSelector="{TemplateBinding BackContentTemplateSelector}" 
 											ContentStringFormat="{TemplateBinding BackContentStringFormat}"
-											RenderTransformOrigin=".5,.5" />
+											DataContext="{TemplateBinding DataContext}"
+											Margin="{TemplateBinding Padding}"
+											RenderTransformOrigin=".5,.5"
+											Visibility="Collapsed"
+											x:Name="BackContentPresenter" />
 								</Grid>
 							</materialDesign:Card>
 						</materialDesign:Plane3D>

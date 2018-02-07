@@ -11,7 +11,7 @@
 	d:DesignWidth="375"
 	d:DesignHeight="375"
 	x:Name="notebookAreaControl"
-	>
+>
 
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
@@ -30,8 +30,8 @@
 		</materialDesign:ColorZone>
 
 		<!-- Add Note -->
-		<local:NoteCardView
-			DataContext="{Binding AddNoteViewModel}"
+		<local:NoteAddView
+			DataContext="{Binding NoteAddViewModel}"
 			Grid.Row="1"
 			HorizontalAlignment="Stretch" />
 
@@ -42,7 +42,7 @@
 			Grid.Row="2" />
 
 		<!-- Notes List -->
-		<local:NoteCardsListView
+		<local:NoteDetailsListListView
 			DataContext="{Binding NoteCardsListViewModel}"
 			Grid.Row="3"
 			HorizontalAlignment="Stretch"

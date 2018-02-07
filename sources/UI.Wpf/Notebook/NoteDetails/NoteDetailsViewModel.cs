@@ -5,10 +5,7 @@ using System;
 
 namespace UI.Wpf.Notebook
 {
-	/// <summary>
-	/// Represents a card view model for adding, editing and visualizing notes.
-	/// </summary>
-	public class NoteCardViewModel : ReactiveObject
+	public class NoteDetailsViewModel : ReactiveObject
 	{
 		//
 		private Guid _id;
@@ -19,16 +16,14 @@ namespace UI.Wpf.Notebook
 		private bool _isFlipped;
 
 		//
-		private readonly IMapper _mapper = null;
 		private readonly INotebookRepository _notebookRepository = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public NoteCardViewModel(IMapper mapper, INotebookRepository notebookRepository)
+		public NoteDetailsViewModel(INotebookRepository notebookRepository)
 		{
-			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper), nameof(NoteCardViewModel));
-			_notebookRepository = notebookRepository ?? throw new ArgumentNullException(nameof(notebookRepository), nameof(NoteCardViewModel));
+			_notebookRepository = notebookRepository ?? throw new ArgumentNullException(nameof(notebookRepository), nameof(NoteDetailsViewModel));
 
 			SetupCommands();
 		}
@@ -68,11 +63,6 @@ namespace UI.Wpf.Notebook
 			get => _description;
 			set => this.RaiseAndSetIfChanged(ref _description, value);
 		}
-
-		/// <summary>
-		/// Add a new note.
-		/// </summary>
-		public ReactiveCommand AddCommand { get; protected set; }
 
 		/// <summary>
 		/// Edit a note.
@@ -117,19 +107,9 @@ namespace UI.Wpf.Notebook
 		/// </summary>
 		private void SetupCommands()
 		{
-			AddCommand = ReactiveCommand.Create(() =>
-			{
-				FormData = new NoteViewModel()
-				{
-					Id = Guid.NewGuid()
-				};
-
-				IsFlipped = true;
-			});
-
 			EditCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = _mapper.Map<NoteViewModel>(this);
+				FormData = Mapper.Map<NoteViewModel>(this);
 
 				IsFlipped = true;
 			});
@@ -146,14 +126,7 @@ namespace UI.Wpf.Notebook
 
 			SaveCommand = ReactiveCommand.Create(() =>
 			{
-				if (Guid.Empty == Id)
-				{
-					System.Windows.MessageBox.Show(Title ?? "(Add)");
-				}
-				else
-				{
-					System.Windows.MessageBox.Show(Title ?? "(Edit)");
-				}
+				System.Windows.MessageBox.Show($"[Edit] {FormData.Title }");
 			});
 		}
 	}

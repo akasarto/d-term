@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using Consoles.Core;
+﻿using Consoles.Core;
 using Consoles.Data.LiteDB;
 using Consoles.Processes;
 using Notebook.Core;
 using Notebook.Data.LiteDB;
 using SimpleInjector;
 using UI.Wpf.Consoles;
-using UI.Wpf.MapperProfiles;
 using UI.Wpf.Notebook;
 using UI.Wpf.Shell;
 
@@ -21,31 +19,21 @@ namespace UI.Wpf
 			Register<ShellViewModel>();
 
 			//
-			Register<ConsolesWorkspaceViewModel>();
 			Register<ConsoleInstanceViewModel>();
+			Register<ConsolesWorkspaceViewModel>();
 
 			//
+			Register<NoteAddViewModel>();
+			Register<NoteDetailsViewModel>();
+			Register<NoteDetailsListListViewModel>();
 			Register<NotebookWorkspaceViewModel>();
-			Register<NoteCardsListViewModel>();
-			Register<NoteCardViewModel>();
 
 			//
 			Register<IConsolesRepository, ConsolesRepository>();
 			Register<INotebookRepository, NotebookRepository>();
 
 			//
-			Register<IConsoleProcessService, ConsoleProcessService>(Lifestyle.Singleton);
-
-			//
-			Register<IMapper>(() =>
-			{
-				var mapConfig = new MapperConfiguration(cfg =>
-				{
-					cfg.AddProfile<DefaultMapProfile>();
-				});
-
-				return new Mapper(mapConfig);
-			});
+			Register<IConsoleProcessService, ConsoleProcessService>();
 		}
 	}
 }
