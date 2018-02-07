@@ -10,7 +10,6 @@ namespace UI.Wpf.Notebook
 		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 		{
 			var actualWidth = System.Convert.ToDouble(values[0].ToString());
-			var currentMargin = (Thickness)values[1];
 
 			return actualWidth;
 		}

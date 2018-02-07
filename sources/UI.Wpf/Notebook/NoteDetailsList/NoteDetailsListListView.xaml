@@ -94,7 +94,6 @@
 						<local:NoteDetailsView.Width>
 							<MultiBinding Converter="{StaticResource itemWidthConverter}">
 								<Binding Path="ActualWidth" ElementName="notebookItemsControl" />
-								<Binding Path="Margin" RelativeSource="{RelativeSource Self}" />
 							</MultiBinding>
 						</local:NoteDetailsView.Width>
 					</local:NoteDetailsView>

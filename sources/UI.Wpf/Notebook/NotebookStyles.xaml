@@ -28,10 +28,17 @@
 									<Thumb.Template>
 										<ControlTemplate>
 											<materialDesign:ColorZone Mode="Standard" Padding="3.5" Background="Transparent">
-												<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-													<materialDesign:PackIcon Kind="DragHorizontal" Width="24" Height="24" />
-													<TextBlock VerticalAlignment="Center" Margin="7.5 0 0 0" Text="{Binding Title}" />
-												</StackPanel>
+												<DockPanel LastChildFill="False">
+													<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+														<materialDesign:PackIcon Kind="DragHorizontal" Width="24" Height="24" />
+														<TextBlock VerticalAlignment="Center" Margin="7.5 0 0 0" Text="{Binding Title}" />
+													</StackPanel>
+													<StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+														<Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding EditCommand}" ToolTip="Edit">
+															<materialDesign:PackIcon Kind="Pencil" Opacity=".56" />
+														</Button>
+													</StackPanel>
+												</DockPanel>
 											</materialDesign:ColorZone>
 										</ControlTemplate>
 									</Thumb.Template>
