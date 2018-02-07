@@ -30,7 +30,8 @@
 		</materialDesign:ColorZone>
 
 		<!-- Add Note -->
-		<local:AddNoteView
+		<local:NoteCardView
+			DataContext="{Binding AddNoteViewModel}"
 			Grid.Row="1"
 			HorizontalAlignment="Stretch" />
 
@@ -41,8 +42,8 @@
 			Grid.Row="2" />
 
 		<!-- Notes List -->
-		<local:NotesListView
-			DataContext="{Binding NotesListViewModel}"
+		<local:NoteCardsListView
+			DataContext="{Binding NoteCardsListViewModel}"
 			Grid.Row="3"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch" />

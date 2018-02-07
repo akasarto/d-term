@@ -17,11 +17,14 @@
 						<Grid.RenderTransform>
 							<ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
 						</Grid.RenderTransform>
-						<materialDesign:Card Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" x:Name="Card" />
-						<Thumb dragablz:DragablzItem.IsCustomThumb="True">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="35" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Thumb Grid.Column="0" dragablz:DragablzItem.IsCustomThumb="True">
 							<Thumb.Template>
 								<ControlTemplate>
-									<Border Margin="15 1.5 0 0" Width="35" HorizontalAlignment="Left">
+									<Border HorizontalAlignment="Center" VerticalAlignment="Center">
 										<Grid Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 											<materialDesign:PackIcon Width="24" Height="24" Kind="DragHorizontal" VerticalAlignment="Center" HorizontalAlignment="Center" />
 										</Grid>
@@ -29,6 +32,7 @@
 								</ControlTemplate>
 							</Thumb.Template>
 						</Thumb>
+						<materialDesign:Card Grid.Column="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" x:Name="Card" />
 					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsDragging" Value="True">

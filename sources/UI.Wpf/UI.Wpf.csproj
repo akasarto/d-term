@@ -175,26 +175,19 @@
     </Compile>
     <Compile Include="Consoles\ConsolesWorkspaceViewModel.cs" />
     <Compile Include="MapperProfiles\DefaultMapProfile.cs" />
-    <Compile Include="Notebook\AddNote\AddNoteView.xaml.cs">
-      <DependentUpon>AddNoteView.xaml</DependentUpon>
+    <Compile Include="Notebook\NoteCard\NoteCardView.xaml.cs">
+      <DependentUpon>NoteCardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Notebook\AddNote\AddNoteViewModel.cs" />
+    <Compile Include="Notebook\NoteCard\NoteCardViewModel.cs" />
     <Compile Include="Notebook\NoteViewModel.cs" />
-    <Compile Include="Notebook\NotesList\NoteListItemView.xaml.cs">
-      <DependentUpon>NoteListItemView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Notebook\NotesList\NotesListViewModel.cs" />
-    <Compile Include="Notebook\NotesList\NotesListView.xaml.cs">
-      <DependentUpon>NotesListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Notebook\NoteForm\NoteFormView.xaml.cs">
-      <DependentUpon>NoteFormView.xaml</DependentUpon>
+    <Compile Include="Notebook\NoteCardsList\NoteCardsListViewModel.cs" />
+    <Compile Include="Notebook\NoteCardsList\NoteCardsListView.xaml.cs">
+      <DependentUpon>NoteCardsListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notebook\NotebookWorkspaceView.xaml.cs">
       <DependentUpon>NotebookWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notebook\NotebookWorkspaceViewModel.cs" />
-    <Compile Include="Notebook\NotesList\NoteListItemViewModel.cs" />
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
@@ -215,19 +208,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notebook\AddNote\AddNoteView.xaml">
+    <Page Include="Notebook\NoteCard\NoteCardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notebook\NotesList\NoteListItemView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Notebook\NotesList\NotesListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Notebook\NoteForm\NoteFormView.xaml">
+    <Page Include="Notebook\NoteCardsList\NoteCardsListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

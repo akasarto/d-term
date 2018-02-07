@@ -1,0 +1,151 @@
+﻿<UserControl
+	x:Class="UI.Wpf.Notebook.NoteCardView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+	xmlns:local="clr-namespace:UI.Wpf.Notebook"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	mc:Ignorable="d" 
+	d:DesignHeight="375"
+	d:DesignWidth="375"
+	x:Name="noteManagerControl"
+	>
+
+	<materialDesign:Flipper IsFlipped="{Binding IsFlipped}" Style="{StaticResource notebookFormFlipper}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+		<materialDesign:Flipper.FrontContent>
+
+			<Grid>
+				
+				<Button Command="{Binding AddCommand}" ToolTip="Add Note" VerticalAlignment="Center">
+					<Button.Style>
+						<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+							<!--
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding Action}" Value="Add">
+									<Setter Property="Visibility" Value="Visible" />
+								</DataTrigger>
+								<DataTrigger Binding="{Binding Action}" Value="Edit">
+									<Setter Property="Visibility" Value="Collapsed" />
+								</DataTrigger>
+							</Style.Triggers>
+							-->
+						</Style>
+					</Button.Style>
+					<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+				</Button>
+				
+			</Grid>
+			
+			<!--
+			<Grid>
+
+				<Button Command="{Binding AddCommand}" ToolTip="Add Note" VerticalAlignment="Center">
+					<Button.Style>
+						<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionMiniDarkButton}">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding Action}" Value="Add">
+									<Setter Property="Visibility" Value="Visible" />
+								</DataTrigger>
+								<DataTrigger Binding="{Binding Action}" Value="Edit">
+									<Setter Property="Visibility" Value="Collapsed" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+					<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+				</Button>
+
+				<StackPanel TextBlock.Foreground="{DynamicResource MaterialDesignBody}" Margin="26.5 7.5 30 15">
+
+					<StackPanel.Style>
+						<Style TargetType="StackPanel">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding Action}" Value="Edit">
+									<Setter Property="Visibility" Value="Visible" />
+								</DataTrigger>
+								<DataTrigger Binding="{Binding Action}" Value="Add">
+									<Setter Property="Visibility" Value="Collapsed" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</StackPanel.Style>
+
+					<TextBlock Opacity=".65" Text="{Binding Description}" TextWrapping="Wrap" />
+
+					<Button Command="{Binding EditCommand}" CommandParameter="{Binding DataContext.Note, ElementName=noteManagerControl}" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right">
+						<StackPanel Orientation="Horizontal">
+							<materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center" />
+							<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center" Text="Edit" />
+						</StackPanel>
+					</Button>
+
+				</StackPanel>
+
+			</Grid>
+			-->
+
+		</materialDesign:Flipper.FrontContent>
+
+		<materialDesign:Flipper.BackContent>
+
+			<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+				<TextBox Text="Form" HorizontalAlignment="Center" />
+				<Button Command="{Binding CancelCommand}" Style="{DynamicResource MaterialDesignToolForegroundButton}" HorizontalAlignment="Center" Content="cancel" />
+			</StackPanel>
+
+			<!--
+			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<TextBox
+					Grid.Row="0"
+					Margin="0 12.5 0 0"
+					materialDesign:HintAssist.Hint="Title"
+					materialDesign:HintAssist.IsFloating="True"
+					Text="{Binding FormData.Title}" />
+
+				<TextBox
+					AcceptsReturn="True"
+					Grid.Row="1"
+					Height="100"
+					Margin="0 15 0 0"
+					materialDesign:HintAssist.Hint="Note Contents"
+					TextWrapping="Wrap"
+					Style="{StaticResource MaterialDesignTextAreaTextBox}"
+					HorizontalAlignment="Stretch"
+					VerticalScrollBarVisibility="Auto"
+					Text="{Binding FormData.Description}"/>
+
+				<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Right">
+
+					<Button Command="{Binding CancelCommand}" Style="{DynamicResource MaterialDesignToolForegroundButton}" HorizontalAlignment="Right" Content="cancel" />
+
+					<Button Command="{Binding SaveCommand}" Margin="15 0 0 0" Style="{DynamicResource MaterialDesignRaisedAccentButton}" HorizontalAlignment="Right">
+						<StackPanel Orientation="Horizontal">
+							<materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" />
+							<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center">Save</TextBlock>
+						</StackPanel>
+					</Button>
+
+				</StackPanel>
+
+			</Grid>
+			-->
+
+		</materialDesign:Flipper.BackContent>
+
+	</materialDesign:Flipper>
+
+</UserControl>

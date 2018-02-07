@@ -26,7 +26,8 @@ namespace UI.Wpf
 
 			//
 			Register<NotebookWorkspaceViewModel>();
-			Register<NotesListViewModel>();
+			Register<NoteCardsListViewModel>();
+			Register<NoteCardViewModel>();
 
 			//
 			Register<IConsolesRepository, ConsolesRepository>();

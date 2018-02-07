@@ -2,9 +2,9 @@
 
 namespace UI.Wpf.Notebook
 {
-	public partial class NoteListItemView : UserControl
+	public partial class NoteCardView : UserControl
 	{
-		public NoteListItemView()
+		public NoteCardView()
 		{
 			InitializeComponent();
 		}
