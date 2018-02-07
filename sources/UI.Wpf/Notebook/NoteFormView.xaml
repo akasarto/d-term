@@ -4,7 +4,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:validator="clr-namespace:UI.Wpf.Validators"
 	xmlns:local="clr-namespace:UI.Wpf.Notebook"
 	mc:Ignorable="d"
 	d:DesignWidth="375"
@@ -12,6 +13,14 @@
 >
 
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+		<Grid.BindingGroup>
+			<BindingGroup Name="lixoWpf">
+				<BindingGroup.ValidationRules>
+					
+				</BindingGroup.ValidationRules>
+			</BindingGroup>
+		</Grid.BindingGroup>
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -25,7 +34,15 @@
 			Margin="0 12.5 0 0"
 			materialDesign:HintAssist.Hint="Title"
 			materialDesign:HintAssist.IsFloating="True"
-			Text="{Binding FormData.Title}" />
+			x:Name="titleField">
+			<TextBox.Text>
+				<Binding Path="FormData.Title" UpdateSourceTrigger="PropertyChanged">
+					<Binding.ValidationRules>
+						<validator:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+					</Binding.ValidationRules>
+				</Binding>
+			</TextBox.Text>
+		</TextBox>
 
 		<TextBox
 			AcceptsReturn="True"
@@ -37,13 +54,35 @@
 			Style="{StaticResource MaterialDesignTextAreaTextBox}"
 			HorizontalAlignment="Stretch"
 			VerticalScrollBarVisibility="Auto"
-			Text="{Binding FormData.Description}"/>
+			x:Name="descriptionField">
+			<TextBox.Text>
+				<Binding Path="FormData.Description" UpdateSourceTrigger="PropertyChanged">
+					<Binding.ValidationRules>
+						<validator:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+					</Binding.ValidationRules>
+				</Binding>
+			</TextBox.Text>
+		</TextBox>
 
 		<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Right">
 
 			<Button Command="{Binding CancelCommand}" Style="{DynamicResource MaterialDesignToolForegroundButton}" HorizontalAlignment="Right" Content="cancel" />
 
-			<Button Command="{Binding SaveCommand}" Margin="15 0 0 0" Style="{DynamicResource MaterialDesignRaisedAccentButton}" HorizontalAlignment="Right">
+			<Button Command="{Binding SaveCommand}" Margin="15 0 0 0" HorizontalAlignment="Right">
+				<Button.Style>
+					<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
+						<Setter Property="IsEnabled" Value="False"/>
+						<Style.Triggers>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding Path=(Validation.HasError), ElementName=titleField}" Value="False"/>
+									<Condition Binding="{Binding Path=(Validation.HasError), ElementName=descriptionField}" Value="False"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="IsEnabled" Value="True"/>
+							</MultiDataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Button.Style>
 				<StackPanel Orientation="Horizontal">
 					<materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" />
 					<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center">Save</TextBlock>

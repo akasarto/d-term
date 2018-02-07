@@ -24,7 +24,7 @@
 
 		<materialDesign:Flipper.BackContent>
 
-			<local:NoteFormView CancelCommand="{Binding CancelCommand}" SaveCommand="{Binding SaveCommand}" Padding="15 0 15 25" />
+			<local:NoteFormView Padding="15 0 15 25" />
 
 		</materialDesign:Flipper.BackContent>
 

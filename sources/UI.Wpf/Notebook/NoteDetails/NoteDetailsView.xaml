@@ -16,7 +16,9 @@
 
 		<materialDesign:Flipper.FrontContent>
 
-			<StackPanel>
+			<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="15 1.5 15 25">
+
+				<TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Description}" Opacity=".65" />
 
 			</StackPanel>
 
@@ -24,13 +26,7 @@
 
 		<materialDesign:Flipper.BackContent>
 
-			<local:NoteFormView
-				Data="{Binding FormData}"
-				CancelCommand="{Binding CancelCommand}"
-				SaveCommand="{Binding SaveCommand}"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch"
-				Margin="25 0 25 25" />
+			<local:NoteFormView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="25 0 25 25" />
 
 		</materialDesign:Flipper.BackContent>
 

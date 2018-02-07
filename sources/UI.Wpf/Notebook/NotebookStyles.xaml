@@ -34,8 +34,11 @@
 														<TextBlock VerticalAlignment="Center" Margin="7.5 0 0 0" Text="{Binding Title}" />
 													</StackPanel>
 													<StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-														<Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding EditCommand}" ToolTip="Edit">
-															<materialDesign:PackIcon Kind="Pencil" Opacity=".56" />
+														<Button Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding DeleteCommand}" ToolTip="Edit" Foreground="Red">
+															<materialDesign:PackIcon Kind="Delete" Opacity="0.65" />
+														</Button>
+														<Button Margin="7.5 0 0 0" Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding EditCommand}" ToolTip="Edit">
+															<materialDesign:PackIcon Kind="Pencil" />
 														</Button>
 													</StackPanel>
 												</DockPanel>

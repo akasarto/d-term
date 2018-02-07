@@ -116,7 +116,7 @@ namespace UI.Wpf.Notebook
 
 			DeleteCommand = ReactiveCommand.Create(() =>
 			{
-				System.Windows.MessageBox.Show(Title ?? "(Delete)");
+				System.Windows.MessageBox.Show($"[Delete] {Id }");
 			});
 
 			CancelCommand = ReactiveCommand.Create(() =>
