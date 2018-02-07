@@ -17,6 +17,8 @@
 
 	<UserControl.Resources>
 
+		<local:ListItemWidthConverter x:Key="itemWidthConverter" />
+
 		<CollectionViewSource x:Key="notesColllection" Source="{Binding NoteCards}">
 			<CollectionViewSource.SortDescriptions>
 				<wndbase:SortDescription PropertyName="Index" />
@@ -31,7 +33,11 @@
 		</i:EventTrigger>
 	</i:Interaction.Triggers>
 
-	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SnapsToDevicePixels="True">
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -70,9 +76,8 @@
 			Grid.Row="2"
 			HorizontalAlignment="Stretch"
 			ItemsSource="{Binding Source={StaticResource notesColllection}}"
-			ItemContainerStyle="{StaticResource notebookDraggableContainer}"
+			ItemContainerStyle="{StaticResource noteDetailsListItemStyle}"
 			VerticalAlignment="Stretch"
-			Margin="0 15 0 0"
 			x:Name="notebookItemsControl">
 
 			<dragablz:DragablzItemsControl.ItemsOrganiser>
@@ -85,7 +90,14 @@
 
 			<dragablz:DragablzItemsControl.ItemTemplate>
 				<DataTemplate>
-					<local:NoteDetailsView Width="307.5" Margin="15 0 0 0" Background="Transparent" />
+					<local:NoteDetailsView Background="Transparent">
+						<local:NoteDetailsView.Width>
+							<MultiBinding Converter="{StaticResource itemWidthConverter}">
+								<Binding Path="ActualWidth" ElementName="notebookItemsControl" />
+								<Binding Path="Margin" RelativeSource="{RelativeSource Self}" />
+							</MultiBinding>
+						</local:NoteDetailsView.Width>
+					</local:NoteDetailsView>
 				</DataTemplate>
 			</dragablz:DragablzItemsControl.ItemTemplate>
 

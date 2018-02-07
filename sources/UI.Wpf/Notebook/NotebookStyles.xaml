@@ -5,35 +5,54 @@
 	xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
 >
 
-	<Style x:Key="notebookDraggableContainer" TargetType="{x:Type dragablz:DragablzItem}">
-		<Setter Property="Padding" Value="7.5 3.5" />
+	<Style x:Key="noteDetailsListItemStyle" TargetType="{x:Type dragablz:DragablzItem}">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
+
 					<ControlTemplate.Resources>
 						<SineEase x:Key="Ease" EasingMode="EaseInOut" />
 					</ControlTemplate.Resources>
+
 					<Grid RenderTransformOrigin=".1, .1">
+
 						<Grid.RenderTransform>
 							<ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
 						</Grid.RenderTransform>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="35" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-						<Thumb Grid.Column="0" dragablz:DragablzItem.IsCustomThumb="True">
-							<Thumb.Template>
-								<ControlTemplate>
-									<Border HorizontalAlignment="Center" VerticalAlignment="Center">
-										<Grid Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-											<materialDesign:PackIcon Width="24" Height="24" Kind="DragHorizontal" VerticalAlignment="Center" HorizontalAlignment="Center" />
-										</Grid>
-									</Border>
-								</ControlTemplate>
-							</Thumb.Template>
-						</Thumb>
-						<materialDesign:Card Grid.Column="1" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="{TemplateBinding Padding}" x:Name="Card" />
+
+						<materialDesign:Card x:Name="Card" materialDesign:ShadowAssist.ShadowDepth="Depth0" materialDesign:ShadowAssist.ShadowEdges="None">
+
+							<StackPanel HorizontalAlignment="Stretch">
+
+								<Thumb dragablz:DragablzItem.IsCustomThumb="True" Background="Transparent" Margin="3.5 3.5 3.5 2.5">
+									<Thumb.Template>
+										<ControlTemplate>
+											<materialDesign:ColorZone Mode="Standard" Padding="3.5" Background="Transparent">
+												<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+													<materialDesign:PackIcon Kind="DragHorizontal" Width="24" Height="24" />
+													<TextBlock VerticalAlignment="Center" Margin="7.5 0 0 0" Text="{Binding Title}" />
+												</StackPanel>
+											</materialDesign:ColorZone>
+										</ControlTemplate>
+									</Thumb.Template>
+								</Thumb>
+
+								<ContentControl
+									Content="{TemplateBinding Content}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									ContentStringFormat="{TemplateBinding ContentStringFormat}"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+								<Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+
+							</StackPanel>
+
+						</materialDesign:Card>
+
 					</Grid>
+
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsDragging" Value="True">
 							<Trigger.EnterActions>
@@ -46,9 +65,9 @@
 											<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1.005" EasingFunction="{StaticResource Ease}" />
 										</DoubleAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Card" Storyboard.TargetProperty="(materialDesign:ShadowAssist.ShadowDepth)">
-											<DiscreteObjectKeyFrame KeyTime="0:0:0.08" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
-											<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth3}" />
-											<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth4}" />
+											<DiscreteObjectKeyFrame KeyTime="0:0:0.08" Value="{x:Static materialDesign:ShadowDepth.Depth0}" />
+											<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth1}" />
+											<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 								</BeginStoryboard>
@@ -63,15 +82,16 @@
 											<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" EasingFunction="{StaticResource Ease}" />
 										</DoubleAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Card" Storyboard.TargetProperty="(materialDesign:ShadowAssist.ShadowDepth)">
-											<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth4}" />
-											<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth3}" />
-											<DiscreteObjectKeyFrame KeyTime="0:0:0.22" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
+											<DiscreteObjectKeyFrame KeyTime="0:0:0.12" Value="{x:Static materialDesign:ShadowDepth.Depth2}" />
+											<DiscreteObjectKeyFrame KeyTime="0:0:0.16" Value="{x:Static materialDesign:ShadowDepth.Depth1}" />
+											<DiscreteObjectKeyFrame KeyTime="0:0:0.22" Value="{x:Static materialDesign:ShadowDepth.Depth0}" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 								</BeginStoryboard>
 							</Trigger.ExitActions>
 						</Trigger>
 					</ControlTemplate.Triggers>
+
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

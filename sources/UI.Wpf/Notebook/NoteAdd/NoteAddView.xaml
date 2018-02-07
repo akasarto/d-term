@@ -16,7 +16,7 @@
 
 		<materialDesign:Flipper.FrontContent>
 
-			<Button Command="{Binding AddCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="Add Note" VerticalAlignment="Center">
+			<Button Command="{Binding AddCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="Add Note" VerticalAlignment="Center" Margin="15">
 				<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
 			</Button>
 
@@ -24,7 +24,7 @@
 
 		<materialDesign:Flipper.BackContent>
 
-			<local:NoteFormView CancelCommand="{Binding CancelCommand}" SaveCommand="{Binding SaveCommand}" />
+			<local:NoteFormView CancelCommand="{Binding CancelCommand}" SaveCommand="{Binding SaveCommand}" Padding="15 0 15 25" />
 
 		</materialDesign:Flipper.BackContent>
 

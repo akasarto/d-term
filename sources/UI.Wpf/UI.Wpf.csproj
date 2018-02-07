@@ -177,6 +177,7 @@
     <Compile Include="Mappings\MapperInitializer.cs" />
     <Compile Include="Mappings\MapProfileConsoles.cs" />
     <Compile Include="Mappings\MapProfileNotebook.cs" />
+    <Compile Include="Notebook\NoteDetailsList\ListItemWidthConverter.cs" />
     <Compile Include="Notebook\NoteFormView.xaml.cs">
       <DependentUpon>NoteFormView.xaml</DependentUpon>
     </Compile>

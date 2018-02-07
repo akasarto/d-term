@@ -18,8 +18,6 @@
 
 			<StackPanel>
 
-				<TextBlock Opacity=".65" Text="{Binding Id}" TextWrapping="Wrap" />
-
 				<Button Command="{Binding EditCommand}" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right">
 					<StackPanel Orientation="Horizontal">
 						<materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center" />
@@ -33,7 +31,13 @@
 
 		<materialDesign:Flipper.BackContent>
 
-			<local:NoteFormView Data="{Binding FormData}" CancelCommand="{Binding CancelCommand}" SaveCommand="{Binding SaveCommand}" />
+			<local:NoteFormView
+				Data="{Binding FormData}"
+				CancelCommand="{Binding CancelCommand}"
+				SaveCommand="{Binding SaveCommand}"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				Margin="25 0 25 25" />
 
 		</materialDesign:Flipper.BackContent>
 
