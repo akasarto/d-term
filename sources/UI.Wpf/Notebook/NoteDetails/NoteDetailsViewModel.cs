@@ -15,6 +15,7 @@ namespace UI.Wpf.Notebook
 		private string _description;
 		private Visibility _filterVisibility;
 		private NoteViewModel _formData;
+		private bool _isPopupOpen;
 		private bool _isFlipped;
 
 		//
@@ -114,10 +115,21 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
+		/// Tracks whether the delete popup is open or not.
+		/// </summary>
+		public bool IsPopupOpen
+		{
+			get => _isPopupOpen;
+			set => this.RaiseAndSetIfChanged(ref _isPopupOpen, value);
+		}
+
+		/// <summary>
 		/// Wire up commands with their respective actions.
 		/// </summary>
 		private void SetupCommands()
 		{
+
+
 			EditCommand = ReactiveCommand.Create(() =>
 			{
 				FormData = Mapper.Map<NoteViewModel>(this);
@@ -132,6 +144,8 @@ namespace UI.Wpf.Notebook
 				var deletedNoteEntity = Mapper.Map<NoteEntity>(this);
 
 				MessageBus.Current.SendMessage(new NoteDeletedMessage(deletedNoteEntity));
+
+				IsPopupOpen = false;
 			});
 
 			CancelCommand = ReactiveCommand.Create(() =>
@@ -151,5 +165,7 @@ namespace UI.Wpf.Notebook
 				IsFlipped = false;
 			});
 		}
+
+
 	}
 }

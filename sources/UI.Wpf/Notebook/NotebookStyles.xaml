@@ -47,40 +47,66 @@
 						<SineEase x:Key="Ease" EasingMode="EaseInOut" />
 					</ControlTemplate.Resources>
 
-					<Grid RenderTransformOrigin=".1, .1" Visibility="{Binding FilterVisibility}">
+					<materialDesign:DialogHost Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" IsOpen="{Binding IsPopupOpen}">
 
-						<Grid.RenderTransform>
-							<ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
-						</Grid.RenderTransform>
+						<Grid RenderTransformOrigin=".1, .1" Visibility="{Binding FilterVisibility}">
 
-						<materialDesign:Card x:Name="Card" materialDesign:ShadowAssist.ShadowDepth="Depth0" materialDesign:ShadowAssist.ShadowEdges="None">
+							<Grid.RenderTransform>
+								<ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
+							</Grid.RenderTransform>
 
-							<StackPanel HorizontalAlignment="Stretch">
+							<materialDesign:Card x:Name="Card" materialDesign:ShadowAssist.ShadowDepth="Depth0" materialDesign:ShadowAssist.ShadowEdges="None">
 
-								<Thumb dragablz:DragablzItem.IsCustomThumb="True" Background="Transparent" Margin="3.5 3.5 3.5 2.5">
-									<Thumb.Template>
-										<ControlTemplate>
-											<materialDesign:ColorZone Mode="Standard" Padding="3.5" Background="Transparent">
-												<DockPanel LastChildFill="False">
-													<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-														<materialDesign:PackIcon Kind="DragHorizontal" Width="24" Height="24" />
-														<TextBlock VerticalAlignment="Center" Margin="7.5 0 0 0" Text="{Binding Title}" />
-													</StackPanel>
-													<StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-														<Button Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding DeleteCommand}" ToolTip="Edit" Foreground="Red">
-															<materialDesign:PackIcon Kind="Delete" Opacity="0.65" />
-														</Button>
-														<Button Margin="7.5 0 0 0" Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding EditCommand}" ToolTip="Edit">
-															<materialDesign:PackIcon Kind="Pencil" />
-														</Button>
-													</StackPanel>
-												</DockPanel>
-											</materialDesign:ColorZone>
-										</ControlTemplate>
-									</Thumb.Template>
-								</Thumb>
+								<StackPanel HorizontalAlignment="Stretch">
 
-								<ContentControl
+									<Thumb dragablz:DragablzItem.IsCustomThumb="True" Background="Transparent" Margin="3.5 3.5 3.5 2.5">
+										<Thumb.Template>
+											<ControlTemplate>
+												<materialDesign:ColorZone Mode="Standard" Padding="3.5" Background="Transparent">
+													<DockPanel LastChildFill="False">
+														<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+															<materialDesign:PackIcon Kind="DragHorizontal" Width="24" Height="24" />
+															<TextBlock VerticalAlignment="Center" Margin="7.5 0 0 0" Text="{Binding Title}" />
+														</StackPanel>
+														<StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+															<Button Style="{DynamicResource MaterialDesignToolButton}" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" ToolTip="Edit" Foreground="Red">
+																<Button.CommandParameter>
+																	<Grid>
+																		<GroupBox HorizontalAlignment="Center" Header="Are you sure?" Style="{DynamicResource MaterialDesignGroupBox}" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
+																			<StackPanel HorizontalAlignment="Stretch">
+																				<TextBlock Margin="3.5" TextWrapping="Wrap">
+																			The note will be permanently deleted.
+																				</TextBlock>
+																				<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="3.5 7.5 3.5 3.5">
+																					<Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+																					Content="cancel"
+																					HorizontalAlignment="Left"
+																					IsCancel="True"
+																					Style="{StaticResource MaterialDesignToolForegroundButton}" />
+																					<Button Command="{Binding DeleteCommand}"
+																					Content="delete"
+																					HorizontalAlignment="Right"
+																					IsDefault="True"
+																					Margin="7.5 0 0 0"
+																					Style="{StaticResource MaterialDesignFlatButton}" />
+																				</StackPanel>
+																			</StackPanel>
+																		</GroupBox>
+																	</Grid>
+																</Button.CommandParameter>
+																<materialDesign:PackIcon Kind="Delete" Opacity="0.65" />
+															</Button>
+															<Button Margin="7.5 0 0 0" Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding EditCommand}" ToolTip="Edit">
+																<materialDesign:PackIcon Kind="Pencil" />
+															</Button>
+														</StackPanel>
+													</DockPanel>
+												</materialDesign:ColorZone>
+											</ControlTemplate>
+										</Thumb.Template>
+									</Thumb>
+
+									<ContentControl
 									Content="{TemplateBinding Content}"
 									ContentTemplate="{TemplateBinding ContentTemplate}"
 									ContentStringFormat="{TemplateBinding ContentStringFormat}"
@@ -88,13 +114,15 @@
 									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
-								<Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
+									<Border Background="{DynamicResource MaterialDesignDivider}" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" />
 
-							</StackPanel>
+								</StackPanel>
 
-						</materialDesign:Card>
+							</materialDesign:Card>
 
-					</Grid>
+						</Grid>
+
+					</materialDesign:DialogHost>
 
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsDragging" Value="True">

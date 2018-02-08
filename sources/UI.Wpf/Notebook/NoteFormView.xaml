@@ -69,7 +69,7 @@
 
 			<Button Command="{Binding CancelCommand}" Style="{DynamicResource MaterialDesignToolForegroundButton}" HorizontalAlignment="Right" Content="cancel" />
 
-			<Button Command="{Binding SaveCommand}" Margin="15 0 0 0" HorizontalAlignment="Right">
+			<Button Command="{Binding SaveCommand}" Margin="17.5 0 0 0" HorizontalAlignment="Right">
 				<Button.Style>
 					<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
 						<Setter Property="IsEnabled" Value="False"/>

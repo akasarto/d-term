@@ -126,17 +126,23 @@ namespace UI.Wpf.Notebook
 
 			MessageBus.Current.Listen<NoteDeletedMessage>().Subscribe(message =>
 			{
-				var noteEntity = _noteEntities.First(n => n.Id == message.DeletedNote.Id);
+				var noteEntity = _noteEntities.FirstOrDefault(n => n.Id == message.DeletedNote.Id);
 
-				_noteEntities.Remove(noteEntity);
+				if (noteEntity != null)
+				{
+					_noteEntities.Remove(noteEntity);
+				}
 			});
 
 			MessageBus.Current.Listen<NoteEditedMessage>().Subscribe(message =>
 			{
-				var noteEntity = _noteEntities.First(n => n.Id == message.OldNote.Id);
+				var noteEntity = _noteEntities.FirstOrDefault(n => n.Id == message.OldNote.Id);
 
-				_noteEntities.Remove(noteEntity);
-				_noteEntities.Add(message.NewNote);
+				if (noteEntity != null)
+				{
+					_noteEntities.Remove(noteEntity);
+					_noteEntities.Add(message.NewNote);
+				}
 			});
 		}
 
