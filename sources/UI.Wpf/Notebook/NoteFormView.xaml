@@ -38,7 +38,7 @@
 			<TextBox.Text>
 				<Binding Path="FormData.Title" UpdateSourceTrigger="PropertyChanged">
 					<Binding.ValidationRules>
-						<validator:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+						<validator:NotEmptyValidationRule ValidatesOnTargetUpdated="False" />
 					</Binding.ValidationRules>
 				</Binding>
 			</TextBox.Text>
@@ -58,7 +58,7 @@
 			<TextBox.Text>
 				<Binding Path="FormData.Description" UpdateSourceTrigger="PropertyChanged">
 					<Binding.ValidationRules>
-						<validator:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+						<validator:NotEmptyValidationRule ValidatesOnTargetUpdated="False" />
 					</Binding.ValidationRules>
 				</Binding>
 			</TextBox.Text>

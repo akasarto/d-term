@@ -177,7 +177,10 @@
     <Compile Include="Mappings\MapperInitializer.cs" />
     <Compile Include="Mappings\MapProfileConsoles.cs" />
     <Compile Include="Mappings\MapProfileNotebook.cs" />
+    <Compile Include="Notebook\NoteAdd\NoteAddedMessage.cs" />
     <Compile Include="Notebook\NoteDetailsList\ListItemWidthConverter.cs" />
+    <Compile Include="Notebook\NoteDetails\NoteDeletedMessage.cs" />
+    <Compile Include="Notebook\NoteDetails\NoteEditedMessage.cs" />
     <Compile Include="Notebook\NoteFormView.xaml.cs">
       <DependentUpon>NoteFormView.xaml</DependentUpon>
     </Compile>
@@ -293,7 +296,7 @@
       <Name>Consoles.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Consoles.Data.LiteDB\Consoles.Data.LiteDB.csproj">
-      <Project>{39C1C4CE-749E-4E7F-8B9A-8AE22E7B5844}</Project>
+      <Project>{50C33794-64A4-4DFD-8F7F-895F68E3C9FC}</Project>
       <Name>Consoles.Data.LiteDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Consoles.Processes\Consoles.Processes.csproj">
@@ -305,7 +308,7 @@
       <Name>Notebook.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Notebook.Data.LiteDB\Notebook.Data.LiteDB.csproj">
-      <Project>{032C8869-3814-48B0-A9BA-333E35767BFD}</Project>
+      <Project>{02177AD9-BE9D-46D5-8D7E-F877A93D4A3B}</Project>
       <Name>Notebook.Data.LiteDB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared.Kernel\Shared.Kernel.csproj">

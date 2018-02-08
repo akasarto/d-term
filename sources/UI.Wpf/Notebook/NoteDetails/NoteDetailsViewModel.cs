@@ -116,7 +116,11 @@ namespace UI.Wpf.Notebook
 
 			DeleteCommand = ReactiveCommand.Create(() =>
 			{
-				System.Windows.MessageBox.Show($"[Delete] {Id }");
+				_notebookRepository.Delete(Id);
+
+				var deletedNoteEntity = Mapper.Map<NoteEntity>(this);
+
+				MessageBus.Current.SendMessage(new NoteDeletedMessage(deletedNoteEntity));
 			});
 
 			CancelCommand = ReactiveCommand.Create(() =>
@@ -126,7 +130,14 @@ namespace UI.Wpf.Notebook
 
 			SaveCommand = ReactiveCommand.Create(() =>
 			{
-				System.Windows.MessageBox.Show($"[Edit] {FormData.Title }");
+				var newNoteEntity = Mapper.Map<NoteEntity>(FormData);
+				var oldNoteEntity = Mapper.Map<NoteEntity>(this);
+
+				_notebookRepository.Update(newNoteEntity);
+
+				MessageBus.Current.SendMessage(new NoteEditedMessage(newNoteEntity, oldNoteEntity));
+
+				IsFlipped = false;
 			});
 		}
 	}

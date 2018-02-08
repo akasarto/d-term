@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Notebook.Core
 {
 	public interface INotebookRepository
 	{
-		List<Note> GetAll();
+		NoteEntity Add(NoteEntity noteEntity);
+		void Delete(Guid noteId);
+		List<NoteEntity> GetAll();
+		void Update(NoteEntity noteEntity);
 	}
 }

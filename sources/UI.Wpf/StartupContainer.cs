@@ -29,8 +29,9 @@ namespace UI.Wpf
 			Register<NotebookWorkspaceViewModel>();
 
 			//
-			Register<IConsolesRepository, ConsolesRepository>();
-			Register<INotebookRepository, NotebookRepository>();
+			string liteDbConnectionString = @"dTerm.db";
+			Register<IConsolesRepository>(() => new ConsolesRepository(liteDbConnectionString));
+			Register<INotebookRepository>(() => new NotebookRepository(liteDbConnectionString));
 
 			//
 			Register<IConsoleProcessService, ConsoleProcessService>();

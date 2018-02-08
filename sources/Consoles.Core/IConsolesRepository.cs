@@ -4,6 +4,6 @@ namespace Consoles.Core
 {
 	public interface IConsolesRepository
 	{
-		List<Console> GetAll();
+		List<ConsoleEntity> GetAll();
 	}
 }

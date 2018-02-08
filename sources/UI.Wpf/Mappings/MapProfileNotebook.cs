@@ -22,17 +22,17 @@ namespace UI.Wpf.Mappings
 
 		private void SetupMaps()
 		{
-			CreateMap<Note, NoteViewModel>();
-			CreateMap<NoteViewModel, Note>();
+			CreateMap<NoteEntity, NoteViewModel>();
+			CreateMap<NoteViewModel, NoteEntity>();
 
-			CreateMap<Note, NoteAddViewModel>().ConstructUsing(x => new NoteAddViewModel(_notebookRepository));
-			CreateMap<NoteAddViewModel, Note>();
+			CreateMap<NoteEntity, NoteAddViewModel>().ConstructUsing(x => new NoteAddViewModel(_notebookRepository));
+			CreateMap<NoteAddViewModel, NoteEntity>();
 
 			CreateMap<NoteViewModel, NoteAddViewModel>().ConstructUsing(x => new NoteAddViewModel(_notebookRepository));
 			CreateMap<NoteAddViewModel, NoteViewModel>();
 
-			CreateMap<Note, NoteDetailsViewModel>().ConstructUsing(x => new NoteDetailsViewModel(_notebookRepository));
-			CreateMap<NoteAddViewModel, Note>();
+			CreateMap<NoteEntity, NoteDetailsViewModel>().ConstructUsing(x => new NoteDetailsViewModel(_notebookRepository));
+			CreateMap<NoteDetailsViewModel, NoteEntity>();
 
 			CreateMap<NoteViewModel, NoteDetailsViewModel>().ConstructUsing(x => new NoteDetailsViewModel(_notebookRepository));
 			CreateMap<NoteDetailsViewModel, NoteViewModel>();

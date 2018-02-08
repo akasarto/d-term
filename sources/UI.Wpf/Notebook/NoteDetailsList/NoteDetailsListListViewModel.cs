@@ -2,13 +2,17 @@
 using Notebook.Core;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
 using System.Reactive.Linq;
 
 namespace UI.Wpf.Notebook
 {
 	public class NoteDetailsListListViewModel : ReactiveObject
 	{
+		//
+		private string _filterText = null;
+		private ReactiveList<NoteEntity> _noteEntities = null;
+		private IReactiveDerivedList<NoteDetailsViewModel> _noteDetailViewModels;
+
 		//
 		private readonly INotebookRepository _notebookRepository = null;
 
@@ -23,31 +27,73 @@ namespace UI.Wpf.Notebook
 		/// <summary>
 		/// Current notes list
 		/// </summary>
-		public ReactiveList<NoteDetailsViewModel> NoteCards { get; set; } = new ReactiveList<NoteDetailsViewModel>();
+		public IReactiveDerivedList<NoteDetailsViewModel> Notes => _noteDetailViewModels;
+
+		public string FilterText
+		{
+			get => _filterText;
+			set => this.RaiseAndSetIfChanged(ref _filterText, value);
+		}
 
 		/// <summary>
 		/// Initializer method called by the view.
 		/// </summary>
 		public void Initialize()
 		{
-			var notesObsevable = Observable.Start(LoadNotes);
-
-			notesObsevable.Subscribe(notes =>
+			var notesObsevable = Observable.Start(() =>
 			{
-				NoteCards = new ReactiveList<NoteDetailsViewModel>(notes);
-				this.RaisePropertyChanged(nameof(NoteCards));
+				var entities = _notebookRepository.GetAll();
+				_noteEntities = new ReactiveList<NoteEntity>(entities);
 			});
-		}
 
-		/// <summary>
-		/// Load items from repository.
-		/// </summary>
-		private List<NoteDetailsViewModel> LoadNotes()
-		{
-			var notes = _notebookRepository.GetAll();
-			var result = Mapper.Map<List<NoteDetailsViewModel>>(notes);
+			notesObsevable.Subscribe(_ =>
+			{
+				_noteDetailViewModels = _noteEntities.CreateDerivedCollection(
+					selector: x => Mapper.Map<NoteDetailsViewModel>(x),
+					filter: x =>
+					{
+						if (string.IsNullOrWhiteSpace(FilterText))
+						{
+							return true;
+						}
 
-			return result;
+						return x.Title.ToLower().Contains(FilterText) || x.Description.ToLower().Contains(FilterText);
+					},
+					orderer: (x, y) =>
+					{
+						// If same index, order by title.
+						int dresult = x.Index.CompareTo(y.Index);
+						if (dresult == 0) x.Title.CompareTo(y.Title);
+						return dresult;
+					}
+				);
+
+				this.RaisePropertyChanged(nameof(Notes));
+			});
+
+			//
+			MessageBus.Current.Listen<NoteAddedMessage>().Subscribe(message =>
+			{
+				_noteEntities.Add(message.NewNote);
+			});
+
+			MessageBus.Current.Listen<NoteDeletedMessage>().Subscribe(message =>
+			{
+				_noteEntities.Remove(message.DeletedNote);
+
+				//var noteDetailsViewModel = Mapper.Map<NoteDetailsViewModel>(message.NewNote);
+
+				//Notes.Add(noteDetailsViewModel);
+			});
+
+			MessageBus.Current.Listen<NoteEditedMessage>().Subscribe(message =>
+			{
+				//var noteDetailsViewModel = Mapper.Map<NoteDetailsViewModel>(message.NewNote);
+
+				//var findNote = Notes.IndexOf(noteDetailsViewModel);
+
+				//Notes.Add(noteDetailsViewModel);
+			});
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace Consoles.Core
 {
-	public class Console
+	public class ConsoleEntity
 	{
 		public Guid Id { get; set; }
 		public int Index { get; set; }

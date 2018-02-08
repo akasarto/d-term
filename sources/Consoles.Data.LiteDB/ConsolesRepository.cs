@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
-using Consoles.Core;
+﻿using Consoles.Core;
+using System;
+using System.Collections.Generic;
 
 namespace Consoles.Data.LiteDB
 {
 	public class ConsolesRepository : IConsolesRepository
 	{
-		public List<Console> GetAll()
+		private readonly string _connectionString = null;
+
+		public ConsolesRepository(string connectionString)
 		{
-			throw new System.NotImplementedException();
+			_connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString), nameof(ConsolesRepository));
+		}
+
+		public List<ConsoleEntity> GetAll()
+		{
+			return new List<ConsoleEntity>();
 		}
 	}
 }

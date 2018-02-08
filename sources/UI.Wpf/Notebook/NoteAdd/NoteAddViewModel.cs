@@ -1,4 +1,5 @@
-﻿using Notebook.Core;
+﻿using AutoMapper;
+using Notebook.Core;
 using ReactiveUI;
 using System;
 
@@ -95,7 +96,13 @@ namespace UI.Wpf.Notebook
 
 			SaveCommand = ReactiveCommand.Create(() =>
 			{
-				System.Windows.MessageBox.Show($"[Add] {FormData.Title }");
+				var note = Mapper.Map<NoteEntity>(FormData);
+
+				note = _notebookRepository.Add(note);
+
+				MessageBus.Current.SendMessage(new NoteAddedMessage(note));
+
+				IsFlipped = false;
 			});
 		}
 	}

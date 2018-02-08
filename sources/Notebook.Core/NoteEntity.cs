@@ -2,7 +2,7 @@
 
 namespace Notebook.Core
 {
-	public class Note
+	public class NoteEntity
 	{
 		public Guid Id { get; set; }
 		public int Index { get; set; }
