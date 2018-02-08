@@ -134,7 +134,7 @@ namespace UI.Wpf.Notebook
 				viewModel => viewModel.FilterText
 			)
 			.Throttle(
-				TimeSpan.FromMilliseconds(375)
+				TimeSpan.FromMilliseconds(275)
 			)
 			.Subscribe(property =>
 			{

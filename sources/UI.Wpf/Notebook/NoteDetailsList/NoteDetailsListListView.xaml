@@ -17,7 +17,7 @@
 	<UserControl.Resources>
 
 		<local:ListItemWidthConverter x:Key="itemWidthConverter" />
-
+		
 	</UserControl.Resources>
 
 	<i:Interaction.Triggers>
@@ -68,9 +68,10 @@
 			Grid.Row="2"
 			HorizontalAlignment="Stretch"
 			ItemsSource="{Binding Notes}"
+			Style="{StaticResource noteDetailItemsControl}"
 			ItemContainerStyle="{StaticResource noteDetailsListItemStyle}"
 			VerticalAlignment="Stretch"
-			x:Name="notebookItemsControl">
+			x:Name="notebookItemsControl" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
 
 			<dragablz:DragablzItemsControl.ItemsOrganiser>
 				<dragablz:VerticalOrganiser />
