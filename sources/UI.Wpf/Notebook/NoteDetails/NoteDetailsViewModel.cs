@@ -2,6 +2,7 @@
 using Notebook.Core;
 using ReactiveUI;
 using System;
+using System.Windows;
 
 namespace UI.Wpf.Notebook
 {
@@ -12,6 +13,7 @@ namespace UI.Wpf.Notebook
 		private int _intex;
 		private string _title;
 		private string _description;
+		private Visibility _filterVisibility;
 		private NoteViewModel _formData;
 		private bool _isFlipped;
 
@@ -65,6 +67,24 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
+		/// Flags when this item was filtered out from the list.
+		/// </summary>
+		public Visibility FilterVisibility
+		{
+			get { return _filterVisibility; }
+			set { this.RaiseAndSetIfChanged(ref _filterVisibility, value); }
+		}
+
+		/// <summary>
+		/// Cloned note data to use in the form.
+		/// </summary>
+		public NoteViewModel FormData
+		{
+			get => _formData;
+			set => this.RaiseAndSetIfChanged(ref _formData, value);
+		}
+
+		/// <summary>
 		/// Edit a note.
 		/// </summary>
 		public ReactiveCommand EditCommand { get; protected set; }
@@ -83,15 +103,6 @@ namespace UI.Wpf.Notebook
 		/// Save note when adding/editing.
 		/// </summary>
 		public ReactiveCommand SaveCommand { get; protected set; }
-
-		/// <summary>
-		/// Cloned note data to use in the form.
-		/// </summary>
-		public NoteViewModel FormData
-		{
-			get => _formData;
-			set => this.RaiseAndSetIfChanged(ref _formData, value);
-		}
 
 		/// <summary>
 		/// Flags whick side of the card is being shown. If flipped, the add/edit form is visible.

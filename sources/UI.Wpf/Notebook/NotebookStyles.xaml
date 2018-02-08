@@ -14,7 +14,7 @@
 						<SineEase x:Key="Ease" EasingMode="EaseInOut" />
 					</ControlTemplate.Resources>
 
-					<Grid RenderTransformOrigin=".1, .1">
+					<Grid RenderTransformOrigin=".1, .1" Visibility="{Binding FilterVisibility}">
 
 						<Grid.RenderTransform>
 							<ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />

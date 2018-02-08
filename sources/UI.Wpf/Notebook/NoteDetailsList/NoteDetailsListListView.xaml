@@ -51,11 +51,9 @@
 				Grid.Column="0"
 				materialDesign:HintAssist.Hint="Search notes..."
 				materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
-				Text="{Binding FilterText}" />
+				Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
 
-			<Button Grid.Column="1" Style="{DynamicResource MaterialDesignToolButton}">
-				<materialDesign:PackIcon Kind="Magnify" Margin="7.5 7.5 0 0 " Opacity=".56" />
-			</Button>
+			<materialDesign:PackIcon Grid.Column="1" Kind="Magnify" Margin="7.5 7.5 0 0 " Opacity=".55" />
 
 		</Grid>
 
