@@ -25,7 +25,7 @@ namespace UI.Wpf
 			//
 			Register<NoteAddViewModel>();
 			Register<NoteDetailsViewModel>();
-			Register<NoteDetailsListListViewModel>();
+			Register<NoteDetailsListViewModel>();
 			Register<NotebookWorkspaceViewModel>();
 
 			//

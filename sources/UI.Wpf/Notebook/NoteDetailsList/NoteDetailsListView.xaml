@@ -1,5 +1,5 @@
 ﻿<UserControl
-	x:Class="UI.Wpf.Notebook.NoteDetailsListListView"
+	x:Class="UI.Wpf.Notebook.NoteDetailsListView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
@@ -13,12 +13,6 @@
 	d:DesignWidth="275"
 	d:DesignHeight="315"
 >
-
-	<UserControl.Resources>
-
-		<local:ListItemWidthConverter x:Key="itemWidthConverter" />
-		
-	</UserControl.Resources>
 
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Loaded">
@@ -67,11 +61,13 @@
 		<dragablz:DragablzItemsControl
 			Grid.Row="2"
 			HorizontalAlignment="Stretch"
+			ItemContainerStyle="{StaticResource noteDetailsListItemStyle}"
 			ItemsSource="{Binding Notes}"
 			Style="{StaticResource noteDetailItemsControlStyle}"
-			ItemContainerStyle="{StaticResource noteDetailsListItemStyle}"
+			ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+			ScrollViewer.VerticalScrollBarVisibility="Hidden"
 			VerticalAlignment="Stretch"
-			x:Name="notebookItemsControl" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+			x:Name="notebookItemsControl">
 
 			<dragablz:DragablzItemsControl.ItemsOrganiser>
 				<dragablz:VerticalOrganiser />
@@ -83,13 +79,7 @@
 
 			<dragablz:DragablzItemsControl.ItemTemplate>
 				<DataTemplate>
-					<local:NoteDetailsView Background="Transparent">
-						<local:NoteDetailsView.Width>
-							<MultiBinding Converter="{StaticResource itemWidthConverter}">
-								<Binding Path="ActualWidth" ElementName="notebookItemsControl" />
-							</MultiBinding>
-						</local:NoteDetailsView.Width>
-					</local:NoteDetailsView>
+					<local:NoteDetailsView Background="Transparent" Width="{Binding ActualWidth, ElementName=notebookItemsControl}" />
 				</DataTemplate>
 			</dragablz:DragablzItemsControl.ItemTemplate>
 

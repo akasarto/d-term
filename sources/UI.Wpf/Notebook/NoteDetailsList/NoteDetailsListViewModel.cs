@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace UI.Wpf.Notebook
 {
-	public class NoteDetailsListListViewModel : ReactiveObject
+	public class NoteDetailsListViewModel : ReactiveObject
 	{
 		//
 		private string _filterText = null;
@@ -23,9 +23,9 @@ namespace UI.Wpf.Notebook
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public NoteDetailsListListViewModel(INotebookRepository notebookRepository)
+		public NoteDetailsListViewModel(INotebookRepository notebookRepository)
 		{
-			_notebookRepository = notebookRepository ?? throw new ArgumentNullException(nameof(notebookRepository), nameof(NoteDetailsListListViewModel));
+			_notebookRepository = notebookRepository ?? throw new ArgumentNullException(nameof(notebookRepository), nameof(NoteDetailsListViewModel));
 
 			SetupMessageBus();
 

@@ -47,7 +47,8 @@
 		<TextBox
 			AcceptsReturn="True"
 			Grid.Row="1"
-			Height="100"
+			MinHeight="100"
+			MaxHeight="375"
 			Margin="0 15 0 0"
 			materialDesign:HintAssist.Hint="Note Contents"
 			TextWrapping="Wrap"

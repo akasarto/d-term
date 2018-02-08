@@ -7,12 +7,12 @@ namespace UI.Wpf.Notebook
 	{
 		//
 		private readonly NoteAddViewModel _noteAddViewModel = null;
-		private readonly NoteDetailsListListViewModel _noteCardsListViewModel = null;
+		private readonly NoteDetailsListViewModel _noteCardsListViewModel = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public NotebookWorkspaceViewModel(NoteAddViewModel noteAddViewModel, NoteDetailsListListViewModel noteCardsListViewModel)
+		public NotebookWorkspaceViewModel(NoteAddViewModel noteAddViewModel, NoteDetailsListViewModel noteCardsListViewModel)
 		{
 			_noteAddViewModel = noteAddViewModel ?? throw new ArgumentNullException(nameof(noteAddViewModel), nameof(NotebookWorkspaceViewModel));
 			_noteCardsListViewModel = noteCardsListViewModel ?? throw new ArgumentNullException(nameof(noteCardsListViewModel), nameof(NotebookWorkspaceViewModel));
@@ -26,6 +26,6 @@ namespace UI.Wpf.Notebook
 		/// <summary>
 		/// Note Cards List View Model
 		/// </summary>
-		public NoteDetailsListListViewModel NoteCardsListViewModel => _noteCardsListViewModel;
+		public NoteDetailsListViewModel NoteCardsListViewModel => _noteCardsListViewModel;
 	}
 }

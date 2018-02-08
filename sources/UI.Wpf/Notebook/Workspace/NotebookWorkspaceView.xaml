@@ -42,7 +42,7 @@
 			Grid.Row="2" />
 
 		<!-- Notes List -->
-		<local:NoteDetailsListListView
+		<local:NoteDetailsListView
 			DataContext="{Binding NoteCardsListViewModel}"
 			Grid.Row="3"
 			HorizontalAlignment="Stretch"

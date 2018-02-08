@@ -178,7 +178,6 @@
     <Compile Include="Mappings\MapProfileConsoles.cs" />
     <Compile Include="Mappings\MapProfileNotebook.cs" />
     <Compile Include="Notebook\NoteAdd\NoteAddedMessage.cs" />
-    <Compile Include="Notebook\NoteDetailsList\ListItemWidthConverter.cs" />
     <Compile Include="Notebook\NoteDetails\NoteDeletedMessage.cs" />
     <Compile Include="Notebook\NoteDetails\NoteEditedMessage.cs" />
     <Compile Include="Notebook\NoteFormView.xaml.cs">
@@ -193,14 +192,14 @@
     </Compile>
     <Compile Include="Notebook\NoteAdd\NoteAddViewModel.cs" />
     <Compile Include="Notebook\NoteViewModel.cs" />
-    <Compile Include="Notebook\NoteDetailsList\NoteDetailsListListViewModel.cs" />
-    <Compile Include="Notebook\NoteDetailsList\NoteDetailsListListView.xaml.cs">
-      <DependentUpon>NoteDetailsListListView.xaml</DependentUpon>
+    <Compile Include="Notebook\NoteDetailsList\NoteDetailsListViewModel.cs" />
+    <Compile Include="Notebook\NoteDetailsList\NoteDetailsListView.xaml.cs">
+      <DependentUpon>NoteDetailsListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Notebook\NotebookWorkspaceView.xaml.cs">
+    <Compile Include="Notebook\Workspace\NotebookWorkspaceView.xaml.cs">
       <DependentUpon>NotebookWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Notebook\NotebookWorkspaceViewModel.cs" />
+    <Compile Include="Notebook\Workspace\NotebookWorkspaceViewModel.cs" />
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
@@ -234,11 +233,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notebook\NoteDetailsList\NoteDetailsListListView.xaml">
+    <Page Include="Notebook\NoteDetailsList\NoteDetailsListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notebook\NotebookWorkspaceView.xaml">
+    <Page Include="Notebook\Workspace\NotebookWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
