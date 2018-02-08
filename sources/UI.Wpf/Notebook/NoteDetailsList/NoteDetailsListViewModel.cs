@@ -103,9 +103,15 @@ namespace UI.Wpf.Notebook
 		{
 			IsLoading = true;
 
-			var notesObsevable = Observable.Start(() =>
+			Observable.Start(() =>
 			{
 				var entities = _notebookRepository.GetAll();
+				return entities;
+			}, RxApp.MainThreadScheduler)
+			.Subscribe(items =>
+			{
+				IsLoading = false;
+				_noteEntities.AddRange(items);
 			});
 		}
 
