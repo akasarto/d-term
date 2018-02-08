@@ -3,7 +3,6 @@ using Notebook.Core;
 using ReactiveUI;
 using System;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 
 namespace UI.Wpf.Notebook

@@ -19,7 +19,7 @@ namespace UI.Wpf
 			Register<ShellViewModel>();
 
 			//
-			Register<ConsoleInstanceViewModel>();
+			//Register<ConsoleInstanceViewModel>();
 			Register<ConsolesWorkspaceViewModel>();
 
 			//
