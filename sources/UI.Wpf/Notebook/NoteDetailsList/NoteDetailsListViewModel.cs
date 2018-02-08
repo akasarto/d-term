@@ -5,16 +5,16 @@ using System;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Windows;
 
 namespace UI.Wpf.Notebook
 {
 	public class NoteDetailsListViewModel : ReactiveObject
 	{
 		//
-		private string _filterText = null;
-		private ReactiveList<NoteEntity> _noteEntities = null;
+		private bool _isLoading;
+		private string _filterText;
+		private int _showingCount;
+		private ReactiveList<NoteEntity> _noteEntities;
 		private IReactiveDerivedList<NoteDetailsViewModel> _noteDetailViewModels;
 
 		//
@@ -27,20 +27,47 @@ namespace UI.Wpf.Notebook
 		{
 			_notebookRepository = notebookRepository ?? throw new ArgumentNullException(nameof(notebookRepository), nameof(NoteDetailsListViewModel));
 
-			SetupMessageBus();
+			_noteEntities = new ReactiveList<NoteEntity>()
+			{
+				ChangeTrackingEnabled = true
+			};
 
-			SetupFilter();
+			var filterChangedObservable = this.ObservableForProperty(
+				viewModel => viewModel.FilterText
+			).Throttle(
+				TimeSpan.FromMilliseconds(275),
+				RxApp.MainThreadScheduler
+			);
+
+			Notes = _noteEntities.CreateDerivedCollection(
+				filter: noteEntity => ApplyFilter(noteEntity),
+				selector: noteEntity => BuildDetailsViewModel(noteEntity),
+				orderer: (noteDetailsViewModelX, noteDetailsViewModelY) =>
+				{
+					// If same index, order by title.
+					int dresult = noteDetailsViewModelX.Index.CompareTo(noteDetailsViewModelY.Index);
+					if (dresult == 0) noteDetailsViewModelX.Title.CompareTo(noteDetailsViewModelY.Title);
+					return dresult;
+				},
+				signalReset: filterChangedObservable
+			);
+
+			_noteDetailViewModels.CountChanged.Subscribe(count =>
+			{
+				ShowingCount = count;
+			});
+
+			SetupMessageBus();
 		}
 
 		/// <summary>
-		/// Current notes list
+		/// Flags when data is being loaded from the repository.
 		/// </summary>
-		public IReactiveDerivedList<NoteDetailsViewModel> Notes => _noteDetailViewModels;
-
-		/// <summary>
-		/// Filters the notes list.
-		/// </summary>
-		public ReactiveCommand<string, Unit> SearchNotes { get; protected set; }
+		public bool IsLoading
+		{
+			get => _isLoading;
+			set => this.RaiseAndSetIfChanged(ref _isLoading, value);
+		}
 
 		/// <summary>
 		/// Text used to filter notes.
@@ -52,50 +79,33 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Intercepts the observable stream to apply filtering.
+		/// Current notes list
 		/// </summary>
-		public Subject<Predicate<NoteDetailsViewModel>> FilterObservable { get; set; } = new Subject<Predicate<NoteDetailsViewModel>>();
+		public IReactiveDerivedList<NoteDetailsViewModel> Notes
+		{
+			get => _noteDetailViewModels;
+			set => this.RaiseAndSetIfChanged(ref _noteDetailViewModels, value);
+		}
+
+		/// <summary>
+		/// Tracks how many items are being shown.
+		/// </summary>
+		public int ShowingCount
+		{
+			get => _showingCount;
+			set => this.RaiseAndSetIfChanged(ref _showingCount, value);
+		}
 
 		/// <summary>
 		/// Initializer method called by the view.
 		/// </summary>
 		public void Initialize()
 		{
+			IsLoading = true;
+
 			var notesObsevable = Observable.Start(() =>
 			{
 				var entities = _notebookRepository.GetAll();
-				_noteEntities = new ReactiveList<NoteEntity>(entities);
-				_noteEntities.ChangeTrackingEnabled = true;
-			});
-
-			notesObsevable.Subscribe(_ =>
-			{
-				_noteDetailViewModels = _noteEntities.CreateDerivedCollection(
-					selector: x =>
-					{
-						var noteDetailsViewModel = Mapper.Map<NoteDetailsViewModel>(x);
-						FilterObservable.Subscribe(match =>
-						{
-							if (match(noteDetailsViewModel))
-							{
-								noteDetailsViewModel.FilterVisibility =  Visibility.Visible;
-								return;
-							}
-							noteDetailsViewModel.FilterVisibility =  Visibility.Collapsed;
-						});
-						return noteDetailsViewModel;
-					},
-					filter: x => true,
-					orderer: (x, y) =>
-					{
-						// If same index, order by title.
-						int dresult = x.Index.CompareTo(y.Index);
-						if (dresult == 0) x.Title.CompareTo(y.Title);
-						return dresult;
-					}
-				);
-
-				this.RaisePropertyChanged(nameof(Notes));
 			});
 		}
 
@@ -126,32 +136,29 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Set the obsevable to apply filters whent the search text changes.
+		/// Check if the current entity shoul be discarded by the filter.
 		/// </summary>
-		public void SetupFilter()
+		private bool ApplyFilter(NoteEntity noteEntity)
 		{
-			this.ObservableForProperty(
-				viewModel => viewModel.FilterText
-			)
-			.Throttle(
-				TimeSpan.FromMilliseconds(275)
-			)
-			.Subscribe(property =>
+			var filterText = FilterText;
+
+			if (!string.IsNullOrEmpty(filterText))
 			{
-				var filterText = property.Value;
+				var titleMatch = noteEntity.Title.ToLower().Contains(filterText.ToLower());
+				var descriptionMatch = noteEntity.Description.ToLower().Contains(filterText.ToLower());
 
-				if (string.IsNullOrEmpty(filterText))
-				{
-					FilterObservable.OnNext(x => true);
+				return titleMatch || descriptionMatch;
+			}
 
-					return;
-				}
+			return true;
+		}
 
-				FilterObservable.OnNext(
-					x => x.Title.ToLower().Contains(filterText.ToLower())
-					|| x.Description.ToLower().Contains(filterText.ToLower())
-				);
-			});
+		/// <summary>
+		/// Gets the view model for the current entity.
+		/// </summary>
+		private NoteDetailsViewModel BuildDetailsViewModel(NoteEntity noteEntity)
+		{
+			return Mapper.Map<NoteDetailsViewModel>(noteEntity);
 		}
 	}
 }

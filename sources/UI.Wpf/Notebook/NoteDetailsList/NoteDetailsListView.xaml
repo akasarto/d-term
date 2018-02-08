@@ -14,6 +14,32 @@
 	d:DesignHeight="315"
 >
 
+	<UserControl.Resources>
+
+		<Style x:Key="emptyListMessageStyle" TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignButtonTextBlock}">
+			<Setter Property="Visibility" Value="Collapsed" />
+			<Style.Triggers>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding ShowingCount}" Value="0" />
+						<Condition Binding="{Binding IsLoading}" Value="False" />
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Visibility" Value="Visible" />
+				</MultiDataTrigger>
+			</Style.Triggers>
+		</Style>
+
+		<Style x:Key="loadingProgressSytle" TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+			<Setter Property="Visibility" Value="Collapsed" />
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding IsLoading}" Value="True">
+					<Setter Property="Visibility" Value="Visible" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+
+	</UserControl.Resources>
+
 	<i:Interaction.Triggers>
 		<i:EventTrigger EventName="Loaded">
 			<ei:CallMethodAction TargetObject="{Binding}" MethodName="Initialize" />
@@ -84,6 +110,10 @@
 			</dragablz:DragablzItemsControl.ItemTemplate>
 
 		</dragablz:DragablzItemsControl>
+
+		<TextBlock Grid.Row="2" Margin="15 35" FontStyle="Italic" FontSize="12" Text="No notes found." HorizontalAlignment="Center" Opacity=".55" Style="{StaticResource emptyListMessageStyle}" />
+
+		<ProgressBar Grid.Row="2" Value="35" IsIndeterminate="True" Margin="15 35" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource loadingProgressSytle}" />
 
 	</Grid>
 
