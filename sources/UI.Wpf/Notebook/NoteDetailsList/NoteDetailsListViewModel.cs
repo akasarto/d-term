@@ -41,13 +41,7 @@ namespace UI.Wpf.Notebook
 			Notes = _noteEntities.CreateDerivedCollection(
 				filter: noteEntity => ApplyFilter(noteEntity),
 				selector: noteEntity => BuildDetailsViewModel(noteEntity),
-				orderer: (noteDetailsViewModelX, noteDetailsViewModelY) =>
-				{
-					// If same index, order by title.
-					int dresult = noteDetailsViewModelX.Index.CompareTo(noteDetailsViewModelY.Index);
-					if (dresult == 0) noteDetailsViewModelX.Title.CompareTo(noteDetailsViewModelY.Title);
-					return dresult;
-				},
+				orderer: (noteX, noteY) => noteX.Title.CompareTo(noteY.Title),
 				signalReset: filterChangedObservable
 			);
 

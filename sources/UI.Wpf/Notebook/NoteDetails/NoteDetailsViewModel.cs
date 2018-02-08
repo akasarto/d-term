@@ -2,7 +2,6 @@
 using Notebook.Core;
 using ReactiveUI;
 using System;
-using System.Windows;
 
 namespace UI.Wpf.Notebook
 {
@@ -13,7 +12,6 @@ namespace UI.Wpf.Notebook
 		private int _intex;
 		private string _title;
 		private string _description;
-		private Visibility _filterVisibility;
 		private NoteViewModel _formData;
 		private bool _isPopupOpen;
 		private bool _isFlipped;
@@ -68,15 +66,6 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Flags when this item was filtered out from the list.
-		/// </summary>
-		public Visibility FilterVisibility
-		{
-			get { return _filterVisibility; }
-			set { this.RaiseAndSetIfChanged(ref _filterVisibility, value); }
-		}
-
-		/// <summary>
 		/// Cloned note data to use in the form.
 		/// </summary>
 		public NoteViewModel FormData
@@ -128,8 +117,6 @@ namespace UI.Wpf.Notebook
 		/// </summary>
 		private void SetupCommands()
 		{
-
-
 			EditCommand = ReactiveCommand.Create(() =>
 			{
 				FormData = Mapper.Map<NoteViewModel>(this);
@@ -165,7 +152,5 @@ namespace UI.Wpf.Notebook
 				IsFlipped = false;
 			});
 		}
-
-
 	}
 }

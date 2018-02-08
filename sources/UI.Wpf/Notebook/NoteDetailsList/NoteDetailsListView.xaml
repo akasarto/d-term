@@ -7,7 +7,6 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
 	xmlns:local="clr-namespace:UI.Wpf.Notebook"
 	mc:Ignorable="d"
 	d:DesignWidth="275"
@@ -78,42 +77,42 @@
 		</Grid>
 
 		<!---->
-		<Border
-			BorderBrush="{DynamicResource MaterialDesignDivider}"
-			BorderThickness="0 0 0 1"
-			Grid.Row="1" />
+		<Border BorderBrush="{DynamicResource MaterialDesignDivider}"
+				BorderThickness="0 0 0 1"
+				Grid.Row="1" />
 
 		<!-- Notes List -->
-		<dragablz:DragablzItemsControl
-			Grid.Row="2"
-			HorizontalAlignment="Stretch"
-			ItemContainerStyle="{StaticResource noteDetailsListItemStyle}"
-			ItemsSource="{Binding Notes}"
-			Style="{StaticResource noteDetailItemsControlStyle}"
-			ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-			ScrollViewer.VerticalScrollBarVisibility="Hidden"
-			VerticalAlignment="Stretch"
-			x:Name="notebookItemsControl">
-
-			<dragablz:DragablzItemsControl.ItemsOrganiser>
-				<dragablz:VerticalOrganiser />
-			</dragablz:DragablzItemsControl.ItemsOrganiser>
-
-			<dragablz:DragablzItemsControl.PositionMonitor>
-				<dragablz:VerticalPositionMonitor OrderChanged="StackPositionMonitor_OnOrderChanged" />
-			</dragablz:DragablzItemsControl.PositionMonitor>
-
-			<dragablz:DragablzItemsControl.ItemTemplate>
+		<ItemsControl Grid.Row="2" ItemsSource="{Binding Notes}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<local:NoteDetailsView Background="Transparent" Width="{Binding ActualWidth, ElementName=notebookItemsControl}" />
+					<local:NoteDetailsView Background="Transparent" />
 				</DataTemplate>
-			</dragablz:DragablzItemsControl.ItemTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
 
-		</dragablz:DragablzItemsControl>
+		<!-- Empty list info -->
+		<TextBlock FontStyle="Italic"
+				   FontSize="12"
+				   Grid.Row="2"
+				   HorizontalAlignment="Center"
+				   Margin="15 35"
+				   Opacity=".55"
+				   Style="{StaticResource emptyListMessageStyle}"
+				   Text="No notes found." />
 
-		<TextBlock Grid.Row="2" Margin="15 35" FontStyle="Italic" FontSize="12" Text="No notes found." HorizontalAlignment="Center" Opacity=".55" Style="{StaticResource emptyListMessageStyle}" />
-
-		<ProgressBar Grid.Row="2" Value="35" IsIndeterminate="True" Margin="15 35" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{StaticResource loadingProgressSytle}" />
+		<!-- Loading progress info -->
+		<ProgressBar Grid.Row="2"
+					 HorizontalAlignment="Center"
+					 IsIndeterminate="True"
+					 Margin="15 35"
+					 Style="{StaticResource loadingProgressSytle}"
+					 Value="35"
+					 VerticalAlignment="Top" />
 
 	</Grid>
 
