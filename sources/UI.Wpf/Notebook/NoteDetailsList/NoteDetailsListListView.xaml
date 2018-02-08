@@ -68,7 +68,7 @@
 			Grid.Row="2"
 			HorizontalAlignment="Stretch"
 			ItemsSource="{Binding Notes}"
-			Style="{StaticResource noteDetailItemsControl}"
+			Style="{StaticResource noteDetailItemsControlStyle}"
 			ItemContainerStyle="{StaticResource noteDetailsListItemStyle}"
 			VerticalAlignment="Stretch"
 			x:Name="notebookItemsControl" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
