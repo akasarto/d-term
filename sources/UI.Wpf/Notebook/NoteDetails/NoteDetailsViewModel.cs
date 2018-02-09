@@ -12,7 +12,7 @@ namespace UI.Wpf.Notebook
 		private int _intex;
 		private string _title;
 		private string _description;
-		private NoteViewModel _formData;
+		private NoteFormViewModel _formData;
 		private bool _isPopupOpen;
 		private bool _isFlipped;
 
@@ -68,7 +68,7 @@ namespace UI.Wpf.Notebook
 		/// <summary>
 		/// Cloned note data to use in the form.
 		/// </summary>
-		public NoteViewModel FormData
+		public NoteFormViewModel FormData
 		{
 			get => _formData;
 			set => this.RaiseAndSetIfChanged(ref _formData, value);
@@ -119,7 +119,7 @@ namespace UI.Wpf.Notebook
 		{
 			EditCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = Mapper.Map<NoteViewModel>(this);
+				FormData = Mapper.Map<NoteFormViewModel>(this);
 
 				IsFlipped = true;
 			});

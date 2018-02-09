@@ -149,8 +149,8 @@ namespace UI.Wpf.Notebook
 
 			if (!string.IsNullOrEmpty(filterText))
 			{
-				var titleMatch = noteEntity.Title.ToLower().Contains(filterText.ToLower());
-				var descriptionMatch = noteEntity.Description.ToLower().Contains(filterText.ToLower());
+				var titleMatch = (noteEntity?.Title?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
+				var descriptionMatch = (noteEntity?.Description?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
 
 				return titleMatch || descriptionMatch;
 			}

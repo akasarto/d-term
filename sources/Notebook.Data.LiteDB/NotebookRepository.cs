@@ -67,7 +67,6 @@ namespace Notebook.Data.LiteDB
 				if (note != null)
 				{
 					note.Title = noteEntity.Title;
-					note.Index = noteEntity.Index;
 					note.Description = noteEntity.Description;
 
 					notes.Update(noteEntity);

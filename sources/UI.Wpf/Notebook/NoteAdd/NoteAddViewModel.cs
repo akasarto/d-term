@@ -10,7 +10,7 @@ namespace UI.Wpf.Notebook
 		//
 		private string _title;
 		private string _description;
-		private NoteViewModel _formData;
+		private NoteFormViewModel _formData;
 		private bool _isFlipped;
 
 		//
@@ -62,7 +62,7 @@ namespace UI.Wpf.Notebook
 		/// <summary>
 		/// Cloned note data to use in the form.
 		/// </summary>
-		public NoteViewModel FormData
+		public NoteFormViewModel FormData
 		{
 			get => _formData;
 			set => this.RaiseAndSetIfChanged(ref _formData, value);
@@ -84,7 +84,7 @@ namespace UI.Wpf.Notebook
 		{
 			AddCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = new NoteViewModel();
+				FormData = new NoteFormViewModel();
 
 				IsFlipped = true;
 			});

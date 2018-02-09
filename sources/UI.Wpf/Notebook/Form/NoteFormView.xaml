@@ -1,12 +1,10 @@
 ﻿<UserControl
 	x:Class="UI.Wpf.Notebook.NoteFormView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:validator="clr-namespace:UI.Wpf.Validators"
-	xmlns:local="clr-namespace:UI.Wpf.Notebook"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	d:DesignWidth="375"
 	d:DesignHeight="375"
@@ -17,7 +15,7 @@
 		<Grid.BindingGroup>
 			<BindingGroup Name="lixoWpf">
 				<BindingGroup.ValidationRules>
-					
+
 				</BindingGroup.ValidationRules>
 			</BindingGroup>
 		</Grid.BindingGroup>
@@ -29,47 +27,35 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<TextBox
-			Grid.Row="0"
-			Margin="0 12.5 0 0"
-			materialDesign:HintAssist.Hint="Title"
-			materialDesign:HintAssist.IsFloating="True"
-			x:Name="titleField">
-			<TextBox.Text>
-				<Binding Path="FormData.Title" UpdateSourceTrigger="PropertyChanged">
-					<Binding.ValidationRules>
-						<validator:NotEmptyValidationRule ValidatesOnTargetUpdated="False" />
-					</Binding.ValidationRules>
-				</Binding>
-			</TextBox.Text>
-		</TextBox>
+		<TextBox Grid.Row="0"
+				 Margin="0 12.5 0 0"
+				 materialDesign:HintAssist.Hint="Title"
+				 materialDesign:HintAssist.IsFloating="True"
+				 x:Name="titleField"
+				 Text="{Binding FormData.Title, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-		<TextBox
-			AcceptsReturn="True"
-			Grid.Row="1"
-			MinHeight="100"
-			MaxHeight="375"
-			Margin="0 15 0 0"
-			materialDesign:HintAssist.Hint="Note Contents"
-			TextWrapping="Wrap"
-			Style="{StaticResource MaterialDesignTextAreaTextBox}"
-			HorizontalAlignment="Stretch"
-			VerticalScrollBarVisibility="Auto"
-			x:Name="descriptionField">
-			<TextBox.Text>
-				<Binding Path="FormData.Description" UpdateSourceTrigger="PropertyChanged">
-					<Binding.ValidationRules>
-						<validator:NotEmptyValidationRule ValidatesOnTargetUpdated="False" />
-					</Binding.ValidationRules>
-				</Binding>
-			</TextBox.Text>
-		</TextBox>
+		<TextBox AcceptsReturn="True"
+				 Grid.Row="1"
+				 MinHeight="100"
+				 MaxHeight="375"
+				 Margin="0 15 0 0"
+				 materialDesign:HintAssist.Hint="Note description"
+				 TextWrapping="Wrap"
+				 Style="{StaticResource MaterialDesignTextAreaTextBox}"
+				 HorizontalAlignment="Stretch"
+				 VerticalScrollBarVisibility="Auto"
+				 x:Name="descriptionField"
+				 Text="{Binding FormData.Description, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
 		<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Right">
 
-			<Button Command="{Binding CancelCommand}" Style="{DynamicResource MaterialDesignToolForegroundButton}" HorizontalAlignment="Right" Content="cancel" />
+			<Button Command="{Binding CancelCommand}"
+					Content="cancel"
+					HorizontalAlignment="Right"
+					Style="{DynamicResource MaterialDesignToolForegroundButton}" />
 
-			<Button Command="{Binding SaveCommand}" Margin="17.5 0 0 0" HorizontalAlignment="Right">
+			<Button Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="17.5 0 0 0">
+
 				<Button.Style>
 					<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
 						<Setter Property="IsEnabled" Value="False"/>
@@ -84,6 +70,7 @@
 						</Style.Triggers>
 					</Style>
 				</Button.Style>
+
 				<StackPanel Orientation="Horizontal">
 					<materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" />
 					<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center">Save</TextBlock>

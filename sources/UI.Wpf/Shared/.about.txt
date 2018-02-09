@@ -1,0 +1,2 @@
+﻿
+=> By convention, all items in this folder should belong to the base namespace: 'UI.Wpf'.

@@ -54,6 +54,9 @@
     <Reference Include="Dragablz, Version=0.0.3.197, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dragablz.0.0.3.197\lib\net45\Dragablz.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.7.4.0\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -174,13 +177,15 @@
       <DependentUpon>ConsolesWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consoles\ConsolesWorkspaceViewModel.cs" />
+    <Compile Include="Notebook\Form\NoteFormViewModelValidator.cs" />
+    <Compile Include="Shared\BaseViewModel.cs" />
     <Compile Include="Mappings\MapperInitializer.cs" />
     <Compile Include="Mappings\MapProfileConsoles.cs" />
     <Compile Include="Mappings\MapProfileNotebook.cs" />
     <Compile Include="Notebook\NoteAdd\NoteAddedMessage.cs" />
     <Compile Include="Notebook\NoteDetails\NoteDeletedMessage.cs" />
     <Compile Include="Notebook\NoteDetails\NoteEditedMessage.cs" />
-    <Compile Include="Notebook\NoteFormView.xaml.cs">
+    <Compile Include="Notebook\Form\NoteFormView.xaml.cs">
       <DependentUpon>NoteFormView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notebook\NoteDetails\NoteDetailsView.xaml.cs">
@@ -191,7 +196,7 @@
       <DependentUpon>NoteAddView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notebook\NoteAdd\NoteAddViewModel.cs" />
-    <Compile Include="Notebook\NoteViewModel.cs" />
+    <Compile Include="Notebook\Form\NoteFormViewModel.cs" />
     <Compile Include="Notebook\NoteDetailsList\NoteDetailsListViewModel.cs" />
     <Compile Include="Notebook\NoteDetailsList\NoteDetailsListView.xaml.cs">
       <DependentUpon>NoteDetailsListView.xaml</DependentUpon>
@@ -208,7 +213,6 @@
       <DependentUpon>ConsoleInstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
-    <Compile Include="Validators\NotEmptyValidationRule.cs" />
     <Page Include="Consoles\ConsoleInstanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -217,7 +221,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notebook\NoteFormView.xaml">
+    <Page Include="Notebook\Form\NoteFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -276,11 +280,14 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Shared\.about.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
