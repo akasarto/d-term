@@ -83,11 +83,13 @@
 
 		<!-- Notes List -->
 		<ItemsControl Grid.Row="2" ItemsSource="{Binding Notes}">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
+			<ItemsControl.Template>
+				<ControlTemplate>
+					<ScrollViewer VerticalScrollBarVisibility="Auto" Style="{StaticResource notebookScrollviewer}">
+						<ItemsPresenter />
+					</ScrollViewer>
+				</ControlTemplate>
+			</ItemsControl.Template>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<local:NoteDetailsView Background="Transparent" />

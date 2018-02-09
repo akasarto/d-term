@@ -40,12 +40,12 @@
 						<ControlTemplate TargetType="{x:Type Thumb}">
 							<Grid x:Name="Grid">
 								<Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Fill="Transparent" />
-								<Border x:Name="Rectangle1" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="{TemplateBinding Background}" />
+								<Border x:Name="Rectangle1" CornerRadius="3.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Background="{TemplateBinding Background}" />
 							</Grid>
 							<ControlTemplate.Triggers>
 								<Trigger Property="Tag" Value="Horizontal">
 									<Setter TargetName="Rectangle1" Property="Width" Value="Auto" />
-									<Setter TargetName="Rectangle1" Property="Height" Value="7" />
+									<Setter TargetName="Rectangle1" Property="Height" Value="1" />
 								</Trigger>
 							</ControlTemplate.Triggers>
 						</ControlTemplate>
@@ -56,17 +56,16 @@
 			<!-- Scrollbars -->
 			<Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
 				<Setter Property="Stylus.IsFlicksEnabled" Value="false" />
-				<Setter Property="Foreground" Value="#8C8C8C" />
+				<Setter Property="Foreground" Value="{StaticResource PrimaryHueDarkBrush}" />
 				<Setter Property="Background" Value="Transparent" />
-				<Setter Property="Width" Value="8" />
 				<Setter Property="Template">
 					<Setter.Value>
 						<ControlTemplate TargetType="{x:Type ScrollBar}">
-							<Grid x:Name="GridRoot" Width="8" Background="{TemplateBinding Background}">
+
+							<Grid x:Name="GridRoot" Width="3.5" Background="{TemplateBinding Background}" HorizontalAlignment="Right" Margin="1">
 								<Grid.RowDefinitions>
 									<RowDefinition Height="0.00001*" />
 								</Grid.RowDefinitions>
-
 								<Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="false">
 									<Track.Thumb>
 										<Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" Style="{DynamicResource ScrollThumbs}" />
@@ -87,7 +86,6 @@
 								<Trigger SourceName="Thumb" Property="IsDragging" Value="true">
 									<Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background" />
 								</Trigger>
-
 								<Trigger Property="IsEnabled" Value="false">
 									<Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
 								</Trigger>
@@ -103,12 +101,13 @@
 										</Setter.Value>
 									</Setter>
 									<Setter Property="Width" Value="Auto" />
-									<Setter Property="Height" Value="8" />
+									<Setter Property="Height" Value="1" />
 									<Setter TargetName="Thumb" Property="Tag" Value="Horizontal" />
 									<Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand" />
 									<Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand" />
 								</Trigger>
 							</ControlTemplate.Triggers>
+							
 						</ControlTemplate>
 					</Setter.Value>
 				</Setter>
