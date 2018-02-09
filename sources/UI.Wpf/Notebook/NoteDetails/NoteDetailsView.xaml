@@ -12,53 +12,23 @@
 	x:Name="noteManagerControl"
 >
 
-	<materialDesign:Flipper IsFlipped="{Binding IsFlipped}" Style="{StaticResource notebookFormFlipper}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+	<materialDesign:DialogHost Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsOpen="{Binding IsPopupOpen}">
 
-		<materialDesign:Flipper.FrontContent>
+		<materialDesign:Flipper IsFlipped="{Binding IsFlipped}" Style="{StaticResource notebookFormFlipper}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-			<materialDesign:DialogHost Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsOpen="{Binding IsPopupOpen}">
-
+			<materialDesign:Flipper.FrontContent>
 				<StackPanel HorizontalAlignment="Stretch">
 
+					<!-- Title and actions -->
 					<DockPanel LastChildFill="False" Margin="3.5 0 3.5 0">
-
-						<!-- Title -->
 						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center" Margin="7.5 0 0 0" Text="{Binding Title}" />
 						</StackPanel>
-
-						<!-- Action Buttons -->
 						<StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-							<Button Style="{DynamicResource MaterialDesignToolButton}" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" ToolTip="Edit" Foreground="Red">
-								<Button.CommandParameter>
-									<Grid>
-										<GroupBox HorizontalAlignment="Center" Header="Are you sure?" Style="{DynamicResource MaterialDesignGroupBox}" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
-											<StackPanel HorizontalAlignment="Stretch">
-												<TextBlock Margin="3.5" TextWrapping="Wrap" Text="The note will be permanently deleted." />
-												<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="3.5 7.5 3.5 3.5">
-													<Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-																	Content="cancel"
-																	HorizontalAlignment="Left"
-																	IsCancel="True"
-																	Style="{StaticResource MaterialDesignToolForegroundButton}" />
-													<Button Command="{Binding DeleteCommand}"
-																	Content="delete"
-																	HorizontalAlignment="Right"
-																	IsDefault="True"
-																	Margin="7.5 0 0 0"
-																	Style="{StaticResource MaterialDesignFlatButton}" />
-												</StackPanel>
-											</StackPanel>
-										</GroupBox>
-									</Grid>
-								</Button.CommandParameter>
-								<materialDesign:PackIcon Kind="Delete" Opacity="0.65" />
-							</Button>
 							<Button Margin="7.5 0 0 0" Style="{DynamicResource MaterialDesignToolButton}" Command="{Binding EditCommand}" ToolTip="Edit">
-								<materialDesign:PackIcon Kind="Pencil" />
+								<materialDesign:PackIcon Kind="Pencil" Foreground="{DynamicResource PrimaryHueMidBrush}" />
 							</Button>
 						</StackPanel>
-
 					</DockPanel>
 
 					<!-- Description -->
@@ -69,24 +39,21 @@
 							   TextWrapping="Wrap"
 							   VerticalAlignment="Center" />
 
-					<!---->
+					<!-- Divider -->
 					<Border Background="{DynamicResource MaterialDesignDivider}"
 							Height="1"
 							HorizontalAlignment="Stretch"
 							SnapsToDevicePixels="True" />
 
-					</StackPanel>
+				</StackPanel>
+			</materialDesign:Flipper.FrontContent>
 
-			</materialDesign:DialogHost>
+			<materialDesign:Flipper.BackContent>
+				<local:NoteFormView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="25 0 25 25" />
+			</materialDesign:Flipper.BackContent>
 
-		</materialDesign:Flipper.FrontContent>
+		</materialDesign:Flipper>
 
-		<materialDesign:Flipper.BackContent>
-
-			<local:NoteFormView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="25 0 25 25" />
-
-		</materialDesign:Flipper.BackContent>
-
-	</materialDesign:Flipper>
+	</materialDesign:DialogHost>
 
 </UserControl>

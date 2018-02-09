@@ -12,14 +12,6 @@
 
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-		<Grid.BindingGroup>
-			<BindingGroup Name="lixoWpf">
-				<BindingGroup.ValidationRules>
-
-				</BindingGroup.ValidationRules>
-			</BindingGroup>
-		</Grid.BindingGroup>
-
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -47,37 +39,65 @@
 				 x:Name="descriptionField"
 				 Text="{Binding FormData.Description, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-		<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Right">
+		<DockPanel Grid.Row="2" Margin="0 15 0 0" HorizontalAlignment="Stretch" LastChildFill="False">
 
-			<Button Command="{Binding CancelCommand}"
+			<Button DockPanel.Dock="Left" Style="{DynamicResource MaterialDesignToolButton}" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" ToolTip="Edit">
+				<Button.CommandParameter>
+					<Grid>
+						<GroupBox HorizontalAlignment="Center" Header="Are you sure?" Style="{DynamicResource MaterialDesignGroupBox}" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
+							<StackPanel HorizontalAlignment="Stretch">
+								<TextBlock Margin="3.5" TextWrapping="Wrap" Text="The note will be permanently deleted." />
+								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="3.5 7.5 3.5 3.5">
+									<Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+											Content="cancel"
+											HorizontalAlignment="Left"
+											IsCancel="True"
+											Style="{StaticResource MaterialDesignToolForegroundButton}" />
+									<Button Command="{Binding DeleteCommand}"
+											Content="delete"
+											HorizontalAlignment="Right"
+											IsDefault="True"
+											Margin="7.5 0 0 0"
+											Style="{StaticResource MaterialDesignFlatButton}" />
+								</StackPanel>
+							</StackPanel>
+						</GroupBox>
+					</Grid>
+				</Button.CommandParameter>
+				<materialDesign:PackIcon Kind="Delete" />
+			</Button>
+
+			<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+
+				<Button Command="{Binding CancelCommand}"
 					Content="cancel"
 					HorizontalAlignment="Right"
 					Style="{DynamicResource MaterialDesignToolForegroundButton}" />
 
-			<Button Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="17.5 0 0 0">
+				<Button Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="17.5 0 0 0">
+					<Button.Style>
+						<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
+							<Setter Property="IsEnabled" Value="False"/>
+							<Style.Triggers>
+								<MultiDataTrigger>
+									<MultiDataTrigger.Conditions>
+										<Condition Binding="{Binding Path=(Validation.HasError), ElementName=titleField}" Value="False"/>
+										<Condition Binding="{Binding Path=(Validation.HasError), ElementName=descriptionField}" Value="False"/>
+									</MultiDataTrigger.Conditions>
+									<Setter Property="IsEnabled" Value="True"/>
+								</MultiDataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+					<StackPanel Orientation="Horizontal">
+						<materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" />
+						<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center">Save</TextBlock>
+					</StackPanel>
+				</Button>
 
-				<Button.Style>
-					<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
-						<Setter Property="IsEnabled" Value="False"/>
-						<Style.Triggers>
-							<MultiDataTrigger>
-								<MultiDataTrigger.Conditions>
-									<Condition Binding="{Binding Path=(Validation.HasError), ElementName=titleField}" Value="False"/>
-									<Condition Binding="{Binding Path=(Validation.HasError), ElementName=descriptionField}" Value="False"/>
-								</MultiDataTrigger.Conditions>
-								<Setter Property="IsEnabled" Value="True"/>
-							</MultiDataTrigger>
-						</Style.Triggers>
-					</Style>
-				</Button.Style>
+			</StackPanel>
 
-				<StackPanel Orientation="Horizontal">
-					<materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" />
-					<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center">Save</TextBlock>
-				</StackPanel>
-			</Button>
-
-		</StackPanel>
+		</DockPanel>
 
 	</Grid>
 
