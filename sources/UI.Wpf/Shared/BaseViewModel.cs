@@ -45,7 +45,8 @@ namespace UI.Wpf
 		/// Set the errors based on the given validation result.
 		/// </summary>
 		/// <param name="validationResult">The validation result returned by the validation engine.</param>
-		protected void SetErrors(ValidationResult validationResult)
+		/// <returns><c>True</c> if any errors were set. Otherwise, <c>false</c>.</returns>
+		protected bool SetErrors(ValidationResult validationResult)
 		{
 			var newErrors = validationResult.Errors.Select(e => e.PropertyName).ToList();
 			var oldErrors = _modelErrors.Keys.ToList();
@@ -79,7 +80,8 @@ namespace UI.Wpf
 
 				ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(addError));
 			}
-			
+
+			return HasErrors;
 		}
 	}
 }

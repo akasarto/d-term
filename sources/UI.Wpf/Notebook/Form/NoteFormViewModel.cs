@@ -9,6 +9,7 @@ namespace UI.Wpf.Notebook
 		private Guid _id;
 		private string _title;
 		private string _description;
+		private bool _isValid;
 
 		//
 		private readonly NoteFormViewModelValidator _noteFormViewModelValidator = null;
@@ -54,13 +55,22 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
+		/// Gets or sets the form validation state.
+		/// </summary>
+		public bool IsValid
+		{
+			get => _isValid;
+			set => this.RaiseAndSetIfChanged(ref _isValid, value);
+		}
+
+		/// <summary>
 		/// Validate the model.
 		/// </summary>
 		private void Validate()
 		{
 			var validationResult = _noteFormViewModelValidator.Validate(this);
 
-			SetErrors(validationResult);
+			IsValid = !SetErrors(validationResult);
 		}
 	}
 }
