@@ -5,7 +5,7 @@ using System;
 
 namespace UI.Wpf.Consoles
 {
-	public class ConsolesWorkspaceViewModel : ReactiveObject
+	public class ConsolesWorkspaceViewModel : BaseViewModel
 	{
 		private readonly IConsoleProcessService _consoleProcessService = null;
 
@@ -14,6 +14,14 @@ namespace UI.Wpf.Consoles
 			_consoleProcessService = consoleProcessService ?? throw new ArgumentNullException(nameof(consoleProcessService), nameof(ConsolesWorkspaceViewModel));
 
 			CreateInstance = ReactiveCommand.Create(CreateInstanceAction);
+
+			this.WhenActivated(activator =>
+			{
+				activator(this.WhenAnyValue(x => x).Subscribe(viewModel =>
+				{
+
+				}));
+			});
 		}
 
 		public ReactiveCommand CreateInstance { get; protected set; }

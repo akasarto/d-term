@@ -12,9 +12,14 @@ namespace UI.Wpf
 	/// <summary>
 	/// Base class for all view models.
 	/// </summary>
-	public abstract class BaseViewModel : ReactiveObject, INotifyDataErrorInfo
+	public abstract class BaseViewModel : ReactiveObject, INotifyDataErrorInfo, ISupportsActivation
 	{
 		private ConcurrentDictionary<string, List<string>> _modelErrors = new ConcurrentDictionary<string, List<string>>();
+
+		/// <summary>
+		/// Reactive UI model activation manager.
+		/// </summary>
+		public ViewModelActivator Activator => new ViewModelActivator();
 
 		/// <summary>
 		/// Notifies subscribers about any property erros.

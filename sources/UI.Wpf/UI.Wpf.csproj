@@ -173,10 +173,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Consoles\ConsoleHwndHost.cs" />
-    <Compile Include="Consoles\ConsolesWorkspaceView.xaml.cs">
+    <Compile Include="Consoles\Workspace\ConsolesWorkspaceView.xaml.cs">
       <DependentUpon>ConsolesWorkspaceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ConsolesWorkspaceViewModel.cs" />
+    <Compile Include="Consoles\Workspace\ConsolesWorkspaceViewModel.cs" />
     <Compile Include="Notebook\Form\NoteFormViewModelValidator.cs" />
     <Compile Include="Shared\BaseViewModel.cs" />
     <Compile Include="Mappings\MapperInitializer.cs" />
@@ -208,16 +208,16 @@
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
-    <Compile Include="Consoles\ConsoleInstanceViewModel.cs" />
-    <Compile Include="Consoles\ConsoleInstanceView.xaml.cs">
+    <Compile Include="Consoles\Instance\ConsoleInstanceViewModel.cs" />
+    <Compile Include="Consoles\Instance\ConsoleInstanceView.xaml.cs">
       <DependentUpon>ConsoleInstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
-    <Page Include="Consoles\ConsoleInstanceView.xaml">
+    <Page Include="Consoles\Instance\ConsoleInstanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ConsolesWorkspaceView.xaml">
+    <Page Include="Consoles\Workspace\ConsolesWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,7 +295,9 @@
   <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Consoles\Settings\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Consoles.Core\Consoles.Core.csproj">
       <Project>{0194DF4A-3F2F-42FB-A7C8-3C80F3A677E4}</Project>
