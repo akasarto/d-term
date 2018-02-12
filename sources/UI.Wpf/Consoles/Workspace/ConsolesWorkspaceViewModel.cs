@@ -47,7 +47,6 @@ namespace UI.Wpf.Consoles
 
 			_consoleInstanceViewModels = new ReactiveList<ConsoleInstanceViewModel>()
 			{
-				//ChangeTrackingEnabled = true
 			};
 
 			_consoleInstanceViewModels.Changed.Subscribe(instances =>
