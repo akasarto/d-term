@@ -9,9 +9,8 @@ namespace UI.Wpf.Consoles
 	public class ConsoleSettingsViewModel : BaseViewModel
 	{
 		//
-		//
 		private ReactiveList<ConsoleEntity> _consoleEntities;
-		private IReactiveDerivedList<SettingsItemViewModel> _settingsItemViewModels;
+		private IReactiveDerivedList<ConsoleViewModel> _consoleViewModels;
 
 		//
 		private readonly IConsolesRepository _consolesRepository = null;
@@ -30,25 +29,27 @@ namespace UI.Wpf.Consoles
 
 			Consoles = _consoleEntities.CreateDerivedCollection(
 				filter: noteEntity => true,
-				selector: noteEntity => Mapper.Map<SettingsItemViewModel>(noteEntity),
+				selector: noteEntity => Mapper.Map<ConsoleViewModel>(noteEntity),
 				orderer: (noteX, noteY) => noteX.Index.CompareTo(noteY.Index)
 			);
 
-			_settingsItemViewModels.CountChanged.Subscribe(count =>
+			_consoleViewModels.CountChanged.Subscribe(count =>
 			{
-
 			});
 		}
 
 		/// <summary>
 		/// Current consoles list
 		/// </summary>
-		public IReactiveDerivedList<SettingsItemViewModel> Consoles
+		public IReactiveDerivedList<ConsoleViewModel> Consoles
 		{
-			get => _settingsItemViewModels;
-			set => this.RaiseAndSetIfChanged(ref _settingsItemViewModels, value);
+			get => _consoleViewModels;
+			set => this.RaiseAndSetIfChanged(ref _consoleViewModels, value);
 		}
 
+		/// <summary>
+		/// Initialize the model.
+		/// </summary>
 		public void Initialize()
 		{
 			Observable.Start(() =>

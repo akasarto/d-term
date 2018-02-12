@@ -22,8 +22,8 @@ namespace UI.Wpf.Mappings
 
 		private void SetupMaps()
 		{
-			CreateMap<ConsoleEntity, SettingsItemViewModel>();
-			CreateMap<SettingsItemViewModel, ConsoleEntity>();
+			CreateMap<ConsoleEntity, ConsoleViewModel>();
+			CreateMap<ConsoleViewModel, ConsoleEntity>();
 		}
 	}
 }

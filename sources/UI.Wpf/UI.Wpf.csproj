@@ -173,7 +173,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Consoles\ConsoleHwndHost.cs" />
-    <Compile Include="Consoles\Settings\SettingsItemViewModel.cs" />
+    <Compile Include="Consoles\ConsoleViewModel.cs" />
     <Compile Include="Consoles\Settings\ConsoleSettingsView.xaml.cs">
       <DependentUpon>ConsoleSettingsView.xaml</DependentUpon>
     </Compile>

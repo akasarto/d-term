@@ -1,11 +1,17 @@
-﻿using Consoles.Core;
+﻿using AutoMapper;
+using Consoles.Core;
 using ReactiveUI;
 using System;
+using System.Reactive.Linq;
 
 namespace UI.Wpf.Consoles
 {
 	public class ConsolesWorkspaceViewModel : BaseViewModel
 	{
+		//
+		private ReactiveList<ConsoleEntity> _consoleEntities;
+		private IReactiveDerivedList<ConsoleViewModel> _consoleViewModels;
+
 		//
 		private readonly IConsolesRepository _consolesRepository = null;
 
@@ -16,22 +22,52 @@ namespace UI.Wpf.Consoles
 		{
 			_consolesRepository = consolesRepository ?? throw new ArgumentNullException(nameof(consolesRepository), nameof(ConsolesWorkspaceViewModel));
 
+			_consoleEntities = new ReactiveList<ConsoleEntity>()
+			{
+				ChangeTrackingEnabled = true
+			};
+
+			Consoles = _consoleEntities.CreateDerivedCollection(
+				filter: noteEntity => true,
+				selector: noteEntity => Mapper.Map<ConsoleViewModel>(noteEntity),
+				orderer: (noteX, noteY) => noteX.Index.CompareTo(noteY.Index)
+			);
+
+			_consoleViewModels.CountChanged.Subscribe(count =>
+			{
+			});
+
 			SetupCommands();
 		}
 
 		/// <summary>
-		/// Add Note View Model
+		/// Current consoles list
 		/// </summary>
-		//public ConsoleSettingsViewModel ConsoleSettingsViewModel => _consoleSettingsViewModel;
+		public IReactiveDerivedList<ConsoleViewModel> Consoles
+		{
+			get => _consoleViewModels;
+			set => this.RaiseAndSetIfChanged(ref _consoleViewModels, value);
+		}
 
 		/// <summary>
 		/// Edit a note.
 		/// </summary>
 		public ReactiveCommand ShowSettingsCommand { get; protected set; }
 
+		/// <summary>
+		/// Initialize the model.
+		/// </summary>
 		public void Initialize()
 		{
-
+			Observable.Start(() =>
+			{
+				var entities = _consolesRepository.GetAll();
+				return entities;
+			}, RxApp.MainThreadScheduler)
+			.Subscribe(items =>
+			{
+				_consoleEntities.AddRange(items);
+			});
 		}
 
 		/// <summary>

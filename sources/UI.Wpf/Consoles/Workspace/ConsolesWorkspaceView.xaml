@@ -29,6 +29,7 @@
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
 
+			<!-- Header -->
 			<materialDesign:ColorZone Mode="Inverted" Padding="15" Grid.Column="0" VerticalAlignment="Stretch" materialDesign:ShadowAssist.ShadowEdges="Right" materialDesign:ShadowAssist.ShadowDepth="Depth3">
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 					<TextBlock VerticalAlignment="Center" FontSize="22" Margin="0 0 35 0" Text="Consoles" />
@@ -36,9 +37,10 @@
 			</materialDesign:ColorZone>
 
 			<ToolBarTray VerticalAlignment="Center" Grid.Column="1" Margin="7.5 0 0 0">
-				
+
+				<!-- Arranges -->
 				<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Arrange" FontWeight="Bold">
-					<ListBox SelectedIndex="0">
+					<ListBox SelectedIndex="0" VerticalAlignment="Center">
 						<ListBoxItem ToolTip="As Grid">
 							<materialDesign:PackIcon Kind="GridLarge" />
 						</ListBoxItem>
@@ -50,26 +52,50 @@
 						</ListBoxItem>
 					</ListBox>
 				</ToolBar>
-				
-				<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Processes" FontWeight="Bold">
+
+				<!-- Available consoles -->
+				<ToolBar ClipToBounds="False" FontWeight="Bold" Header="Processes" Style="{DynamicResource MaterialDesignToolBar}">
+
+					<!--
+					<ToolBar.ItemTemplate>
+						<DataTemplate>
+							<Button ToolTip="{Binding Name}" Command="{Binding CreateInstanceCommand}">
+								<materialDesign:PackIcon>
+									<materialDesign:PackIcon.Template>
+										<ControlTemplate>
+											<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding IconPath}" />
+										</ControlTemplate>
+									</materialDesign:PackIcon.Template>
+								</materialDesign:PackIcon>
+							</Button>
+						</DataTemplate>
+					</ToolBar.ItemTemplate>
+					-->
+
 					<Button ToolTip="Settings" Command="{Binding ShowSettingsCommand}">
 						<materialDesign:PackIcon Kind="Settings" />
 					</Button>
+					
 					<Separator />
-					<Button ToolTip="Command Prompt" Command="{Binding CreateInstance}">
-						<materialDesign:PackIcon Kind="Console" />
-					</Button>
-					<Button ToolTip="Git Bash">
-						<materialDesign:PackIcon Kind="Git" />
-					</Button>
-					<Button ToolTip="Power Shell">
-						<materialDesign:PackIcon Kind="Power" />
-					</Button>
-					<Button ToolTip="Ubuntu Bash">
-						<materialDesign:PackIcon Kind="Ubuntu" />
-					</Button>
+
+					<ListBox ItemsSource="{Binding Consoles}" Style="{StaticResource MaterialDesignToolToggleFlatListBox}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<Button ToolTip="{Binding Name}" Command="{Binding CreateInstanceCommand}">
+									<materialDesign:PackIcon>
+										<materialDesign:PackIcon.Template>
+											<ControlTemplate>
+												<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding IconPath}" />
+											</ControlTemplate>
+										</materialDesign:PackIcon.Template>
+									</materialDesign:PackIcon>
+								</Button>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+
 				</ToolBar>
-				
+
 			</ToolBarTray>
 
 		</Grid>
