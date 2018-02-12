@@ -59,7 +59,7 @@ namespace UI.Wpf.Consoles
 			set => this.RaiseAndSetIfChanged(ref _processPathExeFilename, value);
 		}
 
-		public string ProcessPathExeArgs
+		public string ProcessPathExeStartupArgs
 		{
 			get => _processPathExeArgs;
 			set => this.RaiseAndSetIfChanged(ref _processPathExeArgs, value);

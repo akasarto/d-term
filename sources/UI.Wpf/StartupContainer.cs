@@ -34,7 +34,7 @@ namespace UI.Wpf
 			Register<INotebookRepository>(() => new NotebookRepository(liteDbConnectionString));
 
 			//
-			Register<IConsoleProcessService, ConsoleProcessService>();
+			Register<IConsolesProcessService, ConsoleProcessService>();
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace Consoles.Core
 {
-	public interface IConsoleProcessService
+	public interface IConsolesProcessService
 	{
 		IConsoleProcess Create(IProcessDescriptor descriptor);
 	}

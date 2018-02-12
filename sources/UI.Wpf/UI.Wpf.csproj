@@ -304,9 +304,7 @@
   <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Consoles\Settings\Form\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Consoles.Core\Consoles.Core.csproj">
       <Project>{0194DF4A-3F2F-42FB-A7C8-3C80F3A677E4}</Project>

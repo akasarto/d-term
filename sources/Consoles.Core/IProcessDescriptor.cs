@@ -2,9 +2,9 @@
 {
 	public interface IProcessDescriptor
 	{
-		string Args { get; }
-		string FilePath { get; }
-		PathBuilder PathType { get; }
+		string ExeStartupArgs { get; }
+		string ExeFilename { get; }
+		PathBuilder PathBuilder { get; }
 		int StartupTimeoutInSeconds { get; }
 	}
 }

@@ -12,7 +12,8 @@
 	mc:Ignorable="d"
 	d:DesignWidth="1024"
 	d:DesignHeight="768"
->
+	x:Name="consolesWorkspaceControl"
+	>
 
 	<Grid Grid.Column="2">
 
@@ -36,6 +37,7 @@
 				</StackPanel>
 			</materialDesign:ColorZone>
 
+			<!-- Toolbars -->
 			<ToolBarTray VerticalAlignment="Center" Grid.Column="1" Margin="7.5 0 0 0">
 
 				<!-- Arranges -->
@@ -75,13 +77,17 @@
 					<Button ToolTip="Settings" Command="{Binding ShowSettingsCommand}">
 						<materialDesign:PackIcon Kind="Settings" />
 					</Button>
-					
+
 					<Separator />
 
-					<ListBox ItemsSource="{Binding Consoles}" Style="{StaticResource MaterialDesignToolToggleFlatListBox}">
-						<ListBox.ItemTemplate>
+					<Button ToolTip="Command Prompt" Command="{Binding CreateInstance}">
+						<materialDesign:PackIcon Kind="Console" />
+					</Button>
+
+					<ItemsControl ItemsSource="{Binding Consoles}">
+						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<Button ToolTip="{Binding Name}" Command="{Binding CreateInstanceCommand}">
+								<Button ToolTip="{Binding Name}" Command="{Binding DataContext.CreateInstanceCommand, ElementName=consolesWorkspaceControl}" CommandParameter="{Binding}">
 									<materialDesign:PackIcon>
 										<materialDesign:PackIcon.Template>
 											<ControlTemplate>
@@ -91,8 +97,8 @@
 									</materialDesign:PackIcon>
 								</Button>
 							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
 
 				</ToolBar>
 

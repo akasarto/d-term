@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Consoles.Processes
 {
-	public class ConsoleProcessService : IConsoleProcessService
+	public class ConsoleProcessService : IConsolesProcessService
 	{
 		public IConsoleProcess Create(IProcessDescriptor descriptor)
 		{
@@ -20,7 +20,7 @@ namespace Consoles.Processes
 			{
 				WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
 				WindowStyle = ProcessWindowStyle.Hidden,
-				Arguments = descriptor.Args
+				Arguments = descriptor.ExeStartupArgs
 			};
 
 			var consoleInstance = new ConsoleProcess(processStartInfo, descriptor.StartupTimeoutInSeconds);
@@ -30,16 +30,16 @@ namespace Consoles.Processes
 
 		private IPathBuilder GetPathBuilder(IProcessDescriptor descriptor)
 		{
-			switch (descriptor.PathType)
+			switch (descriptor.PathBuilder)
 			{
 				case PathBuilder.Physical:
-					return new PhysicalFilePathBuilder(descriptor.FilePath);
+					return new PhysicalFilePathBuilder(descriptor.ExeFilename);
 				case PathBuilder.ProgramFilesFolder:
-					return new ProgramFilesFolderPathBuilder(descriptor.FilePath);
+					return new ProgramFilesFolderPathBuilder(descriptor.ExeFilename);
 				case PathBuilder.System32Folder:
-					return new System32FolderPathBuilder(descriptor.FilePath);
+					return new System32FolderPathBuilder(descriptor.ExeFilename);
 				case PathBuilder.SystemPathVar:
-					return new SystemPathVarPathBuilder(descriptor.FilePath);
+					return new SystemPathVarPathBuilder(descriptor.ExeFilename);
 			}
 
 			return null;

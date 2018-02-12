@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Consoles.Core;
+using Consoles.Processes;
 using ReactiveUI;
 using System;
+using System.Reactive;
 using System.Reactive.Linq;
 
 namespace UI.Wpf.Consoles
@@ -11,16 +13,19 @@ namespace UI.Wpf.Consoles
 		//
 		private ReactiveList<ConsoleEntity> _consoleEntities;
 		private IReactiveDerivedList<ConsoleViewModel> _consoleViewModels;
+		private ReactiveList<ConsoleInstanceViewModel> _consoleInstanceViewModels;
 
 		//
 		private readonly IConsolesRepository _consolesRepository = null;
+		private readonly IConsolesProcessService _consolesProcessService = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesWorkspaceViewModel(IConsolesRepository consolesRepository)
+		public ConsolesWorkspaceViewModel(IConsolesRepository consolesRepository, IConsolesProcessService consolesProcessService)
 		{
 			_consolesRepository = consolesRepository ?? throw new ArgumentNullException(nameof(consolesRepository), nameof(ConsolesWorkspaceViewModel));
+			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(ConsolesWorkspaceViewModel));
 
 			_consoleEntities = new ReactiveList<ConsoleEntity>()
 			{
@@ -37,6 +42,11 @@ namespace UI.Wpf.Consoles
 			{
 			});
 
+			_consoleInstanceViewModels = new ReactiveList<ConsoleInstanceViewModel>()
+			{
+				//ChangeTrackingEnabled = true
+			};
+
 			SetupCommands();
 		}
 
@@ -50,9 +60,23 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
-		/// Edit a note.
+		/// Current consoles instances list
+		/// </summary>
+		public ReactiveList<ConsoleInstanceViewModel> Instances
+		{
+			get => _consoleInstanceViewModels;
+			set => this.RaiseAndSetIfChanged(ref _consoleInstanceViewModels, value);
+		}
+
+		/// <summary>
+		/// Show the settings window.
 		/// </summary>
 		public ReactiveCommand ShowSettingsCommand { get; protected set; }
+
+		/// <summary>
+		/// Create a new console instance.
+		/// </summary>
+		public ReactiveCommand<ConsoleViewModel, Unit> CreateInstanceCommand { get; protected set; }
 
 		/// <summary>
 		/// Initialize the model.
@@ -85,56 +109,25 @@ namespace UI.Wpf.Consoles
 
 				view.ShowDialog();
 			});
-		}
-	}
 
-
-
-	/*
-	public class ConsolesWorkspaceViewModel : BaseViewModel
-	{
-		private readonly IConsoleProcessService _consoleProcessService = null;
-
-		public ConsolesWorkspaceViewModel(IConsoleProcessService consoleProcessService)
-		{
-			_consoleProcessService = consoleProcessService ?? throw new ArgumentNullException(nameof(consoleProcessService), nameof(ConsolesWorkspaceViewModel));
-
-			CreateInstance = ReactiveCommand.Create(CreateInstanceAction);
-
-			this.WhenActivated(activator =>
+			CreateInstanceCommand = ReactiveCommand.Create<ConsoleViewModel>((consoleViewModel) =>
 			{
-				activator(this.WhenAnyValue(x => x).Subscribe(viewModel =>
+				var consoleProcess = _consolesProcessService.Create(new ProcessDescriptor()
 				{
+					PathBuilder = consoleViewModel.ProcessPathBuilder,
+					ExeFilename = consoleViewModel.ProcessPathExeFilename,
+					ExeStartupArgs = consoleViewModel.ProcessPathExeStartupArgs
+				});
 
-				}));
+				consoleProcess.Start();
+
+				var consoleInstanceViewModel = new ConsoleInstanceViewModel(consoleProcess)
+				{
+					Name = DateTime.Now.Millisecond.ToString()
+				};
+
+				Instances.Add(consoleInstanceViewModel);
 			});
-		}
-
-		public ReactiveCommand CreateInstance { get; protected set; }
-
-		public ReactiveList<ConsoleInstanceViewModel> Instances { get; set; } = new ReactiveList<ConsoleInstanceViewModel>();
-
-		public void Initialize()
-		{
-		}
-
-		private void CreateInstanceAction()
-		{
-			var consoleProcess = _consoleProcessService.Create(new ProcessDescriptor()
-			{
-				FilePath = @"/cmd.exe",
-				PathType = PathType.SystemPathVar
-			});
-
-			//consoleProcess.Start();
-
-			var consoleInstanceViewModel = new ConsoleInstanceViewModel(consoleProcess)
-			{
-				Name = DateTime.Now.Millisecond.ToString()
-			};
-
-			Instances.Add(consoleInstanceViewModel);
 		}
 	}
-	*/
 }
