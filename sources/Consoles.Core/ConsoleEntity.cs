@@ -7,9 +7,10 @@ namespace Consoles.Core
 		public Guid Id { get; set; }
 		public int Index { get; set; }
 		public string Name { get; set; }
-		public string ProcessPathArgs { get; set; }
-		public string ProcessPath { get; set; }
-		public PathType ProcessPathType { get; set; }
+		public string IconPath { get; set; }
+		public string ProcessPathExeFilename { get; set; }
+		public PathBuilder ProcessPathBuilder { get; set; }
+		public string ProcessPathExeArgs { get; set; }
 		public DateTime UTCCreation { get; set; }
 	}
 }

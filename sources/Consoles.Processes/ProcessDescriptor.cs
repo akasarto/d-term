@@ -8,7 +8,7 @@ namespace Consoles.Processes
 
 		public string FilePath { get; set; }
 
-		public PathType PathType { get; set; }
+		public PathBuilder PathType { get; set; }
 
 		public int StartupTimeoutInSeconds { get; set; } = 3;
 	}

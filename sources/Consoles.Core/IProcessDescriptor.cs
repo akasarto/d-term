@@ -4,7 +4,7 @@
 	{
 		string Args { get; }
 		string FilePath { get; }
-		PathType PathType { get; }
+		PathBuilder PathType { get; }
 		int StartupTimeoutInSeconds { get; }
 	}
 }

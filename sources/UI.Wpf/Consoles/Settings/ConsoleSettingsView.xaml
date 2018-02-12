@@ -14,7 +14,7 @@
 
 	<Grid>
 
-		<ListView ItemsSource="{Binding Consoles}">
+		<ListView ItemsSource="{Binding Consoles}" SelectionMode="Single">
 			<ListView.View>
 				<GridView>
 					<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />

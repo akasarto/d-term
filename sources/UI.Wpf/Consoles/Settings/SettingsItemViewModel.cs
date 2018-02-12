@@ -22,6 +22,6 @@ namespace UI.Wpf.Consoles
 		public string Name { get; set; }
 		public string ProcessPathArgs { get; set; }
 		public string ProcessPath { get; set; }
-		public PathType ProcessPathType { get; set; }
+		public PathBuilder ProcessPathType { get; set; }
 	}
 }

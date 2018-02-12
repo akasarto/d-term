@@ -32,13 +32,13 @@ namespace Consoles.Processes
 		{
 			switch (descriptor.PathType)
 			{
-				case PathType.Physical:
+				case PathBuilder.Physical:
 					return new PhysicalFilePathBuilder(descriptor.FilePath);
-				case PathType.ProgramFilesFolder:
+				case PathBuilder.ProgramFilesFolder:
 					return new ProgramFilesFolderPathBuilder(descriptor.FilePath);
-				case PathType.System32Folder:
+				case PathBuilder.System32Folder:
 					return new System32FolderPathBuilder(descriptor.FilePath);
-				case PathType.SystemPathVar:
+				case PathBuilder.SystemPathVar:
 					return new SystemPathVarPathBuilder(descriptor.FilePath);
 			}
 

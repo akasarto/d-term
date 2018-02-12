@@ -1,6 +1,6 @@
 ﻿namespace Consoles.Core
 {
-	public enum PathType : byte
+	public enum PathBuilder : byte
 	{
 		Physical = 0,
 		ProgramFilesFolder = 1,
