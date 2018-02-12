@@ -1,16 +1,19 @@
 ﻿using AutoMapper;
 using Consoles.Core;
 using Consoles.Processes;
+using Dragablz.Dockablz;
 using ReactiveUI;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Windows;
 
 namespace UI.Wpf.Consoles
 {
 	public class ConsolesWorkspaceViewModel : BaseViewModel
 	{
 		//
+		private IInputElement _consolesControl = null;
 		private ReactiveList<ConsoleEntity> _consoleEntities;
 		private IReactiveDerivedList<ConsoleViewModel> _consoleViewModels;
 		private ReactiveList<ConsoleInstanceViewModel> _consoleInstanceViewModels;
@@ -47,6 +50,11 @@ namespace UI.Wpf.Consoles
 				//ChangeTrackingEnabled = true
 			};
 
+			_consoleInstanceViewModels.Changed.Subscribe(instances =>
+			{
+				Layout.TileFloatingItemsCommand.Execute(null, _consolesControl);
+			});
+
 			SetupCommands();
 		}
 
@@ -81,8 +89,10 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Initialize the model.
 		/// </summary>
-		public void Initialize()
+		public void Initialize(IInputElement consolesControl)
 		{
+			_consolesControl = consolesControl;
+
 			Observable.Start(() =>
 			{
 				var entities = _consolesRepository.GetAll();
@@ -103,7 +113,7 @@ namespace UI.Wpf.Consoles
 			{
 				var view = new ConsoleSettingsView()
 				{
-					WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
+					WindowStartupLocation = WindowStartupLocation.CenterScreen,
 					DataContext = new ConsoleSettingsViewModel(_consolesRepository)
 				};
 
@@ -123,7 +133,7 @@ namespace UI.Wpf.Consoles
 
 				var consoleInstanceViewModel = new ConsoleInstanceViewModel(consoleProcess)
 				{
-					Name = DateTime.Now.Millisecond.ToString()
+					Name = consoleViewModel.Name
 				};
 
 				Instances.Add(consoleInstanceViewModel);

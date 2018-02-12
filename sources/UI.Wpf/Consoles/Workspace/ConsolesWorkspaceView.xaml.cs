@@ -1,9 +1,6 @@
-﻿using Dragablz.Dockablz;
-using System.Collections.Specialized;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using ReactiveUI;
 using System;
-using System.Windows;
 
 namespace UI.Wpf.Consoles
 {
@@ -17,15 +14,9 @@ namespace UI.Wpf.Consoles
 			{
 				activator(this.WhenAnyValue(x => x.ViewModel).Subscribe(viewModel =>
 				{
-					viewModel.Initialize();
-					viewModel.Instances.CollectionChanged += Instances_CollectionChanged;
+					viewModel.Initialize(consolesContainer);
 				}));
 			});
-		}
-
-		private void Instances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			Layout.TileFloatingItemsCommand.Execute(null, consolesContainer);
 		}
 
 		public ConsolesWorkspaceViewModel ViewModel
