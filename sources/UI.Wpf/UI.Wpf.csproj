@@ -173,6 +173,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Consoles\ConsoleHwndHost.cs" />
+    <Compile Include="Consoles\Settings\SettingsItemViewModel.cs" />
+    <Compile Include="Consoles\Settings\ConsoleSettingsView.xaml.cs">
+      <DependentUpon>ConsoleSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\Settings\ConsoleSettingsViewModel.cs" />
     <Compile Include="Consoles\Workspace\ConsolesWorkspaceView.xaml.cs">
       <DependentUpon>ConsolesWorkspaceView.xaml</DependentUpon>
     </Compile>
@@ -213,6 +218,10 @@
       <DependentUpon>ConsoleInstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
+    <Page Include="Consoles\Settings\ConsoleSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Consoles\Instance\ConsoleInstanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -296,7 +305,7 @@
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Consoles\Settings\" />
+    <Folder Include="Consoles\Settings\Form\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Consoles.Core\Consoles.Core.csproj">

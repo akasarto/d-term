@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.Windows.Controls;
 using ReactiveUI;
 using System;
-using System.Windows;
 
 namespace UI.Wpf.Consoles
 {

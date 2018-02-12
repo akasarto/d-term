@@ -36,6 +36,7 @@
 			</materialDesign:ColorZone>
 
 			<ToolBarTray VerticalAlignment="Center" Grid.Column="1" Margin="7.5 0 0 0">
+				
 				<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Arrange" FontWeight="Bold">
 					<ListBox SelectedIndex="0">
 						<ListBoxItem ToolTip="As Grid">
@@ -49,8 +50,9 @@
 						</ListBoxItem>
 					</ListBox>
 				</ToolBar>
+				
 				<ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False" Header="Processes" FontWeight="Bold">
-					<Button ToolTip="Configure">
+					<Button ToolTip="Settings" Command="{Binding ShowSettingsCommand}">
 						<materialDesign:PackIcon Kind="Settings" />
 					</Button>
 					<Separator />
@@ -67,6 +69,7 @@
 						<materialDesign:PackIcon Kind="Ubuntu" />
 					</Button>
 				</ToolBar>
+				
 			</ToolBarTray>
 
 		</Grid>

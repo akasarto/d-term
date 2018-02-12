@@ -1,9 +1,8 @@
-﻿using ReactiveUI;
-using System;
+﻿using System;
 
 namespace UI.Wpf.Notebook
 {
-	public class NotebookWorkspaceViewModel : ReactiveObject
+	public class NotebookWorkspaceViewModel : BaseViewModel
 	{
 		//
 		private readonly NoteAddViewModel _noteAddViewModel = null;

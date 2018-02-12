@@ -1,10 +1,60 @@
 ﻿using Consoles.Core;
-using Consoles.Processes;
 using ReactiveUI;
 using System;
 
 namespace UI.Wpf.Consoles
 {
+	public class ConsolesWorkspaceViewModel : BaseViewModel
+	{
+		//
+		private readonly IConsolesRepository _consolesRepository = null;
+
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
+		public ConsolesWorkspaceViewModel(IConsolesRepository consolesRepository)
+		{
+			_consolesRepository = consolesRepository ?? throw new ArgumentNullException(nameof(consolesRepository), nameof(ConsolesWorkspaceViewModel));
+
+			SetupCommands();
+		}
+
+		/// <summary>
+		/// Add Note View Model
+		/// </summary>
+		//public ConsoleSettingsViewModel ConsoleSettingsViewModel => _consoleSettingsViewModel;
+
+		/// <summary>
+		/// Edit a note.
+		/// </summary>
+		public ReactiveCommand ShowSettingsCommand { get; protected set; }
+
+		public void Initialize()
+		{
+
+		}
+
+		/// <summary>
+		/// Wire up commands with their respective actions.
+		/// </summary>
+		private void SetupCommands()
+		{
+			ShowSettingsCommand = ReactiveCommand.Create(() =>
+			{
+				var view = new ConsoleSettingsView()
+				{
+					WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen,
+					DataContext = new ConsoleSettingsViewModel(_consolesRepository)
+				};
+
+				view.ShowDialog();
+			});
+		}
+	}
+
+
+
+	/*
 	public class ConsolesWorkspaceViewModel : BaseViewModel
 	{
 		private readonly IConsoleProcessService _consoleProcessService = null;
@@ -50,4 +100,5 @@ namespace UI.Wpf.Consoles
 			Instances.Add(consoleInstanceViewModel);
 		}
 	}
+	*/
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using Consoles.Core;
+using UI.Wpf.Consoles;
 
 namespace UI.Wpf.Mappings
 {
@@ -21,7 +22,8 @@ namespace UI.Wpf.Mappings
 
 		private void SetupMaps()
 		{
-
+			CreateMap<ConsoleEntity, SettingsItemViewModel>();
+			CreateMap<SettingsItemViewModel, ConsoleEntity>();
 		}
 	}
 }
