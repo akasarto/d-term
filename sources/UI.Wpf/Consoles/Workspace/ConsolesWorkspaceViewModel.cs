@@ -112,8 +112,10 @@ namespace UI.Wpf.Consoles
 			{
 				var view = new ConsoleSettingsView()
 				{
-					WindowStartupLocation = WindowStartupLocation.CenterScreen,
-					DataContext = new ConsoleSettingsViewModel(_consolesRepository)
+					Owner = App.Current.MainWindow,
+					DataContext = new ConsoleSettingsViewModel(_consolesRepository),
+					WindowStartupLocation = WindowStartupLocation.CenterOwner,
+					ShowInTaskbar = false
 				};
 
 				view.ShowDialog();
