@@ -126,7 +126,8 @@
 						
 						<materialDesign:Plane3D x:Name="PART_Plane3D" RotationY="0" ZFactor="2.055">
 							<materialDesign:Card
-								Padding="3.5"
+								Padding="{TemplateBinding Padding}"
+								Margin="{TemplateBinding Margin}"
 								Background="{TemplateBinding Background}"
 								BorderBrush="Transparent"
 								BorderThickness="0"

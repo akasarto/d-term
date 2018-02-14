@@ -31,60 +31,44 @@
 			</StackPanel>
 		</materialDesign:ColorZone>
 
-		<materialDesign:Flipper  Grid.Row="1" IsFlipped="{Binding IsFlipped}" Style="{StaticResource notebookFormFlipper}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<DockPanel Grid.Row="1" LastChildFill="False" Margin="7.5">
 
-			<materialDesign:Flipper.FrontContent>
+			<ListBox DockPanel.Dock="Left" SelectedIndex="0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignToolToggleListBox}">
 
-				<DockPanel LastChildFill="False">
+				<ListBoxItem ToolTip="As Grid">
+					<materialDesign:PackIcon Kind="GridLarge" />
+				</ListBoxItem>
+				<ListBoxItem ToolTip="Vertically">
+					<materialDesign:PackIcon Kind="ReorderVertical" />
+				</ListBoxItem>
+				<ListBoxItem ToolTip="Horizontally">
+					<materialDesign:PackIcon Kind="ReorderHorizontal" />
+				</ListBoxItem>
 
-					<ListBox DockPanel.Dock="Left" SelectedIndex="0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignToolToggleListBox}">
+			</ListBox>
 
-						<ListBoxItem ToolTip="As Grid">
-							<materialDesign:PackIcon Kind="GridLarge" />
-						</ListBoxItem>
-						<ListBoxItem ToolTip="Vertically">
-							<materialDesign:PackIcon Kind="ReorderVertical" />
-						</ListBoxItem>
-						<ListBoxItem ToolTip="Horizontally">
-							<materialDesign:PackIcon Kind="ReorderHorizontal" />
-						</ListBoxItem>
+			<ItemsControl DockPanel.Dock="Right" ItemsSource="{Binding Consoles}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Button Command="{Binding CreateInstanceCommand}" Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="{Binding Name}">
+							<materialDesign:PackIcon Height="22" Width="22">
+								<materialDesign:PackIcon.Template>
+									<ControlTemplate>
+										<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding IconPath}" />
+									</ControlTemplate>
+								</materialDesign:PackIcon.Template>
+							</materialDesign:PackIcon>
+						</Button>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
 
-					</ListBox>
-
-					<ItemsControl DockPanel.Dock="Right" ItemsSource="{Binding Consoles}">
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" />
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<Button Command="{Binding CreateInstanceCommand}" Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="{Binding Name}">
-									<materialDesign:PackIcon Height="22" Width="22">
-										<materialDesign:PackIcon.Template>
-											<ControlTemplate>
-												<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding IconPath}" />
-											</ControlTemplate>
-										</materialDesign:PackIcon.Template>
-									</materialDesign:PackIcon>
-								</Button>
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-
-				</DockPanel>
-
-			</materialDesign:Flipper.FrontContent>
-
-			<materialDesign:Flipper.BackContent>
-
-				<TextBlock/>
-
-			</materialDesign:Flipper.BackContent>
-
-		</materialDesign:Flipper>
-
-
+		</DockPanel>
 
 		<!---->
 		<Border
