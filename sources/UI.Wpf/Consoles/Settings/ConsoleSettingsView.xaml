@@ -18,9 +18,9 @@
 			<ListView.View>
 				<GridView>
 					<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
-					<GridViewColumn DisplayMemberBinding="{Binding ProcessPath}" Header="File Path" />
-					<GridViewColumn DisplayMemberBinding="{Binding ProcessPathArgs}" Header="File Args" />
-					<GridViewColumn DisplayMemberBinding="{Binding ProcessPathType}" Header="Path Type" />
+					<GridViewColumn DisplayMemberBinding="{Binding ProcessPathBuilder}" Header="Path Builder" />
+					<GridViewColumn DisplayMemberBinding="{Binding ProcessPathExeFilename}" Header="Executable" />
+					<GridViewColumn DisplayMemberBinding="{Binding ProcessPathExeStartupArgs}" Header="Args" />
 				</GridView>
 			</ListView.View>
 		</ListView>
