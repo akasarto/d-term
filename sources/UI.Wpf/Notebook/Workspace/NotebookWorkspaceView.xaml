@@ -16,17 +16,17 @@
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="50" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<!-- Area Header -->
-		<materialDesign:ColorZone Grid.Row="0" Mode="Inverted" Padding="15">
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-				<TextBlock VerticalAlignment="Center" FontSize="22" Text="Notebook" />
-			</StackPanel>
+		<materialDesign:ColorZone Grid.Row="0" Mode="Inverted" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="7.5 0">
+			<DockPanel LastChildFill="False" VerticalAlignment="Center">
+				<TextBlock DockPanel.Dock="Left" FontSize="22" Text="Notebook" VerticalAlignment="Center" />
+			</DockPanel>
 		</materialDesign:ColorZone>
 
 		<!-- Add Note -->

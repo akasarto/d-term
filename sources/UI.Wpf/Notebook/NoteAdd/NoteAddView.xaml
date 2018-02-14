@@ -16,7 +16,7 @@
 
 		<materialDesign:Flipper.FrontContent>
 
-			<Button Command="{Binding AddCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="Add Note" VerticalAlignment="Center" Margin="7.5">
+			<Button Command="{Binding AddCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="Add Note" VerticalAlignment="Center" Margin="15">
 				<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
 			</Button>
 

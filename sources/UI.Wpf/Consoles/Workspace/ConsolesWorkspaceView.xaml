@@ -18,33 +18,35 @@
 	<Grid Grid.Column="2">
 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="50" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<!-- Header -->
-		<materialDesign:ColorZone Grid.Row="0" Mode="Inverted" Padding="15">
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-				<TextBlock VerticalAlignment="Center" FontSize="22" Text="Consoles" />
-			</StackPanel>
+		<materialDesign:ColorZone Grid.Row="0" Mode="Inverted" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="7.5 0">
+			<DockPanel LastChildFill="False" VerticalAlignment="Center">
+				<TextBlock DockPanel.Dock="Left" FontSize="22" Text="Consoles" VerticalAlignment="Center" />
+				<Button Command="{Binding ShowSettingsCommand}" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignToolForegroundButton}" VerticalAlignment="Center">
+					<materialDesign:PackIcon Height="24" Kind="Settings" Width="24" />
+				</Button>
+			</DockPanel>
 		</materialDesign:ColorZone>
 
-		<DockPanel Grid.Row="1" LastChildFill="False" Margin="7.5">
+		<!-- Console options -->
+		<DockPanel Grid.Row="1" LastChildFill="False" Margin="15">
 
-			<ListBox DockPanel.Dock="Left" SelectedIndex="0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignToolToggleListBox}">
-
-				<ListBoxItem ToolTip="As Grid">
-					<materialDesign:PackIcon Kind="GridLarge" />
+			<ListBox DockPanel.Dock="Left" SelectedIndex="0" VerticalAlignment="Center" Style="{StaticResource consolesArrangeToggleListBoxStyle}">
+				<ListBoxItem ToolTip="Arrange as grid">
+					<materialDesign:PackIcon Kind="GridLarge" Width="24" Height="24" />
 				</ListBoxItem>
-				<ListBoxItem ToolTip="Vertically">
-					<materialDesign:PackIcon Kind="ReorderVertical" />
+				<ListBoxItem ToolTip="Arrange vertically">
+					<materialDesign:PackIcon Kind="ReorderVertical" Width="24" Height="24" />
 				</ListBoxItem>
-				<ListBoxItem ToolTip="Horizontally">
-					<materialDesign:PackIcon Kind="ReorderHorizontal" />
+				<ListBoxItem ToolTip="Arrange horizontally">
+					<materialDesign:PackIcon Kind="ReorderHorizontal" Width="24" Height="24" />
 				</ListBoxItem>
-
 			</ListBox>
 
 			<ItemsControl DockPanel.Dock="Right" ItemsSource="{Binding Consoles}">
@@ -55,8 +57,8 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Button Command="{Binding CreateInstanceCommand}" Margin="15 0 0 0" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="{Binding Name}">
-							<materialDesign:PackIcon Height="22" Width="22">
+						<Button Command="{Binding DataContext.CreateInstanceCommand, ElementName=consolesWorkspaceControl}" CommandParameter="{Binding}" Margin="0 0 15 0" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="{Binding Name}">
+							<materialDesign:PackIcon>
 								<materialDesign:PackIcon.Template>
 									<ControlTemplate>
 										<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding IconPath}" />
@@ -76,6 +78,7 @@
 			BorderThickness="0 0 0 1"
 			Grid.Row="2" />
 
+		<!-- Console instances -->
 		<dockablz:Layout FloatingItemsSource="{Binding Instances}" Grid.Row="3" Margin="0" x:Name="consolesContainer">
 			<dockablz:Layout.FloatingItemContainerStyle>
 				<Style TargetType="{x:Type dragablz:DragablzItem}">

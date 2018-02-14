@@ -213,8 +213,8 @@
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
-    <Compile Include="Consoles\Instance\ConsoleInstanceViewModel.cs" />
-    <Compile Include="Consoles\Instance\ConsoleInstanceView.xaml.cs">
+    <Compile Include="Consoles\Instances\ConsoleInstanceViewModel.cs" />
+    <Compile Include="Consoles\Instances\ConsoleInstanceView.xaml.cs">
       <DependentUpon>ConsoleInstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
@@ -226,7 +226,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\Instance\ConsoleInstanceView.xaml">
+    <Page Include="Consoles\Instances\ConsoleInstanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -308,7 +308,9 @@
   <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Consoles\Options\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Consoles.Core\Consoles.Core.csproj">
       <Project>{0194DF4A-3F2F-42FB-A7C8-3C80F3A677E4}</Project>
