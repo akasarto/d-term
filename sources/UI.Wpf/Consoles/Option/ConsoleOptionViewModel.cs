@@ -4,7 +4,7 @@ using ReactiveUI;
 
 namespace UI.Wpf.Consoles
 {
-	public class ConsoleViewModel : BaseViewModel
+	public class ConsoleOptionViewModel : BaseViewModel
 	{
 		//
 		private Guid _id;
@@ -19,7 +19,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleViewModel()
+		public ConsoleOptionViewModel()
 		{
 		}
 

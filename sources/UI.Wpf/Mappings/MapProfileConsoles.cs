@@ -2,6 +2,7 @@
 using AutoMapper;
 using Consoles.Core;
 using UI.Wpf.Consoles;
+using Sarto.Extensions;
 
 namespace UI.Wpf.Mappings
 {
@@ -22,8 +23,20 @@ namespace UI.Wpf.Mappings
 
 		private void SetupMaps()
 		{
-			CreateMap<ConsoleEntity, ConsoleViewModel>();
-			CreateMap<ConsoleViewModel, ConsoleEntity>();
+			CreateMap<ArrangeOption, ArrangeOptionViewModel>().AfterMap((source, dest) =>
+			{
+				dest.Arrange = source;
+				dest.Description = source.GetDisplayName();
+				dest.Index = source.ChangeType<int>();
+			});
+
+			CreateMap<ArrangeOptionViewModel, ArrangeOption>().AfterMap((source, dest) =>
+			{
+				dest = source.Arrange;
+			});
+
+			CreateMap<ConsoleEntity, ConsoleOptionViewModel>();
+			CreateMap<ConsoleOptionViewModel, ConsoleEntity>();
 		}
 	}
 }

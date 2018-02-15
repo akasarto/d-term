@@ -67,6 +67,9 @@
     <Reference Include="ReactiveUI, Version=7.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\reactiveui-core.7.4.0\lib\Net45\ReactiveUI.dll</HintPath>
     </Reference>
+    <Reference Include="Sarto.Extensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sarto.Extensions.1.1.0\lib\net46\Sarto.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleInjector, Version=4.0.12.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.4.0.12\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
@@ -172,12 +175,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Consoles\ArrangeOption.cs" />
+    <Compile Include="Consoles\ArrangeOptionViewModel.cs" />
     <Compile Include="Consoles\ConsoleHwndHost.cs" />
-    <Compile Include="Consoles\ConsoleViewModel.cs" />
-    <Compile Include="Consoles\Settings\ConsoleSettingsView.xaml.cs">
+    <Compile Include="Consoles\OptionsList\ConsoleOptionsListView.xaml.cs">
+      <DependentUpon>ConsoleOptionsListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\OptionsList\ConsoleOptionsListViewModel.cs" />
+    <Compile Include="Consoles\Option\ConsoleOptionViewModel.cs" />
+    <Compile Include="Consoles\Option\ConsoleOptionView.xaml.cs">
+      <DependentUpon>ConsoleOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\ProcessInstancesArrange\ProcessInstancesArrangeView.xaml.cs">
+      <DependentUpon>ProcessInstancesArrangeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\ProcessInstancesArrange\ProcessInstancesArrangeViewModel.cs" />
+    <Compile Include="Consoles\ProcessInstancesList\ProcessInstancesListView.xaml.cs">
+      <DependentUpon>ProcessInstancesListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\ProcessInstancesList\ProcessInstancesListViewModel.cs" />
+    <Compile Include="Consoles\SettingsDialog\ConsoleSettingsView.xaml.cs">
       <DependentUpon>ConsoleSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\Settings\ConsoleSettingsViewModel.cs" />
+    <Compile Include="Consoles\SettingsDialog\ConsoleSettingsViewModel.cs" />
     <Compile Include="Consoles\Workspace\ConsolesWorkspaceView.xaml.cs">
       <DependentUpon>ConsolesWorkspaceView.xaml</DependentUpon>
     </Compile>
@@ -213,20 +233,36 @@
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
-    <Compile Include="Consoles\Instances\ConsoleInstanceViewModel.cs" />
-    <Compile Include="Consoles\Instances\ConsoleInstanceView.xaml.cs">
-      <DependentUpon>ConsoleInstanceView.xaml</DependentUpon>
+    <Compile Include="Consoles\ProcessInstance\ConsoleIProcessnstanceViewModel.cs" />
+    <Compile Include="Consoles\ProcessInstance\ConsoleIProcessnstanceView.xaml.cs">
+      <DependentUpon>ConsoleIProcessnstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
+    <Page Include="Consoles\OptionsList\ConsoleOptionsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Consoles\ConsoleStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Consoles\Settings\ConsoleSettingsView.xaml">
+    <Page Include="Consoles\Option\ConsoleOptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\Instances\ConsoleInstanceView.xaml">
+    <Page Include="Consoles\ProcessInstancesArrange\ProcessInstancesArrangeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\ProcessInstancesList\ProcessInstancesListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\SettingsDialog\ConsoleSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\ProcessInstance\ConsoleIProcessnstanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -308,9 +344,7 @@
   <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Consoles\Options\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Consoles.Core\Consoles.Core.csproj">
       <Project>{0194DF4A-3F2F-42FB-A7C8-3C80F3A677E4}</Project>

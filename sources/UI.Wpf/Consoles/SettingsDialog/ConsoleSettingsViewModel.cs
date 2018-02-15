@@ -10,7 +10,7 @@ namespace UI.Wpf.Consoles
 	{
 		//
 		private ReactiveList<ConsoleEntity> _consoleEntities;
-		private IReactiveDerivedList<ConsoleViewModel> _consoleViewModels;
+		private IReactiveDerivedList<ConsoleOptionViewModel> _consoleViewModels;
 
 		//
 		private readonly IConsolesRepository _consolesRepository = null;
@@ -29,7 +29,7 @@ namespace UI.Wpf.Consoles
 
 			Consoles = _consoleEntities.CreateDerivedCollection(
 				filter: noteEntity => true,
-				selector: noteEntity => Mapper.Map<ConsoleViewModel>(noteEntity),
+				selector: noteEntity => Mapper.Map<ConsoleOptionViewModel>(noteEntity),
 				orderer: (noteX, noteY) => noteX.Index.CompareTo(noteY.Index)
 			);
 
@@ -41,7 +41,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Current consoles list
 		/// </summary>
-		public IReactiveDerivedList<ConsoleViewModel> Consoles
+		public IReactiveDerivedList<ConsoleOptionViewModel> Consoles
 		{
 			get => _consoleViewModels;
 			set => this.RaiseAndSetIfChanged(ref _consoleViewModels, value);

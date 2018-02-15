@@ -1,0 +1,34 @@
+﻿<UserControl
+	x:Class="UI.Wpf.Consoles.ProcessInstancesArrangeView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:local="clr-namespace:UI.Wpf.Consoles"
+	mc:Ignorable="d"
+	d:DesignWidth="375"
+	d:DesignHeight="375"
+>
+
+	<Grid>
+
+		<ListBox SelectedIndex="0" Style="{StaticResource consolesArrangeToggleListBoxStyle}">
+
+			<ListBoxItem ToolTip="Arrange as grid">
+				<materialDesign:PackIcon Kind="GridLarge" Width="24" Height="24" />
+			</ListBoxItem>
+
+			<ListBoxItem ToolTip="Arrange horizontally">
+				<materialDesign:PackIcon Kind="ReorderHorizontal" Width="24" Height="24" />
+			</ListBoxItem>
+
+			<ListBoxItem ToolTip="Arrange vertically">
+				<materialDesign:PackIcon Kind="ReorderVertical" Width="24" Height="24" />
+			</ListBoxItem>
+
+		</ListBox>
+
+	</Grid>
+
+</UserControl>

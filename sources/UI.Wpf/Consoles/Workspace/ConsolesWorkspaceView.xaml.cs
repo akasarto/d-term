@@ -14,7 +14,7 @@ namespace UI.Wpf.Consoles
 			{
 				activator(this.WhenAnyValue(x => x.ViewModel).Subscribe(viewModel =>
 				{
-					viewModel.Initialize(consolesContainer);
+					viewModel.Initialize();
 				}));
 			});
 		}

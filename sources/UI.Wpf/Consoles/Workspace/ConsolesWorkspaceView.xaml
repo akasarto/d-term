@@ -37,38 +37,9 @@
 		<!-- Console options -->
 		<DockPanel Grid.Row="1" LastChildFill="False" Margin="15">
 
-			<ListBox DockPanel.Dock="Left" SelectedIndex="0" VerticalAlignment="Center" Style="{StaticResource consolesArrangeToggleListBoxStyle}">
-				<ListBoxItem ToolTip="Arrange as grid">
-					<materialDesign:PackIcon Kind="GridLarge" Width="24" Height="24" />
-				</ListBoxItem>
-				<ListBoxItem ToolTip="Arrange vertically">
-					<materialDesign:PackIcon Kind="ReorderVertical" Width="24" Height="24" />
-				</ListBoxItem>
-				<ListBoxItem ToolTip="Arrange horizontally">
-					<materialDesign:PackIcon Kind="ReorderHorizontal" Width="24" Height="24" />
-				</ListBoxItem>
-			</ListBox>
+			<local:ProcessInstancesArrangeView DockPanel.Dock="Left" VerticalAlignment="Center" />
 
-			<ItemsControl DockPanel.Dock="Right" ItemsSource="{Binding Consoles}">
-				<ItemsControl.ItemsPanel>
-					<ItemsPanelTemplate>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" />
-					</ItemsPanelTemplate>
-				</ItemsControl.ItemsPanel>
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Button Command="{Binding DataContext.CreateInstanceCommand, ElementName=consolesWorkspaceControl}" CommandParameter="{Binding}" Margin="0 0 15 0" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="{Binding Name}">
-							<materialDesign:PackIcon>
-								<materialDesign:PackIcon.Template>
-									<ControlTemplate>
-										<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding IconPath}" />
-									</ControlTemplate>
-								</materialDesign:PackIcon.Template>
-							</materialDesign:PackIcon>
-						</Button>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
+			<local:ConsoleOptionsListView DockPanel.Dock="Right" />
 
 		</DockPanel>
 
@@ -79,23 +50,7 @@
 			Grid.Row="2" />
 
 		<!-- Console instances -->
-		<dockablz:Layout FloatingItemsSource="{Binding Instances}" Grid.Row="3" Margin="0" x:Name="consolesContainer">
-			<dockablz:Layout.FloatingItemContainerStyle>
-				<Style TargetType="{x:Type dragablz:DragablzItem}">
-					<Setter Property="Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
-								<Border Background="{DynamicResource MaterialDesignBackground}" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-									<materialDesign:Card Margin="1" UseLayoutRounding="False" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-										<local:ConsoleInstanceView Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-									</materialDesign:Card>
-								</Border>
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</dockablz:Layout.FloatingItemContainerStyle>
-		</dockablz:Layout>
+		<local:ProcessInstancesListView Grid.Row="3" />
 
 	</Grid>
 
