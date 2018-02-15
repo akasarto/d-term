@@ -1,11 +1,6 @@
-﻿using AutoMapper;
-using Consoles.Core;
-using Consoles.Processes;
-using Dragablz.Dockablz;
+﻿using Consoles.Core;
 using ReactiveUI;
 using System;
-using System.Reactive;
-using System.Reactive.Linq;
 using System.Windows;
 
 namespace UI.Wpf.Consoles
