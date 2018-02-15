@@ -29,10 +29,12 @@ namespace UI.Wpf.Consoles
 
 			this.WhenAnyValue(viewModel => viewModel.SelectedArrange).Subscribe(selectedArrange =>
 			{
-				if (selectedArrange != null)
+				if (selectedArrange == null)
 				{
-					System.Windows.MessageBox.Show($"Selected {selectedArrange.Arrange}");
+					return;
 				}
+
+				MessageBus.Current.SendMessage(new ArrangeChangedMessage(selectedArrange.Arrange));
 			});
 		}
 

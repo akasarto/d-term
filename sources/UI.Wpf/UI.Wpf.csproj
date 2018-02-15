@@ -176,6 +176,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOption.cs" />
+    <Compile Include="Consoles\ProcessInstancesArrange\ArrangeChangedMessage.cs" />
     <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOptionViewModel.cs" />
     <Compile Include="Consoles\ConsoleHwndHost.cs" />
     <Compile Include="Consoles\OptionsList\ConsoleOptionsListView.xaml.cs">

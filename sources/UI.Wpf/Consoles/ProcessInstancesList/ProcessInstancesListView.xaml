@@ -13,7 +13,7 @@
 	d:DesignWidth="375"
 >
 
-	<dockablz:Layout FloatingItemsSource="{Binding Instances}" Margin="0" x:Name="consolesContainer">
+	<dockablz:Layout FloatingItemsSource="{Binding Instances}" Margin="0" x:Name="consoleInstancesControl">
 		<dockablz:Layout.FloatingItemContainerStyle>
 			<Style TargetType="{x:Type dragablz:DragablzItem}">
 				<Setter Property="Template">

@@ -50,7 +50,7 @@
 			Grid.Row="2" />
 
 		<!-- Console instances -->
-		<local:ProcessInstancesListView Grid.Row="3" />
+		<local:ProcessInstancesListView DataContext="{Binding ProcessInstancesListViewModel}" Grid.Row="3" />
 
 	</Grid>
 
