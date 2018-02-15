@@ -53,7 +53,7 @@ namespace UI.Wpf.Mappings
 				dest = source.Arrange;
 			});
 
-			CreateMap<ConsoleEntity, ConsoleOptionViewModel>().ConstructUsing(source => new ConsoleOptionViewModel(_consolesProcessService);
+			CreateMap<ConsoleEntity, ConsoleOptionViewModel>().ConstructUsing(source => new ConsoleOptionViewModel(_consolesProcessService));
 			CreateMap<ConsoleOptionViewModel, ConsoleEntity>();
 		}
 	}
