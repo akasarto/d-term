@@ -5,12 +5,12 @@ namespace Consoles.Core
 	public class ConsoleEntity
 	{
 		public Guid Id { get; set; }
-		public int Index { get; set; }
 		public string Name { get; set; }
-		public string IconPath { get; set; }
-		public PathBuilder ProcessPathBuilder { get; set; }
-		public string ProcessPathExeFilename { get; set; }
-		public string ProcessPathExeStartupArgs { get; set; }
+		public int OrderIndex { get; set; }
+		public string PicturePath { get; set; }
+		public BasePath ProcessBasePath { get; set; }
+		public string ProcessExecutableName { get; set; }
+		public string ProcessStartupArgs { get; set; }
 		public DateTime UTCCreation { get; set; }
 	}
 }

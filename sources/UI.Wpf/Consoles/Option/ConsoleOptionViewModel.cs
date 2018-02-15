@@ -13,7 +13,7 @@ namespace UI.Wpf.Consoles
 		private int _index;
 		private string _name;
 		private string _iconPath;
-		private PathBuilder _processPathBuilder;
+		private BasePath _processPathBuilder;
 		private string _processPathExeFilename;
 		private string _processPathExeArgs;
 		private DateTime _utcCreation;
@@ -70,7 +70,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets or sets the process path builder.
 		/// </summary>
-		public PathBuilder ProcessPathBuilder
+		public BasePath ProcessPathBuilder
 		{
 			get => _processPathBuilder;
 			set => this.RaiseAndSetIfChanged(ref _processPathBuilder, value);

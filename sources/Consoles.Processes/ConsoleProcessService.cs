@@ -20,7 +20,7 @@ namespace Consoles.Processes
 		public IConsoleProcess Create(IProcessDescriptor processDescriptor)
 		{
 			var pathBuilder = GetPathBuilder(processDescriptor);
-			var startupArgs = processDescriptor.Console.ProcessPathExeStartupArgs;
+			var startupArgs = processDescriptor.Console.ProcessStartupArgs;
 
 			if (pathBuilder == null)
 			{
@@ -51,18 +51,18 @@ namespace Consoles.Processes
 
 		private IPathBuilder GetPathBuilder(IProcessDescriptor processDescriptor)
 		{
-			var pathBuilder = processDescriptor.Console.ProcessPathBuilder;
-			var pathExeFilename = processDescriptor.Console.ProcessPathExeFilename;
+			var pathBuilder = processDescriptor.Console.ProcessBasePath;
+			var pathExeFilename = processDescriptor.Console.ProcessExecutableName;
 
 			switch (pathBuilder)
 			{
-				case PathBuilder.Physical:
+				case BasePath.Physical:
 					return new PhysicalFilePathBuilder(pathExeFilename);
-				case PathBuilder.ProgramFilesFolder:
+				case BasePath.ProgramFilesFolder:
 					return new ProgramFilesFolderPathBuilder(pathExeFilename);
-				case PathBuilder.System32Folder:
+				case BasePath.System32Folder:
 					return new System32FolderPathBuilder(pathExeFilename);
-				case PathBuilder.SystemPathVar:
+				case BasePath.SystemPathVar:
 					return new SystemPathVarPathBuilder(pathExeFilename);
 			}
 
