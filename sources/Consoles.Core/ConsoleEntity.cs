@@ -10,7 +10,7 @@ namespace Consoles.Core
 		public string IconPath { get; set; }
 		public PathBuilder ProcessPathBuilder { get; set; }
 		public string ProcessPathExeFilename { get; set; }
-		public string ProcessPathExeArgs { get; set; }
+		public string ProcessPathExeStartupArgs { get; set; }
 		public DateTime UTCCreation { get; set; }
 	}
 }

@@ -17,16 +17,11 @@ namespace UI.Wpf.Consoles
 		private string _processPathExeArgs;
 		private DateTime _utcCreation;
 
-		//
-		private readonly IConsolesProcessService _consolesProcessService = null;
-
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionViewModel(IConsolesProcessService consolesProcessService)
+		public ConsoleOptionViewModel()
 		{
-			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(ConsoleOptionViewModel));
-
 			SetupCommands();
 		}
 
@@ -109,26 +104,21 @@ namespace UI.Wpf.Consoles
 
 		/// <summary>
 		/// Wire up commands with their respective actions.
+		/// <seealso cref="ProcessInstancesListViewModel"/>
 		/// </summary>
 		private void SetupCommands()
 		{
 			CreateInstanceCommand = ReactiveCommand.Create<ConsoleOptionViewModel>((consoleViewModel) =>
 			{
-				var consoleProcess = _consolesProcessService.Create(new ProcessDescriptor()
+				var processDescriptor = new ProcessDescriptor()
 				{
+					Name = consoleViewModel.Name,
 					PathBuilder = consoleViewModel.ProcessPathBuilder,
 					ExeFilename = consoleViewModel.ProcessPathExeFilename,
 					ExeStartupArgs = consoleViewModel.ProcessPathExeStartupArgs
-				});
+				};
 
-				//consoleProcess.Start();
-
-				//var consoleInstanceViewModel = new ConsoleIProcessnstanceViewModel(consoleProcess)
-				//{
-				//	Name = consoleViewModel.Name
-				//};
-
-				//Instances.Add(consoleInstanceViewModel);
+				MessageBus.Current.SendMessage(new CreateConsoleInstanceMessage(processDescriptor));
 			});
 		}
 	}

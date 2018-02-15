@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Consoles.Core;
-using Consoles.Processes;
 using ReactiveUI;
 using System;
-using System.Reactive;
 using System.Reactive.Linq;
 
 namespace UI.Wpf.Consoles

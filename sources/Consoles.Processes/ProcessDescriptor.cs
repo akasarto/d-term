@@ -4,9 +4,11 @@ namespace Consoles.Processes
 {
 	public class ProcessDescriptor : IProcessDescriptor
 	{
-		public string ExeStartupArgs { get; set; }
+		public string Name { get; set; }
 
 		public string ExeFilename { get; set; }
+
+		public string ExeStartupArgs { get; set; }
 
 		public PathBuilder PathBuilder { get; set; }
 

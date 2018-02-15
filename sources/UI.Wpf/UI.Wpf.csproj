@@ -175,6 +175,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Consoles\Option\CreateConsoleInstanceMessage.cs" />
     <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOption.cs" />
     <Compile Include="Consoles\ProcessInstancesArrange\ArrangeChangedMessage.cs" />
     <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOptionViewModel.cs" />

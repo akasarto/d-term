@@ -1,4 +1,5 @@
-﻿using Dragablz.Dockablz;
+﻿using Consoles.Core;
+using Dragablz.Dockablz;
 using ReactiveUI;
 using System;
 using System.Windows;
@@ -11,11 +12,16 @@ namespace UI.Wpf.Consoles
 		private ArrangeOption _currentArrangeOption = ArrangeOption.Grid;
 		private ReactiveList<ConsoleIProcessnstanceViewModel> _consoleInstanceViewModels;
 
+		//
+		private readonly IConsolesProcessService _consolesProcessService = null;
+
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstancesListViewModel()
+		public ProcessInstancesListViewModel(IConsolesProcessService consolesProcessService)
 		{
+			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(ConsoleOptionViewModel));
+
 			_consoleInstanceViewModels = new ReactiveList<ConsoleIProcessnstanceViewModel>();
 
 			_consoleInstanceViewModels.Changed.Subscribe(instances => ArrangeProcessInstances());
@@ -67,6 +73,20 @@ namespace UI.Wpf.Consoles
 			MessageBus.Current.Listen<ArrangeChangedMessage>().Subscribe(message =>
 			{
 				_currentArrangeOption = message.NewArrange;
+			});
+
+			MessageBus.Current.Listen<CreateConsoleInstanceMessage>().Subscribe(message =>
+			{
+				var descriptor = message.ProcessDescriptor;
+
+				var consoleProcess = _consolesProcessService.Create(descriptor);
+
+				var consoleInstanceViewModel = new ConsoleIProcessnstanceViewModel(consoleProcess)
+				{
+					Name = descriptor.Name
+				};
+
+				Instances.Add(consoleInstanceViewModel);
 			});
 		}
 	}
