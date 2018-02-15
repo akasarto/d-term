@@ -54,7 +54,7 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Flags when data is being loaded from the repository.
+		/// Gets or sets when data is being loaded from the repository.
 		/// </summary>
 		public bool IsLoading
 		{
@@ -63,7 +63,7 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Text used to filter notes.
+		/// Gets or sets the text used to filter notes.
 		/// </summary>
 		public string FilterText
 		{
@@ -72,7 +72,7 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Current notes list
+		/// Gets or sets the current notes list.
 		/// </summary>
 		public IReactiveDerivedList<NoteDetailsViewModel> Notes
 		{
@@ -81,7 +81,7 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Tracks how many items are being shown.
+		/// Gets or sets how many items are being shown.
 		/// </summary>
 		public int ShowingCount
 		{
@@ -90,7 +90,7 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Initializer method called by the view.
+		/// Initializer the model.
 		/// </summary>
 		public void Initialize()
 		{

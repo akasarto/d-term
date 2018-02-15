@@ -39,7 +39,7 @@
 
 			<local:ProcessInstancesArrangeView DockPanel.Dock="Left" VerticalAlignment="Center" />
 
-			<local:ConsoleOptionsListView DockPanel.Dock="Right" />
+			<local:ConsoleOptionsListView DataContext="{Binding ConsoleOptionsListViewModel}" DockPanel.Dock="Right" />
 
 		</DockPanel>
 

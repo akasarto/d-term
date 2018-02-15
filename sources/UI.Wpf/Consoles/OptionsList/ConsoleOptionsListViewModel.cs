@@ -57,11 +57,6 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
-		/// Show the settings window.
-		/// </summary>
-		public ReactiveCommand ShowSettingsCommand { get; protected set; }
-
-		/// <summary>
 		/// Create a new console instance.
 		/// </summary>
 		public ReactiveCommand<ConsoleOptionViewModel, Unit> CreateInstanceCommand { get; protected set; }
@@ -87,19 +82,6 @@ namespace UI.Wpf.Consoles
 		/// </summary>
 		private void SetupCommands()
 		{
-			ShowSettingsCommand = ReactiveCommand.Create(() =>
-			{
-				var view = new ConsoleSettingsView()
-				{
-					Owner = Application.Current.MainWindow,
-					DataContext = new ConsoleSettingsViewModel(_consolesRepository),
-					WindowStartupLocation = WindowStartupLocation.CenterOwner,
-					ShowInTaskbar = false
-				};
-
-				view.ShowDialog();
-			});
-
 			CreateInstanceCommand = ReactiveCommand.Create<ConsoleOptionViewModel>((consoleViewModel) =>
 			{
 				var consoleProcess = _consolesProcessService.Create(new ProcessDescriptor()

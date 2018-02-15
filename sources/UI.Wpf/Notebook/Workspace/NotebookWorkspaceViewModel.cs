@@ -18,12 +18,12 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Add Note View Model
+		/// Gets the add note view model.
 		/// </summary>
 		public NoteAddViewModel NoteAddViewModel => _noteAddViewModel;
 
 		/// <summary>
-		/// Note Cards List View Model
+		/// Gets the note details list view model.
 		/// </summary>
 		public NoteDetailsListViewModel NoteCardsListViewModel => _noteCardsListViewModel;
 	}

@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 
 namespace UI.Wpf.Consoles
 {
-	public partial class ConsoleOptionsListView : UserControl, ISupportsActivation
+	public partial class ConsoleOptionsListView : UserControl, IViewFor<ConsoleOptionsListViewModel>
 	{
 		public ConsoleOptionsListView()
 		{
@@ -24,15 +24,23 @@ namespace UI.Wpf.Consoles
 
 			this.WhenActivated(activator =>
 			{
-				activator(this.WhenAnyValue(x => x.DataContext).Subscribe(ctx =>
+				activator(this.WhenAnyValue(x => x.ViewModel).Subscribe(viewModel =>
 				{
-					var viewModel = ctx as ConsoleOptionsListViewModel;
-
-					viewModel?.Initialize();
+					viewModel.Initialize();
 				}));
 			});
 		}
 
-		public ViewModelActivator Activator => new ViewModelActivator();
+		public ConsoleOptionsListViewModel ViewModel
+		{
+			get => (ConsoleOptionsListViewModel)DataContext;
+			set => DataContext = value;
+		}
+
+		object IViewFor.ViewModel
+		{
+			get { return ViewModel; }
+			set { ViewModel = (ConsoleOptionsListViewModel)value; }
+		}
 	}
 }

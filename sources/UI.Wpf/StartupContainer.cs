@@ -21,6 +21,7 @@ namespace UI.Wpf
 			//
 			//Register<ConsoleInstanceViewModel>();
 			Register<ConsolesWorkspaceViewModel>();
+			Register<ConsoleOptionsListViewModel>();
 
 			//
 			Register<NoteAddViewModel>();
