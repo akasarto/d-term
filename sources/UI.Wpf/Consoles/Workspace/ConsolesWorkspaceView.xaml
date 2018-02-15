@@ -37,7 +37,7 @@
 		<!-- Console options -->
 		<DockPanel Grid.Row="1" LastChildFill="False" Margin="15">
 
-			<local:ProcessInstancesArrangeView DockPanel.Dock="Left" VerticalAlignment="Center" />
+			<local:ProcessInstancesArrangeView DataContext="{Binding ProcessInstancesArrangeViewModel}" DockPanel.Dock="Left" VerticalAlignment="Center" />
 
 			<local:ConsoleOptionsListView DataContext="{Binding ConsoleOptionsListViewModel}" DockPanel.Dock="Right" />
 

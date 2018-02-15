@@ -10,25 +10,32 @@ namespace UI.Wpf.Consoles
 		IConsolesRepository _tempRepo = null;
 
 		//
+		private readonly ProcessInstancesArrangeViewModel _processInstancesArrangeViewModel = null;
 		private readonly ConsoleOptionsListViewModel _consoleOptionsListViewModel = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesWorkspaceViewModel(IConsolesRepository tempRepo, ConsoleOptionsListViewModel consoleOptionsListViewModel)
+		public ConsolesWorkspaceViewModel(IConsolesRepository tempRepo, ProcessInstancesArrangeViewModel processInstancesArrangeViewModel, ConsoleOptionsListViewModel consoleOptionsListViewModel)
 		{
 			_tempRepo = tempRepo;
+			_processInstancesArrangeViewModel = processInstancesArrangeViewModel ?? throw new ArgumentNullException(nameof(processInstancesArrangeViewModel), nameof(ConsolesWorkspaceViewModel));
 			_consoleOptionsListViewModel = consoleOptionsListViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsListViewModel), nameof(ConsolesWorkspaceViewModel));
 
 			SetupCommands();
 		}
 
 		/// <summary>
+		/// Gets the process instances arrange view model.
+		/// </summary>
+		public ProcessInstancesArrangeViewModel ProcessInstancesArrangeViewModel => _processInstancesArrangeViewModel;
+
+		/// <summary>
 		/// Gets the console options list view model.
 		/// </summary>
 		public ConsoleOptionsListViewModel ConsoleOptionsListViewModel => _consoleOptionsListViewModel;
 
-				/// <summary>
+		/// <summary>
 		/// Show the settings window.
 		/// </summary>
 		public ReactiveCommand ShowSettingsCommand { get; protected set; }

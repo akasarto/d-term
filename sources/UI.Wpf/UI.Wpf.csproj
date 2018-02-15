@@ -175,8 +175,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Consoles\ArrangeOption.cs" />
-    <Compile Include="Consoles\ArrangeOptionViewModel.cs" />
+    <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOption.cs" />
+    <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOptionViewModel.cs" />
     <Compile Include="Consoles\ConsoleHwndHost.cs" />
     <Compile Include="Consoles\OptionsList\ConsoleOptionsListView.xaml.cs">
       <DependentUpon>ConsoleOptionsListView.xaml</DependentUpon>

@@ -8,6 +8,13 @@ namespace UI.Wpf.Consoles
 		private string _description;
 		private int _index;
 
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
+		public ArrangeOptionViewModel()
+		{
+		}
+
 		public ArrangeOption Arrange
 		{
 			get => _arrange;
