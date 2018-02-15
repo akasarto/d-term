@@ -70,8 +70,6 @@ namespace UI.Wpf.Consoles
 					Layout.TileFloatingItemsHorizontallyCommand.Execute(null, _consolesControl);
 					break;
 			}
-
-			ArrangeProcessInstances();
 		}
 
 		/// <summary>
@@ -82,6 +80,8 @@ namespace UI.Wpf.Consoles
 			MessageBus.Current.Listen<ArrangeChangedMessage>().Subscribe(message =>
 			{
 				_currentArrangeOption = message.NewArrange;
+
+				ArrangeProcessInstances();
 			});
 
 			MessageBus.Current.Listen<CreateProcessInstanceMessage>().Subscribe(message =>
