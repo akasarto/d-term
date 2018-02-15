@@ -11,13 +11,15 @@ namespace UI.Wpf.Mappings
 	{
 		//
 		private readonly IConsolesRepository _consolesRepository = null;
+		private readonly IConsolesProcessService _consolesProcessService = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public MapProfileConsoles(IConsolesRepository consolesRepository)
+		public MapProfileConsoles(IConsolesRepository consolesRepository, IConsolesProcessService consolesProcessService)
 		{
 			_consolesRepository = consolesRepository ?? throw new ArgumentNullException(nameof(consolesRepository), nameof(MapProfileConsoles));
+			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(MapProfileConsoles));
 
 			SetupMaps();
 		}
@@ -49,7 +51,7 @@ namespace UI.Wpf.Mappings
 				dest = source.Arrange;
 			});
 
-			CreateMap<ConsoleEntity, ConsoleOptionViewModel>();
+			CreateMap<ConsoleEntity, ConsoleOptionViewModel>().ConstructUsing(source => new ConsoleOptionViewModel(_consolesProcessService));
 			CreateMap<ConsoleOptionViewModel, ConsoleEntity>();
 		}
 	}

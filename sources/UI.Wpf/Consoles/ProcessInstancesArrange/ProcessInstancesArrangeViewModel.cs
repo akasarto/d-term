@@ -55,9 +55,5 @@ namespace UI.Wpf.Consoles
 			get => _selectedArrange;
 			set => this.RaiseAndSetIfChanged(ref _selectedArrange, value);
 		}
-
-		public void Initialize()
-		{
-		}
 	}
 }
