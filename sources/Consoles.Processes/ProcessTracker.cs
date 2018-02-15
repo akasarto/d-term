@@ -9,11 +9,6 @@ namespace Consoles.Processes
 	{
 		private List<int> _processIds = new List<int>();
 
-		public void Add(int processId)
-		{
-			_processIds.Add(processId);
-		}
-
 		public void KillAll()
 		{
 			if (_processIds.Count <= 0)
@@ -45,6 +40,11 @@ namespace Consoles.Processes
 
 				process.WaitForExit();
 			}
+		}
+
+		public void Track(int processId)
+		{
+			_processIds.Add(processId);
 		}
 	}
 }

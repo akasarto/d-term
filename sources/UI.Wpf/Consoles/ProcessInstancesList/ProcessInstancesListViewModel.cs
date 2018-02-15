@@ -3,6 +3,7 @@ using Consoles.Core;
 using Dragablz.Dockablz;
 using ReactiveUI;
 using System;
+using System.Linq;
 using System.Windows;
 
 namespace UI.Wpf.Consoles
@@ -90,19 +91,16 @@ namespace UI.Wpf.Consoles
 
 				_consoleProcesses.Add(process);
 			});
-		}
 
-		/// <summary>
-		/// Event raised each time a console process is terminated.
-		/// </summary>
-		private void OnConsoleProcessTerminated(int processId)
-		{
-			//var instance = Instances.Where(i => i.ProcessId == processId).SingleOrDefault();
+			MessageBus.Current.Listen<ConsoleProcessTerminatedMessage>().Subscribe(message =>
+			{
+				var process = _consoleProcesses.Where(i => i.Id == message.Process.Id).SingleOrDefault();
 
-			//if (instance != null)
-			//{
-			//	Instances.Remove(instance);
-			//}
+				if (process != null)
+				{
+					_consoleProcesses.Remove(process);
+				}
+			});
 		}
 	}
 }

@@ -2,7 +2,7 @@
 {
 	public interface IProcessTracker
 	{
-		void Add(int processId);
 		void KillAll();
+		void Track(int processId);
 	}
 }

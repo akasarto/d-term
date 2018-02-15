@@ -197,6 +197,7 @@
       <DependentUpon>ProcessInstancesListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consoles\ProcessInstancesList\ProcessInstancesListViewModel.cs" />
+    <Compile Include="Consoles\ProcessInstance\ConsoleProcessTerminatedMessage.cs" />
     <Compile Include="Consoles\SettingsDialog\ConsoleSettingsView.xaml.cs">
       <DependentUpon>ConsoleSettingsView.xaml</DependentUpon>
     </Compile>

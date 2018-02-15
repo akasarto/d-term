@@ -43,7 +43,7 @@ namespace Consoles.Processes
 
 			if (consoleInstance.IsStarted)
 			{
-				_processTracker.Add(consoleInstance.Id);
+				_processTracker.Track(consoleInstance.Id);
 			}
 
 			return consoleInstance;

@@ -5,7 +5,6 @@ using SimpleInjector;
 using System;
 using System.Globalization;
 using UI.Wpf.Mappings;
-using Consoles.Core;
 
 namespace UI.Wpf
 {
