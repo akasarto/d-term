@@ -12,9 +12,10 @@
 
 	<Grid>
 
+		<!-- Runtime -->
 		<ContentControl Content="{Binding ProcessHost}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-		<!--
+		<!-- Design time -->
 		<Border Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<Border.Style>
 				<Style TargetType="Border">
@@ -26,7 +27,6 @@
 				</Style>
 			</Border.Style>
 		</Border>
-		-->
 
 	</Grid>
 

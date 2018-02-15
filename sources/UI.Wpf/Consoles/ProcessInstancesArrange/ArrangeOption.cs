@@ -3,7 +3,7 @@
 	public enum ArrangeOption
 	{
 		Grid = 0,
-		Horizontally = 1,
-		Vertically = 2
+		Vertically = 1,
+		Horizontally = 2
 	}
 }

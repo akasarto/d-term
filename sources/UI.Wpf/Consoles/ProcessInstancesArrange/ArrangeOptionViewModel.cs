@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using MaterialDesignThemes.Wpf;
+using ReactiveUI;
 
 namespace UI.Wpf.Consoles
 {
@@ -7,6 +8,7 @@ namespace UI.Wpf.Consoles
 		private ArrangeOption _arrange;
 		private string _description;
 		private int _index;
+		private PackIconKind _icon;
 
 		/// <summary>
 		/// Constructor method.
@@ -31,6 +33,12 @@ namespace UI.Wpf.Consoles
 		{
 			get => _index;
 			set => this.RaiseAndSetIfChanged(ref _index, value);
+		}
+
+		public PackIconKind Icon
+		{
+			get => _icon;
+			set => this.RaiseAndSetIfChanged(ref _icon, value);
 		}
 	}
 }

@@ -3,6 +3,7 @@ using AutoMapper;
 using Consoles.Core;
 using UI.Wpf.Consoles;
 using Sarto.Extensions;
+using MaterialDesignThemes.Wpf;
 
 namespace UI.Wpf.Mappings
 {
@@ -28,6 +29,19 @@ namespace UI.Wpf.Mappings
 				dest.Arrange = source;
 				dest.Description = source.GetDisplayName();
 				dest.Index = source.ChangeType<int>();
+
+				switch (source)
+				{
+					case ArrangeOption.Grid:
+						dest.Icon = PackIconKind.GridLarge;
+						break;
+					case ArrangeOption.Horizontally:
+						dest.Icon = PackIconKind.ReorderHorizontal;
+						break;
+					case ArrangeOption.Vertically:
+						dest.Icon = PackIconKind.ReorderVertical;
+						break;
+				}
 			});
 
 			CreateMap<ArrangeOptionViewModel, ArrangeOption>().AfterMap((source, dest) =>

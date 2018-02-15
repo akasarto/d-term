@@ -13,19 +13,19 @@
 
 	<Grid>
 
-		<ListBox SelectedIndex="0" Style="{StaticResource consolesArrangeToggleListBoxStyle}">
+		<ListBox SelectedIndex="0" SelectedItem="{Binding SelectedArrange}" Style="{StaticResource consolesArrangeToggleListBoxStyle}" ItemsSource="{Binding ArrangeOptions}">
 
-			<ListBoxItem ToolTip="Arrange as grid">
-				<materialDesign:PackIcon Kind="GridLarge" Width="24" Height="24" />
-			</ListBoxItem>
+			<ListBox.Resources>
+				<DataTemplate DataType="{x:Type local:ArrangeOptionViewModel}">
+					<materialDesign:PackIcon Kind="{Binding Icon}" Width="24" Height="24" />
+				</DataTemplate>
+			</ListBox.Resources>
 
-			<ListBoxItem ToolTip="Arrange horizontally">
-				<materialDesign:PackIcon Kind="ReorderHorizontal" Width="24" Height="24" />
-			</ListBoxItem>
-
-			<ListBoxItem ToolTip="Arrange vertically">
-				<materialDesign:PackIcon Kind="ReorderVertical" Width="24" Height="24" />
-			</ListBoxItem>
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignToolToggleListBoxItem}">
+					<Setter Property="ToolTip" Value="{Binding Description}" />
+				</Style>
+			</ListBox.ItemContainerStyle>
 
 		</ListBox>
 
