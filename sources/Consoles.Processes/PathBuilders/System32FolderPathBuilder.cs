@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Consoles.Process.PathBuilders
+namespace Consoles.Processes.PathBuilders
 {
 	public class System32FolderPathBuilder : PathBuilderBase, IPathBuilder
 	{

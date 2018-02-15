@@ -1,7 +1,7 @@
 ﻿using Consoles.Core;
 using System;
 
-namespace Consoles.Process
+namespace Consoles.Processes
 {
 	public class ProcessDescriptor : IProcessDescriptor
 	{

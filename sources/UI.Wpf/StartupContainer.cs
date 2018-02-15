@@ -1,6 +1,6 @@
 ﻿using Consoles.Core;
 using Consoles.Data.LiteDB;
-using Consoles.Process;
+using Consoles.Processes;
 using Notebook.Core;
 using Notebook.Data.LiteDB;
 using SimpleInjector;
@@ -19,7 +19,6 @@ namespace UI.Wpf
 			Register<ShellViewModel>();
 
 			//
-			//Register<ConsoleInstanceViewModel>();
 			Register<ConsolesWorkspaceViewModel>();
 			Register<ConsoleOptionsListViewModel>();
 			Register<ProcessInstancesListViewModel>();
@@ -38,6 +37,16 @@ namespace UI.Wpf
 
 			//
 			Register<IConsolesProcessService, ConsoleProcessService>();
+
+			//
+			RegisterSingleton<IProcessTracker, ProcessTracker>();
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			GetInstance<IProcessTracker>().KillAll();
+
+			base.Dispose(disposing);
 		}
 	}
 }

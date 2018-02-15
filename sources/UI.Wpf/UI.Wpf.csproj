@@ -357,9 +357,9 @@
       <Project>{50C33794-64A4-4DFD-8F7F-895F68E3C9FC}</Project>
       <Name>Consoles.Data.LiteDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Consoles.Process\Consoles.Process.csproj">
-      <Project>{ad3fb452-5ad1-41f2-9860-49cfdaa7981d}</Project>
-      <Name>Consoles.Process</Name>
+    <ProjectReference Include="..\Consoles.Processes\Consoles.Processes.csproj">
+      <Project>{8f1970bd-7cdc-47be-8dc7-27a1cbc25d46}</Project>
+      <Name>Consoles.Processes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Notebook.Core\Notebook.Core.csproj">
       <Project>{1A7F7A2C-8332-449C-8D66-B9D0C5E67C6A}</Project>

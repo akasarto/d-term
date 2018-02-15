@@ -1,4 +1,4 @@
-﻿namespace Consoles.Process.PathBuilders
+﻿namespace Consoles.Processes.PathBuilders
 {
 	public interface IPathBuilder
 	{

@@ -1,21 +1,20 @@
 ﻿using Consoles.Core;
-using Consoles.Process.PathBuilders;
+using Consoles.Processes.PathBuilders;
 using System;
 using System.Diagnostics;
-using Warden.Core;
 
-namespace Consoles.Process
+namespace Consoles.Processes
 {
 	public class ConsoleProcessService : IConsolesProcessService
 	{
-		static ConsoleProcessService()
+		private readonly IProcessTracker _processTracker = null;
+
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
+		public ConsoleProcessService(IProcessTracker processTracker)
 		{
-			WardenManager.Initialize(new WardenOptions
-			{
-				CleanOnExit = true,
-				DeepKill = true,
-				ReadFileHeaders = true
-			});
+			_processTracker = processTracker ?? throw new ArgumentNullException(nameof(processTracker), nameof(ConsoleProcessService));
 		}
 
 		public IConsoleProcess Create(IProcessDescriptor processDescriptor)
@@ -44,12 +43,7 @@ namespace Consoles.Process
 
 			if (consoleInstance.IsStarted)
 			{
-				var wardenProcess = WardenProcess.GetProcessFromId(consoleInstance.Id);
-
-				wardenProcess.OnStateChange += (object sender, StateEventArgs e) =>
-				{
-					
-				};
+				_processTracker.Add(consoleInstance.Id);
 			}
 
 			return consoleInstance;

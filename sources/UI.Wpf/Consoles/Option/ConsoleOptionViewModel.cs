@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Consoles.Core;
-using Consoles.Process;
+using Consoles.Processes;
 using ReactiveUI;
 using System;
 using System.Reactive;
@@ -127,7 +127,7 @@ namespace UI.Wpf.Consoles
 				{
 					MessageBus.Current.SendMessage(new ConsoleErrorMessage()
 					{
-						Message = "Unable to start the new console process."
+						Message = "Unable to start the new process."
 					});
 
 					return;

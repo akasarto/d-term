@@ -5,6 +5,7 @@ using SimpleInjector;
 using System;
 using System.Globalization;
 using UI.Wpf.Mappings;
+using Consoles.Core;
 
 namespace UI.Wpf
 {
@@ -13,31 +14,33 @@ namespace UI.Wpf
 		[STAThread]
 		public static void Main(string[] args)
 		{
-			var app = new App();
-			var container = new StartupContainer();
+			var application = new App();
 			var hasArguments = (args?.Length ?? 0) > 0;
 
-			app.InitializeComponent();
-
-			if (hasArguments)
+			using (var container = new StartupContainer())
 			{
-				var options = ParseArgs(args);
+				application.InitializeComponent();
 
-				if (options.Verify)
+				if (hasArguments)
 				{
-					Console.WriteLine("Verifying...");
-					container.Verify(VerificationOption.VerifyAndDiagnose);
-					Console.WriteLine("Verification complete.");
+					var options = ParseArgs(args);
+
+					if (options.Verify)
+					{
+						Console.WriteLine("Verifying...");
+						container.Verify(VerificationOption.VerifyAndDiagnose);
+						Console.WriteLine("Verification complete.");
+					}
+
+					return;
 				}
 
-				return;
+				MapperInitializer.Initialize(container);
+
+				var shellView = container.GetInstance<ShellView>();
+
+				application.Run(shellView);
 			}
-
-			MapperInitializer.Initialize(container);
-
-			var shellView = container.GetInstance<ShellView>();
-
-			app.Run(shellView);
 		}
 
 		private static StartupArgs ParseArgs(string[] rawArgs)
