@@ -1,8 +1,9 @@
-﻿using Consoles.Core;
-using System;
-using ReactiveUI;
-using System.Reactive;
+﻿using AutoMapper;
+using Consoles.Core;
 using Consoles.Process;
+using ReactiveUI;
+using System;
+using System.Reactive;
 
 namespace UI.Wpf.Consoles
 {
@@ -17,11 +18,16 @@ namespace UI.Wpf.Consoles
 		private string _processPathExeArgs;
 		private DateTime _utcCreation;
 
+		//
+		private readonly IConsolesProcessService _consolesProcessService = null;
+
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionViewModel()
+		public ConsoleOptionViewModel(IConsolesProcessService consolesProcessService)
 		{
+			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(ConsoleOptionViewModel));
+
 			SetupCommands();
 		}
 
@@ -108,17 +114,26 @@ namespace UI.Wpf.Consoles
 		/// </summary>
 		private void SetupCommands()
 		{
-			CreateInstanceCommand = ReactiveCommand.Create<ConsoleOptionViewModel>((consoleViewModel) =>
+			CreateInstanceCommand = ReactiveCommand.Create<ConsoleOptionViewModel>((consoleOptionViewModel) =>
 			{
-				var processDescriptor = new ProcessDescriptor()
-				{
-					Name = consoleViewModel.Name,
-					PathBuilder = consoleViewModel.ProcessPathBuilder,
-					ExeFilename = consoleViewModel.ProcessPathExeFilename,
-					ExeStartupArgs = consoleViewModel.ProcessPathExeStartupArgs
-				};
+				var entity = Mapper.Map<ConsoleEntity>(this);
 
-				MessageBus.Current.SendMessage(new CreateConsoleInstanceMessage(processDescriptor));
+				var process = _consolesProcessService.Create(new ProcessDescriptor(entity)
+				{
+					StartupTimeoutInSeconds = 3
+				});
+
+				if (!process.IsStarted)
+				{
+					MessageBus.Current.SendMessage(new ConsoleErrorMessage()
+					{
+						Message = "Unable to start the new console process."
+					});
+
+					return;
+				}
+
+				MessageBus.Current.SendMessage(new CreateProcessInstanceMessage(process));
 			});
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using Consoles.Core;
+﻿using AutoMapper;
+using Consoles.Core;
 using Dragablz.Dockablz;
 using ReactiveUI;
 using System;
@@ -10,7 +11,8 @@ namespace UI.Wpf.Consoles
 	{
 		private IInputElement _consolesControl;
 		private ArrangeOption _currentArrangeOption = ArrangeOption.Grid;
-		private ReactiveList<ConsoleIProcessInstanceViewModel> _consoleInstanceViewModels;
+		private ReactiveList<IConsoleProcess> _consoleProcesses;
+		private IReactiveDerivedList<ConsoleProcessInstanceViewModel> _consoleInstanceViewModels;
 
 		//
 		private readonly IConsolesProcessService _consolesProcessService = null;
@@ -22,9 +24,14 @@ namespace UI.Wpf.Consoles
 		{
 			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(ConsoleOptionViewModel));
 
-			_consoleInstanceViewModels = new ReactiveList<ConsoleIProcessInstanceViewModel>();
+			_consoleProcesses = new ReactiveList<IConsoleProcess>();
 
-			_consoleInstanceViewModels.Changed.Subscribe(instances => ArrangeProcessInstances());
+			Instances = _consoleProcesses.CreateDerivedCollection(
+				filter: consoleProcess => true,
+				selector: consoleProcess => Mapper.Map<ConsoleProcessInstanceViewModel>(consoleProcess)
+			);
+
+			Instances.Changed.Subscribe(instances => ArrangeProcessInstances());
 
 			SetupMessageBus();
 		}
@@ -32,7 +39,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets or setsh the current console instances list.
 		/// </summary>
-		public ReactiveList<ConsoleIProcessInstanceViewModel> Instances
+		public IReactiveDerivedList<ConsoleProcessInstanceViewModel> Instances
 		{
 			get => _consoleInstanceViewModels;
 			set => this.RaiseAndSetIfChanged(ref _consoleInstanceViewModels, value);
@@ -63,6 +70,8 @@ namespace UI.Wpf.Consoles
 					Layout.TileFloatingItemsHorizontallyCommand.Execute(null, _consolesControl);
 					break;
 			}
+
+			ArrangeProcessInstances();
 		}
 
 		/// <summary>
@@ -75,19 +84,25 @@ namespace UI.Wpf.Consoles
 				_currentArrangeOption = message.NewArrange;
 			});
 
-			MessageBus.Current.Listen<CreateConsoleInstanceMessage>().Subscribe(message =>
+			MessageBus.Current.Listen<CreateProcessInstanceMessage>().Subscribe(message =>
 			{
-				var descriptor = message.ProcessDescriptor;
+				var process = message.Process;
 
-				var consoleProcess = _consolesProcessService.Create(descriptor);
-
-				var consoleInstanceViewModel = new ConsoleIProcessInstanceViewModel(consoleProcess)
-				{
-					Name = descriptor.Name
-				};
-
-				Instances.Add(consoleInstanceViewModel);
+				_consoleProcesses.Add(process);
 			});
+		}
+
+		/// <summary>
+		/// Event raised each time a console process is terminated.
+		/// </summary>
+		private void OnConsoleProcessTerminated(int processId)
+		{
+			//var instance = Instances.Where(i => i.ProcessId == processId).SingleOrDefault();
+
+			//if (instance != null)
+			//{
+			//	Instances.Remove(instance);
+			//}
 		}
 	}
 }

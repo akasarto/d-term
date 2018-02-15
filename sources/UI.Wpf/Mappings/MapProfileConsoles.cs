@@ -26,6 +26,8 @@ namespace UI.Wpf.Mappings
 
 		private void SetupMaps()
 		{
+			CreateMap<IConsoleProcess, ConsoleProcessInstanceViewModel>().ConstructUsing(source => new ConsoleProcessInstanceViewModel(source));
+
 			CreateMap<ArrangeOption, ArrangeOptionViewModel>().AfterMap((source, dest) =>
 			{
 				dest.Arrange = source;
@@ -51,7 +53,7 @@ namespace UI.Wpf.Mappings
 				dest = source.Arrange;
 			});
 
-			CreateMap<ConsoleEntity, ConsoleOptionViewModel>();
+			CreateMap<ConsoleEntity, ConsoleOptionViewModel>().ConstructUsing(source => new ConsoleOptionViewModel(_consolesProcessService);
 			CreateMap<ConsoleOptionViewModel, ConsoleEntity>();
 		}
 	}

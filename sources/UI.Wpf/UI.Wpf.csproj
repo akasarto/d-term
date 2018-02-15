@@ -175,7 +175,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Consoles\Option\CreateConsoleInstanceMessage.cs" />
+    <Compile Include="Consoles\ConsoleErrorMessage.cs" />
+    <Compile Include="Consoles\Option\CreateProcessInstanceMessage.cs" />
     <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOption.cs" />
     <Compile Include="Consoles\ProcessInstancesArrange\ArrangeChangedMessage.cs" />
     <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOptionViewModel.cs" />
@@ -235,9 +236,9 @@
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
-    <Compile Include="Consoles\ProcessInstance\ConsoleIProcessInstanceViewModel.cs" />
-    <Compile Include="Consoles\ProcessInstance\ConsoleIProcessInstanceView.xaml.cs">
-      <DependentUpon>ConsoleIProcessInstanceView.xaml</DependentUpon>
+    <Compile Include="Consoles\ProcessInstance\ConsoleProcessInstanceViewModel.cs" />
+    <Compile Include="Consoles\ProcessInstance\ConsoleProcessInstanceView.xaml.cs">
+      <DependentUpon>ConsoleProcessInstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
     <Page Include="Consoles\OptionsList\ConsoleOptionsListView.xaml">
@@ -264,7 +265,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ProcessInstance\ConsoleIProcessInstanceView.xaml">
+    <Page Include="Consoles\ProcessInstance\ConsoleProcessInstanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

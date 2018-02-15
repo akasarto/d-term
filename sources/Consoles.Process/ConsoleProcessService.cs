@@ -18,9 +18,10 @@ namespace Consoles.Process
 			});
 		}
 
-		public IConsoleProcess Create(IProcessDescriptor descriptor)
+		public IConsoleProcess Create(IProcessDescriptor processDescriptor)
 		{
-			var pathBuilder = GetPathBuilder(descriptor);
+			var pathBuilder = GetPathBuilder(processDescriptor);
+			var startupArgs = processDescriptor.Console.ProcessPathExeStartupArgs;
 
 			if (pathBuilder == null)
 			{
@@ -31,10 +32,13 @@ namespace Consoles.Process
 			{
 				WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
 				WindowStyle = ProcessWindowStyle.Hidden,
-				Arguments = descriptor.ExeStartupArgs
+				Arguments = startupArgs
 			};
 
-			var consoleInstance = new ConsoleProcess(processStartInfo, descriptor.StartupTimeoutInSeconds);
+			var consoleInstance = new ConsoleProcess(processStartInfo, processDescriptor.StartupTimeoutInSeconds)
+			{
+				SourceSpecifications = processDescriptor.Console
+			};
 
 			consoleInstance.Start();
 
@@ -42,29 +46,30 @@ namespace Consoles.Process
 			{
 				var wardenProcess = WardenProcess.GetProcessFromId(consoleInstance.Id);
 
-				wardenProcess.OnStateChange += WardenProcess_OnStateChange;
+				wardenProcess.OnStateChange += (object sender, StateEventArgs e) =>
+				{
+					
+				};
 			}
 
 			return consoleInstance;
 		}
 
-		private void WardenProcess_OnStateChange(object sender, StateEventArgs e)
+		private IPathBuilder GetPathBuilder(IProcessDescriptor processDescriptor)
 		{
-			
-		}
+			var pathBuilder = processDescriptor.Console.ProcessPathBuilder;
+			var pathExeFilename = processDescriptor.Console.ProcessPathExeFilename;
 
-		private IPathBuilder GetPathBuilder(IProcessDescriptor descriptor)
-		{
-			switch (descriptor.PathBuilder)
+			switch (pathBuilder)
 			{
 				case PathBuilder.Physical:
-					return new PhysicalFilePathBuilder(descriptor.ExeFilename);
+					return new PhysicalFilePathBuilder(pathExeFilename);
 				case PathBuilder.ProgramFilesFolder:
-					return new ProgramFilesFolderPathBuilder(descriptor.ExeFilename);
+					return new ProgramFilesFolderPathBuilder(pathExeFilename);
 				case PathBuilder.System32Folder:
-					return new System32FolderPathBuilder(descriptor.ExeFilename);
+					return new System32FolderPathBuilder(pathExeFilename);
 				case PathBuilder.SystemPathVar:
-					return new SystemPathVarPathBuilder(descriptor.ExeFilename);
+					return new SystemPathVarPathBuilder(pathExeFilename);
 			}
 
 			return null;

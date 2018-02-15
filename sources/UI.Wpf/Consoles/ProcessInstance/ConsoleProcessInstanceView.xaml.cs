@@ -2,9 +2,9 @@
 
 namespace UI.Wpf.Consoles
 {
-	public partial class ConsoleIProcessInstanceView : UserControl
+	public partial class ConsoleProcessInstanceView : UserControl
 	{
-		public ConsoleIProcessInstanceView()
+		public ConsoleProcessInstanceView()
 		{
 			InitializeComponent();
 		}

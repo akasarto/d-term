@@ -45,6 +45,8 @@ namespace Consoles.Process
 
 		public IntPtr MainWindowHandle => _processMainWindowHandle;
 
+		public ConsoleEntity SourceSpecifications { get; internal set; }
+
 		public void Start()
 		{
 			var processStopwatch = Sys.Stopwatch.StartNew();

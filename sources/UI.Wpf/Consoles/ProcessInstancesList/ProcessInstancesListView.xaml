@@ -21,7 +21,7 @@
 						<ControlTemplate TargetType="{x:Type dragablz:DragablzItem}">
 							<Border Background="{DynamicResource MaterialDesignBackground}" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 								<materialDesign:Card Margin="1" UseLayoutRounding="False" SnapsToDevicePixels="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-									<local:ConsoleIProcessInstanceView Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+									<local:ConsoleProcessInstanceView Content="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 								</materialDesign:Card>
 							</Border>
 						</ControlTemplate>
