@@ -3,14 +3,14 @@ using System;
 
 namespace UI.Wpf.Consoles
 {
-	public class ConsoleIProcessnstanceViewModel
+	public class ConsoleIProcessInstanceViewModel
 	{
 		private readonly IConsoleProcess _consoleProcess = null;
 		private readonly ConsoleHwndHost _processHost = null;
 
-		public ConsoleIProcessnstanceViewModel(IConsoleProcess consoleProcess)
+		public ConsoleIProcessInstanceViewModel(IConsoleProcess consoleProcess)
 		{
-			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleIProcessnstanceViewModel));
+			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleIProcessInstanceViewModel));
 			_processHost = new ConsoleHwndHost(_consoleProcess);
 		}
 

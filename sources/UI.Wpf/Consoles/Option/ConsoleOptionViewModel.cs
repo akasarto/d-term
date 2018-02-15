@@ -2,7 +2,7 @@
 using System;
 using ReactiveUI;
 using System.Reactive;
-using Consoles.Processes;
+using Consoles.Process;
 
 namespace UI.Wpf.Consoles
 {

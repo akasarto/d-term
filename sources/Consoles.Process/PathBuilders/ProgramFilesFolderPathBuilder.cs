@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Consoles.Processes.PathBuilders
+namespace Consoles.Process.PathBuilders
 {
 	public class ProgramFilesFolderPathBuilder : PathBuilderBase, IPathBuilder
 	{

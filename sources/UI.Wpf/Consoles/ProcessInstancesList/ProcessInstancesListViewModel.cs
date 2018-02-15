@@ -10,7 +10,7 @@ namespace UI.Wpf.Consoles
 	{
 		private IInputElement _consolesControl;
 		private ArrangeOption _currentArrangeOption = ArrangeOption.Grid;
-		private ReactiveList<ConsoleIProcessnstanceViewModel> _consoleInstanceViewModels;
+		private ReactiveList<ConsoleIProcessInstanceViewModel> _consoleInstanceViewModels;
 
 		//
 		private readonly IConsolesProcessService _consolesProcessService = null;
@@ -22,7 +22,7 @@ namespace UI.Wpf.Consoles
 		{
 			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(ConsoleOptionViewModel));
 
-			_consoleInstanceViewModels = new ReactiveList<ConsoleIProcessnstanceViewModel>();
+			_consoleInstanceViewModels = new ReactiveList<ConsoleIProcessInstanceViewModel>();
 
 			_consoleInstanceViewModels.Changed.Subscribe(instances => ArrangeProcessInstances());
 
@@ -32,7 +32,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets or setsh the current console instances list.
 		/// </summary>
-		public ReactiveList<ConsoleIProcessnstanceViewModel> Instances
+		public ReactiveList<ConsoleIProcessInstanceViewModel> Instances
 		{
 			get => _consoleInstanceViewModels;
 			set => this.RaiseAndSetIfChanged(ref _consoleInstanceViewModels, value);
@@ -81,7 +81,7 @@ namespace UI.Wpf.Consoles
 
 				var consoleProcess = _consolesProcessService.Create(descriptor);
 
-				var consoleInstanceViewModel = new ConsoleIProcessnstanceViewModel(consoleProcess)
+				var consoleInstanceViewModel = new ConsoleIProcessInstanceViewModel(consoleProcess)
 				{
 					Name = descriptor.Name
 				};

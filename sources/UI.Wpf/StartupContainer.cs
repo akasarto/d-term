@@ -1,6 +1,6 @@
 ﻿using Consoles.Core;
 using Consoles.Data.LiteDB;
-using Consoles.Processes;
+using Consoles.Process;
 using Notebook.Core;
 using Notebook.Data.LiteDB;
 using SimpleInjector;

@@ -1,19 +1,19 @@
 ﻿using Consoles.Core;
 using Shared.Kernel;
 using System;
-using System.Diagnostics;
 using System.IO;
+using Sys = System.Diagnostics;
 
-namespace Consoles.Processes
+namespace Consoles.Process
 {
 	public class ConsoleProcess : IConsoleProcess
 	{
-		private readonly Process _systemProcess;
-		private readonly ProcessStartInfo _processStartInfo = null;
+		private readonly Sys.Process _systemProcess;
+		private readonly Sys.ProcessStartInfo _processStartInfo = null;
 		private readonly int _startupTimeoutInSeconds;
 		private IntPtr _processMainWindowHandle;
 
-		public ConsoleProcess(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
+		public ConsoleProcess(Sys.ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
 		{
 			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleProcess));
 			if (startupTimeoutInSeconds <= 0)
@@ -47,7 +47,7 @@ namespace Consoles.Processes
 
 		public void Start()
 		{
-			var processStopwatch = Stopwatch.StartNew();
+			var processStopwatch = Sys.Stopwatch.StartNew();
 			var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
 
 			var newProcessStarted = _systemProcess.Start();
@@ -71,9 +71,9 @@ namespace Consoles.Processes
 			IsStarted = false;
 		}
 
-		private Process CreateProcess()
+		private Sys.Process CreateProcess()
 		{
-			var process = new Process()
+			var process = new Sys.Process()
 			{
 				EnableRaisingEvents = true,
 				StartInfo = _processStartInfo

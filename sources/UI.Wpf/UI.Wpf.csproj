@@ -235,9 +235,9 @@
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
-    <Compile Include="Consoles\ProcessInstance\ConsoleIProcessnstanceViewModel.cs" />
-    <Compile Include="Consoles\ProcessInstance\ConsoleIProcessnstanceView.xaml.cs">
-      <DependentUpon>ConsoleIProcessnstanceView.xaml</DependentUpon>
+    <Compile Include="Consoles\ProcessInstance\ConsoleIProcessInstanceViewModel.cs" />
+    <Compile Include="Consoles\ProcessInstance\ConsoleIProcessInstanceView.xaml.cs">
+      <DependentUpon>ConsoleIProcessInstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
     <Page Include="Consoles\OptionsList\ConsoleOptionsListView.xaml">
@@ -264,7 +264,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ProcessInstance\ConsoleIProcessnstanceView.xaml">
+    <Page Include="Consoles\ProcessInstance\ConsoleIProcessInstanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -356,9 +356,9 @@
       <Project>{50C33794-64A4-4DFD-8F7F-895F68E3C9FC}</Project>
       <Name>Consoles.Data.LiteDB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Consoles.Processes\Consoles.Processes.csproj">
-      <Project>{3D74BBA4-CA86-4475-82C5-AC8ADE3F4658}</Project>
-      <Name>Consoles.Processes</Name>
+    <ProjectReference Include="..\Consoles.Process\Consoles.Process.csproj">
+      <Project>{ad3fb452-5ad1-41f2-9860-49cfdaa7981d}</Project>
+      <Name>Consoles.Process</Name>
     </ProjectReference>
     <ProjectReference Include="..\Notebook.Core\Notebook.Core.csproj">
       <Project>{1A7F7A2C-8332-449C-8D66-B9D0C5E67C6A}</Project>

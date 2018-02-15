@@ -1,12 +1,23 @@
 ﻿using Consoles.Core;
-using Consoles.Processes.PathBuilders;
+using Consoles.Process.PathBuilders;
 using System;
 using System.Diagnostics;
+using Warden.Core;
 
-namespace Consoles.Processes
+namespace Consoles.Process
 {
 	public class ConsoleProcessService : IConsolesProcessService
 	{
+		static ConsoleProcessService()
+		{
+			WardenManager.Initialize(new WardenOptions
+			{
+				CleanOnExit = true,
+				DeepKill = true,
+				ReadFileHeaders = true
+			});
+		}
+
 		public IConsoleProcess Create(IProcessDescriptor descriptor)
 		{
 			var pathBuilder = GetPathBuilder(descriptor);
@@ -25,7 +36,21 @@ namespace Consoles.Processes
 
 			var consoleInstance = new ConsoleProcess(processStartInfo, descriptor.StartupTimeoutInSeconds);
 
+			consoleInstance.Start();
+
+			if (consoleInstance.IsStarted)
+			{
+				var wardenProcess = WardenProcess.GetProcessFromId(consoleInstance.Id);
+
+				wardenProcess.OnStateChange += WardenProcess_OnStateChange;
+			}
+
 			return consoleInstance;
+		}
+
+		private void WardenProcess_OnStateChange(object sender, StateEventArgs e)
+		{
+			
 		}
 
 		private IPathBuilder GetPathBuilder(IProcessDescriptor descriptor)

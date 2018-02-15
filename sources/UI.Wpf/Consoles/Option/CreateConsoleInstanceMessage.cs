@@ -1,4 +1,4 @@
-﻿using Consoles.Processes;
+﻿using Consoles.Process;
 using System;
 
 namespace UI.Wpf.Consoles
