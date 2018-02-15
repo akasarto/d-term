@@ -24,6 +24,8 @@ namespace Consoles.Processes
 			_systemProcess = CreateProcess();
 		}
 
+		public event ProcessTerminatedHandler Terminated;
+
 		public int Id => _systemProcess.Id;
 
 		public bool IsStarted { get; private set; }
@@ -79,6 +81,11 @@ namespace Consoles.Processes
 			{
 				EnableRaisingEvents = true,
 				StartInfo = _processStartInfo
+			};
+
+			process.Exited += (object sender, EventArgs eventArgs) =>
+			{
+				Terminated?.Invoke(this);
 			};
 
 			return process;

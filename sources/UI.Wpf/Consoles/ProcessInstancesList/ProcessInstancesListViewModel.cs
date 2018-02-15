@@ -29,7 +29,8 @@ namespace UI.Wpf.Consoles
 
 			Instances = _consoleProcesses.CreateDerivedCollection(
 				filter: consoleProcess => true,
-				selector: consoleProcess => Mapper.Map<ConsoleProcessInstanceViewModel>(consoleProcess)
+				selector: consoleProcess => Mapper.Map<ConsoleProcessInstanceViewModel>(consoleProcess),
+				scheduler: RxApp.MainThreadScheduler
 			);
 
 			Instances.Changed.Subscribe(instances => ArrangeProcessInstances());
