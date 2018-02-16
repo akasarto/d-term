@@ -1,6 +1,7 @@
 ﻿using Consoles.Core;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace Consoles.Processes
 {
@@ -18,9 +19,23 @@ namespace Consoles.Processes
 			_processPathBuilder = processPathBuilder ?? throw new ArgumentNullException(nameof(processPathBuilder), nameof(ConsoleProcessService));
 		}
 
+		public bool CanCreate(BasePath processBasePath, string processExecutableName)
+		{
+			var path = _processPathBuilder.Build(processBasePath, processExecutableName);
+
+			return !string.IsNullOrWhiteSpace(path) && new FileInfo(path).Exists;
+		}
+
 		public IConsoleProcess Create(IProcessDescriptor processDescriptor)
 		{
-			var fullPath = _processPathBuilder.Build(processDescriptor.Console);
+			var console = processDescriptor?.Console;
+
+			if (console == null || !CanCreate(console.ProcessBasePath, console.ProcessExecutableName))
+			{
+				return null;
+			}
+
+			var fullPath = _processPathBuilder.Build(console.ProcessBasePath, console.ProcessExecutableName);
 			var startupArgs = processDescriptor.Console.ProcessStartupArgs;
 
 			var processStartInfo = new ProcessStartInfo(fullPath)

@@ -31,7 +31,7 @@ namespace UI.Wpf.Consoles
 			Consoles = _consoleEntities.CreateDerivedCollection(
 				filter: noteEntity => true,
 				selector: noteEntity => Mapper.Map<ConsoleOptionViewModel>(noteEntity),
-				orderer: (noteX, noteY) => noteX.OrderIndex.CompareTo(noteY.OrderIndex)
+				scheduler: RxApp.MainThreadScheduler
 			);
 		}
 
@@ -53,8 +53,7 @@ namespace UI.Wpf.Consoles
 			{
 				var entities = _consolesRepository.GetAll();
 				return entities;
-			}, RxApp.MainThreadScheduler)
-			.Subscribe(items =>
+			}).Subscribe(items =>
 			{
 				_consoleEntities.AddRange(items);
 			});

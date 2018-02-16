@@ -1,6 +1,7 @@
 ﻿using Consoles.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Consoles.Data.LiteDB
 {
@@ -15,7 +16,7 @@ namespace Consoles.Data.LiteDB
 
 		public List<ConsoleEntity> GetAll()
 		{
-			return new List<ConsoleEntity>()
+			var result = new List<ConsoleEntity>()
 			{
 				new ConsoleEntity() {
 					Id = Guid.NewGuid(),
@@ -61,6 +62,8 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				}
 			};
+
+			return result;
 		}
 	}
 }

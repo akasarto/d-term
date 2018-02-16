@@ -41,8 +41,8 @@ namespace UI.Wpf.Notebook
 			Notes = _noteEntities.CreateDerivedCollection(
 				filter: noteEntity => ApplyFilter(noteEntity),
 				selector: noteEntity => BuildDetailsViewModel(noteEntity),
-				orderer: (noteX, noteY) => noteX.Title.CompareTo(noteY.Title),
-				signalReset: filterChangedObservable
+				signalReset: filterChangedObservable,
+				scheduler: RxApp.MainThreadScheduler
 			);
 
 			_noteDetailViewModels.CountChanged.Subscribe(count =>
@@ -100,8 +100,7 @@ namespace UI.Wpf.Notebook
 			{
 				var entities = _notebookRepository.GetAll();
 				return entities;
-			}, RxApp.MainThreadScheduler)
-			.Subscribe(items =>
+			}).Subscribe(items =>
 			{
 				IsLoading = false;
 				_noteEntities.AddRange(items);

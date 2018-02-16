@@ -6,21 +6,21 @@ namespace Consoles.Processes
 {
 	public class ProcessPathBuilder : IProcessPathBuilder
 	{
-		public string Build(ConsoleEntity console)
+		public string Build(BasePath basePath, string executableName)
 		{
-			var pathBuilder = console.ProcessBasePath;
-			var pathExeFilename = console.ProcessExecutableName;
-
-			switch (pathBuilder)
+			switch (basePath)
 			{
 				case BasePath.Physical:
-					return PhysicalFilePath(pathExeFilename);
+					return PhysicalFilePath(executableName);
+
 				case BasePath.ProgramFilesFolder:
-					return ProgramFilesFolderPath(pathExeFilename);
+					return ProgramFilesFolderPath(executableName);
+
 				case BasePath.System32Folder:
-					return System32FolderPath(pathExeFilename);
+					return System32FolderPath(executableName);
+
 				case BasePath.SystemPathVar:
-					return SystemPathVarPath(pathExeFilename);
+					return SystemPathVarPath(executableName);
 			}
 
 			return null;
@@ -31,9 +31,9 @@ namespace Consoles.Processes
 		private static string NormalizeFilename(string fileName)
 		{
 			fileName = (fileName ?? string.Empty).Trim('~', '.', '/', '\\');
-
-			fileName = $"{fileName.TrimEnd(".exe".ToCharArray())}.exe";
-
+			var extensionIndex = fileName.LastIndexOf(".exe");
+			extensionIndex = extensionIndex >= 0 ? extensionIndex : fileName.Length;
+			fileName = $"{fileName.Substring(0, extensionIndex)}.exe";
 			return fileName.Replace("/", "\\");
 		}
 

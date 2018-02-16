@@ -10,7 +10,14 @@
 	d:DesignWidth="375"
 >
 
-	<Button Command="{Binding CreateInstanceCommand}" CommandParameter="{Binding}" Margin="0 0 15 0" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" ToolTip="{Binding Name}">
+	<Button Command="{Binding CreateInstanceCommand}"
+			CommandParameter="{Binding}"
+			IsEnabled="{Binding IsSupported}"
+			Margin="0 0 15 0"
+			Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+			ToolTipService.ShowOnDisabled="True"
+			ToolTip="{Binding Name}">
+		
 		<materialDesign:PackIcon>
 			<materialDesign:PackIcon.Template>
 				<ControlTemplate>
@@ -18,6 +25,7 @@
 				</ControlTemplate>
 			</materialDesign:PackIcon.Template>
 		</materialDesign:PackIcon>
+		
 	</Button>
 
 </UserControl>

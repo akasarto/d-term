@@ -41,6 +41,14 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
+		/// Gets the supported flag based on the base path and executable name.
+		/// </summary>
+		public bool IsSupported
+		{
+			get => _consolesProcessService.CanCreate(ProcessBasePath, ProcessExecutableName);
+		}
+
+		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
 		public string Name

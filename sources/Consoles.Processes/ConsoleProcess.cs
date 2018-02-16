@@ -1,8 +1,8 @@
 ﻿using Consoles.Core;
 using Shared.Kernel;
 using System;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 
 namespace Consoles.Processes
 {
@@ -13,6 +13,9 @@ namespace Consoles.Processes
 		private readonly int _startupTimeoutInSeconds;
 		private IntPtr _processMainWindowHandle;
 
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
 		public ConsoleProcess(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
 		{
 			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleProcess));
