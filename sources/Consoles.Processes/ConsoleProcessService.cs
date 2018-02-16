@@ -1,5 +1,4 @@
 ﻿using Consoles.Core;
-using Consoles.Processes.PathBuilders;
 using System;
 using System.Diagnostics;
 
@@ -8,26 +7,23 @@ namespace Consoles.Processes
 	public class ConsoleProcessService : IConsolesProcessService
 	{
 		private readonly IProcessTracker _processTracker = null;
+		private readonly IProcessPathBuilder _processPathBuilder = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleProcessService(IProcessTracker processTracker)
+		public ConsoleProcessService(IProcessTracker processTracker, IProcessPathBuilder processPathBuilder)
 		{
 			_processTracker = processTracker ?? throw new ArgumentNullException(nameof(processTracker), nameof(ConsoleProcessService));
+			_processPathBuilder = processPathBuilder ?? throw new ArgumentNullException(nameof(processPathBuilder), nameof(ConsoleProcessService));
 		}
 
 		public IConsoleProcess Create(IProcessDescriptor processDescriptor)
 		{
-			var pathBuilder = GetPathBuilder(processDescriptor);
+			var fullPath = _processPathBuilder.Build(processDescriptor.Console);
 			var startupArgs = processDescriptor.Console.ProcessStartupArgs;
 
-			if (pathBuilder == null)
-			{
-				throw new InvalidOperationException(nameof(Create), new ArgumentNullException(nameof(pathBuilder), nameof(ConsoleProcessService)));
-			}
-
-			var processStartInfo = new ProcessStartInfo(pathBuilder.Build())
+			var processStartInfo = new ProcessStartInfo(fullPath)
 			{
 				WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
 				WindowStyle = ProcessWindowStyle.Hidden,
@@ -47,26 +43,6 @@ namespace Consoles.Processes
 			}
 
 			return consoleInstance;
-		}
-
-		private IPathBuilder GetPathBuilder(IProcessDescriptor processDescriptor)
-		{
-			var pathBuilder = processDescriptor.Console.ProcessBasePath;
-			var pathExeFilename = processDescriptor.Console.ProcessExecutableName;
-
-			switch (pathBuilder)
-			{
-				case BasePath.Physical:
-					return new PhysicalFilePathBuilder(pathExeFilename);
-				case BasePath.ProgramFilesFolder:
-					return new ProgramFilesFolderPathBuilder(pathExeFilename);
-				case BasePath.System32Folder:
-					return new System32FolderPathBuilder(pathExeFilename);
-				case BasePath.SystemPathVar:
-					return new SystemPathVarPathBuilder(pathExeFilename);
-			}
-
-			return null;
 		}
 	}
 }

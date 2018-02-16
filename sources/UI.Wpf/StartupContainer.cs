@@ -37,7 +37,7 @@ namespace UI.Wpf
 
 			//
 			Register<IConsolesProcessService, ConsoleProcessService>();
-
+			RegisterSingleton<IProcessPathBuilder, ProcessPathBuilder>();
 			//
 			RegisterSingleton<IProcessTracker, ProcessTracker>();
 		}

@@ -14,7 +14,7 @@
 		<materialDesign:PackIcon>
 			<materialDesign:PackIcon.Template>
 				<ControlTemplate>
-					<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding IconPath}" />
+					<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding PicturePath}" />
 				</ControlTemplate>
 			</materialDesign:PackIcon.Template>
 		</materialDesign:PackIcon>

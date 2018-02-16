@@ -10,12 +10,12 @@ namespace UI.Wpf.Consoles
 	public class ConsoleOptionViewModel : BaseViewModel
 	{
 		private Guid _id;
-		private int _index;
 		private string _name;
-		private string _iconPath;
-		private BasePath _processPathBuilder;
-		private string _processPathExeFilename;
-		private string _processPathExeArgs;
+		private int _orderIndex;
+		private string _picturePath;
+		private BasePath _processBasePath;
+		private string _processExecutableName;
+		private string _processStartupArgs;
 		private DateTime _utcCreation;
 
 		//
@@ -41,15 +41,6 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
-		/// Gets or sets the index.
-		/// </summary>
-		public int Index
-		{
-			get => _index;
-			set => this.RaiseAndSetIfChanged(ref _index, value);
-		}
-
-		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
 		public string Name
@@ -59,39 +50,48 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
+		/// Gets or sets the order index.
+		/// </summary>
+		public int OrderIndex
+		{
+			get => _orderIndex;
+			set => this.RaiseAndSetIfChanged(ref _orderIndex, value);
+		}
+
+		/// <summary>
 		/// Gets or sets the icon path.
 		/// </summary>
-		public string IconPath
+		public string PicturePath
 		{
-			get => _iconPath;
-			set => this.RaiseAndSetIfChanged(ref _iconPath, value);
+			get => _picturePath;
+			set => this.RaiseAndSetIfChanged(ref _picturePath, value);
 		}
 
 		/// <summary>
-		/// Gets or sets the process path builder.
+		/// Gets or sets the process base path.
 		/// </summary>
-		public BasePath ProcessPathBuilder
+		public BasePath ProcessBasePath
 		{
-			get => _processPathBuilder;
-			set => this.RaiseAndSetIfChanged(ref _processPathBuilder, value);
+			get => _processBasePath;
+			set => this.RaiseAndSetIfChanged(ref _processBasePath, value);
 		}
 
 		/// <summary>
-		/// Gets or sets the process path executable file name.
+		/// Gets or sets the process executable file name.
 		/// </summary>
-		public string ProcessPathExeFilename
+		public string ProcessExecutableName
 		{
-			get => _processPathExeFilename;
-			set => this.RaiseAndSetIfChanged(ref _processPathExeFilename, value);
+			get => _processExecutableName;
+			set => this.RaiseAndSetIfChanged(ref _processExecutableName, value);
 		}
 
 		/// <summary>
-		/// Gets or sets the process path executable startup arguments.
+		/// Gets or sets the process executable startup arguments.
 		/// </summary>
-		public string ProcessPathExeStartupArgs
+		public string ProcessStartupArgs
 		{
-			get => _processPathExeArgs;
-			set => this.RaiseAndSetIfChanged(ref _processPathExeArgs, value);
+			get => _processStartupArgs;
+			set => this.RaiseAndSetIfChanged(ref _processStartupArgs, value);
 		}
 
 		/// <summary>

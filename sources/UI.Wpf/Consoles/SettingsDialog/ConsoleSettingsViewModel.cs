@@ -30,7 +30,7 @@ namespace UI.Wpf.Consoles
 			Consoles = _consoleEntities.CreateDerivedCollection(
 				filter: noteEntity => true,
 				selector: noteEntity => Mapper.Map<ConsoleOptionViewModel>(noteEntity),
-				orderer: (noteX, noteY) => noteX.Index.CompareTo(noteY.Index)
+				orderer: (noteX, noteY) => noteX.OrderIndex.CompareTo(noteY.OrderIndex)
 			);
 
 			_consoleViewModels.CountChanged.Subscribe(count =>

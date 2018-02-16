@@ -42,13 +42,8 @@
   <ItemGroup>
     <Compile Include="ConsoleProcess.cs" />
     <Compile Include="ConsoleProcessService.cs" />
-    <Compile Include="PathBuilders\IPathBuilder.cs" />
-    <Compile Include="PathBuilders\PathBuilderBase.cs" />
-    <Compile Include="PathBuilders\PhysicalFilePathBuilder.cs" />
-    <Compile Include="PathBuilders\ProgramFilesFolderPathBuilder.cs" />
-    <Compile Include="PathBuilders\System32FolderPathBuilder.cs" />
-    <Compile Include="PathBuilders\SystemPathVarPathBuilder.cs" />
     <Compile Include="ProcessDescriptor.cs" />
+    <Compile Include="ProcessPathBuilder.cs" />
     <Compile Include="ProcessTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
