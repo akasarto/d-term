@@ -8,11 +8,14 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleProcessTerminatedMessage(IConsoleProcess consoleProcess)
+		public ConsoleProcessTerminatedMessage(IConsoleProcess terminatedConsoleProcess)
 		{
-			Process = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleProcessTerminatedMessage));
+			TerminatedConsoleProcess = terminatedConsoleProcess ?? throw new ArgumentNullException(nameof(terminatedConsoleProcess), nameof(ConsoleProcessTerminatedMessage));
 		}
 
-		public IConsoleProcess Process { get; private set; }
+		/// <summary>
+		/// Gets the terminated console process instance.
+		/// </summary>
+		public IConsoleProcess TerminatedConsoleProcess { get; private set; }
 	}
 }

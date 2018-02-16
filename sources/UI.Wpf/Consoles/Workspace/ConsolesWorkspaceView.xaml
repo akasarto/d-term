@@ -37,7 +37,7 @@
 		<!-- Console options -->
 		<DockPanel Grid.Row="1" LastChildFill="False" Margin="15">
 
-			<local:ProcessInstancesArrangeView DataContext="{Binding ProcessInstancesArrangeViewModel}" DockPanel.Dock="Left" VerticalAlignment="Center" />
+			<local:ConsoleProcessInstancesArrangeView DataContext="{Binding ConsoleProcessInstancesArrangeViewModel}" DockPanel.Dock="Left" VerticalAlignment="Center" />
 
 			<local:ConsoleOptionsListView DataContext="{Binding ConsoleOptionsListViewModel}" DockPanel.Dock="Right" />
 
@@ -50,7 +50,9 @@
 			Grid.Row="2" />
 
 		<!-- Console instances -->
-		<local:ProcessInstancesListView DataContext="{Binding ProcessInstancesListViewModel}" Grid.Row="3" />
+		<Path Grid.Row="3" Style="{StaticResource logoVisualStyle}" />
+
+		<local:ConsoleProcessInstancesListView DataContext="{Binding ConsoleProcessInstancesListViewModel}" Grid.Row="3" />
 
 	</Grid>
 

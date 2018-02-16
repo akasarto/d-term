@@ -1,24 +1,23 @@
 ﻿using Consoles.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Consoles.Data.LiteDB
 {
-	public class ConsolesRepository : IConsolesRepository
+	public class ConsoleOptionsRepository : IConsoleOptionsRepository
 	{
 		private readonly string _connectionString = null;
 
-		public ConsolesRepository(string connectionString)
+		public ConsoleOptionsRepository(string connectionString)
 		{
-			_connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString), nameof(ConsolesRepository));
+			_connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString), nameof(ConsoleOptionsRepository));
 		}
 
-		public List<ConsoleEntity> GetAll()
+		public List<ConsoleOption> GetAll()
 		{
-			var result = new List<ConsoleEntity>()
+			var result = new List<ConsoleOption>()
 			{
-				new ConsoleEntity() {
+				new ConsoleOption() {
 					Id = Guid.NewGuid(),
 					Name = "Command Prompt",
 					OrderIndex = 1,
@@ -29,7 +28,7 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				},
 
-				new ConsoleEntity() {
+				new ConsoleOption() {
 					Id = Guid.NewGuid(),
 					Name = "Git Bash",
 					OrderIndex = 2,
@@ -40,7 +39,7 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				},
 
-				new ConsoleEntity() {
+				new ConsoleOption() {
 					Id = Guid.NewGuid(),
 					Name = "PowerShell",
 					OrderIndex = 3,
@@ -51,7 +50,7 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				},
 
-				new ConsoleEntity() {
+				new ConsoleOption() {
 					Id = Guid.NewGuid(),
 					Name = "Ubuntu Bash",
 					OrderIndex = 4,

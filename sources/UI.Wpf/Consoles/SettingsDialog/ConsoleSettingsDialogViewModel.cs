@@ -6,8 +6,9 @@ using System.Reactive.Linq;
 
 namespace UI.Wpf.Consoles
 {
-	public class ConsoleOptionsListViewModel : BaseViewModel
+	public class ConsoleSettingsDialogViewModel : BaseViewModel
 	{
+		//
 		private ReactiveList<ConsoleOption> _consoleOptions;
 		private IReactiveDerivedList<ConsoleOptionViewModel> _consoleOptionViewModels;
 
@@ -17,9 +18,9 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionsListViewModel(IConsoleOptionsRepository consoleOptionsRepository)
+		public ConsoleSettingsDialogViewModel(IConsoleOptionsRepository consoleOptionsRepository)
 		{
-			_consoleOptionsRepository = consoleOptionsRepository ?? throw new ArgumentNullException(nameof(consoleOptionsRepository), nameof(ConsolesWorkspaceViewModel));
+			_consoleOptionsRepository = consoleOptionsRepository ?? throw new ArgumentNullException(nameof(consoleOptionsRepository), nameof(ConsoleSettingsDialogViewModel));
 
 			_consoleOptions = new ReactiveList<ConsoleOption>()
 			{
@@ -27,10 +28,15 @@ namespace UI.Wpf.Consoles
 			};
 
 			ConsoleOptions = _consoleOptions.CreateDerivedCollection(
-				filter: option => true,
-				selector: option => Mapper.Map<ConsoleOptionViewModel>(option),
+				filter: noteEntity => true,
+				selector: noteEntity => Mapper.Map<ConsoleOptionViewModel>(noteEntity),
+				orderer: (noteX, noteY) => noteX.OrderIndex.CompareTo(noteY.OrderIndex),
 				scheduler: RxApp.MainThreadScheduler
 			);
+
+			_consoleOptionViewModels.CountChanged.Subscribe(count =>
+			{
+			});
 		}
 
 		/// <summary>

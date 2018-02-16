@@ -6,13 +6,13 @@ using System.Windows.Interop;
 
 namespace UI.Wpf.Consoles
 {
-	public class ConsoleHwndHost : HwndHost
+	public class ConsoleProcessHwndHost : HwndHost
 	{
 		private IConsoleProcess _consoleProcess;
 
-		public ConsoleHwndHost(IConsoleProcess consoleProcess)
+		public ConsoleProcessHwndHost(IConsoleProcess consoleProcess)
 		{
-			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleHwndHost));
+			_consoleProcess = consoleProcess ?? throw new ArgumentNullException(nameof(consoleProcess), nameof(ConsoleProcessHwndHost));
 		}
 
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)

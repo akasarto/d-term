@@ -4,9 +4,9 @@ using System.Windows.Controls;
 
 namespace UI.Wpf.Consoles
 {
-	public partial class ProcessInstancesListView : UserControl, IViewFor<ProcessInstancesListViewModel>
+	public partial class ConsoleProcessInstancesListView : UserControl, IViewFor<ConsoleProcessInstancesListViewModel>
 	{
-		public ProcessInstancesListView()
+		public ConsoleProcessInstancesListView()
 		{
 			InitializeComponent();
 
@@ -19,16 +19,16 @@ namespace UI.Wpf.Consoles
 			});
 		}
 
-		public ProcessInstancesListViewModel ViewModel
+		public ConsoleProcessInstancesListViewModel ViewModel
 		{
-			get => (ProcessInstancesListViewModel)DataContext;
+			get => (ConsoleProcessInstancesListViewModel)DataContext;
 			set => DataContext = value;
 		}
 
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (ProcessInstancesListViewModel)value; }
+			set { ViewModel = (ConsoleProcessInstancesListViewModel)value; }
 		}
 	}
 }

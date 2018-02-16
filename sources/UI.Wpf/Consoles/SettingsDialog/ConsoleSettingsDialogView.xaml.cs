@@ -4,9 +4,9 @@ using System.Windows;
 
 namespace UI.Wpf.Consoles
 {
-	public partial class ConsoleSettingsView : Window, IViewFor<ConsoleSettingsViewModel>
+	public partial class ConsoleSettingsDialogView : Window, IViewFor<ConsoleSettingsDialogViewModel>
 	{
-		public ConsoleSettingsView()
+		public ConsoleSettingsDialogView()
 		{
 			InitializeComponent();
 
@@ -19,16 +19,16 @@ namespace UI.Wpf.Consoles
 			});
 		}
 
-		public ConsoleSettingsViewModel ViewModel
+		public ConsoleSettingsDialogViewModel ViewModel
 		{
-			get => (ConsoleSettingsViewModel)DataContext;
+			get => (ConsoleSettingsDialogViewModel)DataContext;
 			set => DataContext = value;
 		}
 
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (ConsoleSettingsViewModel)value; }
+			set { ViewModel = (ConsoleSettingsDialogViewModel)value; }
 		}
 	}
 }

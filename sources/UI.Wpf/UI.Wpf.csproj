@@ -176,11 +176,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Consoles\ConsoleErrorMessage.cs" />
-    <Compile Include="Consoles\Option\CreateProcessInstanceMessage.cs" />
-    <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOption.cs" />
-    <Compile Include="Consoles\ProcessInstancesArrange\ArrangeChangedMessage.cs" />
-    <Compile Include="Consoles\ProcessInstancesArrange\ArrangeOptionViewModel.cs" />
-    <Compile Include="Consoles\ConsoleHwndHost.cs" />
+    <Compile Include="Consoles\Option\ConsoleProcessCreatedMessage.cs" />
+    <Compile Include="Consoles\ProcessInstancesArrange\ConsoleArrangeOption.cs" />
+    <Compile Include="Consoles\ProcessInstancesArrange\ConsoleArrangeChangedMessage.cs" />
+    <Compile Include="Consoles\ProcessInstancesArrange\ConsoleArrangeOptionViewModel.cs" />
+    <Compile Include="Consoles\ConsoleProcessHwndHost.cs" />
     <Compile Include="Consoles\OptionsList\ConsoleOptionsListView.xaml.cs">
       <DependentUpon>ConsoleOptionsListView.xaml</DependentUpon>
     </Compile>
@@ -189,19 +189,19 @@
     <Compile Include="Consoles\Option\ConsoleOptionView.xaml.cs">
       <DependentUpon>ConsoleOptionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ProcessInstancesArrange\ProcessInstancesArrangeView.xaml.cs">
-      <DependentUpon>ProcessInstancesArrangeView.xaml</DependentUpon>
+    <Compile Include="Consoles\ProcessInstancesArrange\ConsoleProcessInstancesArrangeView.xaml.cs">
+      <DependentUpon>ConsoleProcessInstancesArrangeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ProcessInstancesArrange\ProcessInstancesArrangeViewModel.cs" />
-    <Compile Include="Consoles\ProcessInstancesList\ProcessInstancesListView.xaml.cs">
-      <DependentUpon>ProcessInstancesListView.xaml</DependentUpon>
+    <Compile Include="Consoles\ProcessInstancesArrange\ConsoleProcessInstancesArrangeViewModel.cs" />
+    <Compile Include="Consoles\ProcessInstancesList\ConsoleProcessInstancesListView.xaml.cs">
+      <DependentUpon>ConsoleProcessInstancesListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ProcessInstancesList\ProcessInstancesListViewModel.cs" />
+    <Compile Include="Consoles\ProcessInstancesList\ConsoleProcessInstancesListViewModel.cs" />
     <Compile Include="Consoles\ProcessInstance\ConsoleProcessTerminatedMessage.cs" />
-    <Compile Include="Consoles\SettingsDialog\ConsoleSettingsView.xaml.cs">
-      <DependentUpon>ConsoleSettingsView.xaml</DependentUpon>
+    <Compile Include="Consoles\SettingsDialog\ConsoleSettingsDialogView.xaml.cs">
+      <DependentUpon>ConsoleSettingsDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\SettingsDialog\ConsoleSettingsViewModel.cs" />
+    <Compile Include="Consoles\SettingsDialog\ConsoleSettingsDialogViewModel.cs" />
     <Compile Include="Consoles\Workspace\ConsolesWorkspaceView.xaml.cs">
       <DependentUpon>ConsolesWorkspaceView.xaml</DependentUpon>
     </Compile>
@@ -254,15 +254,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ProcessInstancesArrange\ProcessInstancesArrangeView.xaml">
+    <Page Include="Consoles\ProcessInstancesArrange\ConsoleProcessInstancesArrangeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ProcessInstancesList\ProcessInstancesListView.xaml">
+    <Page Include="Consoles\ProcessInstancesList\ConsoleProcessInstancesListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\SettingsDialog\ConsoleSettingsView.xaml">
+    <Page Include="Consoles\SettingsDialog\ConsoleSettingsDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

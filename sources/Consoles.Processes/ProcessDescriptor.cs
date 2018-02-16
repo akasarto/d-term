@@ -5,13 +5,22 @@ namespace Consoles.Processes
 {
 	public class ProcessDescriptor : IProcessDescriptor
 	{
-		public ProcessDescriptor(ConsoleEntity consoleEntity)
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
+		public ProcessDescriptor(ConsoleOption consoleOption)
 		{
-			Console = consoleEntity ?? throw new ArgumentNullException(nameof(consoleEntity), nameof(ProcessDescriptor));
+			ConsoleOption = consoleOption ?? throw new ArgumentNullException(nameof(consoleOption), nameof(ProcessDescriptor));
 		}
 
-		public ConsoleEntity Console { get; private set; }
+		/// <summary>
+		/// Gets the source console option.
+		/// </summary>
+		public ConsoleOption ConsoleOption { get; private set; }
 
+		/// <summary>
+		/// Gets or sets the timeout that the system will wait until aborting the process start sequence.
+		/// </summary>
 		public int StartupTimeoutInSeconds { get; set; } = 3;
 	}
 }

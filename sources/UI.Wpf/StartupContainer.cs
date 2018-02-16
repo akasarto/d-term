@@ -21,8 +21,8 @@ namespace UI.Wpf
 			//
 			Register<ConsolesWorkspaceViewModel>();
 			Register<ConsoleOptionsListViewModel>();
-			Register<ProcessInstancesListViewModel>();
-			Register<ProcessInstancesArrangeViewModel>();
+			Register<ConsoleProcessInstancesListViewModel>();
+			Register<ConsoleProcessInstancesArrangeViewModel>();
 
 			//
 			Register<NoteAddViewModel>();
@@ -32,11 +32,11 @@ namespace UI.Wpf
 
 			//
 			string liteDbConnectionString = @"dTerm.db";
-			Register<IConsolesRepository>(() => new ConsolesRepository(liteDbConnectionString));
+			Register<IConsoleOptionsRepository>(() => new ConsoleOptionsRepository(liteDbConnectionString));
 			Register<INotebookRepository>(() => new NotebookRepository(liteDbConnectionString));
 
 			//
-			Register<IConsolesProcessService, ConsoleProcessService>();
+			Register<IConsoleProcessService, ConsoleProcessService>();
 			RegisterSingleton<IProcessPathBuilder, ProcessPathBuilder>();
 			//
 			RegisterSingleton<IProcessTracker, ProcessTracker>();

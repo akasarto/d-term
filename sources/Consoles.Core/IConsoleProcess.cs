@@ -8,9 +8,8 @@ namespace Consoles.Core
 
 		int Id { get; }
 		bool IsStarted { get; }
-		bool IsSupported { get; }
 		IntPtr MainWindowHandle { get; }
-		ConsoleEntity SourceSpecifications { get; }
+		ConsoleOption Source { get; }
 		void Start();
 	}
 }

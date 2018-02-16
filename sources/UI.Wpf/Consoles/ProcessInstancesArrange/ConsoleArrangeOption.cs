@@ -2,7 +2,7 @@
 
 namespace UI.Wpf.Consoles
 {
-	public enum ArrangeOption
+	public enum ConsoleArrangeOption
 	{
 		[Display(Name = "Arrange as Grid")]
 		Grid = 0,

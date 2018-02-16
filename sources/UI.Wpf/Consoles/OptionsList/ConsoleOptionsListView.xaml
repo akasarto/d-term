@@ -14,7 +14,7 @@
 	<UserControl.Resources>
 
 		<!-- Console options source -->
-		<CollectionViewSource x:Key="consoleOptionsSource" Source="{Binding Consoles}">
+		<CollectionViewSource x:Key="consoleOptionsSource" Source="{Binding ConsoleOptions}">
 			<CollectionViewSource.SortDescriptions>
 				<wndbase:SortDescription PropertyName="OrderIndex" />
 			</CollectionViewSource.SortDescriptions>

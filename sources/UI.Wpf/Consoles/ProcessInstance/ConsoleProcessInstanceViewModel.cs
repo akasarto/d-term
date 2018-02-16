@@ -6,7 +6,7 @@ namespace UI.Wpf.Consoles
 {
 	public class ConsoleProcessInstanceViewModel
 	{
-		private ConsoleHwndHost _processHost;
+		private ConsoleProcessHwndHost _consoleProcessHwndHost;
 
 		//
 		private readonly IConsoleProcess _consoleProcess = null;
@@ -20,13 +20,13 @@ namespace UI.Wpf.Consoles
 
 			_consoleProcess.Terminated += OnProcessTerminated;
 
-			_processHost = new ConsoleHwndHost(_consoleProcess);
+			_consoleProcessHwndHost = new ConsoleProcessHwndHost(_consoleProcess);
 		}
 
 		/// <summary>
 		/// Gets the underlying process host interop handler.
 		/// </summary>
-		public ConsoleHwndHost ProcessHost => _processHost;
+		public ConsoleProcessHwndHost ConsoleProcessHost => _consoleProcessHwndHost;
 
 		/// <summary>
 		/// Raised when the underlying process exits.

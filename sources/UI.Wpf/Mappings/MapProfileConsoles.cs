@@ -10,16 +10,16 @@ namespace UI.Wpf.Mappings
 	public class MapProfileConsoles : Profile
 	{
 		//
-		private readonly IConsolesRepository _consolesRepository = null;
-		private readonly IConsolesProcessService _consolesProcessService = null;
+		private readonly IConsoleOptionsRepository _consolesRepository = null;
+		private readonly IConsoleProcessService _consoleProcessService = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public MapProfileConsoles(IConsolesRepository consolesRepository, IConsolesProcessService consolesProcessService)
+		public MapProfileConsoles(IConsoleOptionsRepository consolesRepository, IConsoleProcessService consoleProcessService)
 		{
 			_consolesRepository = consolesRepository ?? throw new ArgumentNullException(nameof(consolesRepository), nameof(MapProfileConsoles));
-			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(MapProfileConsoles));
+			_consoleProcessService = consoleProcessService ?? throw new ArgumentNullException(nameof(consoleProcessService), nameof(MapProfileConsoles));
 
 			SetupMaps();
 		}
@@ -28,33 +28,33 @@ namespace UI.Wpf.Mappings
 		{
 			CreateMap<IConsoleProcess, ConsoleProcessInstanceViewModel>().ConstructUsing(source => new ConsoleProcessInstanceViewModel(source));
 
-			CreateMap<ArrangeOption, ArrangeOptionViewModel>().AfterMap((source, dest) =>
+			CreateMap<ConsoleArrangeOption, ConsoleArrangeOptionViewModel>().AfterMap((source, dest) =>
 			{
 				dest.Arrange = source;
 				dest.Description = source.GetDisplayName();
-				dest.Index = source.ChangeType<int>();
+				dest.OrderIndex = source.ChangeType<int>();
 
 				switch (source)
 				{
-					case ArrangeOption.Grid:
-						dest.Icon = PackIconKind.GridLarge;
+					case ConsoleArrangeOption.Grid:
+						dest.IconKind = PackIconKind.GridLarge;
 						break;
-					case ArrangeOption.Horizontally:
-						dest.Icon = PackIconKind.ReorderHorizontal;
+					case ConsoleArrangeOption.Horizontally:
+						dest.IconKind = PackIconKind.ReorderHorizontal;
 						break;
-					case ArrangeOption.Vertically:
-						dest.Icon = PackIconKind.ReorderVertical;
+					case ConsoleArrangeOption.Vertically:
+						dest.IconKind = PackIconKind.ReorderVertical;
 						break;
 				}
 			});
 
-			CreateMap<ArrangeOptionViewModel, ArrangeOption>().AfterMap((source, dest) =>
+			CreateMap<ConsoleArrangeOptionViewModel, ConsoleArrangeOption>().AfterMap((source, dest) =>
 			{
 				dest = source.Arrange;
 			});
 
-			CreateMap<ConsoleEntity, ConsoleOptionViewModel>().ConstructUsing(source => new ConsoleOptionViewModel(_consolesProcessService));
-			CreateMap<ConsoleOptionViewModel, ConsoleEntity>();
+			CreateMap<ConsoleOption, ConsoleOptionViewModel>().ConstructUsing(source => new ConsoleOptionViewModel(_consoleProcessService));
+			CreateMap<ConsoleOptionViewModel, ConsoleOption>();
 		}
 	}
 }

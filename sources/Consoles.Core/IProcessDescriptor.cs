@@ -2,7 +2,7 @@
 {
 	public interface IProcessDescriptor
 	{
-		ConsoleEntity Console { get; }
+		ConsoleOption ConsoleOption { get; }
 		int StartupTimeoutInSeconds { get; }
 	}
 }

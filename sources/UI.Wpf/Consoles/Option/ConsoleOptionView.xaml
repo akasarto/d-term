@@ -10,7 +10,7 @@
 	d:DesignWidth="375"
 >
 
-	<Button Command="{Binding CreateInstanceCommand}"
+	<Button Command="{Binding CreateProcessCommand}"
 			CommandParameter="{Binding}"
 			IsEnabled="{Binding IsSupported}"
 			Margin="0 0 15 0"

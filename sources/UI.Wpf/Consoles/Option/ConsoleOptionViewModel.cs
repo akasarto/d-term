@@ -19,12 +19,12 @@ namespace UI.Wpf.Consoles
 		private DateTime _utcCreation;
 
 		//
-		private readonly IConsolesProcessService _consolesProcessService = null;
+		private readonly IConsoleProcessService _consolesProcessService = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionViewModel(IConsolesProcessService consolesProcessService)
+		public ConsoleOptionViewModel(IConsoleProcessService consolesProcessService)
 		{
 			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(ConsoleOptionViewModel));
 
@@ -114,24 +114,24 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Create a new console instance.
 		/// </summary>
-		public ReactiveCommand<ConsoleOptionViewModel, Unit> CreateInstanceCommand { get; protected set; }
+		public ReactiveCommand<ConsoleOptionViewModel, Unit> CreateProcessCommand { get; protected set; }
 
 		/// <summary>
 		/// Wire up commands with their respective actions.
-		/// <seealso cref="ProcessInstancesListViewModel"/>
+		/// <seealso cref="ConsoleProcessInstancesListViewModel"/>
 		/// </summary>
 		private void SetupCommands()
 		{
-			CreateInstanceCommand = ReactiveCommand.Create<ConsoleOptionViewModel>((consoleOptionViewModel) =>
+			CreateProcessCommand = ReactiveCommand.Create<ConsoleOptionViewModel>((consoleOptionViewModel) =>
 			{
-				var entity = Mapper.Map<ConsoleEntity>(this);
+				var consoleOption = Mapper.Map<ConsoleOption>(this);
 
-				var process = _consolesProcessService.Create(new ProcessDescriptor(entity)
+				var consoleProcess = _consolesProcessService.Create(new ProcessDescriptor(consoleOption)
 				{
 					StartupTimeoutInSeconds = 3
 				});
 
-				if (!process.IsStarted)
+				if (!consoleProcess.IsStarted)
 				{
 					MessageBus.Current.SendMessage(new ConsoleErrorMessage()
 					{
@@ -141,7 +141,7 @@ namespace UI.Wpf.Consoles
 					return;
 				}
 
-				MessageBus.Current.SendMessage(new CreateProcessInstanceMessage(process));
+				MessageBus.Current.SendMessage(new ConsoleProcessCreatedMessage(consoleProcess));
 			});
 		}
 	}

@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Consoles.Processes
 {
-	public class ConsoleProcessService : IConsolesProcessService
+	public class ConsoleProcessService : IConsoleProcessService
 	{
 		private readonly IProcessTracker _processTracker = null;
 		private readonly IProcessPathBuilder _processPathBuilder = null;
@@ -28,7 +28,7 @@ namespace Consoles.Processes
 
 		public IConsoleProcess Create(IProcessDescriptor processDescriptor)
 		{
-			var console = processDescriptor?.Console;
+			var console = processDescriptor?.ConsoleOption;
 
 			if (console == null || !CanCreate(console.ProcessBasePath, console.ProcessExecutableName))
 			{
@@ -36,7 +36,7 @@ namespace Consoles.Processes
 			}
 
 			var fullPath = _processPathBuilder.Build(console.ProcessBasePath, console.ProcessExecutableName);
-			var startupArgs = processDescriptor.Console.ProcessStartupArgs;
+			var startupArgs = processDescriptor.ConsoleOption.ProcessStartupArgs;
 
 			var processStartInfo = new ProcessStartInfo(fullPath)
 			{
@@ -47,7 +47,7 @@ namespace Consoles.Processes
 
 			var consoleInstance = new ConsoleProcess(processStartInfo, processDescriptor.StartupTimeoutInSeconds)
 			{
-				SourceSpecifications = processDescriptor.Console
+				Source = processDescriptor.ConsoleOption
 			};
 
 			consoleInstance.Start();

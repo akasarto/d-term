@@ -8,40 +8,40 @@ using System.Windows;
 
 namespace UI.Wpf.Consoles
 {
-	public class ProcessInstancesListViewModel : BaseViewModel
+	public class ConsoleProcessInstancesListViewModel : BaseViewModel
 	{
 		private IInputElement _consolesControl;
-		private ArrangeOption _currentArrangeOption = ArrangeOption.Grid;
+		private ConsoleArrangeOption _currentArrangeOption = ConsoleArrangeOption.Grid;
 		private ReactiveList<IConsoleProcess> _consoleProcesses;
 		private IReactiveDerivedList<ConsoleProcessInstanceViewModel> _consoleInstanceViewModels;
 
 		//
-		private readonly IConsolesProcessService _consolesProcessService = null;
+		private readonly IConsoleProcessService _consolesProcessService = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstancesListViewModel(IConsolesProcessService consolesProcessService)
+		public ConsoleProcessInstancesListViewModel(IConsoleProcessService consolesProcessService)
 		{
 			_consolesProcessService = consolesProcessService ?? throw new ArgumentNullException(nameof(consolesProcessService), nameof(ConsoleOptionViewModel));
 
 			_consoleProcesses = new ReactiveList<IConsoleProcess>();
 
-			Instances = _consoleProcesses.CreateDerivedCollection(
+			ProcessInstances = _consoleProcesses.CreateDerivedCollection(
 				filter: consoleProcess => true,
 				selector: consoleProcess => Mapper.Map<ConsoleProcessInstanceViewModel>(consoleProcess),
 				scheduler: RxApp.MainThreadScheduler
 			);
 
-			Instances.Changed.Subscribe(instances => ArrangeProcessInstances());
+			ProcessInstances.Changed.Subscribe(instances => ArrangeProcessInstances());
 
 			SetupMessageBus();
 		}
 
 		/// <summary>
-		/// Gets or setsh the current console instances list.
+		/// Gets or sets the current console process instances.
 		/// </summary>
-		public IReactiveDerivedList<ConsoleProcessInstanceViewModel> Instances
+		public IReactiveDerivedList<ConsoleProcessInstanceViewModel> ProcessInstances
 		{
 			get => _consoleInstanceViewModels;
 			set => this.RaiseAndSetIfChanged(ref _consoleInstanceViewModels, value);
@@ -62,13 +62,15 @@ namespace UI.Wpf.Consoles
 		{
 			switch (_currentArrangeOption)
 			{
-				case ArrangeOption.Grid:
+				case ConsoleArrangeOption.Grid:
 					Layout.TileFloatingItemsCommand.Execute(null, _consolesControl);
 					break;
-				case ArrangeOption.Horizontally:
+
+				case ConsoleArrangeOption.Horizontally:
 					Layout.TileFloatingItemsVerticallyCommand.Execute(null, _consolesControl);
 					break;
-				case ArrangeOption.Vertically:
+
+				case ConsoleArrangeOption.Vertically:
 					Layout.TileFloatingItemsHorizontallyCommand.Execute(null, _consolesControl);
 					break;
 			}
@@ -79,23 +81,23 @@ namespace UI.Wpf.Consoles
 		/// </summary>
 		private void SetupMessageBus()
 		{
-			MessageBus.Current.Listen<ArrangeChangedMessage>().Subscribe(message =>
+			MessageBus.Current.Listen<ConsoleArrangeChangedMessage>().Subscribe(message =>
 			{
 				_currentArrangeOption = message.NewArrange;
 
 				ArrangeProcessInstances();
 			});
 
-			MessageBus.Current.Listen<CreateProcessInstanceMessage>().Subscribe(message =>
+			MessageBus.Current.Listen<ConsoleProcessCreatedMessage>().Subscribe(message =>
 			{
-				var process = message.Process;
+				var process = message.NewConsoleProcess;
 
 				_consoleProcesses.Add(process);
 			});
 
 			MessageBus.Current.Listen<ConsoleProcessTerminatedMessage>().Subscribe(message =>
 			{
-				var process = _consoleProcesses.Where(i => i.Id == message.Process.Id).SingleOrDefault();
+				var process = _consoleProcesses.Where(i => i.Id == message.TerminatedConsoleProcess.Id).SingleOrDefault();
 
 				if (process != null)
 				{

@@ -2,7 +2,6 @@
 using Shared.Kernel;
 using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace Consoles.Processes
 {
@@ -27,31 +26,34 @@ namespace Consoles.Processes
 			_systemProcess = CreateProcess();
 		}
 
+		/// <summary>
+		/// Process terminated/exited event.
+		/// </summary>
 		public event ProcessTerminatedHandler Terminated;
 
+		/// <summary>
+		/// Gets the process id.
+		/// </summary>
 		public int Id => _systemProcess.Id;
 
+		/// <summary>
+		/// Gets the flag indicating if it has successfully started.
+		/// </summary>
 		public bool IsStarted { get; private set; }
 
-		public bool IsSupported
-		{
-			get
-			{
-				var fileName = _processStartInfo.FileName;
-
-				if (string.IsNullOrWhiteSpace(fileName))
-				{
-					return new FileInfo(fileName).Exists;
-				}
-
-				return false;
-			}
-		}
-
+		/// <summary>
+		/// Gets the process main window handle pointer.
+		/// </summary>
 		public IntPtr MainWindowHandle => _processMainWindowHandle;
 
-		public ConsoleEntity SourceSpecifications { get; internal set; }
+		/// <summary>
+		/// Gets the option that originated this process.
+		/// </summary>
+		public ConsoleOption Source { get; internal set; }
 
+		/// <summary>
+		/// Starts the process.
+		/// </summary>
 		public void Start()
 		{
 			var processStopwatch = Stopwatch.StartNew();
@@ -78,6 +80,10 @@ namespace Consoles.Processes
 			IsStarted = false;
 		}
 
+		/// <summary>
+		/// Create the underlying system process.
+		/// </summary>
+		/// <returns><see cref="Process"/> instance.</returns>
 		private Process CreateProcess()
 		{
 			var process = new Process()
@@ -94,6 +100,10 @@ namespace Consoles.Processes
 			return process;
 		}
 
+		/// <summary>
+		/// Attempts to get the underlying process window handle.
+		/// </summary>
+		/// <returns><see cref="IntPtr"/> for the process main window.</returns>
 		private IntPtr FindHiddenConsoleWindowHandle()
 		{
 			uint threadId = 0;
