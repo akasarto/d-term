@@ -9,7 +9,7 @@ namespace Shared.Kernel
 		public uint BaseValue;
 
 		[FieldOffset(2)]
-		public ushort HIWord;
+		public ushort HOWord;
 
 		[FieldOffset(0)]
 		public ushort LOWord;

@@ -12,7 +12,9 @@
 
 	<Button Command="{Binding CreateProcessCommand}"
 			CommandParameter="{Binding}"
+			Focusable="False"
 			IsEnabled="{Binding IsSupported}"
+			IsTabStop="False"
 			Margin="0 0 15 0"
 			Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
 			ToolTipService.ShowOnDisabled="True"

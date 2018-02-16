@@ -21,12 +21,12 @@ namespace UI.Wpf.Shell
 		}
 
 		/// <summary>
-		/// Consoles Area View Model
+		/// Consoles workspace view model.
 		/// </summary>
 		public ConsolesWorkspaceViewModel ConsolesWorkspaceViewModel => _consolesWorkspaceViewModel;
 
 		/// <summary>
-		/// Notebook Area View Model
+		/// Notebook workspace view model
 		/// </summary>
 		public NotebookWorkspaceViewModel NotebookWorkspaceViewModel => _notebookWorkspaceViewModel;
 	}

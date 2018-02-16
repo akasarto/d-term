@@ -29,10 +29,8 @@ namespace UI.Wpf.Consoles
 
 		private void IntegrateConsole(IntPtr childHandle, IntPtr parentHandle)
 		{
-			//
 			Win32Api.SetParent(childHandle, parentHandle);
 
-			//
 			var newStyle = (WindowStyles)Win32Api.GetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE);
 
 			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
@@ -41,7 +39,6 @@ namespace UI.Wpf.Consoles
 			newStyle &= ~WindowStyles.WS_DLGFRAME;
 			newStyle &= ~WindowStyles.WS_BORDER;
 			newStyle &= ~WindowStyles.WS_POPUP;
-
 			newStyle |= WindowStyles.WS_CHILD;
 
 			Win32Api.SetWindowLongPtr(childHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));

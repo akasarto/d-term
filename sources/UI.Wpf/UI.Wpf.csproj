@@ -234,6 +234,7 @@
       <DependentUpon>NotebookWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notebook\Workspace\NotebookWorkspaceViewModel.cs" />
+    <Compile Include="Shell\ShellWndProc.cs" />
     <Compile Include="StartupArgs.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
