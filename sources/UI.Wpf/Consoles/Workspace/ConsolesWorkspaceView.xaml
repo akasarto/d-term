@@ -28,7 +28,7 @@
 		<materialDesign:ColorZone Grid.Row="0" Mode="Inverted" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="7.5 0">
 			<DockPanel LastChildFill="False" VerticalAlignment="Center">
 				<TextBlock DockPanel.Dock="Left" FontSize="22" Text="Consoles" VerticalAlignment="Center" />
-				<Button Command="{Binding ShowSettingsCommand}" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignToolForegroundButton}" VerticalAlignment="Center">
+				<Button Visibility="Collapsed" Command="{Binding ShowSettingsCommand}" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignToolForegroundButton}" VerticalAlignment="Center">
 					<materialDesign:PackIcon Height="24" Kind="Settings" Width="24" />
 				</Button>
 			</DockPanel>
