@@ -3,10 +3,7 @@ using Consoles.Core;
 using Consoles.Processes;
 using ReactiveUI;
 using System;
-using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace UI.Wpf.Consoles
 {

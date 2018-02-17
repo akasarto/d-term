@@ -1,10 +1,8 @@
-﻿using CommandLine;
-using UI.Wpf.Infrastructure;
-using UI.Wpf.Shell;
+﻿using UI.Wpf.Shell;
 using SimpleInjector;
 using System;
-using System.Globalization;
 using UI.Wpf.Mappings;
+using System.Linq;
 
 namespace UI.Wpf
 {
@@ -22,9 +20,7 @@ namespace UI.Wpf
 
 				if (hasArguments)
 				{
-					var options = ParseArgs(args);
-
-					if (options.Verify)
+					if (args.Any(a => a.Equals("--verify")))
 					{
 						Console.WriteLine("Verifying...");
 						container.Verify(VerificationOption.VerifyAndDiagnose);
@@ -40,26 +36,6 @@ namespace UI.Wpf
 
 				application.Run(shellView);
 			}
-		}
-
-		private static StartupArgs ParseArgs(string[] rawArgs)
-		{
-			var result = new StartupArgs();
-			var parser = new Parser(
-				config =>
-				{
-					config.EnableDashDash = true;
-					config.IgnoreUnknownArguments = true;
-					config.ParsingCulture = CultureInfo.GetCultureInfo("en-US");
-					config.HelpWriter = Console.Error;
-				}
-			);
-
-			parser
-				.ParseArguments<StartupArgs>(rawArgs)
-				.WithParsed(parsedArgs => result = parsedArgs);
-
-			return result;
 		}
 	}
 }
