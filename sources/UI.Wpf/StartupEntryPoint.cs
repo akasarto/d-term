@@ -18,6 +18,8 @@ namespace UI.Wpf
 			{
 				application.InitializeComponent();
 
+				MapperInitializer.Initialize(container);
+
 				if (hasArguments)
 				{
 					if (args.Any(a => a.Equals("--verify")))
@@ -29,8 +31,6 @@ namespace UI.Wpf
 
 					return;
 				}
-
-				MapperInitializer.Initialize(container);
 
 				var shellView = container.GetInstance<ShellView>();
 

@@ -7,7 +7,4 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Shared.Kernel\Shared.Kernel.csproj" />
-  </ItemGroup>
 </Project>

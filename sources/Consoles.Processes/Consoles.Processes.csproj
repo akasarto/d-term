@@ -52,9 +52,9 @@
       <Project>{0194DF4A-3F2F-42FB-A7C8-3C80F3A677E4}</Project>
       <Name>Consoles.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Shared.Kernel\Shared.Kernel.csproj">
-      <Project>{CB62E4FE-399C-4B49-B0DC-DE140F02AA54}</Project>
-      <Name>Shared.Kernel</Name>
+    <ProjectReference Include="..\WinApi\WinApi.csproj">
+      <Project>{3330BE4A-15AF-42C5-B9E8-2E97220D199F}</Project>
+      <Name>WinApi</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

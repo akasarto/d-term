@@ -1,0 +1,6 @@
+﻿Based on the awesome library https://github.com/prasannavl/WinApi
+
+Added two more methods:
+
+
+

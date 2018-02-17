@@ -1,7 +1,8 @@
 ﻿using Sarto.Extensions;
-using Shared.Kernel;
+using WinApi;
 using System;
 using System.Windows.Interop;
+using System.Runtime.InteropServices;
 
 namespace UI.Wpf.Shell
 {
@@ -16,10 +17,14 @@ namespace UI.Wpf.Shell
 			shellHwndSource.AddHook(WndProc);
 		}
 
+		[return: MarshalAs(UnmanagedType.Bool)]
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
 		private void SetShellActive()
 		{
-			Win32Api.SendMessage(_shellViewHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
-			Win32Api.SendMessage(_shellViewHandle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
+			PostMessage(_shellViewHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
+			PostMessage(_shellViewHandle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
 		}
 
 		private void SetForegroundHandle(IntPtr wndHandle)
@@ -28,9 +33,9 @@ namespace UI.Wpf.Shell
 			{
 				_lastForegroundHandle = wndHandle;
 			}
-			Win32Api.SetActiveWindow(_shellViewHandle);
-			Win32Api.SetForegroundWindow(_shellViewHandle);
-			Win32Api.SetForegroundWindow(wndHandle);
+			User32Interop.SetActiveWindow(_shellViewHandle);
+			User32Interop.SetForegroundWindow(_shellViewHandle);
+			User32Interop.SetForegroundWindow(wndHandle);
 			SetShellActive();
 		}
 
@@ -65,7 +70,7 @@ namespace UI.Wpf.Shell
 
 				case WM.SETCURSOR:
 					{
-						var wlParam = new Win32Param()
+						var wlParam = new MsgParam()
 						{
 							BaseValue = (uint)lParam
 						};

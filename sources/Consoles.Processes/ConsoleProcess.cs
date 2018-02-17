@@ -1,5 +1,5 @@
 ﻿using Consoles.Core;
-using Shared.Kernel;
+using WinApi;
 using System;
 using System.Diagnostics;
 
@@ -114,8 +114,8 @@ namespace Consoles.Processes
 			{
 				processId = 0;
 				_systemProcess.Refresh();
-				windowHandle = Win32Api.FindWindowEx(IntPtr.Zero, windowHandle, null, null);
-				threadId = Win32Api.GetWindowThreadProcessId(windowHandle, out processId);
+				windowHandle = User32Interop.FindWindowEx(IntPtr.Zero, windowHandle, null, null);
+				threadId = User32Interop.GetWindowThreadProcessId(windowHandle, out processId);
 				if (processId == _systemProcess.Id)
 				{
 					return windowHandle;

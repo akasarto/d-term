@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DD8DF004-9062-4358-9EA3-F9CFBC5D061F}</ProjectGuid>
+    <ProjectGuid>{3330BE4A-15AF-42C5-B9E8-2E97220D199F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Shared.Kernel</RootNamespace>
-    <AssemblyName>Shared.Kernel</AssemblyName>
+    <RootNamespace>WinApi</RootNamespace>
+    <AssemblyName>WinApi</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,7 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\MouseActivationResult.cs" />
+    <Compile Include="Enums\ShowWindowCommands.cs" />
+    <Compile Include="Enums\SysCommand.cs" />
+    <Compile Include="Enums\WindowExStyles.cs" />
+    <Compile Include="Enums\WindowLongFlags.cs" />
+    <Compile Include="Enums\WindowStyles.cs" />
+    <Compile Include="Enums\WM.cs" />
+    <Compile Include="MsgParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Win32Api.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="about.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

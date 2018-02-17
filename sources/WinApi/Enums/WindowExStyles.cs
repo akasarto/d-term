@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shared.Kernel
+namespace WinApi
 {
 	[Flags]
 	public enum WindowExStyles

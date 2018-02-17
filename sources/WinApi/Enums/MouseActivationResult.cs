@@ -1,4 +1,4 @@
-﻿namespace Shared.Kernel
+﻿namespace WinApi
 {
 	public enum MouseActivationResult
 	{
