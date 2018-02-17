@@ -1,8 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Shared.Kernel
+namespace Win32Api
 {
-	public static class Properties
+	public static class Win32Charset
 	{
 #if ANSI
 		public const CharSet BuildCharSet = CharSet.Ansi;

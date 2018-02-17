@@ -4,6 +4,9 @@ using Consoles.Processes;
 using ReactiveUI;
 using System;
 using System.Reactive;
+using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace UI.Wpf.Consoles
 {
@@ -114,7 +117,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Create a new console instance.
 		/// </summary>
-		public ReactiveCommand<ConsoleOptionViewModel, Unit> CreateProcessCommand { get; protected set; }
+		public ReactiveCommand CreateProcessCommand { get; protected set; }
 
 		/// <summary>
 		/// Wire up commands with their respective actions.
@@ -122,26 +125,27 @@ namespace UI.Wpf.Consoles
 		/// </summary>
 		private void SetupCommands()
 		{
-			CreateProcessCommand = ReactiveCommand.Create<ConsoleOptionViewModel>((consoleOptionViewModel) =>
+			CreateProcessCommand = ReactiveCommand.CreateFromObservable(() =>
 			{
-				var consoleOption = Mapper.Map<ConsoleOption>(this);
-
-				var consoleProcess = _consolesProcessService.Create(new ProcessDescriptor(consoleOption)
+				return Observable.Start(() =>
 				{
-					StartupTimeoutInSeconds = 3
-				});
+					var consoleOption = Mapper.Map<ConsoleOption>(this);
 
-				if (!consoleProcess.IsStarted)
-				{
-					MessageBus.Current.SendMessage(new ConsoleErrorMessage()
+					var consoleProcess = _consolesProcessService.Create(new ProcessDescriptor(consoleOption)
 					{
-						Message = "Unable to start the new process."
+						StartupTimeoutInSeconds = 3
 					});
 
-					return;
-				}
+					MessageBus.Current.SendMessage(new ConsoleProcessCreatedMessage(consoleProcess));
+				});
+			});
 
-				MessageBus.Current.SendMessage(new ConsoleProcessCreatedMessage(consoleProcess));
+			CreateProcessCommand.ThrownExceptions.Subscribe(exception =>
+			{
+				MessageBus.Current.SendMessage(new ConsoleErrorMessage()
+				{
+					Message = "Unable to start the new process."
+				});
 			});
 		}
 	}

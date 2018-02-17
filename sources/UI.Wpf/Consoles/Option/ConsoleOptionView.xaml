@@ -11,11 +11,11 @@
 >
 
 	<Button Command="{Binding CreateProcessCommand}"
-			CommandParameter="{Binding}"
 			Focusable="False"
 			IsEnabled="{Binding IsSupported}"
 			IsTabStop="False"
 			Margin="0 0 15 0"
+			materialDesign:RippleAssist.IsDisabled="True"
 			Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
 			ToolTipService.ShowOnDisabled="True"
 			ToolTip="{Binding Name}">

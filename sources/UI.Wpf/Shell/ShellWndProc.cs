@@ -24,8 +24,14 @@ namespace UI.Wpf.Shell
 
 		private void SetForegroundHandle(IntPtr wndHandle)
 		{
-			_lastForegroundHandle = wndHandle;
+			if (wndHandle != _shellViewHandle)
+			{
+				_lastForegroundHandle = wndHandle;
+			}
+			Win32Api.SetActiveWindow(_shellViewHandle);
+			Win32Api.SetForegroundWindow(_shellViewHandle);
 			Win32Api.SetForegroundWindow(wndHandle);
+			SetShellActive();
 		}
 
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -73,7 +79,6 @@ namespace UI.Wpf.Shell
 							case WM.MBUTTONDOWN:
 								{
 									SetForegroundHandle(wParam);
-									handled = true;
 								}
 								break;
 						}
@@ -86,21 +91,10 @@ namespace UI.Wpf.Shell
 
 						switch (uCmdType)
 						{
+							case SysCommand.SC_MAXIMIZE:
 							case SysCommand.SC_RESTORE:
 								{
-									// IConsoleService is responsible for closing the window
-									//_consoleInstance.Terminate();
-									//HideWindow(hwnd);
-									//handled = true;
-								}
-								break;
-
-							case SysCommand.SC_CLOSE:
-								{
-									// IConsoleService is responsible for closing the window
-									//_consoleInstance.Terminate();
-									//HideWindow(hwnd);
-									//handled = true;
+									SetForegroundHandle(_lastForegroundHandle);
 								}
 								break;
 						}

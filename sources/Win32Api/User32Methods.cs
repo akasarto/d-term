@@ -2,9 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace Shared.Kernel
+namespace Win32Api
 {
-	public static class Win32Api
+	public static class User32Methods
 	{
 		private const string user32Dll = "user32.dll";
 
