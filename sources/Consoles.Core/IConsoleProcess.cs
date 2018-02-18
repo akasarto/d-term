@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Consoles.Core
 {
@@ -11,7 +10,6 @@ namespace Consoles.Core
 		bool IsStarted { get; }
 		IntPtr MainWindowHandle { get; }
 		ConsoleOption Source { get; }
-		List<int> ThreadIds { get; }
 		void Start();
 	}
 }

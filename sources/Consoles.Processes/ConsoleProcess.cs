@@ -1,6 +1,5 @@
 ﻿using Consoles.Core;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Consoles.Processes
@@ -50,24 +49,6 @@ namespace Consoles.Processes
 		/// Gets the option that originated this process.
 		/// </summary>
 		public ConsoleOption Source { get; internal set; }
-
-		/// <summary>
-		/// Gets the thread ids associated with this process.
-		/// </summary>
-		public List<int> ThreadIds
-		{
-			get
-			{
-				var result = new List<int>();
-
-				foreach (ProcessThread thread in _systemProcess.Threads)
-				{
-					result.Add(thread.Id);
-				}
-
-				return result;
-			}
-		}
 
 		/// <summary>
 		/// Starts the process.
