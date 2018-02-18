@@ -1,9 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace WinApi
+namespace Shared.Kernel
 {
 	[StructLayout(LayoutKind.Explicit)]
-	public struct MsgParam
+	public struct Win32Param
 	{
 		[FieldOffset(0)]
 		public uint BaseValue;

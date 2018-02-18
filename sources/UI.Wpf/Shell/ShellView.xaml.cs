@@ -6,16 +6,18 @@ namespace UI.Wpf.Shell
 {
 	public partial class ShellView : Window
 	{
-		private ShellWndProc _wndProc = null;
+		private IntPtr _shellHandle;
+		private ShellWndProc _shellWndProc;
 
 		public ShellView(ShellViewModel viewModel)
 		{
 			InitializeComponent();
 			DataContext = viewModel;
+
 			SourceInitialized += (object sender, EventArgs args) =>
 			{
-				var hwndSource = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
-				_wndProc = new ShellWndProc(hwndSource);
+				_shellHandle = new WindowInteropHelper(this).Handle;
+				_shellWndProc = new ShellWndProc(HwndSource.FromHwnd(_shellHandle));
 			};
 		}
 	}

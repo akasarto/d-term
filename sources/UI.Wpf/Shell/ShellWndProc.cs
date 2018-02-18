@@ -1,76 +1,67 @@
-﻿using Sarto.Extensions;
-using WinApi;
+﻿using ReactiveUI;
+using Shared.Kernel;
 using System;
 using System.Windows.Interop;
-using System.Runtime.InteropServices;
+using UI.Wpf.Consoles;
+using WinApi.User32;
 
 namespace UI.Wpf.Shell
 {
 	public class ShellWndProc
 	{
-		private IntPtr _shellViewHandle;
-		private IntPtr _lastForegroundHandle;
+		private IntPtr _shellWindowHandle;
+		private IntPtr _latestActiveConsoleHandle;
 
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
 		public ShellWndProc(HwndSource shellHwndSource)
 		{
-			_shellViewHandle = shellHwndSource.Handle;
+			_shellWindowHandle = shellHwndSource.Handle;
 			shellHwndSource.AddHook(WndProc);
-		}
 
-		[return: MarshalAs(UnmanagedType.Bool)]
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
-		private void SetShellActive()
-		{
-			PostMessage(_shellViewHandle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
-			PostMessage(_shellViewHandle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
-		}
-
-		private void SetForegroundHandle(IntPtr wndHandle)
-		{
-			if (wndHandle != _shellViewHandle)
+			MessageBus.Current.Listen<ConsoleProcessCreatedMessage>().Subscribe(message =>
 			{
-				_lastForegroundHandle = wndHandle;
-			}
-			User32Interop.SetActiveWindow(_shellViewHandle);
-			User32Interop.SetForegroundWindow(_shellViewHandle);
-			User32Interop.SetForegroundWindow(wndHandle);
-			SetShellActive();
+				_latestActiveConsoleHandle = message.NewConsoleProcess.MainWindowHandle;
+			});
 		}
 
+		/// <summary>
+		/// Activate the given handle active forcing the shell view to look active as well.
+		/// </summary>
+		/// <param name="wndHandle">Either the shell or a console child handle.</param>
+		private void ActivateWindow(IntPtr wndHandle)
+		{
+			User32Methods.SetActiveWindow(_shellWindowHandle);
+			User32Methods.SetForegroundWindow(_shellWindowHandle);
+			User32Methods.SetForegroundWindow(wndHandle);
+
+			SetShellVisualAsActive();
+		}
+
+		/// <summary>
+		/// Activate the latest console.
+		/// </summary>
+		private void RestoreLastActivatedWindow() => ActivateWindow(_latestActiveConsoleHandle);
+
+		/// <summary>
+		/// Force the shell view to be displayed as active.
+		/// </summary>
+		private void SetShellVisualAsActive() => Win32Api.SetVisualAsActive(_shellWindowHandle);
+
+		/// <summary>
+		/// Handle windows native api messages.
+		/// </summary>
 		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
 		{
 			var message = (WM)msg;
 
 			switch (message)
 			{
-				case WM.ACTIVATEAPP:
-					{
-						if (hwnd == _shellViewHandle)
-						{
-							var activated = wParam.ToInt32().ChangeType<bool>();
-
-							if (!activated)
-							{
-								handled = true;
-								SetShellActive();
-								return IntPtr.Zero;
-							}
-						}
-					}
-					break;
-
-				case WM.MOUSEACTIVATE:
-					{
-						handled = true;
-						SetShellActive();
-						return new IntPtr((int)MouseActivationResult.MA_NOACTIVATE);
-					}
-
+				// https://msdn.microsoft.com/en-us/library/windows/desktop/ms648382%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
 				case WM.SETCURSOR:
 					{
-						var wlParam = new MsgParam()
+						var wlParam = new Win32Param()
 						{
 							BaseValue = (uint)lParam
 						};
@@ -83,13 +74,18 @@ namespace UI.Wpf.Shell
 							case WM.RBUTTONDOWN:
 							case WM.MBUTTONDOWN:
 								{
-									SetForegroundHandle(wParam);
+									if (wParam != _shellWindowHandle)
+									{
+										_latestActiveConsoleHandle = wParam;
+										ActivateWindow(wParam);
+									}
 								}
 								break;
 						}
 					}
 					break;
 
+				// https://msdn.microsoft.com/en-us/library/windows/desktop/ms646360(v=vs.85).aspx
 				case WM.SYSCOMMAND:
 					{
 						var uCmdType = (SysCommand)wParam;
@@ -99,7 +95,7 @@ namespace UI.Wpf.Shell
 							case SysCommand.SC_MAXIMIZE:
 							case SysCommand.SC_RESTORE:
 								{
-									SetForegroundHandle(_lastForegroundHandle);
+									RestoreLastActivatedWindow();
 								}
 								break;
 						}

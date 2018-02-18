@@ -119,6 +119,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Wire up commands with their respective actions.
 		/// <seealso cref="ConsoleProcessInstancesListViewModel"/>
+		/// <seealso cref="Shell.ShellWndProc"/>
 		/// </summary>
 		private void SetupCommands()
 		{

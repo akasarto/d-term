@@ -1,6 +1,6 @@
 ﻿using Consoles.Core;
-using WinApi;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Consoles.Processes
@@ -52,6 +52,24 @@ namespace Consoles.Processes
 		public ConsoleOption Source { get; internal set; }
 
 		/// <summary>
+		/// Gets the thread ids associated with this process.
+		/// </summary>
+		public List<int> ThreadIds
+		{
+			get
+			{
+				var result = new List<int>();
+
+				foreach (ProcessThread thread in _systemProcess.Threads)
+				{
+					result.Add(thread.Id);
+				}
+
+				return result;
+			}
+		}
+
+		/// <summary>
 		/// Starts the process.
 		/// </summary>
 		public void Start()
@@ -65,7 +83,7 @@ namespace Consoles.Processes
 			{
 				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 				{
-					_processMainWindowHandle = FindHiddenConsoleWindowHandle();
+					_processMainWindowHandle = Win32Api.FindHiddenConsoleWindowHandle(_systemProcess);
 
 					if (_processMainWindowHandle != IntPtr.Zero)
 					{
@@ -101,30 +119,9 @@ namespace Consoles.Processes
 		}
 
 		/// <summary>
-		/// Attempts to get the underlying process window handle.
+		/// Get the amount of time to wait for the process to start.
 		/// </summary>
-		/// <returns><see cref="IntPtr"/> for the process main window.</returns>
-		private IntPtr FindHiddenConsoleWindowHandle()
-		{
-			uint threadId = 0;
-			uint processId = 0;
-			IntPtr windowHandle = IntPtr.Zero;
-
-			do
-			{
-				processId = 0;
-				_systemProcess.Refresh();
-				windowHandle = User32Interop.FindWindowEx(IntPtr.Zero, windowHandle, null, null);
-				threadId = User32Interop.GetWindowThreadProcessId(windowHandle, out processId);
-				if (processId == _systemProcess.Id)
-				{
-					return windowHandle;
-				}
-			} while (!windowHandle.Equals(IntPtr.Zero));
-
-			return IntPtr.Zero;
-		}
-
+		/// <returns>Timeout in miliseconds.</returns>
 		private int GetTimeoutInMiliseconds() => _startupTimeoutInSeconds * 1000;
 	}
 }
