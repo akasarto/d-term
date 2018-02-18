@@ -8,11 +8,12 @@
 	xmlns:local="clr-namespace:UI.Wpf.Consoles"
 	mc:Ignorable="d"
 	Title="ConsoleSettingsView"
+	WindowStyle="None"
 	Width="800"
 	Height="600"
 >
 
-	<materialDesign:DialogHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+	<materialDesign:DialogHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0">
 
 		<materialDesign:DialogHost.Style>
 			<Style TargetType="{x:Type materialDesign:DialogHost}" BasedOn="{StaticResource consolesDialogHostStyle}">
@@ -27,19 +28,25 @@
 
 		<materialDesign:DialogHost.DialogContent>
 
-			<!-- Dialog host for the delete confirmation -->
 			<materialDesign:DialogHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource consolesDialogHostStyle}">
-
-				<!-- Console option form -->
 				<local:ConsoleOptionFormView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="35" />
-				
 			</materialDesign:DialogHost>
 
 		</materialDesign:DialogHost.DialogContent>
 
 		<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-			<GroupBox Header="Configure Consoles" Style="{DynamicResource MaterialDesignGroupBox}" Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<Button Click="Button_Click" Grid.Row="0" HorizontalAlignment="Right" Margin="0 0 7.5 15" Style="{DynamicResource MaterialDesignToolForegroundButton}">
+				<materialDesign:PackIcon Kind="Close" Height="16" Width="16" />
+			</Button>
+
+			<GroupBox Grid.Row="1" Header="Configure Consoles" Style="{DynamicResource MaterialDesignGroupBox}" Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
 
 				<ListView Margin="7.5" ItemsSource="{Binding ConsoleOptions}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding SelectedOption}">
 					<ListView.View>
@@ -61,8 +68,8 @@
 
 			</GroupBox>
 
-			<Button HorizontalAlignment="Right" Margin="25" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" Command="{Binding AddCommand}" ToolTip="Add Console" VerticalAlignment="Bottom">
-				<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+			<Button Command="{Binding AddCommand}" Grid.Row="2" HorizontalAlignment="Right" Margin="25" Style="{StaticResource MaterialDesignFloatingActionButton}" ToolTip="Add Console" VerticalAlignment="Center">
+				<materialDesign:PackIcon Kind="Plus" Height="22" Width="22" />
 			</Button>
 
 		</Grid>

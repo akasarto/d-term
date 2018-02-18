@@ -30,5 +30,11 @@ namespace UI.Wpf.Consoles
 			get { return ViewModel; }
 			set { ViewModel = (ConsoleSettingsDialogViewModel)value; }
 		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = false;
+			Close();
+		}
 	}
 }
