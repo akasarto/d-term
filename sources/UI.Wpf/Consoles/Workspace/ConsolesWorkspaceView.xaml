@@ -10,60 +10,46 @@
 	mc:Ignorable="d"
 	d:DesignWidth="1024"
 	d:DesignHeight="768"
-	x:Name="consolesWorkspaceControl"
 >
 
 	<Grid>
 
-		<materialDesign:DialogHost HorizontalAlignment="Stretch" VerticalAlignment="Center" CloseOnClickAway="True" Style="{StaticResource consolesDialogHostStyle}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="50" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
-			<Grid>
+		<!-- Header -->
+		<materialDesign:ColorZone Grid.Row="0" Mode="Inverted" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="7.5 0">
+			<DockPanel LastChildFill="False" VerticalAlignment="Center">
+				<TextBlock DockPanel.Dock="Left" FontSize="22" Text="Consoles" VerticalAlignment="Center" />
+				<Button Command="{Binding ShowSettingsDialogCommand}" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Configure" VerticalAlignment="Center">
+					<materialDesign:PackIcon Height="24" Kind="Settings" Width="24" />
+				</Button>
+			</DockPanel>
+		</materialDesign:ColorZone>
 
-				<Grid.RowDefinitions>
-					<RowDefinition Height="50" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
+		<!-- Console options -->
+		<DockPanel Grid.Row="1" LastChildFill="False" Margin="15">
 
-				<!-- Header -->
-				<materialDesign:ColorZone Grid.Row="0" Mode="Inverted" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="7.5 0">
-					<DockPanel LastChildFill="False" VerticalAlignment="Center">
-						<TextBlock DockPanel.Dock="Left" FontSize="22" Text="Consoles" VerticalAlignment="Center" />
-						<Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" DockPanel.Dock="Right" Style="{StaticResource MaterialDesignToolForegroundButton}" VerticalAlignment="Center">
-							<Button.CommandParameter>
-								<Grid Width="800" Height="600">
-									<TextBlock Text=":)" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-								</Grid>
-							</Button.CommandParameter>
-							<materialDesign:PackIcon Height="24" Kind="Settings" Width="24" />
-						</Button>
-					</DockPanel>
-				</materialDesign:ColorZone>
+			<local:ConsoleProcessInstancesArrangeView DataContext="{Binding ConsoleProcessInstancesArrangeViewModel}" DockPanel.Dock="Left" VerticalAlignment="Center" />
 
-				<!-- Console options -->
-				<DockPanel Grid.Row="1" LastChildFill="False" Margin="15">
+			<local:ConsoleOptionsListView DataContext="{Binding ConsoleOptionsListViewModel}" DockPanel.Dock="Right" />
 
-					<local:ConsoleProcessInstancesArrangeView DataContext="{Binding ConsoleProcessInstancesArrangeViewModel}" DockPanel.Dock="Left" VerticalAlignment="Center" />
+		</DockPanel>
 
-					<local:ConsoleOptionsListView DataContext="{Binding ConsoleOptionsListViewModel}" DockPanel.Dock="Right" />
-
-				</DockPanel>
-
-				<!---->
+		<!---->
 		<Border
 			BorderBrush="{DynamicResource MaterialDesignDivider}"
 			BorderThickness="0 0 0 1"
 			Grid.Row="2" />
 
 		<!-- Console instances -->
-				<Path Grid.Row="3" Style="{StaticResource logoVisualStyle}" />
+		<Path Grid.Row="3" Style="{StaticResource logoVisualStyle}" />
 
-				<local:ConsoleProcessInstancesListView DataContext="{Binding ConsoleProcessInstancesListViewModel}" Grid.Row="3" />
-
-			</Grid>
-
-		</materialDesign:DialogHost>
+		<local:ConsoleProcessInstancesListView DataContext="{Binding ConsoleProcessInstancesListViewModel}" Grid.Row="3" />
 
 	</Grid>
 

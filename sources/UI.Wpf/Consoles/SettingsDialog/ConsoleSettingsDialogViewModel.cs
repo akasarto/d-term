@@ -8,9 +8,10 @@ namespace UI.Wpf.Consoles
 {
 	public class ConsoleSettingsDialogViewModel : BaseViewModel
 	{
-		//
+		private ConsoleOptionFormViewModel _formData;
 		private ReactiveList<ConsoleOption> _consoleOptions;
 		private IReactiveDerivedList<ConsoleOptionViewModel> _consoleOptionViewModels;
+		private ConsoleOptionViewModel _selectedOption;
 
 		//
 		private readonly IConsoleOptionsRepository _consoleOptionsRepository = null;
@@ -37,7 +38,24 @@ namespace UI.Wpf.Consoles
 			_consoleOptionViewModels.CountChanged.Subscribe(count =>
 			{
 			});
+
+			this.ObservableForProperty(viewModel => viewModel.SelectedOption).Subscribe(option =>
+			{
+				FormData = Mapper.Map<ConsoleOptionFormViewModel>(option.Value);
+			});
+
+			SetupCommands();
 		}
+
+		/// <summary>
+		/// Add a new console option.
+		/// </summary>
+		public ReactiveCommand AddCommand { get; protected set; }
+
+		/// <summary>
+		/// Cancel the add/edit operation.
+		/// </summary>
+		public ReactiveCommand CancelCommand { get; protected set; }
 
 		/// <summary>
 		/// Get the current console options list.
@@ -46,6 +64,24 @@ namespace UI.Wpf.Consoles
 		{
 			get => _consoleOptionViewModels;
 			set => this.RaiseAndSetIfChanged(ref _consoleOptionViewModels, value);
+		}
+
+		/// <summary>
+		/// Gets or sets the current selected option.
+		/// </summary>
+		public ConsoleOptionViewModel SelectedOption
+		{
+			get => _selectedOption;
+			set => this.RaiseAndSetIfChanged(ref _selectedOption, value);
+		}
+
+		/// <summary>
+		/// Gets or sets the current option being added/edited.
+		/// </summary>
+		public ConsoleOptionFormViewModel FormData
+		{
+			get => _formData;
+			set => this.RaiseAndSetIfChanged(ref _formData, value);
 		}
 
 		/// <summary>
@@ -58,6 +94,19 @@ namespace UI.Wpf.Consoles
 			).Subscribe(
 				options => _consoleOptions.AddRange(options)
 			);
+		}
+
+		private void SetupCommands()
+		{
+			AddCommand = ReactiveCommand.Create(() =>
+			{
+				FormData = new ConsoleOptionFormViewModel();
+			});
+
+			CancelCommand = ReactiveCommand.Create(() =>
+			{
+				FormData = null; ;
+			});
 		}
 	}
 }

@@ -40,7 +40,7 @@ namespace UI.Wpf.Notebook
 
 			Notes = _noteEntities.CreateDerivedCollection(
 				filter: noteEntity => ApplyFilter(noteEntity),
-				selector: noteEntity => BuildDetailsViewModel(noteEntity),
+				selector: noteEntity => Mapper.Map<NoteDetailsViewModel>(noteEntity),
 				signalReset: filterChangedObservable,
 				scheduler: RxApp.MainThreadScheduler
 			);
@@ -155,14 +155,6 @@ namespace UI.Wpf.Notebook
 			}
 
 			return true;
-		}
-
-		/// <summary>
-		/// Gets the view model for the current entity.
-		/// </summary>
-		private NoteDetailsViewModel BuildDetailsViewModel(NoteEntity noteEntity)
-		{
-			return Mapper.Map<NoteDetailsViewModel>(noteEntity);
 		}
 	}
 }

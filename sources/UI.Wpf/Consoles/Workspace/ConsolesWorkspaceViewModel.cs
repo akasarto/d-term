@@ -45,7 +45,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Show the settings window.
 		/// </summary>
-		public ReactiveCommand ShowSettingsCommand { get; protected set; }
+		public ReactiveCommand ShowSettingsDialogCommand { get; protected set; }
 
 		/// <summary>
 		/// Initializer the model.
@@ -59,7 +59,7 @@ namespace UI.Wpf.Consoles
 		/// </summary>
 		private void SetupCommands()
 		{
-			ShowSettingsCommand = ReactiveCommand.Create(() =>
+			ShowSettingsDialogCommand = ReactiveCommand.Create(() =>
 			{
 				var view = new ConsoleSettingsDialogView()
 				{

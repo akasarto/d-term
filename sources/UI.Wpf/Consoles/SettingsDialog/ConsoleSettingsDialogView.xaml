@@ -12,72 +12,61 @@
 	Height="600"
 >
 
-	<Grid>
+	<materialDesign:DialogHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="6*" />
-			<ColumnDefinition Width="4*" />
-		</Grid.ColumnDefinitions>
+		<materialDesign:DialogHost.Style>
+			<Style TargetType="{x:Type materialDesign:DialogHost}" BasedOn="{StaticResource consolesDialogHostStyle}">
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding FormData}" Value="{x:Null}">
+						<Setter Property="IsOpen" Value="False" />
+					</DataTrigger>
+				</Style.Triggers>
+				<Setter Property="IsOpen" Value="True" />
+			</Style>
+		</materialDesign:DialogHost.Style>
 
-		<!--
-		<ItemsControl ItemsSource="{Binding Items2}" Grid.IsSharedSizeScope="True">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate DataType="{x:Type local:ConsoleOptionViewModel}">
-					<Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
-						<Grid>
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition SharedSizeGroup="Checkerz" />
-								<ColumnDefinition />
-							</Grid.ColumnDefinitions>
-							<ToggleButton VerticalAlignment="Center" IsChecked="{Binding IsSelected}" Style="{StaticResource MaterialDesignActionLightToggleButton}" Content="{Binding Code}" />
-							<StackPanel Margin="8 0 0 0" Grid.Column="1">
-								<TextBlock FontWeight="Bold" Text="{Binding Name}" />
-								<TextBlock Text="{Binding Description}" />
-							</StackPanel>
-						</Grid>
-					</Border>
-					<DataTemplate.Triggers>
-						<DataTrigger Binding="{Binding IsSelected}" Value="True">
-							<Setter TargetName="Border" Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
-						</DataTrigger>
-					</DataTemplate.Triggers>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-		-->
+		<materialDesign:DialogHost.DialogContent>
 
-		<ListView Grid.Column="0" ItemsSource="{Binding ConsoleOptions}" SelectionMode="Single">
-			<ListView.View>
-				<GridView>
-					<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
-					<GridViewColumn DisplayMemberBinding="{Binding ProcessBasePath}" Header="Base Path Type" />
-					<GridViewColumn DisplayMemberBinding="{Binding ProcessExecutableName}" Header="Executable Name" />
-					<GridViewColumn DisplayMemberBinding="{Binding ProcessStartupArgs}" Header="Startup Args" />
-				</GridView>
-			</ListView.View>
-		</ListView>
+			<!-- Dialog host for the delete confirmation -->
+			<materialDesign:DialogHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource consolesDialogHostStyle}">
 
-		<ContentControl Grid.Column="1">
-			<ContentControl.Style>
-				<Style TargetType="ContentControl">
-					<Setter Property="Content" Value="{Binding SelectedConsoleOption}" />
-					<Style.Triggers>
-						<DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Content}" Value="{x:Null}">
-							<Setter Property="ContentControl.Template">
-								<Setter.Value>
-									<ControlTemplate>
-										<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-											<Path Style="{StaticResource logoVisualStyle}" />
-										</Grid>
-									</ControlTemplate>
-								</Setter.Value>
-							</Setter>
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</ContentControl.Style>
-		</ContentControl>
+				<!-- Console option form -->
+				<local:ConsoleOptionFormView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="35" />
+				
+			</materialDesign:DialogHost>
 
-	</Grid>
+		</materialDesign:DialogHost.DialogContent>
+
+		<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+			<GroupBox Header="Configure Consoles" Style="{DynamicResource MaterialDesignGroupBox}" Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
+
+				<ListView Margin="7.5" ItemsSource="{Binding ConsoleOptions}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding SelectedOption}">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn Header="Icon">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Path Stretch="Uniform" Fill="Black" Data="{Binding PicturePath}" />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
+							<GridViewColumn DisplayMemberBinding="{Binding ProcessBasePath}" Header="Base Path Type" />
+							<GridViewColumn DisplayMemberBinding="{Binding ProcessExecutableName}" Header="Executable Filename" />
+							<GridViewColumn DisplayMemberBinding="{Binding ProcessStartupArgs}" Header="Startup Args" />
+						</GridView>
+					</ListView.View>
+				</ListView>
+
+			</GroupBox>
+
+			<Button HorizontalAlignment="Right" Margin="25" Style="{StaticResource MaterialDesignFloatingActionDarkButton}" Command="{Binding AddCommand}" ToolTip="Add Console" VerticalAlignment="Bottom">
+				<materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+			</Button>
+
+		</Grid>
+
+	</materialDesign:DialogHost>
 
 </Window>

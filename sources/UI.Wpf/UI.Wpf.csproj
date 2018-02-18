@@ -300,6 +300,10 @@
     </Compile>
     <Compile Include="Consoles\ProcessInstancesList\ConsoleProcessInstancesListViewModel.cs" />
     <Compile Include="Consoles\ProcessInstance\ConsoleProcessTerminatedMessage.cs" />
+    <Compile Include="Consoles\SettingsDialog\ConsoleOptionFormView.xaml.cs">
+      <DependentUpon>ConsoleOptionFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\SettingsDialog\ConsoleOptionFormViewModel.cs" />
     <Compile Include="Consoles\SettingsDialog\ConsoleSettingsDialogView.xaml.cs">
       <DependentUpon>ConsoleSettingsDialogView.xaml</DependentUpon>
     </Compile>
@@ -362,6 +366,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Consoles\ProcessInstancesList\ConsoleProcessInstancesListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\SettingsDialog\ConsoleOptionFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

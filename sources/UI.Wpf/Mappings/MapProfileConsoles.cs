@@ -55,6 +55,9 @@ namespace UI.Wpf.Mappings
 
 			CreateMap<ConsoleOption, ConsoleOptionViewModel>().ConstructUsing(source => new ConsoleOptionViewModel(_consoleProcessService));
 			CreateMap<ConsoleOptionViewModel, ConsoleOption>();
+
+			CreateMap<ConsoleOptionFormViewModel, ConsoleOptionViewModel>().ConstructUsing(source => new ConsoleOptionViewModel(_consoleProcessService));
+			CreateMap<ConsoleOptionViewModel, ConsoleOptionFormViewModel>();
 		}
 	}
 }
