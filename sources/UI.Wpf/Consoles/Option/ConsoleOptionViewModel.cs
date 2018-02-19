@@ -2,6 +2,7 @@
 using Consoles.Core;
 using Consoles.Processes;
 using ReactiveUI;
+using Sarto.Extensions;
 using System;
 using System.Reactive.Linq;
 
@@ -13,7 +14,7 @@ namespace UI.Wpf.Consoles
 		private string _name;
 		private int _orderIndex;
 		private string _picturePath;
-		private BasePath _processBasePath;
+		private ProcessBasePath _processBasePath;
 		private string _processExecutableName;
 		private string _processStartupArgs;
 		private DateTime _utcCreation;
@@ -78,11 +79,16 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets or sets the process base path.
 		/// </summary>
-		public BasePath ProcessBasePath
+		public ProcessBasePath ProcessBasePath
 		{
 			get => _processBasePath;
 			set => this.RaiseAndSetIfChanged(ref _processBasePath, value);
 		}
+
+		/// <summary>
+		/// Gets or sets the base path description.
+		/// </summary>
+		public string ProcessBasePathDescription => ProcessBasePath.GetDisplayName();
 
 		/// <summary>
 		/// Gets or sets the process executable file name.

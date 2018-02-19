@@ -54,28 +54,31 @@
 
 		</StackPanel>
 
-		<TextBox Margin="0 15 0 0"
+		<TextBox Margin="0 17.5 0 0"
 				 materialDesign:HintAssist.Hint="Name"
 				 materialDesign:HintAssist.IsFloating="True"
 				 Text="{Binding FormData.Name, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-		<TextBox Margin="0 15 0 0"
-				 materialDesign:HintAssist.Hint="Base Path Type"
-				 materialDesign:HintAssist.IsFloating="True"
-				 materialDesign:ValidationAssist.UsePopup="True"
-				 Text="{Binding FormData.ProcessBasePath, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+		<ComboBox DisplayMemberPath="Description"
+				  ItemsSource="{Binding FormData.BasePathTypes}"
+				  Margin="0 17.5 0 0"
+				  materialDesign:HintAssist.Hint="Base Path Type"
+				  SelectedValue="{Binding FormData.ProcessBasePath}"
+				  SelectedValuePath="BasePath"
+				  Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+		</ComboBox>
 
-		<TextBox Margin="0 15 0 0"
+		<TextBox Margin="0 17.5 0 0"
 				 materialDesign:HintAssist.Hint="Executable Filename"
 				 materialDesign:HintAssist.IsFloating="True"
 				 Text="{Binding FormData.ProcessExecutableName, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-		<TextBox Margin="0 15 0 0"
+		<TextBox Margin="0 17.5 0 0"
 				 materialDesign:HintAssist.Hint="Executable Filename"
 				 materialDesign:HintAssist.IsFloating="True"
 				 Text="{Binding FormData.ProcessStartupArgs, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-		<DockPanel Grid.Row="2" Margin="0 15 0 0" HorizontalAlignment="Stretch" LastChildFill="False">
+		<DockPanel Grid.Row="2" Margin="0 17.5 0 0" HorizontalAlignment="Stretch" LastChildFill="False">
 
 			<Button DockPanel.Dock="Left" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" ToolTip="Delete">
 				<Button.Style>

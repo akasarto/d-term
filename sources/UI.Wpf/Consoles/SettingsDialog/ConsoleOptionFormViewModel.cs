@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using Consoles.Core;
 using ReactiveUI;
 
@@ -10,7 +13,7 @@ namespace UI.Wpf.Consoles
 		private string _name;
 		private int _orderIndex;
 		private string _picturePath;
-		private BasePath _processBasePath;
+		private ProcessBasePath _processBasePath;
 		private string _processExecutableName;
 		private string _processStartupArgs;
 		private bool _isValid;
@@ -24,7 +27,13 @@ namespace UI.Wpf.Consoles
 		public ConsoleOptionFormViewModel()
 		{
 			_consoleOptionFormViewModelValidator = new ConsoleOptionFormViewModelValidator();
+
+			var basePaths = Enum.GetValues(typeof(ProcessBasePath)).Cast<ProcessBasePath>();
+
+			BasePathTypes = Mapper.Map<List<ProcessBasePathViewModel>>(basePaths);
 		}
+
+		public List<ProcessBasePathViewModel> BasePathTypes { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the id.
@@ -65,7 +74,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets or sets the base path for the process exe filename.
 		/// </summary>
-		public BasePath ProcessBasePath
+		public ProcessBasePath ProcessBasePath
 		{
 			get => _processBasePath;
 			set => this.RaiseAndSetIfChanged(ref _processBasePath, value);

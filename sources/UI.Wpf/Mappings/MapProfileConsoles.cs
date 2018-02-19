@@ -28,6 +28,12 @@ namespace UI.Wpf.Mappings
 		{
 			CreateMap<IConsoleProcess, ConsoleProcessInstanceViewModel>().ConstructUsing(source => new ConsoleProcessInstanceViewModel(source));
 
+			CreateMap<ProcessBasePath, ProcessBasePathViewModel>().AfterMap((source, dest) =>
+			{
+				dest.BasePath = source;
+				dest.Description = source.GetDisplayName();
+			});
+
 			CreateMap<ConsoleArrangeOption, ConsoleArrangeOptionViewModel>().AfterMap((source, dest) =>
 			{
 				dest.Arrange = source;

@@ -2,7 +2,7 @@
 {
 	public interface IConsoleProcessService
 	{
-		bool CanCreate(BasePath processBasePath, string processExecutableName);
+		bool CanCreate(ProcessBasePath processBasePath, string processExecutableName);
 		IConsoleProcess Create(IProcessDescriptor processDescriptor);
 	}
 }

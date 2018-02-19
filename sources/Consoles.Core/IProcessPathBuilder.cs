@@ -2,6 +2,6 @@
 {
 	public interface IProcessPathBuilder
 	{
-		string Build(BasePath basePath, string executableName);
+		string Build(ProcessBasePath basePath, string executableName);
 	}
 }

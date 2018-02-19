@@ -6,20 +6,20 @@ namespace Consoles.Processes
 {
 	public class ProcessPathBuilder : IProcessPathBuilder
 	{
-		public string Build(BasePath basePath, string executableName)
+		public string Build(ProcessBasePath basePath, string executableName)
 		{
 			switch (basePath)
 			{
-				case BasePath.Physical:
+				case ProcessBasePath.Physical:
 					return PhysicalFilePath(executableName);
 
-				case BasePath.ProgramFilesFolder:
+				case ProcessBasePath.ProgramFilesFolder:
 					return ProgramFilesFolderPath(executableName);
 
-				case BasePath.System32Folder:
+				case ProcessBasePath.System32Folder:
 					return System32FolderPath(executableName);
 
-				case BasePath.SystemPathVar:
+				case ProcessBasePath.SystemPathVar:
 					return SystemPathVarPath(executableName);
 			}
 

@@ -19,7 +19,7 @@ namespace Consoles.Processes
 			_processPathBuilder = processPathBuilder ?? throw new ArgumentNullException(nameof(processPathBuilder), nameof(ConsoleProcessService));
 		}
 
-		public bool CanCreate(BasePath processBasePath, string processExecutableName)
+		public bool CanCreate(ProcessBasePath processBasePath, string processExecutableName)
 		{
 			var path = _processPathBuilder.Build(processBasePath, processExecutableName);
 
