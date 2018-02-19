@@ -213,7 +213,7 @@
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsOpen" Value="True">
 							<Setter TargetName="ContentPresenter" Property="IsEnabled" Value="False" />
-							<Setter TargetName="PART_ContentCoverGrid" Property="Background" Value="WhiteSmoke" />
+							<Setter TargetName="PART_ContentCoverGrid" Property="Background" Value="Transparent" />
 							<Setter TargetName="PART_ContentCoverGrid" Property="IsHitTestVisible" Value="True" />
 						</Trigger>
 					</ControlTemplate.Triggers>
