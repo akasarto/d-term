@@ -156,6 +156,7 @@
   <ItemGroup>
     <Compile Include="ConsoleProcess.cs" />
     <Compile Include="ConsoleProcessService.cs" />
+    <Compile Include="InvalidConsoleProcessException.cs" />
     <Compile Include="ProcessDescriptor.cs" />
     <Compile Include="ProcessPathBuilder.cs" />
     <Compile Include="ProcessTracker.cs" />

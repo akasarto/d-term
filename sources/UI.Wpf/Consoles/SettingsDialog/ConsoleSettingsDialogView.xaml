@@ -31,29 +31,56 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<Button Click="Button_Click" Grid.Row="0" HorizontalAlignment="Right" Margin="0 0 7.5 15" Style="{DynamicResource MaterialDesignToolForegroundButton}">
+			<Button Click="Button_Click" x:Name="closeButton" Grid.Row="0" HorizontalAlignment="Right" Margin="0 0 7.5 15" Style="{DynamicResource MaterialDesignToolForegroundButton}">
 				<materialDesign:PackIcon Kind="Close" Height="16" Width="16" />
 			</Button>
 
 			<GroupBox Grid.Row="1" Header="Configure Consoles" Style="{DynamicResource MaterialDesignGroupBox}" Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0">
 
-				<ListView Margin="7.5" ItemsSource="{Binding ConsoleOptions}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding SelectedOption}">
-					<ListView.View>
-						<GridView>
-							<GridViewColumn Header="Icon">
-								<GridViewColumn.CellTemplate>
-									<DataTemplate>
-										<Path Stretch="Uniform" Fill="Black" Data="{Binding PicturePath}" />
-									</DataTemplate>
-								</GridViewColumn.CellTemplate>
-							</GridViewColumn>
-							<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
-							<GridViewColumn DisplayMemberBinding="{Binding ProcessBasePathDescription}" Header="Base Path" />
-							<GridViewColumn DisplayMemberBinding="{Binding ProcessExecutableName}" Header="Executable Filename" />
-							<GridViewColumn DisplayMemberBinding="{Binding ProcessStartupArgs}" Header="Startup Args" />
-						</GridView>
-					</ListView.View>
-				</ListView>
+				<ContentControl Content="{Binding}">
+					<ContentControl.ContentTemplate>
+						<DataTemplate>
+							
+							<Grid>
+								<ListView x:Name="list" Margin="7.5" ItemsSource="{Binding ConsoleOptions}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding SelectedOption}">
+									<ListView.View>
+										<GridView>
+											<GridViewColumn Header="Icon">
+												<GridViewColumn.CellTemplate>
+													<DataTemplate>
+														<Path Stretch="Uniform" Fill="Black" Data="{Binding PicturePath}" />
+													</DataTemplate>
+												</GridViewColumn.CellTemplate>
+											</GridViewColumn>
+											<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
+											<GridViewColumn DisplayMemberBinding="{Binding ProcessBasePathDescription}" Header="Base Path" />
+											<GridViewColumn DisplayMemberBinding="{Binding ProcessExecutableName}" Header="Executable Filename" />
+											<GridViewColumn DisplayMemberBinding="{Binding ProcessStartupArgs}" Header="Startup Args" />
+										</GridView>
+									</ListView.View>
+								</ListView>
+								
+								<TextBlock FontStyle="Italic" 
+										   FontSize="12"
+										   HorizontalAlignment="Center"
+										   Margin="15 75"
+										   Opacity=".55"
+										   Style="{StaticResource MaterialDesignButtonTextBlock}"
+										   Text="No console options found."
+										   Visibility="Collapsed"
+										   x:Name="empty" />
+							</Grid>
+							
+							<DataTemplate.Triggers>
+								<DataTrigger Binding="{Binding ConsoleOptions.Count}" Value="0">
+									<Setter TargetName="list" Property="Visibility" Value="Collapsed"/>
+									<Setter TargetName="empty" Property="Visibility" Value="Visible"/>
+								</DataTrigger>
+							</DataTemplate.Triggers>
+							
+						</DataTemplate>
+					</ContentControl.ContentTemplate>
+				</ContentControl>
 
 			</GroupBox>
 

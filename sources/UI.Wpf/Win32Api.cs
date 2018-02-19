@@ -1,6 +1,7 @@
 ﻿using Shared.Kernel;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using WinApi.User32;
 
 namespace UI.Wpf
@@ -19,26 +20,27 @@ namespace UI.Wpf
 			PostMessage(handle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
 		}
 
-		internal static IntPtr FindWindowHandle(uint windowThreadId)
+		/// <summary>
+		/// Check if the given handle is from a console process.
+		/// </summary>
+		/// <param name="hWnd">The process windo handle to test.</param>
+		/// <returns><c>True</c> if the handle is a console process, otherwise, <c>false</c>.</returns>
+		internal static bool IsConsoleProcess(IntPtr hWnd)
 		{
-			uint threadId = 0;
-			IntPtr windowHandle = IntPtr.Zero;
+			int outLength;
+			var stringBuilder = new StringBuilder(256);
 
-			do
+			outLength = User32Methods.GetClassName(hWnd, stringBuilder, stringBuilder.Capacity);
+
+			if (outLength != 0)
 			{
-				windowHandle = User32Methods.FindWindowEx(IntPtr.Zero, windowHandle, null, null);
-				threadId = User32Methods.GetWindowThreadProcessId(windowHandle, IntPtr.Zero);
-				if (threadId == windowThreadId)
-				{
-					return windowHandle;
-				}
-			} while (!windowHandle.Equals(IntPtr.Zero));
-
-			return IntPtr.Zero;
+				return stringBuilder.ToString().ToLower().Contains("consolewindowclass");
+			}
+			else
+			{
+				return false;
+			}
 		}
-
-		[DllImport("user32.dll", CharSet = Win32Charset.Current)]
-		internal static extern bool EnumThreadWindows(IntPtr dwThreadId, EnumThreadDelegate lpfn, IntPtr lParam);
 
 		[return: MarshalAs(UnmanagedType.Bool)]
 		[DllImport("user32.dll", SetLastError = true, CharSet = Win32Charset.Current)]

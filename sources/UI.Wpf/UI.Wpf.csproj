@@ -300,6 +300,9 @@
     </Compile>
     <Compile Include="Consoles\ProcessInstancesList\ConsoleProcessInstancesListViewModel.cs" />
     <Compile Include="Consoles\ProcessInstance\ConsoleProcessTerminatedMessage.cs" />
+    <Compile Include="Consoles\SettingsDialog\ConsoleOptionEditedMessage.cs" />
+    <Compile Include="Consoles\SettingsDialog\ConsoleOptionDeletedMessage.cs" />
+    <Compile Include="Consoles\SettingsDialog\ConsoleOptionAddedMessage.cs" />
     <Compile Include="Consoles\SettingsDialog\ProcessBasePathViewModel.cs" />
     <Compile Include="Consoles\SettingsDialog\ConsoleOptionFormView.xaml.cs">
       <DependentUpon>ConsoleOptionFormView.xaml</DependentUpon>

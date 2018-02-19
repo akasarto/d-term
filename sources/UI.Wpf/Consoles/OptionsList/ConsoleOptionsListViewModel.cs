@@ -2,6 +2,7 @@
 using Consoles.Core;
 using ReactiveUI;
 using System;
+using System.Linq;
 using System.Reactive.Linq;
 
 namespace UI.Wpf.Consoles
@@ -31,6 +32,8 @@ namespace UI.Wpf.Consoles
 				selector: option => Mapper.Map<ConsoleOptionViewModel>(option),
 				scheduler: RxApp.MainThreadScheduler
 			);
+
+			SetupMessageBus();
 		}
 
 		/// <summary>
@@ -52,6 +55,39 @@ namespace UI.Wpf.Consoles
 			).Subscribe(
 				options => _consoleOptions.AddRange(options)
 			);
+		}
+
+
+		/// <summary>
+		/// Wireup the messages this view model will listen to.
+		/// </summary>
+		private void SetupMessageBus()
+		{
+			MessageBus.Current.Listen<ConsoleOptionAddedMessage>().Subscribe(message =>
+			{
+				_consoleOptions.Add(message.NewConsoleOption);
+			});
+
+			MessageBus.Current.Listen<ConsoleOptionDeletedMessage>().Subscribe(message =>
+			{
+				var noteEntity = _consoleOptions.FirstOrDefault(n => n.Id == message.DeletedConsoleOption.Id);
+
+				if (noteEntity != null)
+				{
+					_consoleOptions.Remove(noteEntity);
+				}
+			});
+
+			MessageBus.Current.Listen<ConsoleOptionEditedMessage>().Subscribe(message =>
+			{
+				var consoleOption = _consoleOptions.FirstOrDefault(n => n.Id == message.OldConsoleOption.Id);
+
+				if (consoleOption != null)
+				{
+					_consoleOptions.Remove(consoleOption);
+					_consoleOptions.Add(message.NewConsoleOption);
+				}
+			});
 		}
 	}
 }

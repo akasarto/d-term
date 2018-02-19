@@ -108,7 +108,7 @@ namespace UI.Wpf.Notebook
 		}
 
 		/// <summary>
-		/// Wireup the message this view model wil listen to.
+		/// Wireup the messages this view model will listen to.
 		/// </summary>
 		private void SetupMessageBus()
 		{

@@ -18,6 +18,15 @@ namespace UI.Wpf
 			{
 				application.InitializeComponent();
 
+				application.DispatcherUnhandledException += (object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs exceptionArgs) =>
+				{
+					//ToDo: Log exceptions (v3 milestone)
+
+					exceptionArgs.Handled = true;
+
+					//MessageBus
+				};
+
 				MapperInitializer.Initialize(container);
 
 				if (hasArguments)

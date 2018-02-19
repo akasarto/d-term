@@ -26,6 +26,9 @@ namespace UI.Wpf.Mappings
 
 		private void SetupMaps()
 		{
+			CreateMap<ConsoleOption, ConsoleOptionFormViewModel>();
+			CreateMap<ConsoleOptionFormViewModel, ConsoleOption>();
+
 			CreateMap<IConsoleProcess, ConsoleProcessInstanceViewModel>().ConstructUsing(source => new ConsoleProcessInstanceViewModel(source));
 
 			CreateMap<ProcessBasePath, ProcessBasePathViewModel>().AfterMap((source, dest) =>

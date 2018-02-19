@@ -3,6 +3,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:consoles="clr-namespace:UI.Wpf.Consoles"
 	xmlns:notebook="clr-namespace:UI.Wpf.Notebook"
 	x:Class="UI.Wpf.Shell.ShellView"
@@ -33,11 +34,29 @@
 		</Grid.ColumnDefinitions>
 
 		<!-- Notebook -->
-		<notebook:NotebookWorkspace
-			DataContext="{Binding NotebookWorkspaceViewModel}"
-			Grid.Column="0"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch" />
+		<StackPanel Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				
+				<notebook:NotebookWorkspace DataContext="{Binding NotebookWorkspaceViewModel}"
+											Grid.Row="0"
+											HorizontalAlignment="Stretch"
+											VerticalAlignment="Stretch" />
+
+				<materialDesign:Snackbar Grid.Row="1"
+										 HorizontalAlignment="Center"
+										 MessageQueue="{Binding MessageQueue}"
+										 VerticalAlignment="Bottom"
+										 x:Name="globalMessages" />
+
+			</Grid>
+
+		</StackPanel>
 
 		<!---->
 		<Border

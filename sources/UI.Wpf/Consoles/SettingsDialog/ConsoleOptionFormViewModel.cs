@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Consoles.Core;
 using ReactiveUI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UI.Wpf.Consoles
 {
@@ -32,8 +32,6 @@ namespace UI.Wpf.Consoles
 
 			BasePathTypes = Mapper.Map<List<ProcessBasePathViewModel>>(basePaths);
 		}
-
-		public List<ProcessBasePathViewModel> BasePathTypes { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the id.
@@ -97,6 +95,11 @@ namespace UI.Wpf.Consoles
 			get => _processStartupArgs;
 			set => this.RaiseAndSetIfChanged(ref _processStartupArgs, value);
 		}
+
+		/// <summary>
+		/// Gets or sets the available base path types.
+		/// </summary>
+		public List<ProcessBasePathViewModel> BasePathTypes { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the form validation state.

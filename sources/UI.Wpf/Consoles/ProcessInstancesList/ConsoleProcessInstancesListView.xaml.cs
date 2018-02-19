@@ -16,6 +16,11 @@ namespace UI.Wpf.Consoles
 				{
 					viewModel.Initialize(consoleInstancesControl);
 				}));
+
+				activator(this.Events().SizeChanged.Subscribe(eventArgs =>
+				{
+					ViewModel.ArrangeProcessInstances();
+				}));
 			});
 		}
 

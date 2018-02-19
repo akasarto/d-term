@@ -7,21 +7,24 @@ namespace UI.Wpf.Consoles
 {
 	public class ConsolesWorkspaceViewModel : BaseViewModel
 	{
-		IConsoleOptionsRepository _tempRepo = null;
-
 		//
-		private readonly ConsoleProcessInstancesArrangeViewModel _consoleProcessInstancesArrangeViewModel = null;
+		private readonly IConsoleOptionsRepository _consoleOptionsRepository = null;
 		private readonly ConsoleOptionsListViewModel _consoleOptionsListViewModel = null;
+		private readonly ConsoleProcessInstancesArrangeViewModel _consoleProcessInstancesArrangeViewModel = null;
 		private readonly ConsoleProcessInstancesListViewModel _consoleProcessInstancesListViewModel = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesWorkspaceViewModel(IConsoleOptionsRepository tempRepo, ConsoleProcessInstancesArrangeViewModel consoleProcessInstancesArrangeViewModel, ConsoleOptionsListViewModel consoleOptionsListViewModel, ConsoleProcessInstancesListViewModel consoleProcessInstancesListViewModel)
+		public ConsolesWorkspaceViewModel(
+			IConsoleOptionsRepository consoleOptionsRepository,
+			ConsoleOptionsListViewModel consoleOptionsListViewModel,
+			ConsoleProcessInstancesArrangeViewModel consoleProcessInstancesArrangeViewModel,
+			ConsoleProcessInstancesListViewModel consoleProcessInstancesListViewModel)
 		{
-			_tempRepo = tempRepo;
-			_consoleProcessInstancesArrangeViewModel = consoleProcessInstancesArrangeViewModel ?? throw new ArgumentNullException(nameof(consoleProcessInstancesArrangeViewModel), nameof(ConsolesWorkspaceViewModel));
+			_consoleOptionsRepository = consoleOptionsRepository ?? throw new ArgumentNullException(nameof(consoleOptionsRepository), nameof(ConsolesWorkspaceViewModel));
 			_consoleOptionsListViewModel = consoleOptionsListViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsListViewModel), nameof(ConsolesWorkspaceViewModel));
+			_consoleProcessInstancesArrangeViewModel = consoleProcessInstancesArrangeViewModel ?? throw new ArgumentNullException(nameof(consoleProcessInstancesArrangeViewModel), nameof(ConsolesWorkspaceViewModel));
 			_consoleProcessInstancesListViewModel = consoleProcessInstancesListViewModel ?? throw new ArgumentNullException(nameof(consoleProcessInstancesListViewModel), nameof(ConsolesWorkspaceViewModel));
 
 			SetupCommands();
@@ -59,17 +62,18 @@ namespace UI.Wpf.Consoles
 		/// </summary>
 		private void SetupCommands()
 		{
+			//ToDo: Create dialgo view factory (v3 milestone)
 			ShowSettingsDialogCommand = ReactiveCommand.Create(() =>
 			{
 				var view = new ConsoleSettingsDialogView()
 				{
 					Owner = Application.Current.MainWindow,
-					DataContext = new ConsoleSettingsDialogViewModel(_tempRepo),
+					DataContext = new ConsoleSettingsDialogViewModel(_consoleOptionsRepository),
 					WindowStartupLocation = WindowStartupLocation.CenterOwner,
 					ShowInTaskbar = false
 				};
 
-				view.ShowDialog();
+				view.Show();
 			});
 		}
 	}

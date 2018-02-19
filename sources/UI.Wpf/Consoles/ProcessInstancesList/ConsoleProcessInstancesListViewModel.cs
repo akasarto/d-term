@@ -58,7 +58,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Auto arrange console process instances.
 		/// </summary>
-		private void ArrangeProcessInstances()
+		public void ArrangeProcessInstances()
 		{
 			switch (_currentArrangeOption)
 			{
@@ -92,7 +92,10 @@ namespace UI.Wpf.Consoles
 			{
 				var process = message.NewConsoleProcess;
 
-				_consoleProcesses.Add(process);
+				if (Win32Api.IsConsoleProcess(process.MainWindowHandle))
+				{
+					_consoleProcesses.Add(process);
+				}
 			});
 
 			MessageBus.Current.Listen<ConsoleProcessTerminatedMessage>().Subscribe(message =>

@@ -1,12 +1,11 @@
 ﻿<UserControl
 	x:Class="UI.Wpf.Consoles.ConsoleOptionFormView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
-	xmlns:local="clr-namespace:UI.Wpf.Consoles"
 	xmlns:shared="clr-namespace:UI.Wpf.Shared"
 	mc:Ignorable="d" 
 	Background="Transparent"
@@ -39,10 +38,9 @@
 			</ContentControl.Style>
 		</ContentControl>
 
-		<StackPanel>
+		<StackPanel Margin="0">
 
-			<TextBox Margin="0 0 0 0"
-					 materialDesign:HintAssist.Hint="Icon"
+			<TextBox materialDesign:HintAssist.Hint="Icon"
 					 materialDesign:HintAssist.IsFloating="True"
 					 Text="{Binding FormData.PicturePath, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
@@ -59,14 +57,22 @@
 				 materialDesign:HintAssist.IsFloating="True"
 				 Text="{Binding FormData.Name, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-		<ComboBox DisplayMemberPath="Description"
+		<StackPanel Margin="0 17.5 0 0">
+			
+			<ComboBox DisplayMemberPath="Description"
 				  ItemsSource="{Binding FormData.BasePathTypes}"
-				  Margin="0 17.5 0 0"
 				  materialDesign:HintAssist.Hint="Base Path Type"
 				  SelectedValue="{Binding FormData.ProcessBasePath}"
 				  SelectedValuePath="BasePath"
 				  Style="{StaticResource MaterialDesignFloatingHintComboBox}">
-		</ComboBox>
+			</ComboBox>
+
+			<TextBlock Margin="0 1.5 0 0" Style="{StaticResource MaterialDesignCaptionTextBlock}">
+				<Run Text="For types other than physical, use relative paths. Eg.: " />
+				<Run FontStyle="Italic" Text="/git/bin/sh.exe" />
+			</TextBlock>
+
+		</StackPanel>
 
 		<TextBox Margin="0 17.5 0 0"
 				 materialDesign:HintAssist.Hint="Executable Filename"

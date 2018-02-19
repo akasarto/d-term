@@ -46,7 +46,6 @@ namespace UI.Wpf.Consoles
 
 		private void CloseDialog()
 		{
-			DialogResult = false;
 			Close();
 		}
 	}

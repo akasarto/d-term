@@ -2,6 +2,7 @@
 using Consoles.Core;
 using ReactiveUI;
 using System;
+using System.Linq;
 using System.Reactive.Linq;
 
 namespace UI.Wpf.Consoles
@@ -33,6 +34,16 @@ namespace UI.Wpf.Consoles
 				scheduler: RxApp.MainThreadScheduler
 			);
 
+			_consoleOptions.ItemsAdded.Subscribe(added =>
+			{
+
+			});
+
+			_consoleOptions.ItemsRemoved.Subscribe(removed =>
+			{
+
+			});
+
 			this.ObservableForProperty(viewModel => viewModel.SelectedOption).Where(option => option.Value != null).Subscribe(option =>
 			{
 				FormData = Mapper.Map<ConsoleOptionFormViewModel>(option.Value);
@@ -53,7 +64,12 @@ namespace UI.Wpf.Consoles
 		public ReactiveCommand CancelCommand { get; protected set; }
 
 		/// <summary>
-		/// Save the changes in a add/edit operation.
+		/// Delete a console option.
+		/// </summary>
+		public ReactiveCommand DeleteCommand { get; protected set; }
+
+		/// <summary>
+		/// Save the changes of an add/edit operation.
 		/// </summary>
 		public ReactiveCommand SaveCommand { get; protected set; }
 
@@ -115,8 +131,21 @@ namespace UI.Wpf.Consoles
 
 			CancelCommand = ReactiveCommand.Create(() =>
 			{
-				IsManaging = false;
 				SelectedOption = null;
+				IsManaging = false;
+			});
+
+			DeleteCommand = ReactiveCommand.Create(() =>
+			{
+				_consoleOptionsRepository.Delete(FormData.Id);
+				var deletedOption = _consoleOptions.Where(o => o.Id == FormData.Id).SingleOrDefault();
+				if (deletedOption != null)
+				{
+					_consoleOptions.Remove(deletedOption);
+					MessageBus.Current.SendMessage(new ConsoleOptionDeletedMessage(deletedOption));
+				}
+				SelectedOption = null;
+				IsManaging = false;
 			});
 
 			SaveCommand = ReactiveCommand.Create(() =>
@@ -125,6 +154,23 @@ namespace UI.Wpf.Consoles
 
 				if (FormData.IsValid)
 				{
+					var consoleOption = Mapper.Map<ConsoleOption>(FormData);
+
+					if (consoleOption.Id == Guid.Empty)
+					{
+						consoleOption = _consoleOptionsRepository.Add(consoleOption);
+						MessageBus.Current.SendMessage(new ConsoleOptionAddedMessage(consoleOption));
+						_consoleOptions.Add(consoleOption);
+					}
+					else
+					{
+						_consoleOptionsRepository.Update(consoleOption);
+						var currentConsoleOption = _consoleOptions.FirstOrDefault(n => n.Id == consoleOption.Id);
+						MessageBus.Current.SendMessage(new ConsoleOptionEditedMessage(consoleOption, currentConsoleOption));
+						_consoleOptions.Remove(currentConsoleOption);
+						_consoleOptions.Add(consoleOption);
+					}
+
 					IsManaging = false;
 				}
 			});

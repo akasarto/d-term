@@ -1,9 +1,11 @@
 ﻿using Consoles.Core;
 using Consoles.Data.LiteDB;
 using Consoles.Processes;
+using MaterialDesignThemes.Wpf;
 using Notebook.Core;
 using Notebook.Data.LiteDB;
 using SimpleInjector;
+using System;
 using UI.Wpf.Consoles;
 using UI.Wpf.Notebook;
 using UI.Wpf.Shell;
@@ -38,8 +40,10 @@ namespace UI.Wpf
 			//
 			Register<IConsoleProcessService, ConsoleProcessService>();
 			RegisterSingleton<IProcessPathBuilder, ProcessPathBuilder>();
+
 			//
 			RegisterSingleton<IProcessTracker, ProcessTracker>();
+			RegisterSingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(3)));
 		}
 
 		protected override void Dispose(bool disposing)
