@@ -1,7 +1,7 @@
 # About
 **dTerm** is a general purpose management terminal. It's primary intent is to allow multiple console instances to be visible under a single window, but it is rapidly turning into something bigger.
 
-![Overview](/media/dterm.png?raw=true "Overview")
+![Overview](/media/dTerm.png?raw=true "Overview")
 
 ## Running *
 
