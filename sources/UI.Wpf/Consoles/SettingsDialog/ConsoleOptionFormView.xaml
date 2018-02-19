@@ -4,28 +4,76 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:local="clr-namespace:UI.Wpf.Consoles"
+	xmlns:shared="clr-namespace:UI.Wpf.Shared"
 	mc:Ignorable="d" 
-	d:DesignHeight="300"
-	d:DesignWidth="300"
+	Background="Transparent"
 >
 
-	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+	<UserControl.Resources>
+		<shared:IsValidGeometryConverter x:Key="isValidGeometryConverter" />
+	</UserControl.Resources>
 
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
+	<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-		<TextBox Grid.Row="0"
-				 Margin="0 12.5 0 0"
+		<ContentControl VerticalAlignment="Center" Margin="0 15 0 15">
+			<ContentControl.Style>
+				<Style TargetType="ContentControl">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding FormData.PicturePath, Converter={StaticResource isValidGeometryConverter}}" Value="True">
+							<Setter Property="Content">
+								<Setter.Value>
+									<Path Data="{Binding FormData.PicturePath}" Width="64" Height="64" Fill="Black" Stretch="Uniform" VerticalAlignment="Center" />
+								</Setter.Value>
+							</Setter>
+						</DataTrigger>
+					</Style.Triggers>
+					<Setter Property="Content">
+						<Setter.Value>
+							<Path Data="M13,19V16H21V19H13M8.5,13L2.47,7H6.71L11.67,11.95C12.25,12.54 12.25,13.5 11.67,14.07L6.74,19H2.5L8.5,13Z" Width="64" Height="64" Fill="Black" Stretch="Uniform" VerticalAlignment="Center" />
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</ContentControl.Style>
+		</ContentControl>
+
+		<StackPanel>
+
+			<TextBox Margin="0 0 0 0"
+					 materialDesign:HintAssist.Hint="Icon"
+					 materialDesign:HintAssist.IsFloating="True"
+					 Text="{Binding FormData.PicturePath, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+
+			<TextBlock Margin="0 1.5 0 0" Style="{StaticResource MaterialDesignCaptionTextBlock}">
+				<Run Text="The icon should be a single svg path" />
+				<Run FontWeight="Bold" Text="data." />
+				<Hyperlink NavigateUri="https://github.com/ButchersBoy/MaterialDesignInXamlToolkit/wiki/Using-icons" Foreground="{StaticResource PrimaryHueLightBrush}" x:Name="iconSampleLink">See sample.</Hyperlink>
+			</TextBlock>
+
+		</StackPanel>
+
+		<TextBox Margin="0 15 0 0"
 				 materialDesign:HintAssist.Hint="Name"
 				 materialDesign:HintAssist.IsFloating="True"
-				 x:Name="titleField"
 				 Text="{Binding FormData.Name, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+
+		<TextBox Margin="0 15 0 0"
+				 materialDesign:HintAssist.Hint="Base Path Type"
+				 materialDesign:HintAssist.IsFloating="True"
+				 materialDesign:ValidationAssist.UsePopup="True"
+				 Text="{Binding FormData.ProcessBasePath, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+
+		<TextBox Margin="0 15 0 0"
+				 materialDesign:HintAssist.Hint="Executable Filename"
+				 materialDesign:HintAssist.IsFloating="True"
+				 Text="{Binding FormData.ProcessExecutableName, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+
+		<TextBox Margin="0 15 0 0"
+				 materialDesign:HintAssist.Hint="Executable Filename"
+				 materialDesign:HintAssist.IsFloating="True"
+				 Text="{Binding FormData.ProcessStartupArgs, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
 		<DockPanel Grid.Row="2" Margin="0 15 0 0" HorizontalAlignment="Stretch" LastChildFill="False">
 
@@ -69,7 +117,7 @@
 
 				<Button Command="{Binding CancelCommand}" Content="cancel" HorizontalAlignment="Right" Style="{DynamicResource MaterialDesignToolForegroundButton}" />
 
-				<Button Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="17.5 0 0 0" Style="{StaticResource MaterialDesignRaisedAccentButton}" IsEnabled="{Binding FormData.IsValid}">
+				<Button Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="17.5 0 0 0" Style="{StaticResource MaterialDesignRaisedAccentButton}">
 					<StackPanel Orientation="Horizontal">
 						<materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" />
 						<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center">Save</TextBlock>
@@ -80,6 +128,6 @@
 
 		</DockPanel>
 
-	</Grid>
+	</StackPanel>
 
 </UserControl>

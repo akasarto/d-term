@@ -96,13 +96,18 @@ namespace UI.Wpf.Notebook
 
 			SaveCommand = ReactiveCommand.Create(() =>
 			{
-				var note = Mapper.Map<NoteEntity>(FormData);
+				FormData.Validate();
 
-				note = _notebookRepository.Add(note);
+				if (FormData.IsValid)
+				{
+					var note = Mapper.Map<NoteEntity>(FormData);
 
-				MessageBus.Current.SendMessage(new NoteAddedMessage(note));
+					note = _notebookRepository.Add(note);
 
-				IsFlipped = false;
+					MessageBus.Current.SendMessage(new NoteAddedMessage(note));
+
+					IsFlipped = false;
+				}
 			});
 		}
 	}

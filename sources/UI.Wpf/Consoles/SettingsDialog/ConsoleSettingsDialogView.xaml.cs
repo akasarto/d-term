@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace UI.Wpf.Consoles
 {
@@ -15,6 +16,16 @@ namespace UI.Wpf.Consoles
 				activator(this.WhenAnyValue(x => x.ViewModel).Subscribe(viewModel =>
 				{
 					viewModel.Initialize();
+				}));
+
+				activator(this.Events().KeyUp.Subscribe(key =>
+				{
+					switch (key.Key)
+					{
+						case Key.Escape:
+							CloseDialog();
+							break;
+					}
 				}));
 			});
 		}
@@ -31,7 +42,9 @@ namespace UI.Wpf.Consoles
 			set { ViewModel = (ConsoleSettingsDialogViewModel)value; }
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void Button_Click(object sender, RoutedEventArgs e) => CloseDialog();
+
+		private void CloseDialog()
 		{
 			DialogResult = false;
 			Close();

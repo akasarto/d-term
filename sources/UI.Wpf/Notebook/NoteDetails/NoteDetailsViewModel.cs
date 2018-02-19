@@ -142,14 +142,19 @@ namespace UI.Wpf.Notebook
 
 			SaveCommand = ReactiveCommand.Create(() =>
 			{
-				var newNoteEntity = Mapper.Map<NoteEntity>(FormData);
-				var oldNoteEntity = Mapper.Map<NoteEntity>(this);
+				FormData.Validate();
 
-				_notebookRepository.Update(newNoteEntity);
+				if (FormData.IsValid)
+				{
+					var newNoteEntity = Mapper.Map<NoteEntity>(FormData);
+					var oldNoteEntity = Mapper.Map<NoteEntity>(this);
 
-				MessageBus.Current.SendMessage(new NoteEditedMessage(newNoteEntity, oldNoteEntity));
+					_notebookRepository.Update(newNoteEntity);
 
-				IsFlipped = false;
+					MessageBus.Current.SendMessage(new NoteEditedMessage(newNoteEntity, oldNoteEntity));
+
+					IsFlipped = false;
+				}
 			});
 		}
 	}

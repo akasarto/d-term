@@ -23,7 +23,6 @@
 				 Margin="0 12.5 0 0"
 				 materialDesign:HintAssist.Hint="Title"
 				 materialDesign:HintAssist.IsFloating="True"
-				 x:Name="titleField"
 				 Text="{Binding FormData.Title, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
 		<TextBox AcceptsReturn="True"
@@ -84,7 +83,7 @@
 					HorizontalAlignment="Right"
 					Style="{DynamicResource MaterialDesignToolForegroundButton}" />
 
-				<Button Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="17.5 0 0 0" Style="{StaticResource MaterialDesignRaisedAccentButton}" IsEnabled="{Binding FormData.IsValid}">
+				<Button Command="{Binding SaveCommand}" HorizontalAlignment="Right" Margin="17.5 0 0 0" Style="{StaticResource MaterialDesignRaisedAccentButton}">
 					<StackPanel Orientation="Horizontal">
 						<materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" />
 						<TextBlock Margin="7.5 0 0 0" VerticalAlignment="Center">Save</TextBlock>

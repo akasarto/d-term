@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Consoles.Core;
 using ReactiveUI;
 
@@ -20,19 +16,14 @@ namespace UI.Wpf.Consoles
 		private bool _isValid;
 
 		//
-		//private readonly ConsoleOptionFormViewModelValidator _noteFormViewModelValidator = null;
+		private readonly ConsoleOptionFormViewModelValidator _consoleOptionFormViewModelValidator = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
 		public ConsoleOptionFormViewModel()
 		{
-			//_noteFormViewModelValidator = new NoteFormViewModelValidator();
-
-			//this.WhenAnyValue(x => x.Title, x => x.Description).Subscribe((data) =>
-			//{
-			//	Validate();
-			//});
+			_consoleOptionFormViewModelValidator = new ConsoleOptionFormViewModelValidator();
 		}
 
 		/// <summary>
@@ -110,11 +101,11 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Validate the model.
 		/// </summary>
-		private void Validate()
+		public void Validate()
 		{
-			//var validationResult = _noteFormViewModelValidator.Validate(this);
+			var validationResult = _consoleOptionFormViewModelValidator.Validate(this);
 
-			//IsValid = !SetErrors(validationResult);
+			IsValid = !SetErrors(validationResult);
 		}
 	}
 }

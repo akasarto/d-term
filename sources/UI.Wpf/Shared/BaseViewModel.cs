@@ -40,7 +40,7 @@ namespace UI.Wpf
 		{
 			if (_modelErrors.ContainsKey(propertyName))
 			{
-				return _modelErrors[propertyName].FirstOrDefault() ?? string.Empty;
+				return _modelErrors[propertyName]?.ToList();
 			}
 
 			return null;

@@ -304,6 +304,7 @@
       <DependentUpon>ConsoleOptionFormView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consoles\SettingsDialog\ConsoleOptionFormViewModel.cs" />
+    <Compile Include="Consoles\SettingsDialog\ConsoleOptionFormViewModelValidator.cs" />
     <Compile Include="Consoles\SettingsDialog\ConsoleSettingsDialogView.xaml.cs">
       <DependentUpon>ConsoleSettingsDialogView.xaml</DependentUpon>
     </Compile>
@@ -340,6 +341,7 @@
       <DependentUpon>NotebookWorkspaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Notebook\Workspace\NotebookWorkspaceViewModel.cs" />
+    <Compile Include="Shared\IsValidGeometryConverter.cs" />
     <Compile Include="Shell\ShellWndProc.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />

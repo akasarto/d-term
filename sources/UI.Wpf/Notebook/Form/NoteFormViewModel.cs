@@ -20,11 +20,6 @@ namespace UI.Wpf.Notebook
 		public NoteFormViewModel()
 		{
 			_noteFormViewModelValidator = new NoteFormViewModelValidator();
-
-			this.WhenAnyValue(x => x.Title, x => x.Description).Subscribe((data) =>
-			{
-				Validate();
-			});
 		}
 
 		/// <summary>
@@ -66,7 +61,7 @@ namespace UI.Wpf.Notebook
 		/// <summary>
 		/// Validate the model.
 		/// </summary>
-		private void Validate()
+		public void Validate()
 		{
 			var validationResult = _noteFormViewModelValidator.Validate(this);
 

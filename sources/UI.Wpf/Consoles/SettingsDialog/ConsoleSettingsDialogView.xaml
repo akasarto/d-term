@@ -13,23 +13,12 @@
 	Height="600"
 >
 
-	<materialDesign:DialogHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0">
-
-		<materialDesign:DialogHost.Style>
-			<Style TargetType="{x:Type materialDesign:DialogHost}" BasedOn="{StaticResource consolesDialogHostStyle}">
-				<Style.Triggers>
-					<DataTrigger Binding="{Binding FormData}" Value="{x:Null}">
-						<Setter Property="IsOpen" Value="False" />
-					</DataTrigger>
-				</Style.Triggers>
-				<Setter Property="IsOpen" Value="True" />
-			</Style>
-		</materialDesign:DialogHost.Style>
+	<materialDesign:DialogHost Style="{StaticResource consolesDialogHostStyle}" IsOpen="{Binding IsManaging}">
 
 		<materialDesign:DialogHost.DialogContent>
 
-			<materialDesign:DialogHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource consolesDialogHostStyle}">
-				<local:ConsoleOptionFormView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="35" />
+			<materialDesign:DialogHost Style="{StaticResource consolesDialogHostStyle}">
+				<local:ConsoleOptionFormView Width="375" Margin="35" />
 			</materialDesign:DialogHost>
 
 		</materialDesign:DialogHost.DialogContent>

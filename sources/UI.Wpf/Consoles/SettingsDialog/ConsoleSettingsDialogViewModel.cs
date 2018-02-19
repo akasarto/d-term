@@ -8,6 +8,7 @@ namespace UI.Wpf.Consoles
 {
 	public class ConsoleSettingsDialogViewModel : BaseViewModel
 	{
+		private bool _isManaging;
 		private ConsoleOptionFormViewModel _formData;
 		private ReactiveList<ConsoleOption> _consoleOptions;
 		private IReactiveDerivedList<ConsoleOptionViewModel> _consoleOptionViewModels;
@@ -23,10 +24,7 @@ namespace UI.Wpf.Consoles
 		{
 			_consoleOptionsRepository = consoleOptionsRepository ?? throw new ArgumentNullException(nameof(consoleOptionsRepository), nameof(ConsoleSettingsDialogViewModel));
 
-			_consoleOptions = new ReactiveList<ConsoleOption>()
-			{
-				ChangeTrackingEnabled = true
-			};
+			_consoleOptions = new ReactiveList<ConsoleOption>();
 
 			ConsoleOptions = _consoleOptions.CreateDerivedCollection(
 				filter: noteEntity => true,
@@ -35,13 +33,10 @@ namespace UI.Wpf.Consoles
 				scheduler: RxApp.MainThreadScheduler
 			);
 
-			_consoleOptionViewModels.CountChanged.Subscribe(count =>
-			{
-			});
-
-			this.ObservableForProperty(viewModel => viewModel.SelectedOption).Subscribe(option =>
+			this.ObservableForProperty(viewModel => viewModel.SelectedOption).Where(option => option.Value != null).Subscribe(option =>
 			{
 				FormData = Mapper.Map<ConsoleOptionFormViewModel>(option.Value);
+				IsManaging = true;
 			});
 
 			SetupCommands();
@@ -56,6 +51,11 @@ namespace UI.Wpf.Consoles
 		/// Cancel the add/edit operation.
 		/// </summary>
 		public ReactiveCommand CancelCommand { get; protected set; }
+
+		/// <summary>
+		/// Save the changes in a add/edit operation.
+		/// </summary>
+		public ReactiveCommand SaveCommand { get; protected set; }
 
 		/// <summary>
 		/// Get the current console options list.
@@ -85,6 +85,15 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
+		/// Gets or sets whether and option is being added/edited.
+		/// </summary>
+		public bool IsManaging
+		{
+			get => _isManaging;
+			set => this.RaiseAndSetIfChanged(ref _isManaging, value);
+		}
+
+		/// <summary>
 		/// Initialize the model.
 		/// </summary>
 		public void Initialize()
@@ -101,11 +110,23 @@ namespace UI.Wpf.Consoles
 			AddCommand = ReactiveCommand.Create(() =>
 			{
 				FormData = new ConsoleOptionFormViewModel();
+				IsManaging = true;
 			});
 
 			CancelCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = null; ;
+				IsManaging = false;
+				SelectedOption = null;
+			});
+
+			SaveCommand = ReactiveCommand.Create(() =>
+			{
+				FormData.Validate();
+
+				if (FormData.IsValid)
+				{
+					IsManaging = false;
+				}
 			});
 		}
 	}
