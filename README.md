@@ -1,7 +1,7 @@
 # About
 **dTerm** is a general purpose management terminal. It's primary intent is to allow multiple console instances to be visible under a single window, but it is rapidly turning into something bigger.
 
-![Overview](media/dterm.png?raw=true "Overview")
+![Overview](/media/dterm.png?raw=true "Overview")
 
 ## Running *
 
@@ -32,6 +32,16 @@
 - [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
 - [Dragablz](https://github.com/ButchersBoy/Dragablz)
 - [ReactiveUI](https://reactiveui.net/)
+
+## Quick Overview
+
+![Consoles](/media/dterm1.gif?raw=true "Consoels")
+
+![Arranges](/media/dterm2.gif?raw=true "Arranges")  
+
+![Notebook](/media/dterm3.gif?raw=true "Notebook")  
+
+![Configs](/media/dterm4.gif?raw=true "Configs")
 
 ## License
 
