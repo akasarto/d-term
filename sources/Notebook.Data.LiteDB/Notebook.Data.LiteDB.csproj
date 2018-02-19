@@ -33,14 +33,30 @@
     <Reference Include="LiteDB, Version=4.1.1.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteDB.4.1.1\lib\net40\LiteDB.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NotebookRepository.cs" />
@@ -51,8 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Notebook.Core\Notebook.Core.csproj">
-      <Project>{1A7F7A2C-8332-449C-8D66-B9D0C5E67C6A}</Project>
+      <Project>{422c311d-9429-461c-b3bd-250166f2e10c}</Project>
       <Name>Notebook.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared.Kernel\Shared.Kernel.csproj">
+      <Project>{dd8df004-9062-4358-9ea3-f9cfbc5d061f}</Project>
+      <Name>Shared.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

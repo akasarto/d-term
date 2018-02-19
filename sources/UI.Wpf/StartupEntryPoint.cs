@@ -4,6 +4,9 @@ using System;
 using UI.Wpf.Mappings;
 using System.Linq;
 using MaterialDesignThemes.Wpf;
+using System.Reflection;
+using System.Globalization;
+using System.IO;
 
 namespace UI.Wpf
 {
@@ -12,6 +15,8 @@ namespace UI.Wpf
 		[STAThread]
 		public static void Main(string[] args)
 		{
+			AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
 			var application = new App();
 			var hasArguments = (args?.Length ?? 0) > 0;
 
@@ -44,6 +49,26 @@ namespace UI.Wpf
 				var shellView = container.GetInstance<ShellView>();
 
 				application.Run(shellView);
+			}
+		}
+
+		private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+		{
+			Assembly executingAssembly = Assembly.GetExecutingAssembly();
+			AssemblyName assemblyName = new AssemblyName(args.Name);
+
+			var path = assemblyName.Name + ".dll";
+
+			Console.WriteLine($"Resolving: {path}");
+
+			if (assemblyName.CultureInfo.Equals(CultureInfo.InvariantCulture) == false) path = String.Format(@"{0}\{1}", assemblyName.CultureInfo, path);
+
+			using (Stream stream = executingAssembly.GetManifestResourceStream(path))
+			{
+				if (stream == null) return null;
+				var assemblyRawBytes = new byte[stream.Length];
+				stream.Read(assemblyRawBytes, 0, assemblyRawBytes.Length);
+				return Assembly.Load(assemblyRawBytes);
 			}
 		}
 	}
