@@ -14,7 +14,7 @@
   - Hit F5 to start.
 
 - From Installer **
-  - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the *dTerm_v2_Portable.zip*
+  - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the corresponding portable _.zip_ file.
   - Extract the files to a location of your choosing and execute _dTerm.exe_.
 
 \* Admin privileges required.  
