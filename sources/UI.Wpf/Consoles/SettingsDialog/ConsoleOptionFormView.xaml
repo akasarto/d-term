@@ -85,7 +85,7 @@
 					<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignToolButton}">
 						<Setter Property="Visibility" Value="Visible" />
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False">
+							<DataTrigger Binding="{Binding FormData.Id}" Value="{x:Static sys:Guid.Empty}">
 								<Setter Property="Visibility" Value="Hidden" />
 							</DataTrigger>
 						</Style.Triggers>

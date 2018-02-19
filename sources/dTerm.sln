@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Notebooks", "3.Notebooks"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.User Interface", "4.User Interface", "{F8429758-34B1-41F2-B342-0B3D31D117DD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.Tests", "5.Tests", "{93C9A77F-F3CC-4C5E-9410-B0C77857259F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Wpf", "UI.Wpf\UI.Wpf.csproj", "{3DC4A3D3-40F4-415C-A386-C3CA97D4DCD8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notebook.Core", "Notebook.Core\Notebook.Core.csproj", "{1A7F7A2C-8332-449C-8D66-B9D0C5E67C6A}"
