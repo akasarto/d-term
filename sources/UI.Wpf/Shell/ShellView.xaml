@@ -25,7 +25,7 @@
 	x:Name="shellView"
 >
 
-	<Grid>
+	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="375" />
@@ -34,29 +34,25 @@
 		</Grid.ColumnDefinitions>
 
 		<!-- Notebook -->
-		<StackPanel Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
 
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				
-				<notebook:NotebookWorkspace DataContext="{Binding NotebookWorkspaceViewModel}"
-											Grid.Row="0"
-											HorizontalAlignment="Stretch"
-											VerticalAlignment="Stretch" />
+			<notebook:NotebookWorkspace DataContext="{Binding NotebookWorkspaceViewModel}"
+										Grid.Row="0"
+										HorizontalAlignment="Stretch"
+										VerticalAlignment="Stretch" />
 
-				<materialDesign:Snackbar Grid.Row="1"
-										 HorizontalAlignment="Center"
-										 MessageQueue="{Binding MessageQueue}"
-										 VerticalAlignment="Bottom"
-										 x:Name="globalMessages" />
+			<materialDesign:Snackbar Grid.Row="1"
+									 HorizontalAlignment="Center"
+									 MessageQueue="{Binding MessageQueue}"
+									 VerticalAlignment="Bottom"
+									 x:Name="globalMessages" />
 
-			</Grid>
-
-		</StackPanel>
+		</Grid>
 
 		<!---->
 		<Border

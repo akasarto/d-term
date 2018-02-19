@@ -15,7 +15,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleProcessInstancesArrangeViewModel(MaterialDesignThemes.Wpf.ISnackbarMessageQueue test)
+		public ConsoleProcessInstancesArrangeViewModel()
 		{
 			var aOptions = Enum.GetValues(typeof(ConsoleArrangeOption)).Cast<ConsoleArrangeOption>();
 
@@ -34,8 +34,6 @@ namespace UI.Wpf.Consoles
 				{
 					return;
 				}
-
-				test.Enqueue("Urrp!");
 
 				MessageBus.Current.SendMessage(new ConsoleArrangeChangedMessage(selectedArrange.Arrange));
 			});

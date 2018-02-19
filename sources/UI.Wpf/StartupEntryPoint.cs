@@ -3,6 +3,7 @@ using SimpleInjector;
 using System;
 using UI.Wpf.Mappings;
 using System.Linq;
+using MaterialDesignThemes.Wpf;
 
 namespace UI.Wpf
 {
@@ -21,10 +22,9 @@ namespace UI.Wpf
 				application.DispatcherUnhandledException += (object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs exceptionArgs) =>
 				{
 					//ToDo: Log exceptions (v3 milestone)
-
+					var notifier = container.GetInstance<ISnackbarMessageQueue>();
+					notifier.Enqueue("Unexpected error. Please try again.");
 					exceptionArgs.Handled = true;
-
-					//MessageBus
 				};
 
 				MapperInitializer.Initialize(container);
