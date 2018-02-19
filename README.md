@@ -1,35 +1,37 @@
 # About
-**dTerm** is a general purpose management terminal. It's primary objective was to allow multiple console instances to be visible under a single window. It currently supports embedding *Command Prompt*, *Git Bash*, *Power Shell* and *WSL (Ubuntu)* processes.
+**dTerm** is a general purpose management terminal. It's primary intent is to allow multiple console instances to be visible under a single window, but it is rapidly turning into something bigger.
 
-![Overview](/media/dterm.gif?raw=true "Overview")
+![Overview](media/dterm.png?raw=true "Overview")
 
-## Running
+## Running *
 
 - From code 
-  - Get Visual Studio 2017 Community v15.4+
-  - `git clone https://github.com/akasarto/d-term.git`
-  - Make sure nuget packages are set to auto restore
-  - Set _dTerm.UI.Wpf_ as the startup project.
-  - F5 and you're good to go.
+  - Get Visual Studio 2017 Community v15.5+.
+  - `git clone https://github.com/akasarto/d-term.git`.
+  - Make sure nuget packages are set to auto restore.
+  - Set _UI.Wpf_ as the startup project.
+  - Compile and you're good to go.
+  - Hit F5 to start.
 
-- From Installer *
-  - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the *dTermSetup.zip*
-  - Extract the setup executable and execute
+- From Installer **
+  - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the *dTerm_v2_Portable.zip*
+  - Extract the files to a location of your choosing and execute _dTerm.exe_.
 
-\* The setup executable is a self signed ClickOnce installer that pulls data from GitHub itself. You may receive alerts from widows SmartScreen regarding unknown publisher and you can also check the intaller binariesf under the *installer* branch.
+\* Admin privileges required.  
+** .Net Framework 4.7 or higher is required.  
 
 ## Upcoming changes and features
 
-- DDD
-  - Consoles will get their own bounded context
-  - Another bounded context for command snippets management
-- Consoles will be loaded as plugins
+- Markdown syntax for notes.
+- Settings export/import features.
+- Improved UX and layout.
 
 ## Credits & Thanks
 
 - [WinApi](https://github.com/prasannavl/WinApi)
 - [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
-
+- [Dragablz](https://github.com/ButchersBoy/Dragablz)
+- [ReactiveUI](https://reactiveui.net/)
 
 ## License
 
