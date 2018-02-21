@@ -1,8 +1,9 @@
-﻿<Window
+﻿<mahApps:MetroWindow
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:consoles="clr-namespace:UI.Wpf.Consoles"
 	xmlns:notebook="clr-namespace:UI.Wpf.Notebook"
@@ -14,6 +15,7 @@
 	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
 	Background="{DynamicResource MaterialDesignPaper}"
 	FontFamily="{DynamicResource MaterialDesignFont}"
+	ShowTitleBar="False"
 	WindowStartupLocation="CenterScreen"
 	WindowState="Maximized"
 	d:DesignWidth="1280"
@@ -28,6 +30,10 @@
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 		<Path Style="{StaticResource logoVisualStyle}" />
+
+		<Button HorizontalAlignment="Right" Margin="25" Style="{StaticResource MaterialDesignFloatingActionButton}" ToolTip="Command Prompt" VerticalAlignment="Bottom">
+			<materialDesign:PackIcon Kind="Console" Height="24" Width="24" />
+		</Button>
 
 	</Grid>
 
@@ -74,4 +80,4 @@
 	</Grid>
 	-->
 
-</Window>
+</mahApps:MetroWindow>

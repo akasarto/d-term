@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Interop;
 
 namespace UI.Wpf.Shell
 {
-	public partial class ShellView : Window
+	public partial class ShellView
 	{
 		private IntPtr _shellHandle;
 		private ShellWndProc _shellWndProc;
