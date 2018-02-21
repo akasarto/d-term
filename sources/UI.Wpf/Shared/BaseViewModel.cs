@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace UI.Wpf
+namespace UI.Wpf.Shared
 {
 	/// <summary>
 	/// Base class for all view models.

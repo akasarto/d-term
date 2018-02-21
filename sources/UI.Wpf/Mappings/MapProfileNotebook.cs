@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoMapper;
 using Notebook.Core;
-using UI.Wpf.Notebook;
 
 namespace UI.Wpf.Mappings
 {
@@ -22,20 +21,6 @@ namespace UI.Wpf.Mappings
 
 		private void SetupMaps()
 		{
-			CreateMap<NoteEntity, NoteFormViewModel>();
-			CreateMap<NoteFormViewModel, NoteEntity>();
-
-			CreateMap<NoteEntity, NoteAddViewModel>().ConstructUsing(source => new NoteAddViewModel(_notebookRepository));
-			CreateMap<NoteAddViewModel, NoteEntity>();
-
-			CreateMap<NoteFormViewModel, NoteAddViewModel>().ConstructUsing(source => new NoteAddViewModel(_notebookRepository));
-			CreateMap<NoteAddViewModel, NoteFormViewModel>();
-
-			CreateMap<NoteEntity, NoteDetailsViewModel>().ConstructUsing(source => new NoteDetailsViewModel(_notebookRepository));
-			CreateMap<NoteDetailsViewModel, NoteEntity>();
-
-			CreateMap<NoteFormViewModel, NoteDetailsViewModel>().ConstructUsing(source => new NoteDetailsViewModel(_notebookRepository));
-			CreateMap<NoteDetailsViewModel, NoteFormViewModel>();
 		}
 	}
 }

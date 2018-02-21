@@ -47,6 +47,9 @@ namespace UI.Wpf
 				}
 
 				var shellView = container.GetInstance<ShellView>();
+				var shellViewModel = container.GetInstance<IShellViewModel>();
+
+				shellView.DataContext = shellViewModel;
 
 				application.Run(shellView);
 			}

@@ -1,8 +1,6 @@
-﻿using ReactiveUI;
-using Shared.Kernel;
+﻿using Shared.Kernel;
 using System;
 using System.Windows.Interop;
-using UI.Wpf.Consoles;
 using WinApi.User32;
 
 namespace UI.Wpf.Shell
@@ -19,11 +17,6 @@ namespace UI.Wpf.Shell
 		{
 			_shellWindowHandle = shellHwndSource.Handle;
 			shellHwndSource.AddHook(WndProc);
-
-			MessageBus.Current.Listen<ConsoleProcessCreatedMessage>().Subscribe(message =>
-			{
-				_latestActiveConsoleHandle = message.NewConsoleProcess.MainWindowHandle;
-			});
 		}
 
 		/// <summary>

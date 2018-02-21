@@ -1,37 +1,22 @@
-﻿using AutoMapper;
-using Consoles.Core;
+﻿using Consoles.Core;
 using ReactiveUI;
+using Sarto.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using UI.Wpf.Shared;
 
 namespace UI.Wpf.Consoles
 {
-	public class ConsoleOptionFormViewModel : BaseViewModel
+	public class ConsoleOptionViewModel : BaseViewModel
 	{
 		private Guid _id;
+		private bool _isSupported;
 		private string _name;
 		private int _orderIndex;
 		private string _picturePath;
 		private ProcessBasePath _processBasePath;
 		private string _processExecutableName;
 		private string _processStartupArgs;
-		private bool _isValid;
-
-		//
-		private readonly ConsoleOptionFormViewModelValidator _consoleOptionFormViewModelValidator = null;
-
-		/// <summary>
-		/// Constructor method.
-		/// </summary>
-		public ConsoleOptionFormViewModel()
-		{
-			_consoleOptionFormViewModelValidator = new ConsoleOptionFormViewModelValidator();
-
-			var basePaths = Enum.GetValues(typeof(ProcessBasePath)).Cast<ProcessBasePath>();
-
-			BasePathTypes = Mapper.Map<List<ProcessBasePathViewModel>>(basePaths);
-		}
+		private DateTime _utcCreation;
 
 		/// <summary>
 		/// Gets or sets the id.
@@ -40,6 +25,15 @@ namespace UI.Wpf.Consoles
 		{
 			get => _id;
 			set => this.RaiseAndSetIfChanged(ref _id, value);
+		}
+
+		/// <summary>
+		/// Gets or sets the flag indicating wheter this option can create new instances.
+		/// </summary>
+		public bool IsSupported
+		{
+			get => _isSupported;
+			set => this.RaiseAndSetIfChanged(ref _isSupported, value);
 		}
 
 		/// <summary>
@@ -61,7 +55,7 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
-		/// Gets or sets the name.
+		/// Gets or sets the icon path.
 		/// </summary>
 		public string PicturePath
 		{
@@ -70,7 +64,7 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
-		/// Gets or sets the base path for the process exe filename.
+		/// Gets or sets the process base path.
 		/// </summary>
 		public ProcessBasePath ProcessBasePath
 		{
@@ -79,7 +73,12 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
-		/// Gets or sets the process exe file name.
+		/// Gets or sets the base path description.
+		/// </summary>
+		public string ProcessBasePathDescription => ProcessBasePath.GetDisplayName();
+
+		/// <summary>
+		/// Gets or sets the process executable file name.
 		/// </summary>
 		public string ProcessExecutableName
 		{
@@ -88,7 +87,7 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
-		/// Gets or sets the process exe startup arguments.
+		/// Gets or sets the process executable startup arguments.
 		/// </summary>
 		public string ProcessStartupArgs
 		{
@@ -97,27 +96,12 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
-		/// Gets or sets the available base path types.
+		/// Gets or sets the UTC creation data and time.
 		/// </summary>
-		public List<ProcessBasePathViewModel> BasePathTypes { get; private set; }
-
-		/// <summary>
-		/// Gets or sets the form validation state.
-		/// </summary>
-		public bool IsValid
+		public DateTime UTCCreation
 		{
-			get => _isValid;
-			set => this.RaiseAndSetIfChanged(ref _isValid, value);
-		}
-
-		/// <summary>
-		/// Validate the model.
-		/// </summary>
-		public void Validate()
-		{
-			var validationResult = _consoleOptionFormViewModelValidator.Validate(this);
-
-			IsValid = !SetErrors(validationResult);
+			get => _utcCreation;
+			set => this.RaiseAndSetIfChanged(ref _utcCreation, value);
 		}
 	}
 }

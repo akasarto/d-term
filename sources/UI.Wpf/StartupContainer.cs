@@ -7,7 +7,7 @@ using Notebook.Data.LiteDB;
 using SimpleInjector;
 using System;
 using UI.Wpf.Consoles;
-using UI.Wpf.Notebook;
+using UI.Wpf.Infrastructure;
 using UI.Wpf.Shell;
 
 namespace UI.Wpf
@@ -18,19 +18,14 @@ namespace UI.Wpf
 		{
 			//
 			Register<ShellView>();
-			Register<ShellViewModel>();
+			Register<IShellViewModel, ShellViewModel>();
 
 			//
-			Register<ConsolesWorkspaceViewModel>();
-			Register<ConsoleOptionsListViewModel>();
-			Register<ConsoleProcessInstancesListViewModel>();
-			Register<ConsoleProcessInstancesArrangeViewModel>();
+			Register<IConsoleOptionsPanelViewModel, ConsoleOptionsPanelViewModel>();
 
 			//
-			Register<NoteAddViewModel>();
-			Register<NoteDetailsViewModel>();
-			Register<NoteDetailsListViewModel>();
-			Register<NotebookWorkspaceViewModel>();
+			Register<IConsoleProcessService, ConsoleProcessService>();
+			RegisterSingleton<IProcessPathBuilder, ProcessPathBuilder>();
 
 			//
 			string liteDbConnectionString = @"dTerm.db";
@@ -38,12 +33,11 @@ namespace UI.Wpf
 			Register<INotebookRepository>(() => new NotebookRepository(liteDbConnectionString));
 
 			//
-			Register<IConsoleProcessService, ConsoleProcessService>();
-			RegisterSingleton<IProcessPathBuilder, ProcessPathBuilder>();
-
-			//
 			RegisterSingleton<IProcessTracker, ProcessTracker>();
 			RegisterSingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(3)));
+
+			//
+			Register<IViewModelFactory, SimpleInjectorViewModelFactory>();
 		}
 
 		protected override void Dispose(bool disposing)

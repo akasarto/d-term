@@ -2,40 +2,34 @@
 using ReactiveUI;
 using System;
 using UI.Wpf.Consoles;
-using UI.Wpf.Notebook;
+using UI.Wpf.Infrastructure;
+using UI.Wpf.Shared;
 
 namespace UI.Wpf.Shell
 {
-	public class ShellViewModel : ReactiveObject
+	public class ShellViewModel : BaseViewModel, IShellViewModel
 	{
 		//
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue = null;
-		private readonly ConsolesWorkspaceViewModel _consolesWorkspaceViewModel = null;
-		private readonly NotebookWorkspaceViewModel _notebookWorkspaceViewModel = null;
+		private readonly IConsoleOptionsPanelViewModel _consoleOptionsPanelViewModel = null;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(ISnackbarMessageQueue snackbarMessageQueue, ConsolesWorkspaceViewModel consolesWorkspaceViewModel, NotebookWorkspaceViewModel notebookWorkspaceViewModel)
+		public ShellViewModel(ISnackbarMessageQueue snackbarMessageQueue, IViewModelFactory viewModelFactory)
 		{
-			_snackbarMessageQueue = snackbarMessageQueue ?? throw new ArgumentNullException(nameof(snackbarMessageQueue), nameof(ConsolesWorkspaceViewModel));
-			_consolesWorkspaceViewModel = consolesWorkspaceViewModel ?? throw new ArgumentNullException(nameof(consolesWorkspaceViewModel), nameof(ShellViewModel));
-			_notebookWorkspaceViewModel = notebookWorkspaceViewModel ?? throw new ArgumentNullException(nameof(notebookWorkspaceViewModel), nameof(ShellViewModel));
+			_snackbarMessageQueue = snackbarMessageQueue ?? throw new ArgumentNullException(nameof(snackbarMessageQueue), nameof(ShellViewModel));
+			_consoleOptionsPanelViewModel = viewModelFactory.Create<IConsoleOptionsPanelViewModel>();
 		}
-
-		/// <summary>
-		/// Consoles workspace view model.
-		/// </summary>
-		public ConsolesWorkspaceViewModel ConsolesWorkspaceViewModel => _consolesWorkspaceViewModel;
-
-		/// <summary>
-		/// Notebook workspace view model
-		/// </summary>
-		public NotebookWorkspaceViewModel NotebookWorkspaceViewModel => _notebookWorkspaceViewModel;
 
 		/// <summary>
 		/// Global messages queue.
 		/// </summary>
-		public ISnackbarMessageQueue MessageQueue => _snackbarMessageQueue;
+		public ISnackbarMessageQueue SnackbarMessageQueue => _snackbarMessageQueue;
+
+		/// <summary>
+		/// Get the console options panel view model.
+		/// </summary>
+		public IConsoleOptionsPanelViewModel ConsoleOptionsPanelViewModel => _consoleOptionsPanelViewModel;
 	}
 }

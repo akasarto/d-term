@@ -282,85 +282,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Consoles\_v2\ConsoleErrorMessage.cs" />
-    <Compile Include="Consoles\_v2\Option\ConsoleProcessCreatedMessage.cs" />
-    <Compile Include="Consoles\_v2\ProcessInstancesArrange\ConsoleArrangeOption.cs" />
-    <Compile Include="Consoles\_v2\ProcessInstancesArrange\ConsoleArrangeChangedMessage.cs" />
-    <Compile Include="Consoles\_v2\ProcessInstancesArrange\ConsoleArrangeOptionViewModel.cs" />
-    <Compile Include="Consoles\_v2\ConsoleProcessHwndHost.cs" />
-    <Compile Include="Consoles\_v2\OptionsList\ConsoleOptionsListView.xaml.cs">
-      <DependentUpon>ConsoleOptionsListView.xaml</DependentUpon>
+    <Compile Include="Consoles\ConsoleOptionViewModel.cs" />
+    <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml.cs">
+      <DependentUpon>ConsoleOptionsPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\_v2\OptionsList\ConsoleOptionsListViewModel.cs" />
-    <Compile Include="Consoles\_v2\Option\ConsoleOptionViewModel.cs" />
-    <Compile Include="Consoles\_v2\Option\ConsoleOptionView.xaml.cs">
-      <DependentUpon>ConsoleOptionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consoles\_v2\ProcessInstancesArrange\ConsoleProcessInstancesArrangeView.xaml.cs">
-      <DependentUpon>ConsoleProcessInstancesArrangeView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consoles\_v2\ProcessInstancesArrange\ConsoleProcessInstancesArrangeViewModel.cs" />
-    <Compile Include="Consoles\_v2\ProcessInstancesList\ConsoleProcessInstancesListView.xaml.cs">
-      <DependentUpon>ConsoleProcessInstancesListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consoles\_v2\ProcessInstancesList\ConsoleProcessInstancesListViewModel.cs" />
-    <Compile Include="Consoles\_v2\ProcessInstance\ConsoleProcessTerminatedMessage.cs" />
-    <Compile Include="Consoles\_v2\SettingsDialog\ConsoleOptionEditedMessage.cs" />
-    <Compile Include="Consoles\_v2\SettingsDialog\ConsoleOptionDeletedMessage.cs" />
-    <Compile Include="Consoles\_v2\SettingsDialog\ConsoleOptionAddedMessage.cs" />
-    <Compile Include="Consoles\_v2\SettingsDialog\ProcessBasePathViewModel.cs" />
-    <Compile Include="Consoles\_v2\SettingsDialog\ConsoleOptionFormView.xaml.cs">
-      <DependentUpon>ConsoleOptionFormView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consoles\_v2\SettingsDialog\ConsoleOptionFormViewModel.cs" />
-    <Compile Include="Consoles\_v2\SettingsDialog\ConsoleOptionFormViewModelValidator.cs" />
-    <Compile Include="Consoles\_v2\SettingsDialog\ConsoleSettingsDialogView.xaml.cs">
-      <DependentUpon>ConsoleSettingsDialogView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consoles\_v2\SettingsDialog\ConsoleSettingsDialogViewModel.cs" />
-    <Compile Include="Consoles\_v2\Workspace\ConsolesWorkspaceView.xaml.cs">
-      <DependentUpon>ConsolesWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consoles\_v2\Workspace\ConsolesWorkspaceViewModel.cs" />
-    <Compile Include="Notebook\_v2\Form\NoteFormViewModelValidator.cs" />
+    <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelViewModel.cs" />
+    <Compile Include="Consoles\OptionsPanel\IConsoleOptionsPanelViewModel.cs" />
+    <Compile Include="Infrastructure\IViewModelFactory.cs" />
+    <Compile Include="Infrastructure\SimpleInjectorViewModelFactory.cs" />
     <Compile Include="Shared\BaseViewModel.cs" />
     <Compile Include="Mappings\MapperInitializer.cs" />
     <Compile Include="Mappings\MapProfileConsoles.cs" />
     <Compile Include="Mappings\MapProfileNotebook.cs" />
-    <Compile Include="Notebook\_v2\NoteAdd\NoteAddedMessage.cs" />
-    <Compile Include="Notebook\_v2\NoteDetails\NoteDeletedMessage.cs" />
-    <Compile Include="Notebook\_v2\NoteDetails\NoteEditedMessage.cs" />
-    <Compile Include="Notebook\_v2\Form\NoteFormView.xaml.cs">
-      <DependentUpon>NoteFormView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Notebook\_v2\NoteDetails\NoteDetailsView.xaml.cs">
-      <DependentUpon>NoteDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Notebook\_v2\NoteDetails\NoteDetailsViewModel.cs" />
-    <Compile Include="Notebook\_v2\NoteAdd\NoteAddView.xaml.cs">
-      <DependentUpon>NoteAddView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Notebook\_v2\NoteAdd\NoteAddViewModel.cs" />
-    <Compile Include="Notebook\_v2\Form\NoteFormViewModel.cs" />
-    <Compile Include="Notebook\_v2\NoteDetailsList\NoteDetailsListViewModel.cs" />
-    <Compile Include="Notebook\_v2\NoteDetailsList\NoteDetailsListView.xaml.cs">
-      <DependentUpon>NoteDetailsListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Notebook\_v2\Workspace\NotebookWorkspaceView.xaml.cs">
-      <DependentUpon>NotebookWorkspaceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Notebook\_v2\Workspace\NotebookWorkspaceViewModel.cs" />
-    <Compile Include="Shared\IsValidGeometryConverter.cs" />
+    <Compile Include="Shell\IShellViewModel.cs" />
     <Compile Include="Shell\ShellWndProc.cs" />
     <Compile Include="StartupContainer.cs" />
     <Compile Include="StartupEntryPoint.cs" />
-    <Compile Include="Consoles\_v2\ProcessInstance\ConsoleProcessInstanceViewModel.cs" />
-    <Compile Include="Consoles\_v2\ProcessInstance\ConsoleProcessInstanceView.xaml.cs">
-      <DependentUpon>ConsoleProcessInstanceView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Shell\ShellViewModel.cs" />
     <Compile Include="Win32Api.cs" />
-    <Page Include="Consoles\_v2\OptionsList\ConsoleOptionsListView.xaml">
+    <Page Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -368,55 +308,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Consoles\_v2\Option\ConsoleOptionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Consoles\_v2\ProcessInstancesArrange\ConsoleProcessInstancesArrangeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Consoles\_v2\ProcessInstancesList\ConsoleProcessInstancesListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Consoles\_v2\SettingsDialog\ConsoleOptionFormView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Consoles\_v2\SettingsDialog\ConsoleSettingsDialogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Consoles\_v2\ProcessInstance\ConsoleProcessInstanceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Consoles\_v2\Workspace\ConsolesWorkspaceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Notebook\_v2\Form\NoteFormView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Notebook\_v2\NoteDetails\NoteDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Notebook\NotebookStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Notebook\_v2\NoteAdd\NoteAddView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Notebook\_v2\NoteDetailsList\NoteDetailsListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Notebook\_v2\Workspace\NotebookWorkspaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
