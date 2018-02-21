@@ -27,13 +27,19 @@
 
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
+		<Path Style="{StaticResource logoVisualStyle}" />
+
+	</Grid>
+
+	<!--
+	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="375" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<!-- Notebook -->
 		<Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 			<Grid.RowDefinitions>
@@ -54,13 +60,11 @@
 
 		</Grid>
 
-		<!---->
 		<Border
 			BorderBrush="{DynamicResource MaterialDesignDivider}"
 			BorderThickness="1"
 			Grid.Column="1" />
 
-		<!-- Consoles -->
 		<consoles:ConsolesWorkspaceView
 			DataContext="{Binding ConsolesWorkspaceViewModel}"
 			Grid.Column="2"
@@ -68,5 +72,6 @@
 			VerticalAlignment="Stretch" />
 
 	</Grid>
+	-->
 
 </Window>

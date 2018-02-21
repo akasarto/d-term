@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Resources;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -7,6 +8,8 @@ using System.Windows;
 [assembly: AssemblyCompany("Sarto Research")]
 [assembly: AssemblyDescription("General purpose console management terminal for developers.")]
 [assembly: AssemblyCopyright("Copyright © 2018 Sarto Research")]
+
+[assembly: NeutralResourcesLanguage("en-US")]
 
 [assembly: ComVisible(false)]
 
@@ -17,3 +20,4 @@ using System.Windows;
 
 [assembly: AssemblyVersion("2.0.0.0")]
 [assembly: AssemblyFileVersion("2.0.0.0")]
+
