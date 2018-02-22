@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace UI.Wpf.Consoles
 {
+	/// <summary>
+	/// App console options panel view model implementation.
+	/// </summary>
 	public class ConsoleOptionsPanelViewModel : ReactiveObject, IConsoleOptionsPanelViewModel
 	{
 		private ReactiveCommand<Unit, List<ConsoleOption>> _loadOptions;
@@ -38,7 +41,7 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
-		/// Load existing console options.
+		/// Gets or sets the command responsible for loading the exising console options.
 		/// </summary>
 		public ReactiveCommand<Unit, List<ConsoleOption>> LoadOptions
 		{
