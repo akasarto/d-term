@@ -1,9 +1,8 @@
-﻿<Application
+﻿<Application 
 	x:Class="UI.Wpf.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:local="clr-namespace:UI.Wpf"
 >
 
 	<Application.Resources>
@@ -32,10 +31,8 @@
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
 
-				<!--
 				<ResourceDictionary Source="/Consoles/ConsoleStyles.xaml" />
 				<ResourceDictionary Source="/Notebook/NotebookStyles.xaml" />
-				-->
 
 			</ResourceDictionary.MergedDictionaries>
 

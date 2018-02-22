@@ -1,5 +1,4 @@
 ﻿using MaterialDesignThemes.Wpf;
-using ReactiveUI;
 using System;
 using UI.Wpf.Consoles;
 using UI.Wpf.Infrastructure;

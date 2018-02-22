@@ -20,7 +20,7 @@ namespace UI.Wpf
 			var application = new App();
 			var hasArguments = (args?.Length ?? 0) > 0;
 
-			using (var container = new StartupContainer())
+			using (var container = new AppContainer())
 			{
 				application.InitializeComponent();
 
@@ -47,6 +47,7 @@ namespace UI.Wpf
 				}
 
 				var shellView = container.GetInstance<ShellView>();
+
 				var shellViewModel = container.GetInstance<IShellViewModel>();
 
 				shellView.DataContext = shellViewModel;

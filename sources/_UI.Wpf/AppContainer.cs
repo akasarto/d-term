@@ -12,9 +12,9 @@ using UI.Wpf.Shell;
 
 namespace UI.Wpf
 {
-	public class StartupContainer : Container
+	public class AppContainer : Container
 	{
-		public StartupContainer()
+		public AppContainer()
 		{
 			//
 			Register<ShellView>();

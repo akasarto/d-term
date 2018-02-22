@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Core", "1.Core", "{56C34DEB-127F-4EB6-86FD-D31D48FB528C}"
 EndProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Notebooks", "3.Notebooks"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.User Interface", "4.User Interface", "{F8429758-34B1-41F2-B342-0B3D31D117DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Wpf", "UI.Wpf\UI.Wpf.csproj", "{3DC4A3D3-40F4-415C-A386-C3CA97D4DCD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_UI.Wpf", "_UI.Wpf\_UI.Wpf.csproj", "{3DC4A3D3-40F4-415C-A386-C3CA97D4DCD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.Data.LiteDB", "Notebook.Data.LiteDB\Notebook.Data.LiteDB.csproj", "{02177AD9-BE9D-46D5-8D7E-F877A93D4A3B}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consoles.Core", "Consoles.Core\Consoles.Core.csproj", "{9FC5178A-6F50-492A-9546-CFAFBB0919D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.Core", "Notebook.Core\Notebook.Core.csproj", "{422C311D-9429-461C-B3BD-250166F2E10C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Wpf", "UI.Wpf\UI.Wpf.csproj", "{4031C2CC-D90F-4159-A22B-00B4AB3EE984}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{422C311D-9429-461C-B3BD-250166F2E10C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{422C311D-9429-461C-B3BD-250166F2E10C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{422C311D-9429-461C-B3BD-250166F2E10C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4031C2CC-D90F-4159-A22B-00B4AB3EE984}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4031C2CC-D90F-4159-A22B-00B4AB3EE984}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4031C2CC-D90F-4159-A22B-00B4AB3EE984}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4031C2CC-D90F-4159-A22B-00B4AB3EE984}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +77,7 @@ Global
 		{DD8DF004-9062-4358-9EA3-F9CFBC5D061F} = {56C34DEB-127F-4EB6-86FD-D31D48FB528C}
 		{9FC5178A-6F50-492A-9546-CFAFBB0919D0} = {AD661C5A-2907-456C-8B73-285A1D11BDD8}
 		{422C311D-9429-461C-B3BD-250166F2E10C} = {3D2F6470-B84D-4C0F-A469-C7D11344F8AE}
+		{4031C2CC-D90F-4159-A22B-00B4AB3EE984} = {F8429758-34B1-41F2-B342-0B3D31D117DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BF67C3E-869B-4662-BFDE-7951D2C10D14}

@@ -4,7 +4,7 @@ namespace UI.Wpf.Mappings
 {
 	public static class MapperInitializer
 	{
-		public static void Initialize(StartupContainer startupContainer)
+		public static void Initialize(AppContainer startupContainer)
 		{
 			var consolesMapProfile = startupContainer.GetInstance<MapProfileConsoles>();
 			var notebookMapProfile = startupContainer.GetInstance<MapProfileNotebook>();
