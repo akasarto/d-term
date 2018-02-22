@@ -1,4 +1,6 @@
 ﻿using ReactiveUI;
+using System;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,6 +11,12 @@ namespace UI.Wpf.Consoles
 		public ConsoleOptionsPanelView()
 		{
 			InitializeComponent();
+
+			this.WhenActivated(activator =>
+			{
+				activator(this.WhenAnyValue(@this => @this.DataContext).BindTo(this, @this => @this.ViewModel));
+				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptions).SelectMany(x => x.Execute()).Subscribe());
+			});
 		}
 
 		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionsPanelViewModel), typeof(ConsoleOptionsPanelView), new PropertyMetadata(null));

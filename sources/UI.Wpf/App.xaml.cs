@@ -30,8 +30,8 @@ namespace UI.Wpf
 			// App startup
 			Startup += (object sender, StartupEventArgs args) =>
 			{
-				MainWindow = new ShellView();
-				MainWindow.DataContext = new ShellViewModel();
+				MainWindow = container.GetInstance<ShellView>();
+				MainWindow.DataContext = container.GetInstance<IShellViewModel>();
 				MainWindow.Show();
 			};
 
@@ -44,7 +44,7 @@ namespace UI.Wpf
 			// App shutdown
 			Exit += (object sender, ExitEventArgs args) =>
 			{
-
+				container.Dispose();
 			};
 		}
 	}

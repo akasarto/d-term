@@ -10,9 +10,9 @@
 	d:DesignHeight="215"
 >
 
-	<Grid Background="Red">
+	<Grid>
 
-		<TextBlock Background="Transparent" Foreground="Black" Text="{Binding Test}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+		<TextBlock Foreground="Black" Text="{Binding Test}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
 	</Grid>
 

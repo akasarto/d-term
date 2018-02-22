@@ -1,7 +1,4 @@
-﻿using ReactiveUI;
-using UI.Wpf.Consoles;
-
-namespace UI.Wpf.Shell
+﻿namespace UI.Wpf.Shell
 {
 	/// <summary>
 	/// App main view.
@@ -11,11 +8,6 @@ namespace UI.Wpf.Shell
 		public ShellView()
 		{
 			InitializeComponent();
-		}
-
-		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-		{
-			xxx.ViewModel = new ConsoleOptionsPanelViewModel();
 		}
 	}
 }

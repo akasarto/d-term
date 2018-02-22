@@ -18,9 +18,9 @@ namespace UI.Wpf.Shell
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(/*IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel*/)
+		public ShellViewModel(IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel)
 		{
-			//_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsPanelViewModel), nameof(ShellViewModel));
+			_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsPanelViewModel), nameof(ShellViewModel));
 		}
 
 		/// <summary>
@@ -35,10 +35,6 @@ namespace UI.Wpf.Shell
 		/// <summary>
 		/// Gets or sets the console options panel view model.
 		/// </summary>
-		public IConsoleOptionsPanelViewModel ConsoleOptionsPanelViewModel
-		{
-			get => _consoleOptionsPanelViewModel;
-			set => this.RaiseAndSetIfChanged(ref _consoleOptionsPanelViewModel, value);
-		}
+		public IConsoleOptionsPanelViewModel ConsoleOptionsPanelViewModel => _consoleOptionsPanelViewModel;
 	}
 }
