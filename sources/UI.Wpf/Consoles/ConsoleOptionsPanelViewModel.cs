@@ -1,8 +1,8 @@
 ﻿using Consoles.Core;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Reactive;
-using System;
 using System.Threading.Tasks;
 
 namespace UI.Wpf.Consoles
