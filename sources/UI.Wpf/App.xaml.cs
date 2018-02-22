@@ -2,6 +2,7 @@
 using Splat;
 using System.Windows;
 using System.Windows.Threading;
+using UI.Wpf.Consoles;
 using UI.Wpf.Infrastructure;
 using UI.Wpf.Shell;
 
@@ -21,6 +22,8 @@ namespace UI.Wpf
 
 			Locator.CurrentMutable.InitializeSplat();
 			Locator.CurrentMutable.InitializeReactiveUI();
+
+			Locator.CurrentMutable.Register(() => new ConsoleOptionsPanelView(), typeof(IViewFor<ConsoleOptionsPanelViewModel>));
 
 			ShutdownMode = ShutdownMode.OnMainWindowClose;
 

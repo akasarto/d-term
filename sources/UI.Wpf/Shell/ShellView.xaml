@@ -4,6 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:reactiveUI="http://reactiveui.net"
 	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	TextElement.FontSize="14"
 	TextElement.FontWeight="Medium"
@@ -23,10 +24,19 @@
 	MinHeight="800"
 >
 
-	<Grid>
+	<StackPanel>
 
-		<Path Style="{StaticResource logoVisualStyle}" />
+		<!--<Path Style="{StaticResource logoVisualStyle}" />-->
+		<Button Click="Button_Click">Test</Button>
 
-	</Grid>
+		<reactiveUI:ViewModelViewHost Width="375" Height="215" x:Name="xxx" Background="Blue" HorizontalAlignment="Center" VerticalAlignment="Center">
+			<reactiveUI:ViewModelViewHost.DefaultContent>
+				<Border Background="Gainsboro">
+					<TextBlock Text="No view loaded."></TextBlock>
+				</Border>
+			</reactiveUI:ViewModelViewHost.DefaultContent>
+		</reactiveUI:ViewModelViewHost>
+
+	</StackPanel>
 
 </mahApps:MetroWindow>
