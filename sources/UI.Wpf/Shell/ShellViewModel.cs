@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace UI.Wpf
+namespace UI.Wpf.Shell
 {
 	public class ShellViewModel : ReactiveObject
 	{

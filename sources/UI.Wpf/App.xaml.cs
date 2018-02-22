@@ -3,6 +3,7 @@ using Splat;
 using System.Windows;
 using System.Windows.Threading;
 using UI.Wpf.Infrastructure;
+using UI.Wpf.Shell;
 
 namespace UI.Wpf
 {

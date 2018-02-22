@@ -1,5 +1,0 @@
-﻿
-=> Conventions
-
- - Class related items in this folder should belong to the base namespace: 'UI.Wpf'.
- - View related items (e.g. converters) in this folder should belong to the shared namespace: 'UI.Wpf.Shared'.

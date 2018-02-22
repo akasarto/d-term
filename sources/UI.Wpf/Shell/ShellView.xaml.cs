@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace UI.Wpf
+namespace UI.Wpf.Shell
 {
 	public partial class ShellView
 	{
