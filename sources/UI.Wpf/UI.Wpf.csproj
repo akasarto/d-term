@@ -45,6 +45,9 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="Humanizer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.0.362, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -214,15 +217,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Consoles\ConsoleOptionsPanelView.xaml.cs">
+    <Compile Include="Consoles\OptionsList\ConsoleOptionsListViewModel.cs" />
+    <Compile Include="Consoles\OptionsList\IConsoleOptionsListViewModel.cs" />
+    <Compile Include="Consoles\Option\ConsoleOptionViewModel.cs" />
+    <Compile Include="Consoles\OptionsList\ConsoleOptionsListView.xaml.cs">
+      <DependentUpon>ConsoleOptionsListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml.cs">
       <DependentUpon>ConsoleOptionsPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ConsoleOptionsPanelViewModel.cs" />
-    <Compile Include="Consoles\IConsoleOptionsPanelViewModel.cs" />
+    <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelViewModel.cs" />
+    <Compile Include="Consoles\OptionsPanel\IConsoleOptionsPanelViewModel.cs" />
+    <Compile Include="Consoles\Option\ConsoleOptionView.xaml.cs">
+      <DependentUpon>ConsoleOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\Option\IConsoleOptionViewModel.cs" />
     <Compile Include="Infrastructure\CompositionRoot.cs" />
+    <Compile Include="Infrastructure\MapperProfileConsoles.cs" />
+    <Compile Include="Infrastructure\MapperProfileNotebooks.cs" />
+    <Compile Include="Infrastructure\Win32NativeMethods.cs" />
     <Compile Include="Shell\IShellViewModel.cs" />
     <Compile Include="Shell\ShellViewModel.cs" />
-    <Page Include="Consoles\ConsoleOptionsPanelView.xaml">
+    <Page Include="Consoles\OptionsList\ConsoleOptionsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\Option\ConsoleOptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -279,6 +303,10 @@
       <Project>{50C33794-64A4-4DFD-8F7F-895F68E3C9FC}</Project>
       <Name>Consoles.Data.LiteDB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Consoles.Processes\Consoles.Processes.csproj">
+      <Project>{8F1970BD-7CDC-47BE-8DC7-27A1CBC25D46}</Project>
+      <Name>Consoles.Processes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Notebook.Core\Notebook.Core.csproj">
       <Project>{422C311D-9429-461C-B3BD-250166F2E10C}</Project>
       <Name>Notebook.Core</Name>
@@ -287,6 +315,9 @@
       <Project>{02177AD9-BE9D-46D5-8D7E-F877A93D4A3B}</Project>
       <Name>Notebook.Data.LiteDB</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Notebooks\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />

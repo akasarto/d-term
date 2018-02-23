@@ -15,7 +15,7 @@ namespace UI.Wpf.Consoles
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.DataContext).BindTo(this, @this => @this.ViewModel));
-				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptions).SelectMany(x => x.Execute()).Subscribe());
+				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptionsCommand).SelectMany(x => x.Execute()).Subscribe());
 			});
 		}
 

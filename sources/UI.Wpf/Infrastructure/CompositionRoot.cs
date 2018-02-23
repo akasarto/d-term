@@ -1,5 +1,6 @@
 ﻿using Consoles.Core;
 using Consoles.Data.LiteDB;
+using Consoles.Processes;
 using Notebook.Core;
 using Notebook.Data.LiteDB;
 using SimpleInjector;
@@ -20,12 +21,20 @@ namespace UI.Wpf.Infrastructure
 			Register<IShellViewModel, ShellViewModel>();
 
 			//
+			Register<IConsoleOptionsListViewModel, ConsoleOptionsListViewModel>();
 			Register<IConsoleOptionsPanelViewModel, ConsoleOptionsPanelViewModel>();
 
 			//
 			string liteDbConnectionString = @"dTerm.db";
 			Register<IConsoleOptionsRepository>(() => new ConsoleOptionsRepository(liteDbConnectionString));
 			Register<INotebookRepository>(() => new NotebookRepository(liteDbConnectionString));
+
+			//
+			RegisterSingleton<IProcessTracker, ProcessTracker>();
+			RegisterSingleton<IProcessPathBuilder, ProcessPathBuilder>();
+
+			//
+			Register<IConsoleProcessService, ConsoleProcessService>();
 		}
 	}
 }

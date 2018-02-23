@@ -1,8 +1,8 @@
-﻿using ReactiveUI;
+﻿using AutoMapper;
+using ReactiveUI;
 using Splat;
 using System.Windows;
 using System.Windows.Threading;
-using UI.Wpf.Consoles;
 using UI.Wpf.Infrastructure;
 using UI.Wpf.Shell;
 
@@ -20,10 +20,14 @@ namespace UI.Wpf
 		{
 			var container = new CompositionRoot();
 
+			Mapper.Initialize(config =>
+			{
+				config.AddProfile(container.GetInstance<MapperProfileConsoles>());
+				config.AddProfile(container.GetInstance<MapperProfileNotebooks>());
+			});
+
 			Locator.CurrentMutable.InitializeSplat();
 			Locator.CurrentMutable.InitializeReactiveUI();
-
-			Locator.CurrentMutable.Register(() => new ConsoleOptionsPanelView(), typeof(IViewFor<ConsoleOptionsPanelViewModel>));
 
 			ShutdownMode = ShutdownMode.OnMainWindowClose;
 

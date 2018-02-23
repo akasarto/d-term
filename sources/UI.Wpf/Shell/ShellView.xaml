@@ -28,11 +28,17 @@
 
 		<Path Style="{StaticResource logoVisualStyle}" />
 
-		<Border Width="375" Height="215" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+		<Grid Margin="15 0 15 15" VerticalAlignment="Bottom">
 
-			<consoles:ConsoleOptionsPanelView DataContext="{Binding ConsoleOptionsPanelViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+			<Rectangle Fill="Black" Height="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
 
-		</Border>
+			<Border Margin="75 15" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
+
+				<consoles:ConsoleOptionsPanelView DataContext="{Binding ConsoleOptionsPanelViewModel}" HorizontalAlignment="Stretch" Margin="15 0 15 0" VerticalAlignment="Stretch" />
+
+			</Border>
+
+		</Grid>
 
 	</Grid>
 
