@@ -236,10 +236,10 @@
     <Compile Include="Mappings\MapperProfileConsoles.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />
     <Compile Include="Win32Api.cs" />
-    <Compile Include="Workspace\GeneralSettingsView.xaml.cs">
-      <DependentUpon>GeneralSettingsView.xaml</DependentUpon>
+    <Compile Include="Settings\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Workspace\GeneralSettingsViewModel.cs" />
+    <Compile Include="Settings\SettingsViewModel.cs" />
     <Compile Include="Workspace\WorkspaceViewModel.cs" />
     <Page Include="Consoles\Settings\ConsoleSettingsView.xaml">
       <SubType>Designer</SubType>
@@ -261,7 +261,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Workspace\GeneralSettingsView.xaml">
+    <Page Include="Settings\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

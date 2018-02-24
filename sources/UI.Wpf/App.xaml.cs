@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using ReactiveUI;
+using SimpleInjector;
+using SimpleInjector.Advanced;
 using Splat;
 using System.Windows;
 using System.Windows.Threading;
@@ -34,7 +36,6 @@ namespace UI.Wpf
 			// App startup
 			Startup += (object sender, StartupEventArgs args) =>
 			{
-				//MainWindow = container.GetInstance<WorkspaceView>();
 				MainWindow = Locator.CurrentMutable.GetService<IViewFor<IWorkspaceViewModel>>() as Window;
 				MainWindow.DataContext = container.GetInstance<IWorkspaceViewModel>();
 				MainWindow.Show();

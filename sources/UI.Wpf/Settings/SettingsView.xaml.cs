@@ -1,17 +1,17 @@
 ﻿using ReactiveUI;
 using System.Windows;
 
-namespace UI.Wpf.Workspace
+namespace UI.Wpf.Settings
 {
 	/// <summary>
 	/// General settings view.
 	/// </summary>
-	public partial class GeneralSettingsView : IViewFor<IGeneralSettingsViewModel>
+	public partial class SettingsView : IViewFor<ISettingsViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public GeneralSettingsView()
+		public SettingsView()
 		{
 			InitializeComponent();
 		}
@@ -19,14 +19,14 @@ namespace UI.Wpf.Workspace
 		/// <summary>
 		/// View model dependency property backing field.
 		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IGeneralSettingsViewModel), typeof(GeneralSettingsView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(ISettingsViewModel), typeof(SettingsView), new PropertyMetadata(null));
 
 		/// <summary>
 		/// Gets or sets the view model instance.
 		/// </summary>
-		public IGeneralSettingsViewModel ViewModel
+		public ISettingsViewModel ViewModel
 		{
-			get { return (IGeneralSettingsViewModel)GetValue(ViewModelProperty); }
+			get { return (ISettingsViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
@@ -36,7 +36,7 @@ namespace UI.Wpf.Workspace
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IGeneralSettingsViewModel)value; }
+			set { ViewModel = (ISettingsViewModel)value; }
 		}
 	}
 }

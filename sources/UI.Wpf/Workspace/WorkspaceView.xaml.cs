@@ -1,9 +1,8 @@
 ﻿using ReactiveUI;
 using System.Windows;
-using System;
 using System.Reactive;
-using System.Threading.Tasks;
 using Splat;
+using UI.Wpf.Settings;
 
 namespace UI.Wpf.Workspace
 {
@@ -23,9 +22,9 @@ namespace UI.Wpf.Workspace
 			{
 				activator(this.WhenAnyValue(@this => @this.DataContext).BindTo(this, @this => @this.ViewModel));
 
-				activator(ViewModel.OpenGeneralSettingsViewInteraction.RegisterHandler(context =>
+				activator(ViewModel.OpenSettingsInteraction.RegisterHandler(context =>
 				{
-					var settingsView = Locator.CurrentMutable.GetService<IViewFor<IGeneralSettingsViewModel>>() as Window;
+					var settingsView = Locator.CurrentMutable.GetService<IViewFor<ISettingsViewModel>>() as Window;
 
 					settingsView.Owner = Application.Current.MainWindow;
 					settingsView.DataContext = context.Input;

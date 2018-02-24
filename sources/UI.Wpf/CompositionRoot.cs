@@ -6,7 +6,11 @@ using Notebook.Data.LiteDB;
 using ReactiveUI;
 using SimpleInjector;
 using Splat;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UI.Wpf.Consoles;
+using UI.Wpf.Settings;
 using UI.Wpf.Workspace;
 
 namespace UI.Wpf
@@ -26,9 +30,9 @@ namespace UI.Wpf
 			Register<IWorkspaceViewModel, WorkspaceViewModel>();
 			Locator.CurrentMutable.Register<IViewFor<IWorkspaceViewModel>>(() => GetInstance<WorkspaceView>());
 
-			Register<GeneralSettingsView>();
-			Register<IGeneralSettingsViewModel, GeneralSettingsViewModel>();
-			Locator.CurrentMutable.Register<IViewFor<IGeneralSettingsViewModel>>(() => GetInstance<GeneralSettingsView>());
+			Register<SettingsView>();
+			Register<ISettingsViewModel, SettingsViewModel>();
+			Locator.CurrentMutable.Register<IViewFor<ISettingsViewModel>>(() => GetInstance<SettingsView>());
 
 			//
 			Register<IConsoleSettingsViewModel, ConsoleSettingsViewModel>();
