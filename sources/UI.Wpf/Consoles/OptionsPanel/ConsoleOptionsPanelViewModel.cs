@@ -78,8 +78,6 @@ namespace UI.Wpf.Consoles
 			{
 				var items = _consoleOptionsRepository.GetAll();
 
-				System.Threading.Thread.Sleep(5000);
-
 				return Task.FromResult(items);
 			}));
 

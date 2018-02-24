@@ -26,18 +26,51 @@
 
 	</UserControl.Resources>
 
-	<ItemsControl ItemsSource="{Binding Source={StaticResource consoleItemsSource}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+	<Grid>
 
-		<ItemsControl.ItemsPanel>
-			<ItemsPanelTemplate>
-				<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" />
-			</ItemsPanelTemplate>
-		</ItemsControl.ItemsPanel>
+		<!-- Loading -->
+		<ProgressBar
+			IsIndeterminate="True"
+			Margin="0 0 15 0"
+			ToolTip="Loading console options..."
+			Value="35"
+			VerticalAlignment="Center">
+			<ProgressBar.Style>
+				<Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+					<Setter Property="Visibility" Value="Collapsed" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding IsBusy}" Value="True">
+							<Setter Property="Visibility" Value="Visible" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</ProgressBar.Style>
+		</ProgressBar>
 
-		<ItemsControl.ItemTemplate>
-			<DataTemplate>
+		<!-- Options List -->
+		<ItemsControl ItemsSource="{Binding Source={StaticResource consoleItemsSource}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-				<Button
+			<ItemsControl.Style>
+				<Style TargetType="ItemsControl">
+					<Setter Property="Visibility" Value="Collapsed" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding IsBusy}" Value="False">
+							<Setter Property="Visibility" Value="Visible" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</ItemsControl.Style>
+
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+
+					<Button
 					Command="{Binding CreateProcessInstanceCommand}"
 					Focusable="False"
 					IsEnabled="{Binding IsSupported}"
@@ -50,20 +83,21 @@
 					ToolTipService.ShowOnDisabled="True"
 					VerticalAlignment="Center">
 
-					<materialDesign:PackIcon>
-						<materialDesign:PackIcon.Template>
-							<ControlTemplate>
-								<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding PicturePath}" />
-							</ControlTemplate>
-						</materialDesign:PackIcon.Template>
-					</materialDesign:PackIcon>
+						<materialDesign:PackIcon>
+							<materialDesign:PackIcon.Template>
+								<ControlTemplate>
+									<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding PicturePath}" />
+								</ControlTemplate>
+							</materialDesign:PackIcon.Template>
+						</materialDesign:PackIcon>
 
-				</Button>
+					</Button>
 
-			</DataTemplate>
-		</ItemsControl.ItemTemplate>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
 
-	</ItemsControl>
+		</ItemsControl>
 
+	</Grid>
 
 </UserControl>
