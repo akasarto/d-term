@@ -1,20 +1,32 @@
-﻿<Window
+﻿<mahApps:MetroWindow
 	x:Class="UI.Wpf.Workspace.WorkspaceSettingsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:consoles="clr-namespace:UI.Wpf.Consoles"
 	xmlns:local="clr-namespace:UI.Wpf.Workspace"
 	mc:Ignorable="d"
-	Title="Workspace Settings"
 	Width="800"
 	Height="600"
+	ShowInTaskbar="False"
+	IsMinButtonEnabled="False"
+	WindowTransitionsEnabled="False"
+	Title="General Settings"
 >
 
-	<Grid>
+	<dragablz:TabablzControl BorderThickness="0" SelectedIndex="0">
 
+		<TabItem Header="CONSOLES">
+			<consoles:ConsoleSettingsView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+		</TabItem>
 
+		<TabItem Header="NOTEBOOKS">
+		</TabItem>
 
-	</Grid>
+	</dragablz:TabablzControl>
 
-</Window>
+</mahApps:MetroWindow>

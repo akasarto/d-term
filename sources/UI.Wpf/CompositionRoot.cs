@@ -7,7 +7,7 @@ using SimpleInjector;
 using UI.Wpf.Consoles;
 using UI.Wpf.Workspace;
 
-namespace UI.Wpf.Infrastructure
+namespace UI.Wpf
 {
 	/// <summary>
 	/// Determine all types available for dependency injection.

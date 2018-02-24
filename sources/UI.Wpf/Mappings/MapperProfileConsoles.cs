@@ -4,7 +4,7 @@ using Consoles.Core;
 using Humanizer;
 using UI.Wpf.Consoles;
 
-namespace UI.Wpf.Infrastructure
+namespace UI.Wpf.Mappings
 {
 	/// <summary>
 	/// Consoles map definitions profile.

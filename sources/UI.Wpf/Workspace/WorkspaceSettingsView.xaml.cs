@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace UI.Wpf.Workspace
+﻿namespace UI.Wpf.Workspace
 {
 	/// <summary>
 	/// Workspace settings view.
 	/// </summary>
-	public partial class WorkspaceSettingsView : Window
+	public partial class WorkspaceSettingsView
 	{
 		/// <summary>
 		/// Constructor method.

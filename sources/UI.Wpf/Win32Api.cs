@@ -1,9 +1,9 @@
-﻿namespace UI.Wpf.Infrastructure
+﻿namespace UI.Wpf
 {
 	/// <summary>
 	/// Windows api native methods for interop operations.
 	/// </summary>
-	public class Win32NativeMethods
+	public class Win32Api
 	{
 	}
 }

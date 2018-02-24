@@ -76,7 +76,7 @@ namespace UI.Wpf.Workspace
 
 			WorkspaceSettingsCommand.Subscribe(view =>
 			{
-				view.Show();
+				view.ShowDialog();
 			});
 		}
 	}

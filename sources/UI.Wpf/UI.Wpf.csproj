@@ -45,6 +45,9 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="Dragablz, Version=0.0.3.197, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.197\lib\net45\Dragablz.dll</HintPath>
+    </Reference>
     <Reference Include="Humanizer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
     </Reference>
@@ -217,22 +220,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Consoles\Configs\ConsoleSettingsView.xaml.cs">
+      <DependentUpon>ConsoleSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\Configs\ConsoleOptionFormView.xaml.cs">
+      <DependentUpon>ConsoleOptionFormView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Consoles\OptionsPanel\ConsoleOptionViewModel.cs" />
     <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml.cs">
       <DependentUpon>ConsoleOptionsPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelViewModel.cs" />
-    <Compile Include="Infrastructure\CompositionRoot.cs" />
-    <Compile Include="Infrastructure\MapperProfileConsoles.cs" />
-    <Compile Include="Infrastructure\MapperProfileNotebooks.cs" />
-    <Compile Include="Infrastructure\Win32NativeMethods.cs" />
+    <Compile Include="CompositionRoot.cs" />
+    <Compile Include="Mappings\MapperProfileConsoles.cs" />
+    <Compile Include="Mappings\MapperProfileNotebooks.cs" />
+    <Compile Include="Win32Api.cs" />
     <Compile Include="Workspace\WorkspaceSettingsView.xaml.cs">
       <DependentUpon>WorkspaceSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workspace\WorkspaceViewModel.cs" />
+    <Page Include="Consoles\Configs\ConsoleSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\Configs\ConsoleOptionFormView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\ConsolesStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Notebooks\NotebooksStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Workspace\WorkspaceSettingsView.xaml">
       <SubType>Designer</SubType>
@@ -304,9 +329,7 @@
       <Name>Notebook.Data.LiteDB</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Notebooks\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

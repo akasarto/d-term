@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace UI.Wpf.Infrastructure
+namespace UI.Wpf.Mappings
 {
 	/// <summary>
 	/// Notebooks map definitions profile.

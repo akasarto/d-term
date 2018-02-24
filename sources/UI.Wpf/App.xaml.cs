@@ -3,7 +3,7 @@ using ReactiveUI;
 using Splat;
 using System.Windows;
 using System.Windows.Threading;
-using UI.Wpf.Infrastructure;
+using UI.Wpf.Mappings;
 using UI.Wpf.Workspace;
 
 namespace UI.Wpf

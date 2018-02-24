@@ -14,6 +14,7 @@
 	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
 	Background="{DynamicResource MaterialDesignPaper}"
 	FontFamily="{DynamicResource MaterialDesignFont}"
+	WindowTransitionsEnabled="False"
 	ShowTitleBar="False"
 	WindowStartupLocation="CenterScreen"
 	WindowState="Maximized"
@@ -33,7 +34,7 @@
 
 			<Rectangle Fill="Black" Height="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
 
-			<Border Margin="75 15" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
+			<Border Margin="25 15" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 
 				<Grid Margin="15 0 15 0">
 
@@ -60,7 +61,7 @@
 						Command="{Binding WorkspaceSettingsCommand}"
 						Grid.Column="2"
 						Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
-						ToolTip="Configure Consoles"
+						ToolTip="General Settings"
 						ToolTipService.Placement="Center"
 						ToolTipService.VerticalOffset="-50">
 						<materialDesign:PackIcon Kind="Settings" Height="24" Width="24" />
