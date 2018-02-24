@@ -3,13 +3,14 @@ using System.Windows;
 using System.Reactive;
 using Splat;
 using UI.Wpf.Settings;
+using System.Windows.Controls;
 
 namespace UI.Wpf.Workspace
 {
 	/// <summary>
 	/// App main workspace.
 	/// </summary>
-	public partial class WorkspaceView : IViewFor<IWorkspaceViewModel>
+	public partial class WorkspaceView : UserControl, IViewFor<IWorkspaceViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
@@ -18,22 +19,22 @@ namespace UI.Wpf.Workspace
 		{
 			InitializeComponent();
 
-			this.WhenActivated(activator =>
-			{
-				activator(this.WhenAnyValue(@this => @this.DataContext).BindTo(this, @this => @this.ViewModel));
+			//this.WhenActivated(activator =>
+			//{
+			//	activator(this.WhenAnyValue(@this => @this.DataContext).BindTo(this, @this => @this.ViewModel));
 
-				activator(ViewModel.OpenSettingsInteraction.RegisterHandler(context =>
-				{
-					var settingsView = Locator.CurrentMutable.GetService<IViewFor<ISettingsViewModel>>() as Window;
+			//	activator(ViewModel.OpenSettingsInteraction.RegisterHandler(context =>
+			//	{
+			//		var settingsView = Locator.CurrentMutable.GetService<IViewFor<ISettingsViewModel>>() as Window;
 
-					settingsView.Owner = Application.Current.MainWindow;
-					settingsView.DataContext = context.Input;
+			//		settingsView.Owner = Application.Current.MainWindow;
+			//		settingsView.DataContext = context.Input;
 
-					settingsView.ShowDialog();
+			//		settingsView.ShowDialog();
 
-					context.SetOutput(Unit.Default);
-				}));
-			});
+			//		context.SetOutput(Unit.Default);
+			//	}));
+			//});
 		}
 
 		/// <summary>

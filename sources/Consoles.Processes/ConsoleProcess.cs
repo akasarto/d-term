@@ -46,11 +46,6 @@ namespace Consoles.Processes
 		public IntPtr MainWindowHandle => _processMainWindowHandle;
 
 		/// <summary>
-		/// Gets the option that originated this process.
-		/// </summary>
-		public ConsoleOption Source { get; internal set; }
-
-		/// <summary>
 		/// Starts the process.
 		/// </summary>
 		public void Start()

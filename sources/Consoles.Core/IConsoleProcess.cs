@@ -9,7 +9,6 @@ namespace Consoles.Core
 		int Id { get; }
 		bool IsStarted { get; }
 		IntPtr MainWindowHandle { get; }
-		ConsoleOption Source { get; }
 		void Start();
 	}
 }

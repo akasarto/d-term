@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
+using Consoles.Core;
 using ReactiveUI;
-using SimpleInjector;
-using SimpleInjector.Advanced;
 using Splat;
 using System.Windows;
 using System.Windows.Threading;
 using UI.Wpf.Mappings;
-using UI.Wpf.Workspace;
 
 namespace UI.Wpf
 {
@@ -20,24 +18,21 @@ namespace UI.Wpf
 		/// </summary>
 		public App()
 		{
-			var container = new CompositionRoot();
+			AppBootstrapper.Initialize();
+
+			var container = Locator.CurrentMutable;
 
 			Mapper.Initialize(config =>
 			{
-				config.AddProfile(container.GetInstance<MapperProfileConsoles>());
-				config.AddProfile(container.GetInstance<MapperProfileNotebooks>());
+				config.AddProfile(container.GetService<MapperProfileConsoles>());
+				config.AddProfile(container.GetService<MapperProfileNotebooks>());
 			});
-
-			Locator.CurrentMutable.InitializeSplat();
-			Locator.CurrentMutable.InitializeReactiveUI();
-
-			ShutdownMode = ShutdownMode.OnMainWindowClose;
 
 			// App startup
 			Startup += (object sender, StartupEventArgs args) =>
 			{
-				MainWindow = Locator.CurrentMutable.GetService<IViewFor<IWorkspaceViewModel>>() as Window;
-				MainWindow.DataContext = container.GetInstance<IWorkspaceViewModel>();
+				MainWindow = container.GetService<ShellView>();
+				MainWindow.DataContext = container.GetService<IShellViewModel>();
 				MainWindow.Show();
 			};
 

@@ -1,30 +1,44 @@
 ﻿using Consoles.Core;
-using Consoles.Data.LiteDB;
 using Consoles.Processes;
-using Notebook.Core;
-using Notebook.Data.LiteDB;
 using ReactiveUI;
-using SimpleInjector;
 using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UI.Wpf.Consoles;
-using UI.Wpf.Settings;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using UI.Wpf.Mappings;
 using UI.Wpf.Workspace;
 
 namespace UI.Wpf
 {
-	/// <summary>
-	/// Determine all types available for dependency injection.
-	/// </summary>
-	public class CompositionRoot : Container
+	public static class AppBootstrapper
 	{
-		/// <summary>
-		/// Constructor method.
-		/// </summary>
-		public CompositionRoot()
+		public static void Initialize()
 		{
+			var container = Locator.CurrentMutable;
+
+			container.InitializeSplat();
+			container.InitializeReactiveUI();
+
+			container.Register(() => new ShellView());
+			container.RegisterConstant<IShellScreen>(new ShellScreen());
+			container.Register<IShellViewModel>(() => new ShellViewModel());
+
+			container.Register<IProcessTracker>(() => new ProcessTracker());
+			container.Register<IProcessPathBuilder>(() => new ProcessPathBuilder());
+
+			container.Register<IConsoleProcessService>(() => new ConsoleProcessService());
+
+			container.Register<IWorkspaceViewModel>(() => new WorkspaceViewModel());
+
+			container.Register(() => new MapperProfileConsoles());
+			container.Register(() => new MapperProfileNotebooks());
+
+			container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
+
+
 			////
 			//Register<ShellView>();
 			//Register<IShellScreen, ShellScreen>();
@@ -56,31 +70,6 @@ namespace UI.Wpf
 
 			////
 			//Register<IConsoleProcessService, ConsoleProcessService>();
-		}
-	}
-
-	public static class CompositionRootExtensions
-	{
-		public static void Register<TInterface, TImplementation>(this IMutableDependencyResolver resolver) where TImplementation : class
-		{
-			var concreteType = typeof(TImplementation);
-
-			var constructors = concreteType.GetConstructors().Single();
-
-			IList<Func<object>> values = new List<Func<object>>();
-
-			constructors.GetParameters().ToList().ForEach(parameter =>
-			{
-				var paramType = parameter.ParameterType;
-
-				values.Add(() => resolver.GetService(paramType));
-			});
-
-			resolver.Register(() => Activator.CreateInstance(
-				concreteType,
-				values.Select(cb => cb()).ToArray()),
-				typeof(TInterface)
-			);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Consoles.Core;
+using Splat;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -13,10 +14,10 @@ namespace Consoles.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleProcessService(IProcessTracker processTracker, IProcessPathBuilder processPathBuilder)
+		public ConsoleProcessService(IProcessTracker processTracker = null, IProcessPathBuilder processPathBuilder = null)
 		{
-			_processTracker = processTracker ?? throw new ArgumentNullException(nameof(processTracker), nameof(ConsoleProcessService));
-			_processPathBuilder = processPathBuilder ?? throw new ArgumentNullException(nameof(processPathBuilder), nameof(ConsoleProcessService));
+			_processTracker = processTracker ?? Locator.CurrentMutable.GetService<IProcessTracker>();
+			_processPathBuilder = processPathBuilder ?? Locator.CurrentMutable.GetService<IProcessPathBuilder>();
 		}
 
 		public bool CanCreate(ProcessBasePath processBasePath, string processExecutableName)
@@ -45,10 +46,7 @@ namespace Consoles.Processes
 				Arguments = startupArgs
 			};
 
-			var consoleInstance = new ConsoleProcess(processStartInfo, processDescriptor.StartupTimeoutInSeconds)
-			{
-				Source = processDescriptor.ConsoleOption
-			};
+			var consoleInstance = new ConsoleProcess(processStartInfo, processDescriptor.StartupTimeoutInSeconds);
 
 			consoleInstance.Start();
 

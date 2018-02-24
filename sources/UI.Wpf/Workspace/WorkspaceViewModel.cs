@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using Splat;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -11,7 +12,7 @@ namespace UI.Wpf.Workspace
 	/// <summary>
 	/// Workspace view model interface.
 	/// </summary>
-	public interface IWorkspaceViewModel
+	public interface IWorkspaceViewModel : IRoutableViewModel
 	{
 		string AppTitle { get; set; }
 		IConsoleOptionsPanelViewModel ConsoleOptionsPanelViewModel { get; }
@@ -28,6 +29,7 @@ namespace UI.Wpf.Workspace
 		//
 		private readonly IConsoleOptionsPanelViewModel _consoleOptionsPanelViewModel;
 		private readonly ISettingsViewModel _settingsViewModel;
+		private readonly IScreen _shellScreen;
 
 		//
 		private Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
@@ -36,14 +38,16 @@ namespace UI.Wpf.Workspace
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public WorkspaceViewModel(IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel, ISettingsViewModel settingsViewModel)
+		//public WorkspaceViewModel(IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel, ISettingsViewModel settingsViewModel, IShellScreen shellScreen)
+		public WorkspaceViewModel(IShellScreen shellScreen = null)
 		{
-			_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsPanelViewModel), nameof(WorkspaceViewModel));
-			_settingsViewModel = settingsViewModel ?? throw new ArgumentNullException(nameof(settingsViewModel), nameof(WorkspaceViewModel));
+			//_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsPanelViewModel), nameof(WorkspaceViewModel));
+			//_settingsViewModel = settingsViewModel ?? throw new ArgumentNullException(nameof(settingsViewModel), nameof(WorkspaceViewModel));
+			_shellScreen = shellScreen ?? Locator.CurrentMutable.GetService<IShellScreen>();
 
-			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
+			//_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
 
-			WorkspaceSettingsCommandSetup();
+			//WorkspaceSettingsCommandSetup();
 		}
 
 		/// <summary>
@@ -69,6 +73,10 @@ namespace UI.Wpf.Workspace
 			get => _workspaceSettingsCommand;
 			set => this.RaiseAndSetIfChanged(ref _workspaceSettingsCommand, value);
 		}
+
+		public string UrlPathSegment => "Workspace";
+
+		public IScreen HostScreen => _shellScreen;
 
 		/// <summary>
 		/// Setup the main settings command actions and observables.

@@ -2,6 +2,7 @@
 using AutoMapper;
 using Consoles.Core;
 using Humanizer;
+using Splat;
 using UI.Wpf.Consoles;
 
 namespace UI.Wpf.Mappings
@@ -17,9 +18,9 @@ namespace UI.Wpf.Mappings
 		/// <summary>
 		/// constructor method.
 		/// </summary>
-		public MapperProfileConsoles(IConsoleProcessService consoleProcessService)
+		public MapperProfileConsoles(IConsoleProcessService consoleProcessService = null)
 		{
-			_consoleProcessService = consoleProcessService ?? throw new ArgumentNullException(nameof(consoleProcessService), nameof(MapperProfileConsoles));
+			_consoleProcessService = consoleProcessService ?? Locator.CurrentMutable.GetService<IConsoleProcessService>();
 
 			SetupMaps();
 		}
