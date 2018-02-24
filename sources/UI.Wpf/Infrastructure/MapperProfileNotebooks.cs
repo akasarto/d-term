@@ -2,6 +2,9 @@
 
 namespace UI.Wpf.Infrastructure
 {
+	/// <summary>
+	/// Notebooks map definitions profile.
+	/// </summary>
 	public class MapperProfileNotebooks : Profile
 	{
 		/// <summary>
@@ -9,7 +12,14 @@ namespace UI.Wpf.Infrastructure
 		/// </summary>
 		public MapperProfileNotebooks()
 		{
+			SetupMaps();
+		}
 
+		/// <summary>
+		/// Set all class mapping associations.
+		/// </summary>
+		private void SetupMaps()
+		{
 		}
 	}
 }

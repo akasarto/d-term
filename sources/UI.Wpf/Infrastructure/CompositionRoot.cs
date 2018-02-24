@@ -5,10 +5,13 @@ using Notebook.Core;
 using Notebook.Data.LiteDB;
 using SimpleInjector;
 using UI.Wpf.Consoles;
-using UI.Wpf.Shell;
+using UI.Wpf.Workspace;
 
 namespace UI.Wpf.Infrastructure
 {
+	/// <summary>
+	/// Determine all types available for dependency injection.
+	/// </summary>
 	public class CompositionRoot : Container
 	{
 		/// <summary>
@@ -17,11 +20,10 @@ namespace UI.Wpf.Infrastructure
 		public CompositionRoot()
 		{
 			//
-			Register<ShellView>();
-			Register<IShellViewModel, ShellViewModel>();
+			Register<WorkspaceView>();
+			Register<IWorkspaceViewModel, WorkspaceViewModel>();
 
 			//
-			Register<IConsoleOptionsListViewModel, ConsoleOptionsListViewModel>();
 			Register<IConsoleOptionsPanelViewModel, ConsoleOptionsPanelViewModel>();
 
 			//

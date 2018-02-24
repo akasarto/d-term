@@ -217,40 +217,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Consoles\OptionsList\ConsoleOptionsListViewModel.cs" />
-    <Compile Include="Consoles\OptionsList\IConsoleOptionsListViewModel.cs" />
-    <Compile Include="Consoles\Option\ConsoleOptionViewModel.cs" />
-    <Compile Include="Consoles\OptionsList\ConsoleOptionsListView.xaml.cs">
-      <DependentUpon>ConsoleOptionsListView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Consoles\OptionsPanel\ConsoleOptionViewModel.cs" />
     <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml.cs">
       <DependentUpon>ConsoleOptionsPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelViewModel.cs" />
-    <Compile Include="Consoles\OptionsPanel\IConsoleOptionsPanelViewModel.cs" />
-    <Compile Include="Consoles\Option\ConsoleOptionView.xaml.cs">
-      <DependentUpon>ConsoleOptionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consoles\Option\IConsoleOptionViewModel.cs" />
     <Compile Include="Infrastructure\CompositionRoot.cs" />
     <Compile Include="Infrastructure\MapperProfileConsoles.cs" />
     <Compile Include="Infrastructure\MapperProfileNotebooks.cs" />
     <Compile Include="Infrastructure\Win32NativeMethods.cs" />
-    <Compile Include="Shell\IShellViewModel.cs" />
-    <Compile Include="Shell\ShellViewModel.cs" />
-    <Page Include="Consoles\OptionsList\ConsoleOptionsListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="Workspace\WorkspaceSettingsView.xaml.cs">
+      <DependentUpon>WorkspaceSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Workspace\WorkspaceViewModel.cs" />
     <Page Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\Option\ConsoleOptionView.xaml">
+    <Page Include="Workspace\WorkspaceSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Shell\ShellView.xaml">
+    <Page Include="Workspace\WorkspaceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -258,8 +246,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Shell\ShellView.xaml.cs">
-      <DependentUpon>ShellView.xaml</DependentUpon>
+    <Compile Include="Workspace\WorkspaceView.xaml.cs">
+      <DependentUpon>WorkspaceView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

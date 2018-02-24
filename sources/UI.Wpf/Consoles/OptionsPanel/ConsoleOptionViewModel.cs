@@ -4,8 +4,29 @@ using System;
 
 namespace UI.Wpf.Consoles
 {
+	/// <summary>
+	/// Console option view model interface.
+	/// </summary>
+	public interface IConsoleOptionViewModel
+	{
+		Guid Id { get; set; }
+		bool IsSupported { get; set; }
+		string Name { get; set; }
+		int OrderIndex { get; set; }
+		string PicturePath { get; set; }
+		ProcessBasePath ProcessBasePath { get; set; }
+		string ProcessBasePathDescription { get; set; }
+		string ProcessExecutableName { get; set; }
+		string ProcessStartupArgs { get; set; }
+		DateTime UTCCreation { get; set; }
+	}
+
+	/// <summary>
+	/// App console option view model implementation.
+	/// </summary>
 	public class ConsoleOptionViewModel : ReactiveObject, IConsoleOptionViewModel
 	{
+		//
 		private Guid _id;
 		private bool _isSupported;
 		private string _name;
@@ -16,6 +37,13 @@ namespace UI.Wpf.Consoles
 		private string _processExecutableName;
 		private string _processStartupArgs;
 		private DateTime _utcCreation;
+
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
+		public ConsoleOptionViewModel()
+		{
+		}
 
 		/// <summary>
 		/// Gets or sets the id.

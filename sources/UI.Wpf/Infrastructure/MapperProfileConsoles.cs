@@ -6,8 +6,12 @@ using UI.Wpf.Consoles;
 
 namespace UI.Wpf.Infrastructure
 {
+	/// <summary>
+	/// Consoles map definitions profile.
+	/// </summary>
 	public class MapperProfileConsoles : Profile
 	{
+		//
 		private readonly IConsoleProcessService _consoleProcessService;
 
 		/// <summary>
@@ -20,6 +24,9 @@ namespace UI.Wpf.Infrastructure
 			SetupMaps();
 		}
 
+		/// <summary>
+		/// Set all class mapping associations.
+		/// </summary>
 		private void SetupMaps()
 		{
 			CreateMap<ConsoleOption, ConsoleOptionViewModel>().AfterMap((source, dest) =>

@@ -4,7 +4,7 @@ using Splat;
 using System.Windows;
 using System.Windows.Threading;
 using UI.Wpf.Infrastructure;
-using UI.Wpf.Shell;
+using UI.Wpf.Workspace;
 
 namespace UI.Wpf
 {
@@ -34,8 +34,8 @@ namespace UI.Wpf
 			// App startup
 			Startup += (object sender, StartupEventArgs args) =>
 			{
-				MainWindow = container.GetInstance<ShellView>();
-				MainWindow.DataContext = container.GetInstance<IShellViewModel>();
+				MainWindow = container.GetInstance<WorkspaceView>();
+				MainWindow.DataContext = container.GetInstance<IWorkspaceViewModel>();
 				MainWindow.Show();
 			};
 

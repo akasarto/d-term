@@ -6,8 +6,14 @@ using System.Windows.Controls;
 
 namespace UI.Wpf.Consoles
 {
+	/// <summary>
+	/// Console options panel view.
+	/// </summary>
 	public partial class ConsoleOptionsPanelView : UserControl, IViewFor<IConsoleOptionsPanelViewModel>
 	{
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
 		public ConsoleOptionsPanelView()
 		{
 			InitializeComponent();
@@ -19,14 +25,23 @@ namespace UI.Wpf.Consoles
 			});
 		}
 
+		/// <summary>
+		/// View model dependency property backing field.
+		/// </summary>
 		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionsPanelViewModel), typeof(ConsoleOptionsPanelView), new PropertyMetadata(null));
 
+		/// <summary>
+		/// Gets or sets the view model instance.
+		/// </summary>
 		public IConsoleOptionsPanelViewModel ViewModel
 		{
 			get { return (IConsoleOptionsPanelViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
+		/// <summary>
+		/// Gets or sets the view model instance.
+		/// </summary>
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }

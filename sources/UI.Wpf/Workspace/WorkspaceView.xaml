@@ -1,11 +1,12 @@
 ﻿<mahApps:MetroWindow
-	x:Class="UI.Wpf.Shell.ShellView"
+	x:Class="UI.Wpf.Workspace.WorkspaceView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:consoles="clr-namespace:UI.Wpf.Consoles"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:consoles="clr-namespace:UI.Wpf.Consoles"
 	TextElement.FontSize="14"
 	TextElement.FontWeight="Medium"
 	TextOptions.TextFormattingMode="Ideal"
@@ -34,7 +35,38 @@
 
 			<Border Margin="75 15" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 
-				<consoles:ConsoleOptionsPanelView DataContext="{Binding ConsoleOptionsPanelViewModel}" HorizontalAlignment="Stretch" Margin="15 0 15 0" VerticalAlignment="Stretch" />
+				<Grid Margin="15 0 15 0">
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+
+					<consoles:ConsoleOptionsPanelView
+						DataContext="{Binding ConsoleOptionsPanelViewModel}"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch" />
+
+					<Rectangle
+						Fill="{DynamicResource MaterialDesignDivider}"
+						Width="1"
+						VerticalAlignment="Stretch"
+						Grid.Column="1"
+						Margin="0 15 15 15"
+						SnapsToDevicePixels="True" />
+
+					<Button
+						Command="{Binding WorkspaceSettingsCommand}"
+						Grid.Column="2"
+						Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+						ToolTip="Configure Consoles"
+						ToolTipService.Placement="Center"
+						ToolTipService.VerticalOffset="-50">
+						<materialDesign:PackIcon Kind="Settings" Height="24" Width="24" />
+					</Button>
+
+				</Grid>
 
 			</Border>
 

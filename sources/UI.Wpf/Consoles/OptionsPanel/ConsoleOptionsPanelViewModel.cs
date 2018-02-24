@@ -1,69 +1,100 @@
-﻿using Consoles.Core;
+﻿using AutoMapper;
+using Consoles.Core;
 using ReactiveUI;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace UI.Wpf.Consoles
 {
+	/// <summary>
+	/// Console options panel view model interface.
+	/// </summary>
+	public interface IConsoleOptionsPanelViewModel
+	{
+		bool IsBusy { get; }
+		ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand { get; }
+		IReactiveDerivedList<ConsoleOptionViewModel> Options { get; }
+	}
+
+	/// <summary>
+	/// App console options panel view model implementation.
+	/// <seealso cref="IConsoleOptionsPanelViewModel"/>
+	/// </summary>
 	public class ConsoleOptionsPanelViewModel : ReactiveObject, IConsoleOptionsPanelViewModel
 	{
-		private readonly IConsoleOptionsListViewModel _consoleOptionsListViewModel;
+		//
 		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
+		private readonly IReactiveList<ConsoleOption> _consoleOptionsSourceList;
 
-		private ReactiveCommand<Unit, IReactiveList<ConsoleOption>> _loadOptionsCommand;
-		private IReactiveList<ConsoleOption> _options;
+		//
 		private bool _isBusy;
+		private ReactiveCommand<Unit, List<ConsoleOption>> _loadOptionsCommand;
+		private IReactiveDerivedList<ConsoleOptionViewModel> _options;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionsPanelViewModel(IConsoleOptionsListViewModel consoleOptionsListViewModel, IConsoleOptionsRepository consoleOptionsRepository)
+		public ConsoleOptionsPanelViewModel(IConsoleOptionsRepository consoleOptionsRepository)
 		{
 			_consoleOptionsRepository = consoleOptionsRepository ?? throw new ArgumentNullException(nameof(consoleOptionsRepository), nameof(ConsoleOptionsPanelViewModel));
-			_consoleOptionsListViewModel = consoleOptionsListViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsListViewModel), nameof(ConsoleOptionsPanelViewModel));
+
+			_consoleOptionsSourceList = new ReactiveList<ConsoleOption>();
+
+			_options = _consoleOptionsSourceList.CreateDerivedCollection(
+				selector: option => Mapper.Map<ConsoleOptionViewModel>(option)
+			);
 
 			LoadOptionsCommandSetup();
 		}
 
-		public IConsoleOptionsListViewModel ConsoleOptionsListViewModel => _consoleOptionsListViewModel;
-
-
-		public ReactiveCommand<Unit, IReactiveList<ConsoleOption>> LoadOptionsCommand
-		{
-			get => _loadOptionsCommand;
-			set => this.RaiseAndSetIfChanged(ref _loadOptionsCommand, value);
-		}
-
+		/// <summary>
+		/// Gets or sets the loading status.
+		/// </summary>
 		public bool IsBusy
 		{
 			get => _isBusy;
 			set => this.RaiseAndSetIfChanged(ref _isBusy, value);
 		}
 
+		/// <summary>
+		/// Gets the load options command instance.
+		/// </summary>
+		public ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand => _loadOptionsCommand;
+
+		/// <summary>
+		/// Gets the current available console options.
+		/// </summary>
+		public IReactiveDerivedList<ConsoleOptionViewModel> Options => _options;
+
+		/// <summary>
+		/// Setup the load comand actions and observables.
+		/// </summary>
 		private void LoadOptionsCommandSetup()
 		{
-			LoadOptionsCommand = ReactiveCommand.CreateFromTask<IReactiveList<ConsoleOption>>(async () => await Task.Run(() =>
+			_loadOptionsCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
 			{
 				var items = _consoleOptionsRepository.GetAll();
 
-				var result = new ReactiveList<ConsoleOption>(items);
+				System.Threading.Thread.Sleep(5000);
 
-				return Task.FromResult(result);
+				return Task.FromResult(items);
 			}));
 
-			LoadOptionsCommand.IsExecuting.BindTo(this, @this => @this.IsBusy);
+			_loadOptionsCommand.IsExecuting.BindTo(this, @this => @this.IsBusy);
 
-			LoadOptionsCommand.ThrownExceptions.Subscribe(@exception =>
+			_loadOptionsCommand.ThrownExceptions.Subscribe(@exception =>
 			{
 				// ToDo: Show message
 			});
 
-			LoadOptionsCommand.Subscribe(options => _options = options);
-
-			LoadOptionsCommand.InvokeCommand(ConsoleOptionsListViewModel.InitializeItemsCommand);
+			_loadOptionsCommand.Subscribe(options =>
+			{
+				_consoleOptionsSourceList.Clear();
+				_consoleOptionsSourceList.AddRange(options);
+			});
 		}
 	}
 }

@@ -3,6 +3,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:wndbase="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:local="clr-namespace:UI.Wpf.Consoles"
@@ -11,38 +12,58 @@
 	d:DesignHeight="215"
 >
 
-	<Grid>
+	<UserControl.Resources>
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
+		<!-- Console options source -->
+		<CollectionViewSource x:Key="consoleItemsSource" Source="{Binding Options}">
+			<CollectionViewSource.SortDescriptions>
+				<wndbase:SortDescription PropertyName="OrderIndex" />
+			</CollectionViewSource.SortDescriptions>
+			<CollectionViewSource.GroupDescriptions>
+				<PropertyGroupDescription PropertyName="IsSupported" />
+			</CollectionViewSource.GroupDescriptions>
+		</CollectionViewSource>
 
-		<local:ConsoleOptionsListView
-			DataContext="{Binding ConsoleOptionsListViewModel}"
-			Grid.Column="0"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch" />
+	</UserControl.Resources>
 
-		<Rectangle
-			Fill="{DynamicResource MaterialDesignDivider}"
-			Width="1"
-			VerticalAlignment="Stretch"
-			Grid.Column="1"
-			Margin="0 15 15 15"
-			SnapsToDevicePixels="True" />
+	<ItemsControl ItemsSource="{Binding Source={StaticResource consoleItemsSource}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-		<Button
-			Command="{Binding ManageOptionsCommand}"
-			Grid.Column="2"
-			Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
-			ToolTip="Configure Consoles"
-			ToolTipService.Placement="Center"
-			ToolTipService.VerticalOffset="-50">
-			<materialDesign:PackIcon Kind="Settings" Height="24" Width="24" />
-		</Button>
+		<ItemsControl.ItemsPanel>
+			<ItemsPanelTemplate>
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" />
+			</ItemsPanelTemplate>
+		</ItemsControl.ItemsPanel>
 
-	</Grid>
+		<ItemsControl.ItemTemplate>
+			<DataTemplate>
+
+				<Button
+					Command="{Binding CreateProcessInstanceCommand}"
+					Focusable="False"
+					IsEnabled="{Binding IsSupported}"
+					IsTabStop="False"
+					Margin="0 0 15 0"
+					Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+					ToolTip="{Binding Name}"
+					ToolTipService.Placement="Center"
+					ToolTipService.VerticalOffset="-45"
+					ToolTipService.ShowOnDisabled="True"
+					VerticalAlignment="Center">
+
+					<materialDesign:PackIcon>
+						<materialDesign:PackIcon.Template>
+							<ControlTemplate>
+								<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding PicturePath}" />
+							</ControlTemplate>
+						</materialDesign:PackIcon.Template>
+					</materialDesign:PackIcon>
+
+				</Button>
+
+			</DataTemplate>
+		</ItemsControl.ItemTemplate>
+
+	</ItemsControl>
+
 
 </UserControl>
