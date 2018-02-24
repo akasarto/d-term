@@ -34,7 +34,8 @@ namespace UI.Wpf
 			// App startup
 			Startup += (object sender, StartupEventArgs args) =>
 			{
-				MainWindow = container.GetInstance<WorkspaceView>();
+				//MainWindow = container.GetInstance<WorkspaceView>();
+				MainWindow = Locator.CurrentMutable.GetService<IViewFor<IWorkspaceViewModel>>() as Window;
 				MainWindow.DataContext = container.GetInstance<IWorkspaceViewModel>();
 				MainWindow.Show();
 			};

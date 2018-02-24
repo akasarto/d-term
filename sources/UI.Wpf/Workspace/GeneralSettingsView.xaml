@@ -15,6 +15,7 @@
 	ShowInTaskbar="False"
 	IsMinButtonEnabled="False"
 	WindowTransitionsEnabled="False"
+	WindowStartupLocation="CenterOwner"
 	Title="General Settings"
 >
 

@@ -15,7 +15,7 @@ namespace UI.Wpf.Workspace
 	{
 		string AppTitle { get; set; }
 		IConsoleOptionsPanelViewModel ConsoleOptionsPanelViewModel { get; }
-		Interaction<Unit, Unit> OpenGeneralSettingsViewInteraction { get; }
+		Interaction<IGeneralSettingsViewModel, Unit> OpenGeneralSettingsViewInteraction { get; }
 		ReactiveCommand WorkspaceSettingsCommand { get; }
 	}
 
@@ -27,19 +27,21 @@ namespace UI.Wpf.Workspace
 	{
 		//
 		private readonly IConsoleOptionsPanelViewModel _consoleOptionsPanelViewModel;
+		private readonly IGeneralSettingsViewModel _generalSettingsViewModel;
 
 		//
-		private Interaction<Unit, Unit> _openGeneralSettingsInteraction;
+		private Interaction<IGeneralSettingsViewModel, Unit> _openGeneralSettingsInteraction;
 		private ReactiveCommand _workspaceSettingsCommand;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public WorkspaceViewModel(IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel)
+		public WorkspaceViewModel(IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel, IGeneralSettingsViewModel generalSettingsViewModel)
 		{
 			_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsPanelViewModel), nameof(WorkspaceViewModel));
+			_generalSettingsViewModel = generalSettingsViewModel ?? throw new ArgumentNullException(nameof(generalSettingsViewModel), nameof(WorkspaceViewModel));
 
-			_openGeneralSettingsInteraction = new Interaction<Unit, Unit>();
+			_openGeneralSettingsInteraction = new Interaction<IGeneralSettingsViewModel, Unit>();
 
 			WorkspaceSettingsCommandSetup();
 		}
@@ -52,7 +54,7 @@ namespace UI.Wpf.Workspace
 		/// <summary>
 		/// Gets the interaction that opens the general settings window.
 		/// </summary>
-		public Interaction<Unit, Unit> OpenGeneralSettingsViewInteraction => _openGeneralSettingsInteraction;
+		public Interaction<IGeneralSettingsViewModel, Unit> OpenGeneralSettingsViewInteraction => _openGeneralSettingsInteraction;
 
 		/// <summary>
 		/// Gets or sets the console options panel view model.
@@ -73,7 +75,7 @@ namespace UI.Wpf.Workspace
 		/// </summary>
 		private void WorkspaceSettingsCommandSetup()
 		{
-			WorkspaceSettingsCommand = ReactiveCommand.Create(() => OpenGeneralSettingsViewInteraction.Handle(Unit.Default).Subscribe(result =>
+			WorkspaceSettingsCommand = ReactiveCommand.Create(() => OpenGeneralSettingsViewInteraction.Handle(_generalSettingsViewModel).Subscribe(result =>
 			{
 
 			}));

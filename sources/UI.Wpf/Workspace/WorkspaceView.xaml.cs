@@ -3,6 +3,7 @@ using System.Windows;
 using System;
 using System.Reactive;
 using System.Threading.Tasks;
+using Splat;
 
 namespace UI.Wpf.Workspace
 {
@@ -22,16 +23,16 @@ namespace UI.Wpf.Workspace
 			{
 				activator(this.WhenAnyValue(@this => @this.DataContext).BindTo(this, @this => @this.ViewModel));
 
-				activator(ViewModel.OpenGeneralSettingsViewInteraction.RegisterHandler(ctx =>
+				activator(ViewModel.OpenGeneralSettingsViewInteraction.RegisterHandler(context =>
 				{
-					var settingsView = new GeneralSettingsView();
+					var settingsView = Locator.CurrentMutable.GetService<IViewFor<IGeneralSettingsViewModel>>() as Window;
 
 					settingsView.Owner = Application.Current.MainWindow;
-					settingsView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+					settingsView.DataContext = context.Input;
 
 					settingsView.ShowDialog();
 
-					ctx.SetOutput(Unit.Default);
+					context.SetOutput(Unit.Default);
 				}));
 			});
 		}
