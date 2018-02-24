@@ -15,7 +15,8 @@ namespace UI.Wpf.Workspace
 	{
 		string AppTitle { get; set; }
 		IConsoleOptionsPanelViewModel ConsoleOptionsPanelViewModel { get; }
-		ReactiveCommand<Unit, Window> WorkspaceSettingsCommand { get; }
+		Interaction<Unit, Unit> OpenGeneralSettingsViewInteraction { get; }
+		ReactiveCommand WorkspaceSettingsCommand { get; }
 	}
 
 	/// <summary>
@@ -28,7 +29,8 @@ namespace UI.Wpf.Workspace
 		private readonly IConsoleOptionsPanelViewModel _consoleOptionsPanelViewModel;
 
 		//
-		private ReactiveCommand<Unit, Window> _workspaceSettingsCommand;
+		private Interaction<Unit, Unit> _openGeneralSettingsInteraction;
+		private ReactiveCommand _workspaceSettingsCommand;
 
 		/// <summary>
 		/// Constructor method.
@@ -36,6 +38,8 @@ namespace UI.Wpf.Workspace
 		public WorkspaceViewModel(IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel)
 		{
 			_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsPanelViewModel), nameof(WorkspaceViewModel));
+
+			_openGeneralSettingsInteraction = new Interaction<Unit, Unit>();
 
 			WorkspaceSettingsCommandSetup();
 		}
@@ -46,6 +50,11 @@ namespace UI.Wpf.Workspace
 		public string AppTitle { get; set; } = Resources.AppTitle;
 
 		/// <summary>
+		/// Gets the interaction that opens the general settings window.
+		/// </summary>
+		public Interaction<Unit, Unit> OpenGeneralSettingsViewInteraction => _openGeneralSettingsInteraction;
+
+		/// <summary>
 		/// Gets or sets the console options panel view model.
 		/// </summary>
 		public IConsoleOptionsPanelViewModel ConsoleOptionsPanelViewModel => _consoleOptionsPanelViewModel;
@@ -53,7 +62,7 @@ namespace UI.Wpf.Workspace
 		/// <summary>
 		/// Gets the main workspace settings command instance.
 		/// </summary>
-		public ReactiveCommand<Unit, Window> WorkspaceSettingsCommand
+		public ReactiveCommand WorkspaceSettingsCommand
 		{
 			get => _workspaceSettingsCommand;
 			set => this.RaiseAndSetIfChanged(ref _workspaceSettingsCommand, value);
@@ -64,20 +73,10 @@ namespace UI.Wpf.Workspace
 		/// </summary>
 		private void WorkspaceSettingsCommandSetup()
 		{
-			WorkspaceSettingsCommand = ReactiveCommand.Create<Window>(() => 
+			WorkspaceSettingsCommand = ReactiveCommand.Create(() => OpenGeneralSettingsViewInteraction.Handle(Unit.Default).Subscribe(result =>
 			{
-				var settingsView = new WorkspaceSettingsView();
 
-				settingsView.Owner = Application.Current.MainWindow;
-				settingsView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-				return settingsView;
-			});
-
-			WorkspaceSettingsCommand.Subscribe(view =>
-			{
-				view.ShowDialog();
-			});
+			}));
 		}
 	}
 }
