@@ -88,9 +88,6 @@
     <Reference Include="ReactiveUI.Wpf, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ReactiveUI.WPF.8.0.0-alpha0117\lib\net45\ReactiveUI.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=4.0.12.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.0.12\lib\net45\SimpleInjector.dll</HintPath>
-    </Reference>
     <Reference Include="Splat, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.2.0.0\lib\Net45\Splat.dll</HintPath>
     </Reference>
@@ -233,7 +230,6 @@
       <DependentUpon>ConsoleOptionsPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consoles\ConsoleOptionsPanelViewModel.cs" />
-    <Compile Include="CompositionRoot.cs" />
     <Compile Include="Consoles\Settings\ConsoleSettingsViewModel.cs" />
     <Compile Include="Mappings\MapperProfileConsoles.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />

@@ -4,7 +4,6 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using UI.Wpf.Consoles;
-using UI.Wpf.Properties;
 using UI.Wpf.Settings;
 
 namespace UI.Wpf.Workspace
@@ -14,7 +13,6 @@ namespace UI.Wpf.Workspace
 	/// </summary>
 	public interface IWorkspaceViewModel : IRoutableViewModel
 	{
-		string AppTitle { get; set; }
 		IConsoleOptionsPanelViewModel ConsoleOptionsPanelViewModel { get; }
 		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
 		ReactiveCommand WorkspaceSettingsCommand { get; }
@@ -27,9 +25,9 @@ namespace UI.Wpf.Workspace
 	public class WorkspaceViewModel : ReactiveObject, IWorkspaceViewModel
 	{
 		//
+		private readonly IScreen _shellScreen;
 		private readonly IConsoleOptionsPanelViewModel _consoleOptionsPanelViewModel;
 		private readonly ISettingsViewModel _settingsViewModel;
-		private readonly IScreen _shellScreen;
 
 		//
 		private Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
@@ -38,22 +36,16 @@ namespace UI.Wpf.Workspace
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		//public WorkspaceViewModel(IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel, ISettingsViewModel settingsViewModel, IShellScreen shellScreen)
-		public WorkspaceViewModel(IShellScreen shellScreen = null)
+		public WorkspaceViewModel(IShellScreen shellScreen = null, IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel = null, ISettingsViewModel settingsViewModel = null)
 		{
-			//_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? throw new ArgumentNullException(nameof(consoleOptionsPanelViewModel), nameof(WorkspaceViewModel));
-			//_settingsViewModel = settingsViewModel ?? throw new ArgumentNullException(nameof(settingsViewModel), nameof(WorkspaceViewModel));
 			_shellScreen = shellScreen ?? Locator.CurrentMutable.GetService<IShellScreen>();
+			_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? Locator.CurrentMutable.GetService<IConsoleOptionsPanelViewModel>();
+			_settingsViewModel = settingsViewModel ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
 
-			//_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
+			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
 
-			//WorkspaceSettingsCommandSetup();
+			WorkspaceSettingsCommandSetup();
 		}
-
-		/// <summary>
-		/// Gets the app title.
-		/// </summary>
-		public string AppTitle { get; set; } = Resources.AppTitle;
 
 		/// <summary>
 		/// Gets the interaction that opens the general settings window.

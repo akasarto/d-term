@@ -1,6 +1,5 @@
 ﻿using ReactiveUI;
 using Splat;
-using System;
 using UI.Wpf.Workspace;
 
 namespace UI.Wpf

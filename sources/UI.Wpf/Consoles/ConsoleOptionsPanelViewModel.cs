@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Consoles.Core;
 using ReactiveUI;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Reactive;
@@ -16,7 +17,7 @@ namespace UI.Wpf.Consoles
 	{
 		bool IsBusy { get; }
 		ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<ConsoleOptionViewModel> Options { get; }
+		IReactiveDerivedList<IConsoleOptionViewModel> Options { get; }
 	}
 
 	/// <summary>
@@ -32,14 +33,14 @@ namespace UI.Wpf.Consoles
 		//
 		private bool _isBusy;
 		private ReactiveCommand<Unit, List<ConsoleOption>> _loadOptionsCommand;
-		private IReactiveDerivedList<ConsoleOptionViewModel> _options;
+		private IReactiveDerivedList<IConsoleOptionViewModel> _options;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionsPanelViewModel(IConsoleOptionsRepository consoleOptionsRepository)
+		public ConsoleOptionsPanelViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
 		{
-			_consoleOptionsRepository = consoleOptionsRepository ?? throw new ArgumentNullException(nameof(consoleOptionsRepository), nameof(ConsoleOptionsPanelViewModel));
+			_consoleOptionsRepository = consoleOptionsRepository ?? Locator.CurrentMutable.GetService<IConsoleOptionsRepository>();
 
 			_consoleOptionsSourceList = new ReactiveList<ConsoleOption>();
 
@@ -67,7 +68,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<ConsoleOptionViewModel> Options => _options;
+		public IReactiveDerivedList<IConsoleOptionViewModel> Options => _options;
 
 		/// <summary>
 		/// Setup the load comand actions and observables.

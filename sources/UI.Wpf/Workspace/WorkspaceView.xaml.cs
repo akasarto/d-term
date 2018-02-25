@@ -1,9 +1,9 @@
 ﻿using ReactiveUI;
-using System.Windows;
-using System.Reactive;
 using Splat;
-using UI.Wpf.Settings;
+using System.Reactive;
+using System.Windows;
 using System.Windows.Controls;
+using UI.Wpf.Settings;
 
 namespace UI.Wpf.Workspace
 {
@@ -19,22 +19,23 @@ namespace UI.Wpf.Workspace
 		{
 			InitializeComponent();
 
-			//this.WhenActivated(activator =>
-			//{
-			//	activator(this.WhenAnyValue(@this => @this.DataContext).BindTo(this, @this => @this.ViewModel));
+			this.WhenActivated(activator =>
+			{
+				//activator(this.WhenAnyValue(@this => @this.DataContext).BindTo(this, @this => @this.ViewModel));
+				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 
-			//	activator(ViewModel.OpenSettingsInteraction.RegisterHandler(context =>
-			//	{
-			//		var settingsView = Locator.CurrentMutable.GetService<IViewFor<ISettingsViewModel>>() as Window;
+				activator(ViewModel.OpenSettingsInteraction.RegisterHandler(context =>
+				{
+					var settingsView = Locator.CurrentMutable.GetService<IViewFor<ISettingsViewModel>>() as Window;
 
-			//		settingsView.Owner = Application.Current.MainWindow;
-			//		settingsView.DataContext = context.Input;
+					settingsView.Owner = Application.Current.MainWindow;
+					settingsView.DataContext = context.Input;
 
-			//		settingsView.ShowDialog();
+					settingsView.ShowDialog();
 
-			//		context.SetOutput(Unit.Default);
-			//	}));
-			//});
+					context.SetOutput(Unit.Default);
+				}));
+			});
 		}
 
 		/// <summary>

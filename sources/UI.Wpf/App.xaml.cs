@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Consoles.Core;
-using ReactiveUI;
 using Splat;
 using System.Windows;
 using System.Windows.Threading;

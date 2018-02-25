@@ -22,7 +22,7 @@
 	d:DesignWidth="1280"
 	d:DesignHeight="800"
 	mc:Ignorable="d"
-	Title="{Binding AppTitle}"
+	Title="dTerm"
 	MinWidth="1280"
 	MinHeight="800"
 >

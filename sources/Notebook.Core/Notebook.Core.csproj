@@ -56,7 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="INotebookRepository.cs" />
+    <Compile Include="INotebooksRepository.cs" />
     <Compile Include="NoteEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

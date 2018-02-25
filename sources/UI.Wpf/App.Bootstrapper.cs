@@ -1,75 +1,70 @@
 ﻿using Consoles.Core;
+using Consoles.Data.LiteDB;
 using Consoles.Processes;
+using Notebook.Core;
+using Notebook.Data.LiteDB;
 using ReactiveUI;
 using Splat;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using UI.Wpf.Consoles;
 using UI.Wpf.Mappings;
 using UI.Wpf.Workspace;
 
 namespace UI.Wpf
 {
+	/// <summary>
+	/// Main app container bootstrapper.
+	/// </summary>
 	public static class AppBootstrapper
 	{
+		//
+		private static IMutableDependencyResolver _container;
+
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
+		static AppBootstrapper()
+		{
+			Locator.CurrentMutable.InitializeSplat();
+			Locator.CurrentMutable.InitializeReactiveUI();
+
+			_container = Locator.CurrentMutable;
+		}
+
+		/// <summary>
+		/// Constructor method.
+		/// </summary>
 		public static void Initialize()
 		{
-			var container = Locator.CurrentMutable;
+			var dbConnectionString = @"dTerm.db";
 
-			container.InitializeSplat();
-			container.InitializeReactiveUI();
+			//
+			_container.Register(() => new MapperProfileConsoles());
+			_container.Register(() => new MapperProfileNotebooks());
 
-			container.Register(() => new ShellView());
-			container.RegisterConstant<IShellScreen>(new ShellScreen());
-			container.Register<IShellViewModel>(() => new ShellViewModel());
+			//
+			_container.Register<IProcessTracker>(() => new ProcessTracker());
+			_container.Register<IProcessPathBuilder>(() => new ProcessPathBuilder());
 
-			container.Register<IProcessTracker>(() => new ProcessTracker());
-			container.Register<IProcessPathBuilder>(() => new ProcessPathBuilder());
+			//
+			_container.Register<IConsoleOptionsRepository>(() => new ConsoleOptionsRepository(dbConnectionString));
+			_container.Register<INotebooksRepository>(() => new NotebooksRepository(dbConnectionString));
 
-			container.Register<IConsoleProcessService>(() => new ConsoleProcessService());
+			//
+			_container.Register<IConsoleProcessService>(() => new ConsoleProcessService());
+			_container.Register<IConsoleOptionsPanelViewModel>(() => new ConsoleOptionsPanelViewModel());
+			_container.Register<IConsoleSettingsViewModel>(() => new ConsoleSettingsViewModel());
 
-			container.Register<IWorkspaceViewModel>(() => new WorkspaceViewModel());
+			//
+			_container.Register<IWorkspaceViewModel>(() => new WorkspaceViewModel());
 
-			container.Register(() => new MapperProfileConsoles());
-			container.Register(() => new MapperProfileNotebooks());
+			//
+			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
 
-			container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
-
-
-			////
-			//Register<ShellView>();
-			//Register<IShellScreen, ShellScreen>();
-			//Register<IShellViewModel, ShellViewModel>();
-			//Locator.CurrentMutable.Register<IScreen>(() => GetInstance<IShellScreen>());
-
-			//Register<WorkspaceView>();
-			//Register<IWorkspaceViewModel, WorkspaceViewModel>();
-			//Locator.CurrentMutable.Register<IViewFor<IWorkspaceViewModel>>(() => GetInstance<WorkspaceView>());
-
-			//Register<SettingsView>();
-			//Register<ISettingsViewModel, SettingsViewModel>();
-
-			//Locator.CurrentMutable.Register(() => GetInstance<ISettingsViewModel>());
-			//Locator.CurrentMutable.Register<IViewFor<ISettingsViewModel>>(() => GetInstance<SettingsView>());
-
-			////
-			//Register<IConsoleSettingsViewModel, ConsoleSettingsViewModel>();
-			//Register<IConsoleOptionsPanelViewModel, ConsoleOptionsPanelViewModel>();
-
-			////
-			//string liteDbConnectionString = @"dTerm.db";
-			//Register<IConsoleOptionsRepository>(() => new ConsoleOptionsRepository(liteDbConnectionString));
-			//Register<INotebookRepository>(() => new NotebookRepository(liteDbConnectionString));
-
-			////
-			//RegisterSingleton<IProcessTracker, ProcessTracker>();
-			//RegisterSingleton<IProcessPathBuilder, ProcessPathBuilder>();
-
-			////
-			//Register<IConsoleProcessService, ConsoleProcessService>();
+			//
+			_container.RegisterConstant<IShellScreen>(new ShellScreen());
+			_container.Register<IShellViewModel>(() => new ShellViewModel());
+			_container.Register(() => new ShellView());
 		}
 	}
 }

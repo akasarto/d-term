@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Consoles.Core;
 using Humanizer;
 using Splat;

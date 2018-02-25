@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Notebook.Core
 {
-	public interface INotebookRepository
+	public interface INotebooksRepository
 	{
 		NoteEntity Add(NoteEntity noteEntity);
 		void Delete(Guid noteId);

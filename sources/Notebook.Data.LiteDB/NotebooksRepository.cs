@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Notebook.Data.LiteDB
 {
-	public class NotebookRepository : INotebookRepository
+	public class NotebooksRepository : INotebooksRepository
 	{
 		//
 		private string _notesCollection = "notes";
@@ -17,9 +17,9 @@ namespace Notebook.Data.LiteDB
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public NotebookRepository(string connectionString)
+		public NotebooksRepository(string connectionString)
 		{
-			_connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString), nameof(NotebookRepository));
+			_connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString), nameof(NotebooksRepository));
 		}
 
 		public NoteEntity Add(NoteEntity note)
