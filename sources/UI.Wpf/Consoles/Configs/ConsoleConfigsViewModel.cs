@@ -5,15 +5,14 @@ using Splat;
 using System;
 using System.Collections.Generic;
 using System.Reactive;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 
 namespace UI.Wpf.Consoles
 {
 	/// <summary>
-	/// Console options panel view model interface.
+	/// Console configurations view model interface.
 	/// </summary>
-	public interface IConsoleOptionsPanelViewModel
+	public interface IConsoleConfigsViewModel
 	{
 		bool IsBusy { get; }
 		ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand { get; }
@@ -21,10 +20,9 @@ namespace UI.Wpf.Consoles
 	}
 
 	/// <summary>
-	/// App console options panel view model implementation.
-	/// <seealso cref="IConsoleOptionsPanelViewModel"/>
+	/// App console configurations view model implementation.
 	/// </summary>
-	public class ConsoleOptionsPanelViewModel : ReactiveObject, IConsoleOptionsPanelViewModel
+	public class ConsoleConfigsViewModel : ReactiveObject, IConsoleConfigsViewModel
 	{
 		//
 		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
@@ -38,7 +36,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionsPanelViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
+		public ConsoleConfigsViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
 		{
 			_consoleOptionsRepository = consoleOptionsRepository ?? Locator.CurrentMutable.GetService<IConsoleOptionsRepository>();
 

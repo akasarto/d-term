@@ -217,38 +217,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="App.Bootstrapper.cs" />
-    <Compile Include="Consoles\ConsoleProcessService.cs" />
-    <Compile Include="Consoles\Settings\ConsoleSettingsView.xaml.cs">
-      <DependentUpon>ConsoleSettingsView.xaml</DependentUpon>
+    <Compile Include="App.Bootstrap.cs" />
+    <Compile Include="Consoles\Infrastructure\ConsoleProcessService.cs" />
+    <Compile Include="Consoles\Configs\ConsoleConfigsView.xaml.cs">
+      <DependentUpon>ConsoleConfigsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\Settings\ConsoleOptionFormView.xaml.cs">
+    <Compile Include="Consoles\Configs\ConsoleOptionFormView.xaml.cs">
       <DependentUpon>ConsoleOptionFormView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consoles\ConsoleOptionViewModel.cs" />
-    <Compile Include="Consoles\ConsoleOptionsPanelView.xaml.cs">
-      <DependentUpon>ConsoleOptionsPanelView.xaml</DependentUpon>
+    <Compile Include="Consoles\ConsolesPanelView.xaml.cs">
+      <DependentUpon>ConsolesPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ConsoleOptionsPanelViewModel.cs" />
-    <Compile Include="Consoles\Settings\ConsoleSettingsViewModel.cs" />
+    <Compile Include="Consoles\ConsolesPanelViewModel.cs" />
+    <Compile Include="Consoles\Configs\ConsoleConfigsViewModel.cs" />
     <Compile Include="Mappings\MapperProfileConsoles.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />
-    <Compile Include="ShellScreen.cs" />
-    <Compile Include="ShellViewModel.cs" />
-    <Compile Include="ShellView.xaml.cs">
+    <Compile Include="Shell\ShellScreen.cs" />
+    <Compile Include="Shell\ShellViewModel.cs" />
+    <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Win32Api.cs" />
+    <Compile Include="WinApiMethods.cs" />
     <Compile Include="Settings\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsViewModel.cs" />
-    <Compile Include="Workspace\WorkspaceViewModel.cs" />
-    <Page Include="Consoles\Settings\ConsoleSettingsView.xaml">
+    <Page Include="Consoles\Configs\ConsoleConfigsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\Settings\ConsoleOptionFormView.xaml">
+    <Page Include="Consoles\Configs\ConsoleOptionFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -256,7 +255,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ConsoleOptionsPanelView.xaml">
+    <Page Include="Consoles\ConsolesPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -268,20 +267,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShellView.xaml">
+    <Page Include="Shell\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Workspace\WorkspaceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Workspace\WorkspaceView.xaml.cs">
-      <DependentUpon>WorkspaceView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

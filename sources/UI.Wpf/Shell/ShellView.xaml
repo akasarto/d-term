@@ -1,13 +1,12 @@
-﻿<UserControl
-	x:Class="UI.Wpf.Workspace.WorkspaceView"
+﻿<mahApps:MetroWindow
+	x:Class="UI.Wpf.Shell.ShellView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:reactiveui="http://reactiveui.net"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-	xmlns:consoles="clr-namespace:UI.Wpf.Consoles"
-	xmlns:reactiveui="http://reactiveui.net"
 	TextElement.FontSize="14"
 	TextElement.FontWeight="Medium"
 	TextOptions.TextFormattingMode="Ideal"
@@ -15,14 +14,19 @@
 	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
 	Background="{DynamicResource MaterialDesignPaper}"
 	FontFamily="{DynamicResource MaterialDesignFont}"
+	WindowTransitionsEnabled="False"
+	ShowTitleBar="False"
+	WindowStartupLocation="CenterScreen"
+	WindowState="Maximized"
 	d:DesignWidth="1280"
 	d:DesignHeight="800"
 	mc:Ignorable="d"
+	Title="dTerm"
 	MinWidth="1280"
 	MinHeight="800"
 >
 
-	<Grid>
+	<Grid UseLayoutRounding="True">
 
 		<Path Style="{StaticResource logoVisualStyle}" />
 
@@ -41,7 +45,7 @@
 					</Grid.ColumnDefinitions>
 
 					<reactiveui:ViewModelViewHost
-						ViewModel="{Binding ConsoleOptionsPanelViewModel}"
+						ViewModel="{Binding ConsolesPanelViewModel}"
 						VerticalAlignment="Center" />
 
 					<Rectangle
@@ -53,7 +57,7 @@
 						SnapsToDevicePixels="True" />
 
 					<Button
-						Command="{Binding WorkspaceSettingsCommand}"
+						Command="{Binding OpenSettingsCommand}"
 						Grid.Column="2"
 						Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
 						ToolTip="General Settings"
@@ -70,4 +74,4 @@
 
 	</Grid>
 
-</UserControl>
+</mahApps:MetroWindow>

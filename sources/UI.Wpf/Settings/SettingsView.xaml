@@ -1,14 +1,12 @@
 ﻿<mahApps:MetroWindow
 	x:Class="UI.Wpf.Settings.SettingsView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
-	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:reactiveui="http://reactiveui.net"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:consoles="clr-namespace:UI.Wpf.Consoles"
-	xmlns:local="clr-namespace:UI.Wpf.Workspace"
+	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	mc:Ignorable="d"
 	Width="800"
 	Height="600"
@@ -18,16 +16,19 @@
 	WindowStartupLocation="CenterOwner"
 	Title="General Settings"
 >
+	<Grid UseLayoutRounding="True">
 
-	<dragablz:TabablzControl BorderThickness="0" SelectedIndex="0">
+		<dragablz:TabablzControl BorderThickness="0" SelectedIndex="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-		<TabItem Header="CONSOLES">
-			<consoles:ConsoleSettingsView DataContext="{Binding ConsoleSettingsViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-		</TabItem>
+			<TabItem Header="CONSOLES">
+				<reactiveui:ViewModelViewHost HorizontalContentAlignment="Stretch" ViewModel="{Binding ConsoleConfigsViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+			</TabItem>
 
-		<TabItem Header="NOTEBOOKS">
-		</TabItem>
+			<TabItem Header="NOTEBOOKS">
+			</TabItem>
 
-	</dragablz:TabablzControl>
+		</dragablz:TabablzControl>
+
+	</Grid>
 
 </mahApps:MetroWindow>

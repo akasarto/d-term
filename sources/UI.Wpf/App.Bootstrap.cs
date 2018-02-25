@@ -8,14 +8,15 @@ using Splat;
 using System.Reflection;
 using UI.Wpf.Consoles;
 using UI.Wpf.Mappings;
-using UI.Wpf.Workspace;
+using UI.Wpf.Settings;
+using UI.Wpf.Shell;
 
 namespace UI.Wpf
 {
 	/// <summary>
 	/// Main app container bootstrapper.
 	/// </summary>
-	public static class AppBootstrapper
+	public static class AppBootstrap
 	{
 		//
 		private static IMutableDependencyResolver _container;
@@ -23,7 +24,7 @@ namespace UI.Wpf
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		static AppBootstrapper()
+		static AppBootstrap()
 		{
 			Locator.CurrentMutable.InitializeSplat();
 			Locator.CurrentMutable.InitializeReactiveUI();
@@ -52,11 +53,11 @@ namespace UI.Wpf
 
 			//
 			_container.Register<IConsoleProcessService>(() => new ConsoleProcessService());
-			_container.Register<IConsoleOptionsPanelViewModel>(() => new ConsoleOptionsPanelViewModel());
-			_container.Register<IConsoleSettingsViewModel>(() => new ConsoleSettingsViewModel());
+			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
+			_container.Register<IConsoleConfigsViewModel>(() => new ConsoleConfigsViewModel());
 
 			//
-			_container.Register<IWorkspaceViewModel>(() => new WorkspaceViewModel());
+			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());
 
 			//
 			_container.RegisterConstant<IShellScreen>(new ShellScreen());

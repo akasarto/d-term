@@ -3,6 +3,7 @@ using Splat;
 using System.Windows;
 using System.Windows.Threading;
 using UI.Wpf.Mappings;
+using UI.Wpf.Shell;
 
 namespace UI.Wpf
 {
@@ -16,7 +17,7 @@ namespace UI.Wpf
 		/// </summary>
 		public App()
 		{
-			AppBootstrapper.Initialize();
+			AppBootstrap.Initialize();
 
 			var container = Locator.CurrentMutable;
 
@@ -29,10 +30,9 @@ namespace UI.Wpf
 			// App startup
 			Startup += (object sender, StartupEventArgs args) =>
 			{
-				MainWindow = new ShellView()
-				{
-					DataContext = container.GetService<IShellViewModel>()
-				};
+				var shellViewModel = container.GetService<IShellViewModel>();
+
+				MainWindow = new ShellView(shellViewModel);
 
 				MainWindow.Show();
 			};

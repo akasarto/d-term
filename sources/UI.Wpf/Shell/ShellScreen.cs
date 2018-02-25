@@ -1,19 +1,20 @@
 ﻿using ReactiveUI;
 
-namespace UI.Wpf
+namespace UI.Wpf.Shell
 {
 	/// <summary>
-	/// 
+	/// Shell screen interface.
 	/// </summary>
 	public interface IShellScreen : IScreen
 	{
 	}
 
 	/// <summary>
-	/// Shell
+	/// App shell screen implementation.
 	/// </summary>
 	public class ShellScreen : ReactiveObject, IShellScreen
 	{
+		//
 		private readonly RoutingState _routingState;
 
 		/// <summary>

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Splat;
 using UI.Wpf.Consoles;
 
 namespace UI.Wpf.Settings
@@ -8,7 +8,7 @@ namespace UI.Wpf.Settings
 	/// </summary>
 	public interface ISettingsViewModel
 	{
-		IConsoleSettingsViewModel ConsoleSettingsViewModel { get; }
+		IConsoleConfigsViewModel ConsoleConfigsViewModel { get; }
 	}
 
 	/// <summary>
@@ -17,19 +17,19 @@ namespace UI.Wpf.Settings
 	public class SettingsViewModel : ISettingsViewModel
 	{
 		//
-		private readonly IConsoleSettingsViewModel _consoleSettingsViewModel;
+		private readonly IConsoleConfigsViewModel _consoleConfigsViewModel;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public SettingsViewModel(IConsoleSettingsViewModel consoleSettingsViewModel)
+		public SettingsViewModel(IConsoleConfigsViewModel consoleConfigsViewModel = null)
 		{
-			_consoleSettingsViewModel = consoleSettingsViewModel ?? throw new ArgumentNullException(nameof(consoleSettingsViewModel), nameof(SettingsViewModel));
+			_consoleConfigsViewModel = consoleConfigsViewModel ?? Locator.CurrentMutable.GetService<IConsoleConfigsViewModel>();
 		}
 
 		/// <summary>
 		/// Gets the console settings view model instance.
 		/// </summary>
-		public IConsoleSettingsViewModel ConsoleSettingsViewModel => _consoleSettingsViewModel;
+		public IConsoleConfigsViewModel ConsoleConfigsViewModel => _consoleConfigsViewModel;
 	}
 }

@@ -12,6 +12,8 @@
 
 	<Grid>
 
+		<TextBlock Text="Urrp!" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
 	</Grid>
 
 </UserControl>
