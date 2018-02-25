@@ -59,12 +59,11 @@ namespace UI.Wpf
 			_container.Register<IWorkspaceViewModel>(() => new WorkspaceViewModel());
 
 			//
-			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
-
-			//
 			_container.RegisterConstant<IShellScreen>(new ShellScreen());
 			_container.Register<IShellViewModel>(() => new ShellViewModel());
-			_container.Register(() => new ShellView());
+
+			//
+			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
 		}
 	}
 }

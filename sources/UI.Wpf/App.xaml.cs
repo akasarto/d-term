@@ -29,15 +29,18 @@ namespace UI.Wpf
 			// App startup
 			Startup += (object sender, StartupEventArgs args) =>
 			{
-				MainWindow = container.GetService<ShellView>();
-				MainWindow.DataContext = container.GetService<IShellViewModel>();
+				MainWindow = new ShellView()
+				{
+					DataContext = container.GetService<IShellViewModel>()
+				};
+
 				MainWindow.Show();
 			};
 
 			// App exceptions
 			DispatcherUnhandledException += (object sender, DispatcherUnhandledExceptionEventArgs args) =>
 			{
-
+				// ToDo: Log exception.
 			};
 
 			// App shutdown
