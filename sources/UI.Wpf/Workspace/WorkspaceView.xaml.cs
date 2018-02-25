@@ -21,7 +21,6 @@ namespace UI.Wpf.Workspace
 
 			this.WhenActivated(activator =>
 			{
-				//activator(this.WhenAnyValue(@this => @this.DataContext).BindTo(this, @this => @this.ViewModel));
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 
 				activator(ViewModel.OpenSettingsInteraction.RegisterHandler(context =>

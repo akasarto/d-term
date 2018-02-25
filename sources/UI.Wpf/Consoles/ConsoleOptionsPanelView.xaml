@@ -71,17 +71,17 @@
 				<DataTemplate>
 
 					<Button
-					Command="{Binding CreateProcessInstanceCommand}"
-					Focusable="False"
-					IsEnabled="{Binding IsSupported}"
-					IsTabStop="False"
-					Margin="0 0 15 0"
-					Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-					ToolTip="{Binding Name}"
-					ToolTipService.Placement="Center"
-					ToolTipService.VerticalOffset="-45"
-					ToolTipService.ShowOnDisabled="True"
-					VerticalAlignment="Center">
+						Command="{Binding CreateProcessInstanceCommand}"
+						Focusable="False"
+						IsEnabled="{Binding IsSupported}"
+						IsTabStop="False"
+						Margin="0 0 15 0"
+						Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+						ToolTip="{Binding Name}"
+						ToolTipService.Placement="Center"
+						ToolTipService.VerticalOffset="-45"
+						ToolTipService.ShowOnDisabled="True"
+						VerticalAlignment="Center">
 
 						<materialDesign:PackIcon>
 							<materialDesign:PackIcon.Template>
