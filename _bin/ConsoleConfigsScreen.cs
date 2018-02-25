@@ -1,18 +1,18 @@
 ﻿using ReactiveUI;
 
-namespace UI.Wpf.Shell
+namespace UI.Wpf.Consoles
 {
 	/// <summary>
-	/// Shell screen interface.
+	/// Console configs screen interface.
 	/// </summary>
-	public interface IShellScreen : IScreen
+	public interface IConsoleConfigsScreen : IScreen
 	{
 	}
 
 	/// <summary>
-	/// App shell screen implementation.
+	/// App console configs screen implementation.
 	/// </summary>
-	public class ShellScreen : ReactiveObject, IShellScreen
+	public class ConsoleConfigsScreen : ReactiveObject, IConsoleConfigsScreen
 	{
 		//
 		private readonly RoutingState _routingState;
@@ -20,7 +20,7 @@ namespace UI.Wpf.Shell
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellScreen(RoutingState routingState = null)
+		public ConsoleConfigsScreen(RoutingState routingState = null)
 		{
 			_routingState = _routingState ?? new RoutingState();
 		}

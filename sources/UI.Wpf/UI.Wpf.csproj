@@ -222,9 +222,6 @@
     <Compile Include="Consoles\Configs\ConsoleConfigsView.xaml.cs">
       <DependentUpon>ConsoleConfigsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\Configs\ConsoleOptionFormView.xaml.cs">
-      <DependentUpon>ConsoleOptionFormView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Consoles\ConsoleOptionViewModel.cs" />
     <Compile Include="Consoles\ConsolesPanelView.xaml.cs">
       <DependentUpon>ConsolesPanelView.xaml</DependentUpon>
@@ -233,7 +230,6 @@
     <Compile Include="Consoles\Configs\ConsoleConfigsViewModel.cs" />
     <Compile Include="Mappings\MapperProfileConsoles.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />
-    <Compile Include="Shell\ShellScreen.cs" />
     <Compile Include="Shell\ShellViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -244,10 +240,6 @@
     </Compile>
     <Compile Include="Settings\SettingsViewModel.cs" />
     <Page Include="Consoles\Configs\ConsoleConfigsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Consoles\Configs\ConsoleOptionFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

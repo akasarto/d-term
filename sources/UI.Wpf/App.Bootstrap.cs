@@ -60,7 +60,6 @@ namespace UI.Wpf
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());
 
 			//
-			_container.RegisterConstant<IShellScreen>(new ShellScreen());
 			_container.Register<IShellViewModel>(() => new ShellViewModel());
 
 			//

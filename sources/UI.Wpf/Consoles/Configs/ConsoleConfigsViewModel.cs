@@ -15,6 +15,7 @@ namespace UI.Wpf.Consoles
 	public interface IConsoleConfigsViewModel
 	{
 		bool IsBusy { get; }
+		ReactiveCommand AddOptionCommand { get; }
 		ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand { get; }
 		IReactiveDerivedList<IConsoleOptionViewModel> Options { get; }
 	}
@@ -30,6 +31,7 @@ namespace UI.Wpf.Consoles
 
 		//
 		private bool _isBusy;
+		private ReactiveCommand _addOptionCommand;
 		private ReactiveCommand<Unit, List<ConsoleOption>> _loadOptionsCommand;
 		private IReactiveDerivedList<IConsoleOptionViewModel> _options;
 
@@ -59,6 +61,11 @@ namespace UI.Wpf.Consoles
 		}
 
 		/// <summary>
+		/// Gets the add console option command instance.
+		/// </summary>
+		public ReactiveCommand AddOptionCommand => _addOptionCommand;
+
+		/// <summary>
 		/// Gets the load options command instance.
 		/// </summary>
 		public ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand => _loadOptionsCommand;
@@ -69,7 +76,7 @@ namespace UI.Wpf.Consoles
 		public IReactiveDerivedList<IConsoleOptionViewModel> Options => _options;
 
 		/// <summary>
-		/// Setup the load comand actions and observables.
+		/// Setup the load options comand actions and observables.
 		/// </summary>
 		private void LoadOptionsCommandSetup()
 		{
