@@ -16,8 +16,8 @@ namespace UI.Wpf.Consoles
 	public interface IConsoleOptionsPanelViewModel
 	{
 		bool IsBusy { get; }
-		ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<IConsoleOptionViewModel> Options { get; }
+		ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand { get; }
+		IReactiveDerivedList<IConsoleViewModel> Options { get; }
 	}
 
 	/// <summary>
@@ -28,12 +28,12 @@ namespace UI.Wpf.Consoles
 	{
 		//
 		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
-		private readonly IReactiveList<ConsoleOption> _consoleOptionsSourceList;
+		private readonly IReactiveList<ConsoleEntity> _consoleOptionsSourceList;
 
 		//
 		private bool _isBusy;
-		private ReactiveCommand<Unit, List<ConsoleOption>> _loadOptionsCommand;
-		private IReactiveDerivedList<IConsoleOptionViewModel> _options;
+		private ReactiveCommand<Unit, List<ConsoleEntity>> _loadOptionsCommand;
+		private IReactiveDerivedList<IConsoleViewModel> _options;
 
 		/// <summary>
 		/// Constructor method.
@@ -42,10 +42,10 @@ namespace UI.Wpf.Consoles
 		{
 			_consoleOptionsRepository = consoleOptionsRepository ?? Locator.CurrentMutable.GetService<IConsoleOptionsRepository>();
 
-			_consoleOptionsSourceList = new ReactiveList<ConsoleOption>();
+			_consoleOptionsSourceList = new ReactiveList<ConsoleEntity>();
 
 			_options = _consoleOptionsSourceList.CreateDerivedCollection(
-				selector: option => Mapper.Map<ConsoleOptionViewModel>(option)
+				selector: option => Mapper.Map<ConsoleViewModel>(option)
 			);
 
 			LoadOptionsCommandSetup();
@@ -63,12 +63,12 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the load options command instance.
 		/// </summary>
-		public ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand => _loadOptionsCommand;
+		public ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand => _loadOptionsCommand;
 
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IConsoleOptionViewModel> Options => _options;
+		public IReactiveDerivedList<IConsoleViewModel> Options => _options;
 
 		/// <summary>
 		/// Setup the load comand actions and observables.

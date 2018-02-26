@@ -8,7 +8,7 @@ namespace Consoles.Data.LiteDB
 {
 	public class ConsoleOptionsRepository : IConsoleOptionsRepository
 	{
-		private string _consoleOptionsCollection = "consoleOptions";
+		private string _processesCollection = "processes";
 
 		private readonly string _connectionString = null;
 
@@ -19,13 +19,13 @@ namespace Consoles.Data.LiteDB
 			CheckSeed();
 		}
 
-		public ConsoleOption Add(ConsoleOption consoleOption)
+		public ConsoleEntity Add(ConsoleEntity consoleOption)
 		{
 			consoleOption.Id = Guid.NewGuid();
 
 			using (var database = new LiteDatabase(_connectionString))
 			{
-				var notes = database.GetCollection<ConsoleOption>(_consoleOptionsCollection);
+				var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
 
 				notes.Insert(consoleOption);
 			}
@@ -37,27 +37,27 @@ namespace Consoles.Data.LiteDB
 		{
 			using (var database = new LiteDatabase(_connectionString))
 			{
-				var notes = database.GetCollection<ConsoleOption>(_consoleOptionsCollection);
+				var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
 
 				notes.Delete(n => n.Id == consoleOptionId);
 			}
 		}
 
-		public List<ConsoleOption> GetAll()
+		public List<ConsoleEntity> GetAll()
 		{
 			using (var database = new LiteDatabase(_connectionString))
 			{
-				var notes = database.GetCollection<ConsoleOption>(_consoleOptionsCollection);
+				var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
 
 				return notes.FindAll().ToList();
 			}
 		}
 
-		public void Update(ConsoleOption consoleOption)
+		public void Update(ConsoleEntity consoleOption)
 		{
 			using (var database = new LiteDatabase(_connectionString))
 			{
-				var notes = database.GetCollection<ConsoleOption>(_consoleOptionsCollection);
+				var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
 
 				var note = notes.FindOne(n => n.Id == consoleOption.Id);
 
@@ -77,9 +77,9 @@ namespace Consoles.Data.LiteDB
 
 		private void CheckSeed()
 		{
-			var initialConsoles = new List<ConsoleOption>()
+			var initialConsoles = new List<ConsoleEntity>()
 			{
-				new ConsoleOption() {
+				new ConsoleEntity() {
 					Id = Guid.NewGuid(),
 					Name = "Command Prompt",
 					OrderIndex = 1,
@@ -90,7 +90,7 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				},
 
-				new ConsoleOption() {
+				new ConsoleEntity() {
 					Id = Guid.NewGuid(),
 					Name = "Git Bash",
 					OrderIndex = 2,
@@ -101,7 +101,7 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				},
 
-				new ConsoleOption() {
+				new ConsoleEntity() {
 					Id = Guid.NewGuid(),
 					Name = "PowerShell",
 					OrderIndex = 3,
@@ -112,7 +112,7 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				},
 
-				new ConsoleOption() {
+				new ConsoleEntity() {
 					Id = Guid.NewGuid(),
 					Name = "WSL Bash (Ubuntu)",
 					OrderIndex = 4,
@@ -126,9 +126,9 @@ namespace Consoles.Data.LiteDB
 
 			using (var database = new LiteDatabase(_connectionString))
 			{
-				if (!database.CollectionExists(_consoleOptionsCollection))
+				if (!database.CollectionExists(_processesCollection))
 				{
-					var notes = database.GetCollection<ConsoleOption>(_consoleOptionsCollection);
+					var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
 
 					notes.InsertBulk(initialConsoles);
 				}

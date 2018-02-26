@@ -1,6 +1,7 @@
 ﻿using Consoles.Core;
 using Consoles.Data.LiteDB;
 using Consoles.Processes;
+using FluentValidation;
 using Notebook.Core;
 using Notebook.Data.LiteDB;
 using ReactiveUI;
@@ -53,10 +54,12 @@ namespace UI.Wpf
 
 			//
 			_container.Register<IConsoleProcessService>(() => new ConsoleProcessService());
+			_container.Register<IConsoleFormViewModel>(() => new ConsoleFormViewModel());
+			_container.Register<IConsoleViewModel>(() => new ConsoleViewModel());
 			_container.Register<IConsoleOptionsPanelViewModel>(() => new ConsoleOptionsPanelViewModel());
 			_container.Register<IConsoleConfigsViewModel>(() => new ConsoleConfigsViewModel());
-			_container.Register<IConsoleOptionFormViewModel>(() => new ConsoleFormData());
-			_container.Register<IConsoleOptionViewModel>(() => new ConsoleOptionViewModel());
+
+			_container.Register<AbstractValidator<IConsoleViewModel>>(() => new ConsoleValidator());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

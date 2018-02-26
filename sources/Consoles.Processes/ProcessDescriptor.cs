@@ -8,7 +8,7 @@ namespace Consoles.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessDescriptor(ConsoleOption consoleOption)
+		public ProcessDescriptor(ConsoleEntity consoleOption)
 		{
 			ConsoleOption = consoleOption ?? throw new ArgumentNullException(nameof(consoleOption), nameof(ProcessDescriptor));
 		}
@@ -16,7 +16,7 @@ namespace Consoles.Processes
 		/// <summary>
 		/// Gets the source console option.
 		/// </summary>
-		public ConsoleOption ConsoleOption { get; private set; }
+		public ConsoleEntity ConsoleOption { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the timeout that the system will wait until aborting the process start sequence.

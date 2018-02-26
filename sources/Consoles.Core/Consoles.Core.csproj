@@ -59,7 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleOption.cs" />
+    <Compile Include="ConsoleEntity.cs" />
     <Compile Include="IConsoleOptionsRepository.cs" />
     <Compile Include="IConsoleProcess.cs" />
     <Compile Include="IConsoleProcessService.cs" />

@@ -17,9 +17,9 @@ namespace UI.Wpf.Consoles
 	{
 		bool IsBusy { get; }
 		ReactiveCommand AddOptionCommand { get; }
-		ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<IConsoleFormData> Options { get; }
-		IConsoleFormData FormData { get; set; }
+		ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand { get; }
+		IReactiveDerivedList<IConsoleViewModel> Options { get; }
+		IConsoleFormViewModel Form { get; set; }
 	}
 
 	/// <summary>
@@ -29,19 +29,20 @@ namespace UI.Wpf.Consoles
 	{
 		//
 		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
-		private readonly IReactiveList<ConsoleOption> _consoleOptionsSourceList;
+		private readonly IReactiveList<ConsoleEntity> _consoleOptionsSourceList;
 
 		//
 		private bool _isBusy;
+		private IDisposable _saveFormEvent;
+		private IDisposable _deleteFormEvent;
+		private IDisposable _cancelFormEvent;
+		private IConsoleFormViewModel _form;
 		private ReactiveCommand _addOptionCommand;
 		private ReactiveCommand _saveOptionCommand;
 		private ReactiveCommand _cancelOptionCommand;
-		private ReactiveCommand<Unit, List<ConsoleOption>> _loadOptionsCommand;
-		private IReactiveDerivedList<IConsoleFormData> _options;
-		private IConsoleFormData _formData;
-		private IDisposable _deleteFormEvent;
-		private IDisposable _cancelFormEvent;
-		private IDisposable _saveFormEvent;
+		private ReactiveCommand<Unit, List<ConsoleEntity>> _loadOptionsCommand;
+		private IReactiveDerivedList<IConsoleViewModel> _options;
+
 
 		/// <summary>
 		/// Constructor method.
@@ -52,27 +53,27 @@ namespace UI.Wpf.Consoles
 
 			_consoleOptionsRepository = consoleOptionsRepository ?? locator.GetService<IConsoleOptionsRepository>();
 
-			_consoleOptionsSourceList = new ReactiveList<ConsoleOption>();
+			_consoleOptionsSourceList = new ReactiveList<ConsoleEntity>();
 
 			_options = _consoleOptionsSourceList.CreateDerivedCollection(
-				selector: option => Mapper.Map<IConsoleFormData>(option)
+				selector: option => Mapper.Map<IConsoleViewModel>(option)
 			);
 
 			_addOptionCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = locator.GetService<IConsoleFormData>();
+				Form = locator.GetService<IConsoleFormViewModel>();
 			});
 
 			_saveOptionCommand = ReactiveCommand.Create(() =>
 			{
-				if (FormData.Id.Equals(Guid.Empty))
-				{
+				//if (FormData.Id.Equals(Guid.Empty))
+				//{
 
-				}
-				else
-				{
+				//}
+				//else
+				//{
 
-				}
+				//}
 			});
 
 			_cancelOptionCommand = ReactiveCommand.Create(() =>
@@ -82,16 +83,16 @@ namespace UI.Wpf.Consoles
 
 			LoadOptionsCommandSetup();
 
-			this.WhenAnyValue(@this => @this.FormData).Subscribe(data =>
+			this.WhenAnyValue(@this => @this.Form).Subscribe(data =>
 			{
 				if (data != null)
 				{
 					_cancelFormEvent = Observable.FromEventPattern<EventHandler, EventArgs>(
-						@this => FormData.OnCancel += @this,
-						@this => FormData.OnCancel -= @this)
+						@this => Form.OnCancel += @this,
+						@this => Form.OnCancel -= @this)
 						.Subscribe((e) =>
 						{
-							FormData = null;
+							Form = null;
 						});
 				}
 				else
@@ -100,7 +101,7 @@ namespace UI.Wpf.Consoles
 				}
 			});
 
-			this.WhenAnyValue(viewModel => viewModel.FormData).Where(option => option != null).Subscribe(option =>
+			this.WhenAnyValue(viewModel => viewModel.Form).Where(option => option != null).Subscribe(option =>
 			{
 				//FormData = Mapper.Map<IConsoleOptionFormViewModel>(option);
 			});
@@ -123,20 +124,20 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the load options command instance.
 		/// </summary>
-		public ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand => _loadOptionsCommand;
+		public ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand => _loadOptionsCommand;
 
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IConsoleFormData> Options => _options;
+		public IReactiveDerivedList<IConsoleViewModel> Options => _options;
 
 		/// <summary>
-		/// Gets or sets the current option being added/edited.
+		/// Gets or sets the form instance.
 		/// </summary>
-		public IConsoleFormData FormData
+		public IConsoleFormViewModel Form
 		{
-			get => _formData;
-			set => this.RaiseAndSetIfChanged(ref _formData, value);
+			get => _form;
+			set => this.RaiseAndSetIfChanged(ref _form, value);
 		}
 
 		/// <summary>

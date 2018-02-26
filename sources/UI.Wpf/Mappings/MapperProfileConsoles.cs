@@ -33,18 +33,12 @@ namespace UI.Wpf.Mappings
 			var _locator = Locator.CurrentMutable;
 
 			//
-			CreateMap<ConsoleOption, IConsoleOptionViewModel>().ConstructUsing(source => _locator.GetService<IConsoleOptionViewModel>()).AfterMap((source, dest) =>
+			CreateMap<ConsoleEntity, IConsoleViewModel>().ConstructUsing(source => _locator.GetService<IConsoleViewModel>()).AfterMap((source, dest) =>
 			{
 				dest.IsSupported = _consoleProcessService.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
-			});
-			CreateMap<IConsoleOptionViewModel, ConsoleOption>();
-
-			//
-			CreateMap<ConsoleOption, IConsoleOptionFormViewModel>().ConstructUsing(source => _locator.GetService<IConsoleOptionFormViewModel>()).AfterMap((source, dest) =>
-			{
 				dest.ProcessBasePathDescription = source.ProcessBasePath.Humanize();
 			});
-			CreateMap<IConsoleOptionFormViewModel, ConsoleOption>();
+			CreateMap<IConsoleViewModel, ConsoleEntity>();
 		}
 	}
 }

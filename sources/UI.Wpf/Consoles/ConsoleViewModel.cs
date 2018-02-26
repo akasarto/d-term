@@ -5,9 +5,9 @@ using System;
 namespace UI.Wpf.Consoles
 {
 	/// <summary>
-	/// Console option view model interface.
+	/// Console view model interface.
 	/// </summary>
-	public interface IConsoleOptionViewModel
+	public interface IConsoleViewModel
 	{
 		Guid Id { get; set; }
 		bool IsSupported { get; set; }
@@ -21,9 +21,9 @@ namespace UI.Wpf.Consoles
 	}
 
 	/// <summary>
-	/// App console option view model implementation.
+	/// App console view model implementation.
 	/// </summary>
-	public class ConsoleOptionViewModel : ReactiveObject, IConsoleOptionViewModel
+	public class ConsoleViewModel : ReactiveObject, IConsoleViewModel
 	{
 		//
 		private Guid _id;
@@ -35,12 +35,11 @@ namespace UI.Wpf.Consoles
 		private string _processBasePathDescription;
 		private string _processExecutableName;
 		private string _processStartupArgs;
-		private DateTime _utcCreation;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionViewModel()
+		public ConsoleViewModel()
 		{
 		}
 

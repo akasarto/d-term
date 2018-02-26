@@ -5,14 +5,14 @@ using System.Windows.Controls;
 namespace UI.Wpf.Consoles
 {
 	/// <summary>
-	/// Console option form view.
+	/// Console entry form view.
 	/// </summary>
-	public partial class ConsoleOptionFormView : UserControl, IViewFor<IConsoleOptionFormViewModel>
+	public partial class ConsoleFormView : UserControl, IViewFor<IConsoleFormViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionFormView()
+		public ConsoleFormView()
 		{
 			InitializeComponent();
 
@@ -25,14 +25,14 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// View model dependency property backing field.
 		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionFormViewModel), typeof(ConsoleOptionFormView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleFormViewModel), typeof(ConsoleFormView), new PropertyMetadata(null));
 
 		/// <summary>
 		/// Gets or sets the view model instance.
 		/// </summary>
-		public IConsoleOptionFormViewModel ViewModel
+		public IConsoleFormViewModel ViewModel
 		{
-			get { return (IConsoleOptionFormViewModel)GetValue(ViewModelProperty); }
+			get { return (IConsoleFormViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
@@ -42,7 +42,7 @@ namespace UI.Wpf.Consoles
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsoleOptionFormViewModel)value; }
+			set { ViewModel = (IConsoleFormViewModel)value; }
 		}
 	}
 }
