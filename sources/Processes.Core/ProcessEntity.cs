@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Consoles.Core
+namespace Processes.Core
 {
-	public class ConsoleEntity
+	public class ProcessEntity
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }

@@ -7,8 +7,8 @@
     <ProjectGuid>{8F1970BD-7CDC-47BE-8DC7-27A1CBC25D46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Consoles.Processes</RootNamespace>
-    <AssemblyName>Consoles.Processes</AssemblyName>
+    <RootNamespace>Processes.SystemDiagnostics</RootNamespace>
+    <AssemblyName>Processes.SystemDiagnostics</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -173,7 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleProcess.cs" />
-    <Compile Include="InvalidConsoleProcessException.cs" />
     <Compile Include="ProcessDescriptor.cs" />
     <Compile Include="ProcessPathBuilder.cs" />
     <Compile Include="ProcessTracker.cs" />
@@ -181,9 +180,9 @@
     <Compile Include="Win32Api.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Consoles.Core\Consoles.Core.csproj">
+    <ProjectReference Include="..\Processes.Core\Processes.Core.csproj">
       <Project>{9fc5178a-6f50-492a-9546-cfafbb0919d0}</Project>
-      <Name>Consoles.Core</Name>
+      <Name>Processes.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared.Kernel\Shared.Kernel.csproj">
       <Project>{DD8DF004-9062-4358-9EA3-F9CFBC5D061F}</Project>

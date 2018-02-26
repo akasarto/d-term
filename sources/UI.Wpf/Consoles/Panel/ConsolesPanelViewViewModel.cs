@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Consoles.Core;
+using Processes.Core;
 using ReactiveUI;
 using Splat;
 using System;
@@ -16,7 +16,7 @@ namespace UI.Wpf.Consoles
 	public interface IConsolesPanelViewViewModel
 	{
 		bool IsBusy { get; }
-		ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand { get; }
+		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
 		IReactiveDerivedList<IConsoleViewModel> Consoles { get; }
 	}
 
@@ -27,22 +27,22 @@ namespace UI.Wpf.Consoles
 	public class ConsolesPanelViewViewModel : ReactiveObject, IConsolesPanelViewViewModel
 	{
 		//
-		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
+		private readonly IProcessesRepository _consoleOptionsRepository;
 
 		//
 		private bool _isBusy;
-		private ReactiveCommand<Unit, List<ConsoleEntity>> _loadOptionsCommand;
+		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private IReactiveDerivedList<IConsoleViewModel> _consoles;
-		private IReactiveList<ConsoleEntity> _processes;
+		private IReactiveList<ProcessEntity> _processes;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesPanelViewViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
+		public ConsolesPanelViewViewModel(IProcessesRepository consoleOptionsRepository = null)
 		{
-			_consoleOptionsRepository = consoleOptionsRepository ?? Locator.CurrentMutable.GetService<IConsoleOptionsRepository>();
+			_consoleOptionsRepository = consoleOptionsRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
 
-			_processes = new ReactiveList<ConsoleEntity>();
+			_processes = new ReactiveList<ProcessEntity>();
 
 			_consoles = _processes.CreateDerivedCollection(
 				selector: option => Mapper.Map<ConsoleViewModel>(option)
@@ -63,7 +63,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the load options command instance.
 		/// </summary>
-		public ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand => _loadOptionsCommand;
+		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 
 		/// <summary>
 		/// Gets the current available console options.

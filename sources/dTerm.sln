@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Core", "1.Core", "{56C34DEB-127F-4EB6-86FD-D31D48FB528C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Consoles", "2.Consoles", "{AD661C5A-2907-456C-8B73-285A1D11BDD8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Processes", "2.Processes", "{AD661C5A-2907-456C-8B73-285A1D11BDD8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Notebooks", "3.Notebooks", "{3D2F6470-B84D-4C0F-A469-C7D11344F8AE}"
 EndProject
@@ -13,13 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.User Interface", "4.User 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.Data.LiteDB", "Notebook.Data.LiteDB\Notebook.Data.LiteDB.csproj", "{02177AD9-BE9D-46D5-8D7E-F877A93D4A3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consoles.Data.LiteDB", "Consoles.Data.LiteDB\Consoles.Data.LiteDB.csproj", "{50C33794-64A4-4DFD-8F7F-895F68E3C9FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processes.Data.LiteDB", "Processes.Data.LiteDB\Processes.Data.LiteDB.csproj", "{50C33794-64A4-4DFD-8F7F-895F68E3C9FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consoles.Processes", "Consoles.Processes\Consoles.Processes.csproj", "{8F1970BD-7CDC-47BE-8DC7-27A1CBC25D46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processes.SystemDiagnostics", "Processes.SystemDiagnostics\Processes.SystemDiagnostics.csproj", "{8F1970BD-7CDC-47BE-8DC7-27A1CBC25D46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Kernel", "Shared.Kernel\Shared.Kernel.csproj", "{DD8DF004-9062-4358-9EA3-F9CFBC5D061F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consoles.Core", "Consoles.Core\Consoles.Core.csproj", "{9FC5178A-6F50-492A-9546-CFAFBB0919D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processes.Core", "Processes.Core\Processes.Core.csproj", "{9FC5178A-6F50-492A-9546-CFAFBB0919D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.Core", "Notebook.Core\Notebook.Core.csproj", "{422C311D-9429-461C-B3BD-250166F2E10C}"
 EndProject

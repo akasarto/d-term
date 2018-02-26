@@ -1,10 +1,10 @@
-﻿using Consoles.Core;
+﻿using Processes.Core;
 using System;
 using System.Diagnostics;
 
-namespace Consoles.Processes
+namespace Processes.SystemDiagnostics
 {
-	public class ConsoleProcess : IConsoleProcess
+	public class ConsoleProcess : IProcess
 	{
 		private readonly Process _systemProcess;
 		private readonly ProcessStartInfo _processStartInfo = null;

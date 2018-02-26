@@ -1,8 +1,8 @@
-﻿using Consoles.Core;
+﻿using Processes.Core;
 using System;
 using System.IO;
 
-namespace Consoles.Processes
+namespace Processes.SystemDiagnostics
 {
 	public class ProcessPathBuilder : IProcessPathBuilder
 	{

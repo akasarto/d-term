@@ -1,9 +1,9 @@
-﻿using Consoles.Core;
+﻿using Processes.Core;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Consoles.Processes
+namespace Processes.SystemDiagnostics
 {
 	public class ProcessTracker : IProcessTracker
 	{

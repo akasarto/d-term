@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Consoles.Core;
+using Processes.Core;
 using Humanizer;
 using Splat;
 using UI.Wpf.Consoles;
@@ -12,14 +12,14 @@ namespace UI.Wpf.Mappings
 	public class MapperProfileConsoles : Profile
 	{
 		//
-		private readonly IConsoleProcessService _consoleProcessService;
+		private readonly IProcessFactory _consoleProcessService;
 
 		/// <summary>
 		/// constructor method.
 		/// </summary>
-		public MapperProfileConsoles(IConsoleProcessService consoleProcessService = null)
+		public MapperProfileConsoles(IProcessFactory consoleProcessService = null)
 		{
-			_consoleProcessService = consoleProcessService ?? Locator.CurrentMutable.GetService<IConsoleProcessService>();
+			_consoleProcessService = consoleProcessService ?? Locator.CurrentMutable.GetService<IProcessFactory>();
 
 			SetupMaps();
 		}
@@ -33,12 +33,12 @@ namespace UI.Wpf.Mappings
 			var _locator = Locator.CurrentMutable;
 
 			//
-			CreateMap<ConsoleEntity, IConsoleViewModel>().ConstructUsing(source => _locator.GetService<IConsoleViewModel>()).AfterMap((source, dest) =>
+			CreateMap<ProcessEntity, IConsoleViewModel>().ConstructUsing(source => _locator.GetService<IConsoleViewModel>()).AfterMap((source, dest) =>
 			{
 				dest.IsSupported = _consoleProcessService.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
 				dest.ProcessBasePathDescription = source.ProcessBasePath.Humanize();
 			});
-			CreateMap<IConsoleViewModel, ConsoleEntity>();
+			CreateMap<IConsoleViewModel, ProcessEntity>();
 		}
 	}
 }

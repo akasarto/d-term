@@ -1,4 +1,4 @@
-﻿using Consoles.Core;
+﻿using Processes.Core;
 using ReactiveUI;
 using System;
 

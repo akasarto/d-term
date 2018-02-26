@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Consoles.Core;
+using Processes.Core;
 using ReactiveUI;
 using Splat;
 using System;
@@ -17,7 +17,7 @@ namespace UI.Wpf.Consoles
 	{
 		bool IsBusy { get; }
 		ReactiveCommand AddOptionCommand { get; }
-		ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand { get; }
+		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
 		IReactiveDerivedList<IConsoleViewModel> Options { get; }
 		IConsoleFormViewModel Form { get; }
 	}
@@ -28,8 +28,8 @@ namespace UI.Wpf.Consoles
 	public class ConsolesManagerViewModel : ReactiveObject, IConsolesManagerViewModel
 	{
 		//
-		private readonly IReactiveList<ConsoleEntity> _consoleOptionsSourceList;
-		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
+		private readonly IReactiveList<ProcessEntity> _consoleOptionsSourceList;
+		private readonly IProcessesRepository _consoleOptionsRepository;
 		private readonly IConsoleFormViewModel _consoleFormViewModel;
 
 		//
@@ -40,21 +40,21 @@ namespace UI.Wpf.Consoles
 		private ReactiveCommand _addOptionCommand;
 		private ReactiveCommand _saveOptionCommand;
 		private ReactiveCommand _cancelOptionCommand;
-		private ReactiveCommand<Unit, List<ConsoleEntity>> _loadOptionsCommand;
+		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private IReactiveDerivedList<IConsoleViewModel> _options;
 
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesManagerViewModel(IConsoleOptionsRepository consoleOptionsRepository = null, IConsoleFormViewModel consoleFormViewModel = null)
+		public ConsolesManagerViewModel(IProcessesRepository consoleOptionsRepository = null, IConsoleFormViewModel consoleFormViewModel = null)
 		{
 			var locator = Locator.CurrentMutable;
 
-			_consoleOptionsRepository = consoleOptionsRepository ?? locator.GetService<IConsoleOptionsRepository>();
+			_consoleOptionsRepository = consoleOptionsRepository ?? locator.GetService<IProcessesRepository>();
 			_consoleFormViewModel = consoleFormViewModel ?? locator.GetService<IConsoleFormViewModel>();
 
-			_consoleOptionsSourceList = new ReactiveList<ConsoleEntity>();
+			_consoleOptionsSourceList = new ReactiveList<ProcessEntity>();
 
 			_options = _consoleOptionsSourceList.CreateDerivedCollection(
 				selector: option => Mapper.Map<IConsoleViewModel>(option)
@@ -115,7 +115,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the load options command instance.
 		/// </summary>
-		public ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand => _loadOptionsCommand;
+		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 
 		/// <summary>
 		/// Gets the current available console options.

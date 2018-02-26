@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using WinApi.User32;
 
-namespace Consoles.Processes
+namespace Processes.SystemDiagnostics
 {
 	internal static class Win32Api
 	{

@@ -1,6 +1,6 @@
-﻿using Consoles.Core;
-using Consoles.Data.LiteDB;
-using Consoles.Processes;
+﻿using Processes.Core;
+using Processes.Data.LiteDB;
+using Processes.SystemDiagnostics;
 using FluentValidation;
 using Notebook.Core;
 using Notebook.Data.LiteDB;
@@ -49,7 +49,7 @@ namespace UI.Wpf
 			_container.Register<IProcessPathBuilder>(() => new ProcessPathBuilder());
 
 			//
-			_container.Register<IConsoleOptionsRepository>(() => new ConsoleOptionsRepository(dbConnectionString));
+			_container.Register<IProcessesRepository>(() => new ProcessesRepository(dbConnectionString));
 			_container.Register<INotebooksRepository>(() => new NotebooksRepository(dbConnectionString));
 
 			//
@@ -58,7 +58,7 @@ namespace UI.Wpf
 			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
 			_container.Register<IConsolesPanelViewViewModel>(() => new ConsolesPanelViewViewModel());
 			_container.Register<IValidator<IConsoleViewModel>>(() => new ConsoleValidator());
-			_container.Register<IConsoleProcessService>(() => new ConsoleProcessService());
+			_container.Register<IProcessFactory>(() => new ConsoleProcessService());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

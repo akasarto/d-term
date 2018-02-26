@@ -1,31 +1,31 @@
-﻿using Consoles.Core;
-using LiteDB;
+﻿using LiteDB;
+using Processes.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Consoles.Data.LiteDB
+namespace Processes.Data.LiteDB
 {
-	public class ConsoleOptionsRepository : IConsoleOptionsRepository
+	public class ProcessesRepository : IProcessesRepository
 	{
 		private string _processesCollection = "processes";
 
 		private readonly string _connectionString = null;
 
-		public ConsoleOptionsRepository(string connectionString)
+		public ProcessesRepository(string connectionString)
 		{
-			_connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString), nameof(ConsoleOptionsRepository));
+			_connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString), nameof(ProcessesRepository));
 
 			CheckSeed();
 		}
 
-		public ConsoleEntity Add(ConsoleEntity consoleOption)
+		public ProcessEntity Add(ProcessEntity consoleOption)
 		{
 			consoleOption.Id = Guid.NewGuid();
 
 			using (var database = new LiteDatabase(_connectionString))
 			{
-				var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
+				var notes = database.GetCollection<ProcessEntity>(_processesCollection);
 
 				notes.Insert(consoleOption);
 			}
@@ -37,27 +37,27 @@ namespace Consoles.Data.LiteDB
 		{
 			using (var database = new LiteDatabase(_connectionString))
 			{
-				var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
+				var notes = database.GetCollection<ProcessEntity>(_processesCollection);
 
 				notes.Delete(n => n.Id == consoleOptionId);
 			}
 		}
 
-		public List<ConsoleEntity> GetAll()
+		public List<ProcessEntity> GetAll()
 		{
 			using (var database = new LiteDatabase(_connectionString))
 			{
-				var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
+				var notes = database.GetCollection<ProcessEntity>(_processesCollection);
 
 				return notes.FindAll().ToList();
 			}
 		}
 
-		public void Update(ConsoleEntity consoleOption)
+		public void Update(ProcessEntity consoleOption)
 		{
 			using (var database = new LiteDatabase(_connectionString))
 			{
-				var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
+				var notes = database.GetCollection<ProcessEntity>(_processesCollection);
 
 				var note = notes.FindOne(n => n.Id == consoleOption.Id);
 
@@ -77,9 +77,9 @@ namespace Consoles.Data.LiteDB
 
 		private void CheckSeed()
 		{
-			var initialConsoles = new List<ConsoleEntity>()
+			var initialConsoles = new List<ProcessEntity>()
 			{
-				new ConsoleEntity() {
+				new ProcessEntity() {
 					Id = Guid.NewGuid(),
 					Name = "Command Prompt",
 					OrderIndex = 1,
@@ -90,7 +90,7 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				},
 
-				new ConsoleEntity() {
+				new ProcessEntity() {
 					Id = Guid.NewGuid(),
 					Name = "Git Bash",
 					OrderIndex = 2,
@@ -101,7 +101,7 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				},
 
-				new ConsoleEntity() {
+				new ProcessEntity() {
 					Id = Guid.NewGuid(),
 					Name = "PowerShell",
 					OrderIndex = 3,
@@ -112,7 +112,7 @@ namespace Consoles.Data.LiteDB
 					UTCCreation = DateTime.UtcNow
 				},
 
-				new ConsoleEntity() {
+				new ProcessEntity() {
 					Id = Guid.NewGuid(),
 					Name = "WSL Bash (Ubuntu)",
 					OrderIndex = 4,
@@ -128,7 +128,7 @@ namespace Consoles.Data.LiteDB
 			{
 				if (!database.CollectionExists(_processesCollection))
 				{
-					var notes = database.GetCollection<ConsoleEntity>(_processesCollection);
+					var notes = database.GetCollection<ProcessEntity>(_processesCollection);
 
 					notes.InsertBulk(initialConsoles);
 				}

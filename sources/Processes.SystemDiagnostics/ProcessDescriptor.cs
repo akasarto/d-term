@@ -1,14 +1,14 @@
-﻿using Consoles.Core;
+﻿using Processes.Core;
 using System;
 
-namespace Consoles.Processes
+namespace Processes.SystemDiagnostics
 {
 	public class ProcessDescriptor : IProcessDescriptor
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessDescriptor(ConsoleEntity consoleOption)
+		public ProcessDescriptor(ProcessEntity consoleOption)
 		{
 			ConsoleOption = consoleOption ?? throw new ArgumentNullException(nameof(consoleOption), nameof(ProcessDescriptor));
 		}
@@ -16,7 +16,7 @@ namespace Consoles.Processes
 		/// <summary>
 		/// Gets the source console option.
 		/// </summary>
-		public ConsoleEntity ConsoleOption { get; private set; }
+		public ProcessEntity ConsoleOption { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the timeout that the system will wait until aborting the process start sequence.

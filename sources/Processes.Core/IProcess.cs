@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Consoles.Core
+namespace Processes.Core
 {
-	public interface IConsoleProcess
+	public interface IProcess
 	{
 		event ProcessTerminatedHandler Terminated;
 

@@ -1,12 +1,12 @@
-﻿using Consoles.Core;
+﻿using Processes.Core;
 using Splat;
 using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace Consoles.Processes
+namespace Processes.SystemDiagnostics
 {
-	public class ConsoleProcessService : IConsoleProcessService
+	public class ConsoleProcessService : IProcessFactory
 	{
 		private readonly IProcessTracker _processTracker = null;
 		private readonly IProcessPathBuilder _processPathBuilder = null;
@@ -27,7 +27,7 @@ namespace Consoles.Processes
 			return !string.IsNullOrWhiteSpace(path) && new FileInfo(path).Exists;
 		}
 
-		public IConsoleProcess Create(IProcessDescriptor processDescriptor)
+		public IProcess Create(IProcessDescriptor processDescriptor)
 		{
 			var console = processDescriptor?.ConsoleOption;
 

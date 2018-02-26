@@ -7,8 +7,8 @@
     <ProjectGuid>{50C33794-64A4-4DFD-8F7F-895F68E3C9FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Consoles.Data.LiteDB</RootNamespace>
-    <AssemblyName>Consoles.Data.LiteDB</AssemblyName>
+    <RootNamespace>Processes.Data.LiteDB</RootNamespace>
+    <AssemblyName>Processes.Data.LiteDB</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -59,16 +59,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleOptionsRepository.cs" />
+    <Compile Include="ProcessesRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Consoles.Core\Consoles.Core.csproj">
+    <ProjectReference Include="..\Processes.Core\Processes.Core.csproj">
       <Project>{9fc5178a-6f50-492a-9546-cfafbb0919d0}</Project>
-      <Name>Consoles.Core</Name>
+      <Name>Processes.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared.Kernel\Shared.Kernel.csproj">
       <Project>{dd8df004-9062-4358-9ea3-f9cfbc5d061f}</Project>

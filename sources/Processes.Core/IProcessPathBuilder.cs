@@ -1,4 +1,4 @@
-﻿namespace Consoles.Core
+﻿namespace Processes.Core
 {
 	public interface IProcessPathBuilder
 	{
