@@ -228,23 +228,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
-    <Compile Include="Consoles\ConsoleValidator.cs" />
-    <Compile Include="Consoles\Manager\ConsoleFormView.xaml.cs">
-      <DependentUpon>ConsoleFormView.xaml</DependentUpon>
+    <Compile Include="Processes\Manager\ProcessFormView.xaml.cs">
+      <DependentUpon>ProcessFormView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\Manager\ConsoleFormViewModel.cs" />
-    <Compile Include="Consoles\ConsoleProcessService.cs" />
-    <Compile Include="Consoles\Manager\ConsolesManagerView.xaml.cs">
-      <DependentUpon>ConsolesManagerView.xaml</DependentUpon>
+    <Compile Include="Processes\Manager\ProcessFormViewModel.cs" />
+    <Compile Include="Processes\Manager\ProcessViewModelValidator.cs" />
+    <Compile Include="Processes\ProcessFactory.cs" />
+    <Compile Include="Processes\Manager\ProcessesManagerView.xaml.cs">
+      <DependentUpon>ProcessesManagerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ConsoleViewModel.cs" />
-    <Compile Include="Consoles\Panel\ConsolesPanelView.xaml.cs">
-      <DependentUpon>ConsolesPanelView.xaml</DependentUpon>
+    <Compile Include="Processes\Manager\ProcessViewModel.cs" />
+    <Compile Include="Processes\Panel\ProcessesPanelView.xaml.cs">
+      <DependentUpon>ProcessesPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\Panel\ConsolesPanelViewViewModel.cs" />
-    <Compile Include="Consoles\Manager\ConsolesManagerViewModel.cs" />
-    <Compile Include="Mappings\MapperProfileConsoles.cs" />
+    <Compile Include="Processes\Panel\ProcessesPanelViewModel.cs" />
+    <Compile Include="Processes\Manager\ProcessesManagerViewModel.cs" />
+    <Compile Include="Mappings\MapperProfileProcesses.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />
+    <Compile Include="Processes\Panel\ProcessOptionViewModel.cs" />
     <Compile Include="Shell\ShellViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -254,19 +255,19 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsViewModel.cs" />
-    <Page Include="Consoles\Manager\ConsolesManagerView.xaml">
+    <Page Include="Processes\Manager\ProcessesManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\Manager\ConsoleFormView.xaml">
+    <Page Include="Processes\Manager\ProcessFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ConsolesStyle.xaml">
+    <Page Include="Processes\ProcecessStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\Panel\ConsolesPanelView.xaml">
+    <Page Include="Processes\Panel\ProcessesPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

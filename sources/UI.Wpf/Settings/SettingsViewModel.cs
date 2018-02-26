@@ -1,5 +1,5 @@
 ﻿using Splat;
-using UI.Wpf.Consoles;
+using UI.Wpf.Processes;
 
 namespace UI.Wpf.Settings
 {
@@ -8,7 +8,7 @@ namespace UI.Wpf.Settings
 	/// </summary>
 	public interface ISettingsViewModel
 	{
-		IConsolesManagerViewModel ConsolesManager { get; }
+		IProcessesManagerViewModel ConsolesManager { get; }
 	}
 
 	/// <summary>
@@ -17,19 +17,19 @@ namespace UI.Wpf.Settings
 	public class SettingsViewModel : ISettingsViewModel
 	{
 		//
-		private readonly IConsolesManagerViewModel _consolesManager;
+		private readonly IProcessesManagerViewModel _consolesManager;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public SettingsViewModel(IConsolesManagerViewModel consolesManager = null)
+		public SettingsViewModel(IProcessesManagerViewModel consolesManager = null)
 		{
-			_consolesManager = consolesManager ?? Locator.CurrentMutable.GetService<IConsolesManagerViewModel>();
+			_consolesManager = consolesManager ?? Locator.CurrentMutable.GetService<IProcessesManagerViewModel>();
 		}
 
 		/// <summary>
 		/// Gets the consoles manager instance.
 		/// </summary>
-		public IConsolesManagerViewModel ConsolesManager => _consolesManager;
+		public IProcessesManagerViewModel ConsolesManager => _consolesManager;
 	}
 }

@@ -2,7 +2,7 @@
 using Splat;
 using System;
 using System.Reactive;
-using UI.Wpf.Consoles;
+using UI.Wpf.Processes;
 using UI.Wpf.Settings;
 
 namespace UI.Wpf.Shell
@@ -14,7 +14,7 @@ namespace UI.Wpf.Shell
 	{
 		ReactiveCommand OpenSettingsCommand { get; }
 		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
-		IConsolesPanelViewViewModel ConsolesPanel { get; }
+		IProcessesPanelViewModel ConsolesPanel { get; }
 	}
 
 	/// <summary>
@@ -25,16 +25,16 @@ namespace UI.Wpf.Shell
 	{
 		//
 		private readonly ReactiveCommand _openSettingsCommand;
-		private readonly IConsolesPanelViewViewModel _consolesPanel;
+		private readonly IProcessesPanelViewModel _consolesPanel;
 		private readonly Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
 		private readonly ISettingsViewModel _settings;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(IConsolesPanelViewViewModel consolesPanel = null, ISettingsViewModel settings = null)
+		public ShellViewModel(IProcessesPanelViewModel consolesPanel = null, ISettingsViewModel settings = null)
 		{
-			_consolesPanel = consolesPanel ?? Locator.CurrentMutable.GetService<IConsolesPanelViewViewModel>();
+			_consolesPanel = consolesPanel ?? Locator.CurrentMutable.GetService<IProcessesPanelViewModel>();
 			_settings = settings ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
 
 			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
@@ -57,6 +57,6 @@ namespace UI.Wpf.Shell
 		/// <summary>
 		/// Gets or sets the console options panel view model.
 		/// </summary>
-		public IConsolesPanelViewViewModel ConsolesPanel => _consolesPanel;
+		public IProcessesPanelViewModel ConsolesPanel => _consolesPanel;
 	}
 }

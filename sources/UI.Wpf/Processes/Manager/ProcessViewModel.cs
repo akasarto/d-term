@@ -2,15 +2,14 @@
 using ReactiveUI;
 using System;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Console view model interface.
+	/// Process view model interface.
 	/// </summary>
-	public interface IConsoleViewModel
+	public interface IProcessViewModel
 	{
 		Guid Id { get; set; }
-		bool IsSupported { get; set; }
 		string Name { get; set; }
 		int OrderIndex { get; set; }
 		string PicturePath { get; set; }
@@ -21,13 +20,12 @@ namespace UI.Wpf.Consoles
 	}
 
 	/// <summary>
-	/// App console view model implementation.
+	/// App process view model implementation.
 	/// </summary>
-	public class ConsoleViewModel : ReactiveObject, IConsoleViewModel
+	public class ProcessViewModel : ReactiveObject, IProcessViewModel
 	{
 		//
 		private Guid _id;
-		private bool _isSupported;
 		private string _name;
 		private int _orderIndex;
 		private string _picturePath;
@@ -39,7 +37,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleViewModel()
+		public ProcessViewModel()
 		{
 		}
 
@@ -51,16 +49,6 @@ namespace UI.Wpf.Consoles
 			get => _id;
 			set => this.RaiseAndSetIfChanged(ref _id, value);
 		}
-
-		/// <summary>
-		/// Gets or sets the flag indicating if this option can be instantiated by the system.
-		/// </summary>
-		public bool IsSupported
-		{
-			get => _isSupported;
-			set => this.RaiseAndSetIfChanged(ref _isSupported, value);
-		}
-
 
 		/// <summary>
 		/// Gets or sets the name.

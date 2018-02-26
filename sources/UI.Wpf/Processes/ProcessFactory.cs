@@ -1,12 +1,16 @@
 ﻿using Processes.Core;
+using Processes.SystemDiagnostics;
 using Splat;
 using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace Processes.SystemDiagnostics
+namespace UI.Wpf.Processes
 {
-	public class ConsoleProcessService : IProcessFactory
+	/// <summary>
+	/// App process factory implementation.
+	/// </summary>
+	public class ProcessFactory : IProcessFactory
 	{
 		private readonly IProcessTracker _processTracker = null;
 		private readonly IProcessPathBuilder _processPathBuilder = null;
@@ -14,7 +18,7 @@ namespace Processes.SystemDiagnostics
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleProcessService(IProcessTracker processTracker = null, IProcessPathBuilder processPathBuilder = null)
+		public ProcessFactory(IProcessTracker processTracker = null, IProcessPathBuilder processPathBuilder = null)
 		{
 			_processTracker = processTracker ?? Locator.CurrentMutable.GetService<IProcessTracker>();
 			_processPathBuilder = processPathBuilder ?? Locator.CurrentMutable.GetService<IProcessPathBuilder>();

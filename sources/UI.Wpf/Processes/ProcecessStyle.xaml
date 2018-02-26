@@ -3,20 +3,20 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:controlzEx="clr-namespace:ControlzEx;assembly=MaterialDesignThemes.Wpf"
-	xmlns:local="clr-namespace:UI.Wpf.Consoles"
+	xmlns:local="clr-namespace:UI.Wpf.Processes"
 >
 
-	<Style x:Key="consolesDialogPopupStyle" TargetType="{x:Type controlzEx:PopupEx}">
+	<Style x:Key="processDialogPopupStyle" TargetType="{x:Type controlzEx:PopupEx}">
 		<Setter Property="StaysOpen" Value="True" />
 		<Setter Property="AllowsTransparency" Value="True" />
 		<Setter Property="PopupAnimation" Value="None" />
 		<Setter Property="Placement" Value="Center" />
 	</Style>
 
-	<Style x:Key="consolesDialogHostStyle" TargetType="{x:Type materialDesign:DialogHost}">
+	<Style x:Key="processDialogHostStyle" TargetType="{x:Type materialDesign:DialogHost}">
 		<Setter Property="DialogMargin" Value="22" />
 		<Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth5" />
-		<Setter Property="PopupStyle" Value="{StaticResource consolesDialogPopupStyle}" />
+		<Setter Property="PopupStyle" Value="{StaticResource processDialogPopupStyle}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="materialDesign:DialogHost">

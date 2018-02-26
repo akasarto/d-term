@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace Processes.SystemDiagnostics
 {
+#warning review
 	public class ConsoleProcess : IProcess
 	{
 		private readonly Process _systemProcess;

@@ -4,17 +4,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Consoles manager view.
+	/// Processes manager view.
 	/// </summary>
-	public partial class ConsolesManagerView : UserControl, IViewFor<IConsolesManagerViewModel>
+	public partial class ProcessesManagerView : UserControl, IViewFor<IProcessesManagerViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesManagerView()
+		public ProcessesManagerView()
 		{
 			InitializeComponent();
 
@@ -28,14 +28,14 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// View model dependency property backing field.
 		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesManagerViewModel), typeof(ConsolesManagerView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessesManagerViewModel), typeof(ProcessesManagerView), new PropertyMetadata(null));
 
 		/// <summary>
 		/// Gets or sets the view model instance.
 		/// </summary>
-		public IConsolesManagerViewModel ViewModel
+		public IProcessesManagerViewModel ViewModel
 		{
-			get { return (IConsolesManagerViewModel)GetValue(ViewModelProperty); }
+			get { return (IProcessesManagerViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
@@ -45,7 +45,7 @@ namespace UI.Wpf.Consoles
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsolesManagerViewModel)value; }
+			set { ViewModel = (IProcessesManagerViewModel)value; }
 		}
 	}
 }

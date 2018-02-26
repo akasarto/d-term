@@ -8,23 +8,23 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Consoles panel view model interface.
+	/// Processes panel view model interface.
 	/// </summary>
-	public interface IConsolesPanelViewViewModel
+	public interface IProcessesPanelViewModel
 	{
 		bool IsBusy { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<IConsoleViewModel> Consoles { get; }
+		IReactiveDerivedList<IProcessOptionViewModel> Consoles { get; }
 	}
 
 	/// <summary>
-	/// App consoles panel view model implementation.
-	/// <seealso cref="IConsolesPanelViewViewModel"/>
+	/// App processes panel view model implementation.
+	/// <seealso cref="IProcessesPanelViewModel"/>
 	/// </summary>
-	public class ConsolesPanelViewViewModel : ReactiveObject, IConsolesPanelViewViewModel
+	public class ProcessesPanelViewModel : ReactiveObject, IProcessesPanelViewModel
 	{
 		//
 		private readonly IProcessesRepository _consoleOptionsRepository;
@@ -32,20 +32,20 @@ namespace UI.Wpf.Consoles
 		//
 		private bool _isBusy;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
-		private IReactiveDerivedList<IConsoleViewModel> _consoles;
+		private IReactiveDerivedList<IProcessOptionViewModel> _consoles;
 		private IReactiveList<ProcessEntity> _processes;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesPanelViewViewModel(IProcessesRepository consoleOptionsRepository = null)
+		public ProcessesPanelViewModel(IProcessesRepository consoleOptionsRepository = null)
 		{
 			_consoleOptionsRepository = consoleOptionsRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
 
 			_processes = new ReactiveList<ProcessEntity>();
 
 			_consoles = _processes.CreateDerivedCollection(
-				selector: option => Mapper.Map<ConsoleViewModel>(option)
+				selector: option => Mapper.Map<IProcessOptionViewModel>(option)
 			);
 
 			LoadOptionsCommandSetup();
@@ -68,7 +68,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IConsoleViewModel> Consoles => _consoles;
+		public IReactiveDerivedList<IProcessOptionViewModel> Consoles => _consoles;
 
 		/// <summary>
 		/// Setup the load comand actions and observables.

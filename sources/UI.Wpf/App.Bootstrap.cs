@@ -7,7 +7,7 @@ using Notebook.Data.LiteDB;
 using ReactiveUI;
 using Splat;
 using System.Reflection;
-using UI.Wpf.Consoles;
+using UI.Wpf.Processes;
 using UI.Wpf.Mappings;
 using UI.Wpf.Settings;
 using UI.Wpf.Shell;
@@ -41,7 +41,7 @@ namespace UI.Wpf
 			var dbConnectionString = @"dTerm.db";
 
 			//
-			_container.Register(() => new MapperProfileConsoles());
+			_container.Register(() => new MapperProfileProcesses());
 			_container.Register(() => new MapperProfileNotebooks());
 
 			//
@@ -53,12 +53,13 @@ namespace UI.Wpf
 			_container.Register<INotebooksRepository>(() => new NotebooksRepository(dbConnectionString));
 
 			//
-			_container.Register<IConsoleViewModel>(() => new ConsoleViewModel());
-			_container.Register<IConsoleFormViewModel>(() => new ConsoleFormViewModel());
-			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
-			_container.Register<IConsolesPanelViewViewModel>(() => new ConsolesPanelViewViewModel());
-			_container.Register<IValidator<IConsoleViewModel>>(() => new ConsoleValidator());
-			_container.Register<IProcessFactory>(() => new ConsoleProcessService());
+			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
+			_container.Register<IProcessFormViewModel>(() => new ProcessFormViewModel());
+			_container.Register<IProcessOptionViewModel>(() => new ProcessOptionViewModel());
+			_container.Register<IProcessesManagerViewModel>(() => new ProcessesManagerViewModel());
+			_container.Register<IProcessesPanelViewModel>(() => new ProcessesPanelViewModel());
+			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessViewModelValidator());
+			_container.Register<IProcessFactory>(() => new ProcessFactory());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

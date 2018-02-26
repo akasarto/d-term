@@ -8,29 +8,29 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Consoles manager view model interface.
+	/// Processes manager view model interface.
 	/// </summary>
-	public interface IConsolesManagerViewModel
+	public interface IProcessesManagerViewModel
 	{
 		bool IsBusy { get; }
 		ReactiveCommand AddOptionCommand { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<IConsoleViewModel> Options { get; }
-		IConsoleFormViewModel Form { get; }
+		IReactiveDerivedList<IProcessViewModel> Options { get; }
+		IProcessFormViewModel Form { get; }
 	}
 
 	/// <summary>
-	/// App consoles manager view model implementation.
+	/// App processes manager view model implementation.
 	/// </summary>
-	public class ConsolesManagerViewModel : ReactiveObject, IConsolesManagerViewModel
+	public class ProcessesManagerViewModel : ReactiveObject, IProcessesManagerViewModel
 	{
 		//
 		private readonly IReactiveList<ProcessEntity> _consoleOptionsSourceList;
 		private readonly IProcessesRepository _consoleOptionsRepository;
-		private readonly IConsoleFormViewModel _consoleFormViewModel;
+		private readonly IProcessFormViewModel _consoleFormViewModel;
 
 		//
 		private bool _isBusy;
@@ -41,23 +41,23 @@ namespace UI.Wpf.Consoles
 		private ReactiveCommand _saveOptionCommand;
 		private ReactiveCommand _cancelOptionCommand;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
-		private IReactiveDerivedList<IConsoleViewModel> _options;
+		private IReactiveDerivedList<IProcessViewModel> _options;
 
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesManagerViewModel(IProcessesRepository consoleOptionsRepository = null, IConsoleFormViewModel consoleFormViewModel = null)
+		public ProcessesManagerViewModel(IProcessesRepository consoleOptionsRepository = null, IProcessFormViewModel consoleFormViewModel = null)
 		{
 			var locator = Locator.CurrentMutable;
 
 			_consoleOptionsRepository = consoleOptionsRepository ?? locator.GetService<IProcessesRepository>();
-			_consoleFormViewModel = consoleFormViewModel ?? locator.GetService<IConsoleFormViewModel>();
+			_consoleFormViewModel = consoleFormViewModel ?? locator.GetService<IProcessFormViewModel>();
 
 			_consoleOptionsSourceList = new ReactiveList<ProcessEntity>();
 
 			_options = _consoleOptionsSourceList.CreateDerivedCollection(
-				selector: option => Mapper.Map<IConsoleViewModel>(option)
+				selector: option => Mapper.Map<IProcessViewModel>(option)
 			);
 
 			_cancelFormEvent = Observable.FromEventPattern<EventHandler, EventArgs>(
@@ -70,7 +70,7 @@ namespace UI.Wpf.Consoles
 
 			_addOptionCommand = ReactiveCommand.Create(() =>
 			{
-				Form.Data = locator.GetService<IConsoleViewModel>();
+				Form.Data = locator.GetService<IProcessViewModel>();
 			});
 
 			_saveOptionCommand = ReactiveCommand.Create(() =>
@@ -120,12 +120,12 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IConsoleViewModel> Options => _options;
+		public IReactiveDerivedList<IProcessViewModel> Options => _options;
 
 		/// <summary>
 		/// Gets the form instance.
 		/// </summary>
-		public IConsoleFormViewModel Form => _consoleFormViewModel;
+		public IProcessFormViewModel Form => _consoleFormViewModel;
 
 		/// <summary>
 		/// Setup the load options comand actions and observables.

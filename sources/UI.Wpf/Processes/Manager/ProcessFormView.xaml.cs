@@ -1,41 +1,38 @@
 ﻿using ReactiveUI;
-using System;
-using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Consoles panel view.
+	/// Process form view.
 	/// </summary>
-	public partial class ConsolesPanelView : UserControl, IViewFor<IConsolesPanelViewViewModel>
+	public partial class ProcessFormView : UserControl, IViewFor<IProcessFormViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesPanelView()
+		public ProcessFormView()
 		{
 			InitializeComponent();
 
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
-				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptionsCommand).SelectMany(x => x.Execute()).Subscribe());
 			});
 		}
 
 		/// <summary>
 		/// View model dependency property backing field.
 		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesPanelViewViewModel), typeof(ConsolesPanelView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessFormViewModel), typeof(ProcessFormView), new PropertyMetadata(null));
 
 		/// <summary>
 		/// Gets or sets the view model instance.
 		/// </summary>
-		public IConsolesPanelViewViewModel ViewModel
+		public IProcessFormViewModel ViewModel
 		{
-			get { return (IConsolesPanelViewViewModel)GetValue(ViewModelProperty); }
+			get { return (IProcessFormViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
@@ -45,7 +42,7 @@ namespace UI.Wpf.Consoles
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsolesPanelViewViewModel)value; }
+			set { ViewModel = (IProcessFormViewModel)value; }
 		}
 	}
 }

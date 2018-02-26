@@ -1,32 +1,31 @@
-﻿using Processes.Core;
-using ReactiveUI;
+﻿using ReactiveUI;
 using System;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Console form view model interface.
+	/// Process form view model interface.
 	/// </summary>
-	public interface IConsoleFormViewModel
+	public interface IProcessFormViewModel
 	{
 		event EventHandler OnDelete;
 		event EventHandler OnCancel;
 		event EventHandler OnSave;
 
-		IConsoleViewModel Data { get; set; }
+		IProcessViewModel Data { get; set; }
 	}
 
 	/// <summary>
-	/// App console form view model implementation.
+	/// App process form view model implementation.
 	/// </summary>
-	public class ConsoleFormViewModel : ReactiveObject, IConsoleFormViewModel
+	public class ProcessFormViewModel : ReactiveObject, IProcessFormViewModel
 	{
-		private IConsoleViewModel _data;
+		private IProcessViewModel _data;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleFormViewModel()
+		public ProcessFormViewModel()
 		{
 		}
 
@@ -48,7 +47,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets or sets the data to add/edit.
 		/// </summary>
-		public IConsoleViewModel Data
+		public IProcessViewModel Data
 		{
 			get => _data;
 			set => this.RaiseAndSetIfChanged(ref _data, value);
