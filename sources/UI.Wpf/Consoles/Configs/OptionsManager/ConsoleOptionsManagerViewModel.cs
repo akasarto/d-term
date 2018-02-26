@@ -13,19 +13,19 @@ namespace UI.Wpf.Consoles
 	/// <summary>
 	/// Console configurations view model interface.
 	/// </summary>
-	public interface IConsoleConfigsViewModel
+	public interface IConsoleOptionsManagerViewModel
 	{
 		bool IsBusy { get; }
 		ReactiveCommand AddOptionCommand { get; }
 		ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<IConsoleFormData> Options { get; }
-		IConsoleFormData FormData { get; set; }
+		IReactiveDerivedList<IConsoleOptionFormViewModel> Options { get; }
+		IConsoleOptionFormViewModel FormData { get; set; }
 	}
 
 	/// <summary>
 	/// App console configurations view model implementation.
 	/// </summary>
-	public class ConsoleConfigsViewModel : ReactiveObject, IConsoleConfigsViewModel
+	public class ConsoleOptionsManagerViewModel : ReactiveObject, IConsoleOptionsManagerViewModel
 	{
 		//
 		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
@@ -37,8 +37,8 @@ namespace UI.Wpf.Consoles
 		private ReactiveCommand _saveOptionCommand;
 		private ReactiveCommand _cancelOptionCommand;
 		private ReactiveCommand<Unit, List<ConsoleOption>> _loadOptionsCommand;
-		private IReactiveDerivedList<IConsoleFormData> _options;
-		private IConsoleFormData _formData;
+		private IReactiveDerivedList<IConsoleOptionFormViewModel> _options;
+		private IConsoleOptionFormViewModel _formData;
 		private IDisposable _deleteFormEvent;
 		private IDisposable _cancelFormEvent;
 		private IDisposable _saveFormEvent;
@@ -46,7 +46,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleConfigsViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
+		public ConsoleOptionsManagerViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
 		{
 			var locator = Locator.CurrentMutable;
 
@@ -55,12 +55,12 @@ namespace UI.Wpf.Consoles
 			_consoleOptionsSourceList = new ReactiveList<ConsoleOption>();
 
 			_options = _consoleOptionsSourceList.CreateDerivedCollection(
-				selector: option => Mapper.Map<IConsoleFormData>(option)
+				selector: option => Mapper.Map<IConsoleOptionFormViewModel>(option)
 			);
 
 			_addOptionCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = locator.GetService<IConsoleFormData>();
+				FormData = locator.GetService<IConsoleOptionFormViewModel>();
 			});
 
 			_saveOptionCommand = ReactiveCommand.Create(() =>
@@ -128,12 +128,12 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IConsoleFormData> Options => _options;
+		public IReactiveDerivedList<IConsoleOptionFormViewModel> Options => _options;
 
 		/// <summary>
 		/// Gets or sets the current option being added/edited.
 		/// </summary>
-		public IConsoleFormData FormData
+		public IConsoleOptionFormViewModel FormData
 		{
 			get => _formData;
 			set => this.RaiseAndSetIfChanged(ref _formData, value);

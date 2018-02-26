@@ -12,6 +12,10 @@
 
 	<Grid>
 
+		<TextBox Text="{Binding Id}" />
+
+		<Button Command="{Binding CancelCommand}" Content="Cancel" />
+
 	</Grid>
 
 </UserControl>

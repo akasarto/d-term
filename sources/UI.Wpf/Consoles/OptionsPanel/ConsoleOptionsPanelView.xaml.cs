@@ -9,7 +9,7 @@ namespace UI.Wpf.Consoles
 	/// <summary>
 	/// Console options panel view.
 	/// </summary>
-	public partial class ConsoleOptionsPanelView : UserControl, IViewFor<IConsolesPanelViewModel>
+	public partial class ConsoleOptionsPanelView : UserControl, IViewFor<IConsoleOptionsPanelViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
@@ -28,14 +28,14 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// View model dependency property backing field.
 		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesPanelViewModel), typeof(ConsoleOptionsPanelView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionsPanelViewModel), typeof(ConsoleOptionsPanelView), new PropertyMetadata(null));
 
 		/// <summary>
 		/// Gets or sets the view model instance.
 		/// </summary>
-		public IConsolesPanelViewModel ViewModel
+		public IConsoleOptionsPanelViewModel ViewModel
 		{
-			get { return (IConsolesPanelViewModel)GetValue(ViewModelProperty); }
+			get { return (IConsoleOptionsPanelViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
@@ -45,7 +45,7 @@ namespace UI.Wpf.Consoles
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsolesPanelViewModel)value; }
+			set { ViewModel = (IConsoleOptionsPanelViewModel)value; }
 		}
 	}
 }

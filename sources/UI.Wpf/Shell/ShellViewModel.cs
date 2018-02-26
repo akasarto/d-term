@@ -14,7 +14,7 @@ namespace UI.Wpf.Shell
 	{
 		ReactiveCommand OpenSettingsCommand { get; }
 		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
-		IConsolesPanelViewModel ConsolesPanelViewModel { get; }
+		IConsoleOptionsPanelViewModel ConsolesPanelViewModel { get; }
 	}
 
 	/// <summary>
@@ -25,16 +25,16 @@ namespace UI.Wpf.Shell
 	{
 		//
 		private readonly ReactiveCommand _openSettingsCommand;
-		private readonly IConsolesPanelViewModel _consoleOptionsPanelViewModel;
+		private readonly IConsoleOptionsPanelViewModel _consoleOptionsPanelViewModel;
 		private readonly Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
 		private readonly ISettingsViewModel _settingsViewModel;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(IConsolesPanelViewModel consoleOptionsPanelViewModel = null, ISettingsViewModel settingsViewModel = null)
+		public ShellViewModel(IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel = null, ISettingsViewModel settingsViewModel = null)
 		{
-			_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? Locator.CurrentMutable.GetService<IConsolesPanelViewModel>();
+			_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? Locator.CurrentMutable.GetService<IConsoleOptionsPanelViewModel>();
 			_settingsViewModel = settingsViewModel ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
 
 			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
@@ -57,6 +57,6 @@ namespace UI.Wpf.Shell
 		/// <summary>
 		/// Gets or sets the console options panel view model.
 		/// </summary>
-		public IConsolesPanelViewModel ConsolesPanelViewModel => _consoleOptionsPanelViewModel;
+		public IConsoleOptionsPanelViewModel ConsolesPanelViewModel => _consoleOptionsPanelViewModel;
 	}
 }

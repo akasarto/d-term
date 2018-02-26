@@ -9,6 +9,10 @@ namespace UI.Wpf.Consoles
 	/// </summary>
 	public interface IConsoleOptionFormViewModel
 	{
+		event EventHandler OnDelete;
+		event EventHandler OnCancel;
+		event EventHandler OnSave;
+
 		Guid Id { get; set; }
 		bool IsSupported { get; set; }
 		string Name { get; set; }
@@ -18,6 +22,8 @@ namespace UI.Wpf.Consoles
 		string ProcessBasePathDescription { get; set; }
 		string ProcessExecutableName { get; set; }
 		string ProcessStartupArgs { get; set; }
+
+		ReactiveCommand CancelCommand { get; }
 	}
 
 	/// <summary>
@@ -25,6 +31,9 @@ namespace UI.Wpf.Consoles
 	/// </summary>
 	public class ConsoleOptionFormViewModel : ReactiveObject, IConsoleOptionFormViewModel
 	{
+		//
+		private ReactiveCommand _cancelCommand;
+
 		//
 		private Guid _id;
 		private bool _isSupported;
@@ -41,7 +50,12 @@ namespace UI.Wpf.Consoles
 		/// </summary>
 		public ConsoleOptionFormViewModel()
 		{
+			_cancelCommand = ReactiveCommand.Create(() => OnCancel?.Invoke(this, EventArgs.Empty));
 		}
+
+		public event EventHandler OnDelete;
+		public event EventHandler OnCancel;
+		public event EventHandler OnSave;
 
 		/// <summary>
 		/// Gets or sets the id.
@@ -124,6 +138,11 @@ namespace UI.Wpf.Consoles
 			get => _processStartupArgs;
 			set => this.RaiseAndSetIfChanged(ref _processStartupArgs, value);
 		}
+
+		/// <summary>
+		/// Gets the add console option command instance.
+		/// </summary>
+		public ReactiveCommand CancelCommand => _cancelCommand;
 	}
 }
 

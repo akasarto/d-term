@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace UI.Wpf.Consoles
 {
 	/// <summary>
-	/// Consoles panel view model interface.
+	/// Console options panel view model interface.
 	/// </summary>
-	public interface IConsolesPanelViewModel
+	public interface IConsoleOptionsPanelViewModel
 	{
 		bool IsBusy { get; }
 		ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand { get; }
@@ -21,10 +21,10 @@ namespace UI.Wpf.Consoles
 	}
 
 	/// <summary>
-	/// App consoles panel view model implementation.
-	/// <seealso cref="IConsolesPanelViewModel"/>
+	/// App console options panel view model implementation.
+	/// <seealso cref="IConsoleOptionsPanelViewModel"/>
 	/// </summary>
-	public class ConsolesPanelViewModel : ReactiveObject, IConsolesPanelViewModel
+	public class ConsoleOptionsPanelViewModel : ReactiveObject, IConsoleOptionsPanelViewModel
 	{
 		//
 		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
@@ -38,7 +38,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesPanelViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
+		public ConsoleOptionsPanelViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
 		{
 			_consoleOptionsRepository = consoleOptionsRepository ?? Locator.CurrentMutable.GetService<IConsoleOptionsRepository>();
 

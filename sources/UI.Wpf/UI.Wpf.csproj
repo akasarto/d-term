@@ -218,19 +218,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
-    <Compile Include="Consoles\Configs\ConsoleOptionFormView.xaml.cs">
+    <Compile Include="Consoles\Configs\ConsoleConfigsScreen.cs" />
+    <Compile Include="Consoles\Configs\OptionsManager\ConsoleOptionFormView.xaml.cs">
       <DependentUpon>ConsoleOptionFormView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\Configs\ConsoleOptionFormViewModel.cs" />
-    <Compile Include="Consoles\Infrastructure\ConsoleProcessService.cs" />
+    <Compile Include="Consoles\Configs\OptionsManager\ConsoleOptionFormViewModel.cs" />
+    <Compile Include="Consoles\Configs\OptionsManager\ConsoleOptionsManagerView.xaml.cs">
+      <DependentUpon>ConsoleOptionsManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\Configs\OptionsManager\ConsoleOptionsManagerViewModel.cs" />
+    <Compile Include="Consoles\ConsoleProcessService.cs" />
     <Compile Include="Consoles\Configs\ConsoleConfigsView.xaml.cs">
       <DependentUpon>ConsoleConfigsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ConsoleOptionViewModel.cs" />
-    <Compile Include="Consoles\ConsolesPanelView.xaml.cs">
-      <DependentUpon>ConsolesPanelView.xaml</DependentUpon>
+    <Compile Include="Consoles\OptionsPanel\ConsoleOptionViewModel.cs" />
+    <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml.cs">
+      <DependentUpon>ConsoleOptionsPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ConsolesPanelViewModel.cs" />
+    <Compile Include="Consoles\OptionsPanel\ConsoleOptionsPanelViewModel.cs" />
     <Compile Include="Consoles\Configs\ConsoleConfigsViewModel.cs" />
     <Compile Include="Mappings\MapperProfileConsoles.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />
@@ -247,7 +252,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\Configs\ConsoleOptionFormView.xaml">
+    <Page Include="Consoles\Configs\OptionsManager\ConsoleOptionFormView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\Configs\OptionsManager\ConsoleOptionsManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -255,7 +264,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ConsolesPanelView.xaml">
+    <Page Include="Consoles\OptionsPanel\ConsoleOptionsPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
