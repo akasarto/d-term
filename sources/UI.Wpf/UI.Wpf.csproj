@@ -218,6 +218,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
+    <Compile Include="Consoles\Configs\ConsoleOptionFormView.xaml.cs">
+      <DependentUpon>ConsoleOptionFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\Configs\ConsoleOptionFormViewModel.cs" />
     <Compile Include="Consoles\Infrastructure\ConsoleProcessService.cs" />
     <Compile Include="Consoles\Configs\ConsoleConfigsView.xaml.cs">
       <DependentUpon>ConsoleConfigsView.xaml</DependentUpon>
@@ -240,6 +244,10 @@
     </Compile>
     <Compile Include="Settings\SettingsViewModel.cs" />
     <Page Include="Consoles\Configs\ConsoleConfigsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Consoles\Configs\ConsoleOptionFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

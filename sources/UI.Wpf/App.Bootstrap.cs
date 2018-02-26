@@ -55,6 +55,8 @@ namespace UI.Wpf
 			_container.Register<IConsoleProcessService>(() => new ConsoleProcessService());
 			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
 			_container.Register<IConsoleConfigsViewModel>(() => new ConsoleConfigsViewModel());
+			_container.Register<IConsoleOptionFormViewModel>(() => new ConsoleOptionFormViewModel());
+			_container.Register<IConsoleOptionViewModel>(() => new ConsoleOptionViewModel());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

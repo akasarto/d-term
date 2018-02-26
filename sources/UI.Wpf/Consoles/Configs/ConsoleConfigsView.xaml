@@ -43,62 +43,35 @@
 				<DataTemplate>
 
 					<Grid>
-						<!--<ItemsControl x:Name="list" Margin="7.5" ItemsSource="{Binding Options}" FontSize="15" Grid.IsSharedSizeScope="True">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<Border x:Name="Border" Padding="8" BorderThickness="0 0 0 1" BorderBrush="{DynamicResource MaterialDesignDivider}">
-										<Grid>
-											<Grid.ColumnDefinitions>
-												<ColumnDefinition SharedSizeGroup="Checkerz" />
-												<ColumnDefinition />
-											</Grid.ColumnDefinitions>
-											--><!--<ToggleButton IsChecked="{Binding IsSelected}" Style="{StaticResource MaterialDesignActionLightToggleButton}" Content="{Binding Code}" />--><!--
-											<Path VerticalAlignment="Center" Stretch="Uniform" Fill="Black" Data="{Binding PicturePath}" />
-											<StackPanel Margin="8 0 0 0" Grid.Column="1">
-												<TextBlock FontWeight="Bold" Text="{Binding Name}" />
-												<TextBlock Text="{Binding ProcessBasePathDescription}" />
-												<Button Command="{Binding DataContext.EditOptionCommand, ElementName=list}" CommandParameter="{Binding}" />
-											</StackPanel>
-										</Grid>
-									</Border>
-									--><!--<DataTemplate.Triggers>
-												<DataTrigger Binding="{Binding IsSelected}" Value="True">
-													<Setter TargetName="Border" Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
-												</DataTrigger>
-											</DataTemplate.Triggers>--><!--
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>-->
-						
-								<ListView x:Name="list" Margin="7.5" ItemsSource="{Binding Options}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding SelectedOption}">
-									<ListView.View>
-										<GridView>
-											<GridViewColumn Header="Icon">
-												<GridViewColumn.CellTemplate>
-													<DataTemplate>
-														<Path Stretch="Uniform" Fill="Black" Data="{Binding PicturePath}" />
-													</DataTemplate>
-												</GridViewColumn.CellTemplate>
-											</GridViewColumn>
-											<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
-											<GridViewColumn DisplayMemberBinding="{Binding ProcessBasePathDescription}" Header="Base Path" />
-											<GridViewColumn DisplayMemberBinding="{Binding ProcessExecutableName}" Header="Executable Filename" />
-											<GridViewColumn DisplayMemberBinding="{Binding ProcessStartupArgs}" Header="Startup Args" />
-										</GridView>
-									</ListView.View>
-								</ListView>
-								
+
+						<ListView x:Name="list" Margin="7.5" ItemsSource="{Binding Options}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding SelectedOption}">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn Header="Icon">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Path Stretch="Uniform" Fill="Black" Data="{Binding PicturePath}" />
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
+									<GridViewColumn DisplayMemberBinding="{Binding ProcessBasePathDescription}" Header="Base Path" />
+									<GridViewColumn DisplayMemberBinding="{Binding ProcessExecutableName}" Header="Executable Filename" />
+									<GridViewColumn DisplayMemberBinding="{Binding ProcessStartupArgs}" Header="Startup Args" />
+								</GridView>
+							</ListView.View>
+						</ListView>
 
 						<TextBlock
-									FontStyle="Italic"
-									FontSize="12"
-									HorizontalAlignment="Center"
-									Margin="15 75"
-									Opacity=".55"
-									Style="{StaticResource MaterialDesignButtonTextBlock}"
-									Text="No console options found."
-									Visibility="Collapsed"
-									x:Name="empty" />
+							FontStyle="Italic"
+							FontSize="12"
+							HorizontalAlignment="Center"
+							Margin="15 75"
+							Opacity=".55"
+							Style="{StaticResource MaterialDesignButtonTextBlock}"
+							Text="No console options found."
+							Visibility="Collapsed"
+							x:Name="empty" />
 
 					</Grid>
 

@@ -29,13 +29,22 @@ namespace UI.Wpf.Mappings
 		/// </summary>
 		private void SetupMaps()
 		{
-			CreateMap<ConsoleOption, IConsoleOptionViewModel>().ConstructUsing(source => new ConsoleOptionViewModel()).AfterMap((source, dest) =>
+			//
+			var _locator = Locator.CurrentMutable;
+
+			//
+			CreateMap<ConsoleOption, IConsoleOptionViewModel>().ConstructUsing(source => _locator.GetService<IConsoleOptionViewModel>()).AfterMap((source, dest) =>
 			{
-				dest.ProcessBasePathDescription = source.ProcessBasePath.Humanize();
 				dest.IsSupported = _consoleProcessService.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
 			});
-
 			CreateMap<IConsoleOptionViewModel, ConsoleOption>();
+
+			//
+			CreateMap<ConsoleOption, IConsoleOptionFormViewModel>().ConstructUsing(source => _locator.GetService<IConsoleOptionFormViewModel>()).AfterMap((source, dest) =>
+			{
+				dest.ProcessBasePathDescription = source.ProcessBasePath.Humanize();
+			});
+			CreateMap<IConsoleOptionFormViewModel, ConsoleOption>();
 		}
 	}
 }

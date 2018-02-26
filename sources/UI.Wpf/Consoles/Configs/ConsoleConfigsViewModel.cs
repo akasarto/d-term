@@ -17,7 +17,7 @@ namespace UI.Wpf.Consoles
 		bool IsBusy { get; }
 		ReactiveCommand AddOptionCommand { get; }
 		ReactiveCommand<Unit, List<ConsoleOption>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<IConsoleOptionViewModel> Options { get; }
+		IReactiveDerivedList<IConsoleOptionFormViewModel> Options { get; }
 	}
 
 	/// <summary>
@@ -33,7 +33,7 @@ namespace UI.Wpf.Consoles
 		private bool _isBusy;
 		private ReactiveCommand _addOptionCommand;
 		private ReactiveCommand<Unit, List<ConsoleOption>> _loadOptionsCommand;
-		private IReactiveDerivedList<IConsoleOptionViewModel> _options;
+		private IReactiveDerivedList<IConsoleOptionFormViewModel> _options;
 
 		/// <summary>
 		/// Constructor method.
@@ -45,7 +45,7 @@ namespace UI.Wpf.Consoles
 			_consoleOptionsSourceList = new ReactiveList<ConsoleOption>();
 
 			_options = _consoleOptionsSourceList.CreateDerivedCollection(
-				selector: option => Mapper.Map<ConsoleOptionViewModel>(option)
+				selector: option => Mapper.Map<IConsoleOptionFormViewModel>(option)
 			);
 
 			LoadOptionsCommandSetup();
@@ -73,7 +73,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IConsoleOptionViewModel> Options => _options;
+		public IReactiveDerivedList<IConsoleOptionFormViewModel> Options => _options;
 
 		/// <summary>
 		/// Setup the load options comand actions and observables.
