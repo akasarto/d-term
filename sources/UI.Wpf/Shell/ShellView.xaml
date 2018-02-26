@@ -45,7 +45,7 @@
 					</Grid.ColumnDefinitions>
 
 					<reactiveui:ViewModelViewHost
-						ViewModel="{Binding ConsolesPanelViewModel}"
+						ViewModel="{Binding ConsolesPanel}"
 						VerticalAlignment="Center" />
 
 					<Rectangle

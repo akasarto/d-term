@@ -1,20 +1,20 @@
 ﻿using ReactiveUI;
-using System;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace UI.Wpf.Consoles
 {
 	/// <summary>
-	/// Console options panel view.
+	/// Consoles manager view.
 	/// </summary>
-	public partial class ConsoleOptionsPanelView : UserControl, IViewFor<IConsoleOptionsPanelViewModel>
+	public partial class ConsolesManagerView : UserControl, IViewFor<IConsolesManagerViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionsPanelView()
+		public ConsolesManagerView()
 		{
 			InitializeComponent();
 
@@ -28,14 +28,14 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// View model dependency property backing field.
 		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionsPanelViewModel), typeof(ConsoleOptionsPanelView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesManagerViewModel), typeof(ConsolesManagerView), new PropertyMetadata(null));
 
 		/// <summary>
 		/// Gets or sets the view model instance.
 		/// </summary>
-		public IConsoleOptionsPanelViewModel ViewModel
+		public IConsolesManagerViewModel ViewModel
 		{
-			get { return (IConsoleOptionsPanelViewModel)GetValue(ViewModelProperty); }
+			get { return (IConsolesManagerViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
@@ -45,7 +45,7 @@ namespace UI.Wpf.Consoles
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsoleOptionsPanelViewModel)value; }
+			set { ViewModel = (IConsolesManagerViewModel)value; }
 		}
 	}
 }

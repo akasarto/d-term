@@ -11,40 +11,40 @@ using System.Threading.Tasks;
 namespace UI.Wpf.Consoles
 {
 	/// <summary>
-	/// Console options panel view model interface.
+	/// Consoles panel view model interface.
 	/// </summary>
-	public interface IConsoleOptionsPanelViewModel
+	public interface IConsolesPanelViewViewModel
 	{
 		bool IsBusy { get; }
 		ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<IConsoleViewModel> Options { get; }
+		IReactiveDerivedList<IConsoleViewModel> Consoles { get; }
 	}
 
 	/// <summary>
-	/// App console options panel view model implementation.
-	/// <seealso cref="IConsoleOptionsPanelViewModel"/>
+	/// App consoles panel view model implementation.
+	/// <seealso cref="IConsolesPanelViewViewModel"/>
 	/// </summary>
-	public class ConsoleOptionsPanelViewModel : ReactiveObject, IConsoleOptionsPanelViewModel
+	public class ConsolesPanelViewViewModel : ReactiveObject, IConsolesPanelViewViewModel
 	{
 		//
 		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
-		private readonly IReactiveList<ConsoleEntity> _consoleOptionsSourceList;
 
 		//
 		private bool _isBusy;
 		private ReactiveCommand<Unit, List<ConsoleEntity>> _loadOptionsCommand;
-		private IReactiveDerivedList<IConsoleViewModel> _options;
+		private IReactiveDerivedList<IConsoleViewModel> _consoles;
+		private IReactiveList<ConsoleEntity> _processes;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionsPanelViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
+		public ConsolesPanelViewViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
 		{
 			_consoleOptionsRepository = consoleOptionsRepository ?? Locator.CurrentMutable.GetService<IConsoleOptionsRepository>();
 
-			_consoleOptionsSourceList = new ReactiveList<ConsoleEntity>();
+			_processes = new ReactiveList<ConsoleEntity>();
 
-			_options = _consoleOptionsSourceList.CreateDerivedCollection(
+			_consoles = _processes.CreateDerivedCollection(
 				selector: option => Mapper.Map<ConsoleViewModel>(option)
 			);
 
@@ -68,7 +68,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IConsoleViewModel> Options => _options;
+		public IReactiveDerivedList<IConsoleViewModel> Consoles => _consoles;
 
 		/// <summary>
 		/// Setup the load comand actions and observables.
@@ -91,8 +91,8 @@ namespace UI.Wpf.Consoles
 
 			_loadOptionsCommand.Subscribe(options =>
 			{
-				_consoleOptionsSourceList.Clear();
-				_consoleOptionsSourceList.AddRange(options);
+				_processes.Clear();
+				_processes.AddRange(options);
 			});
 		}
 	}

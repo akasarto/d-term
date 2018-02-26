@@ -13,7 +13,7 @@ namespace UI.Wpf.Consoles
 		event EventHandler OnCancel;
 		event EventHandler OnSave;
 
-		IConsoleViewModel Data { get; }
+		IConsoleViewModel Data { get; set; }
 	}
 
 	/// <summary>

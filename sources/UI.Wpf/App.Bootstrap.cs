@@ -53,13 +53,12 @@ namespace UI.Wpf
 			_container.Register<INotebooksRepository>(() => new NotebooksRepository(dbConnectionString));
 
 			//
-			_container.Register<IConsoleProcessService>(() => new ConsoleProcessService());
-			_container.Register<IConsoleFormViewModel>(() => new ConsoleFormViewModel());
 			_container.Register<IConsoleViewModel>(() => new ConsoleViewModel());
-			_container.Register<IConsoleOptionsPanelViewModel>(() => new ConsoleOptionsPanelViewModel());
-			_container.Register<IConsoleConfigsViewModel>(() => new ConsoleConfigsViewModel());
-
-			_container.Register<AbstractValidator<IConsoleViewModel>>(() => new ConsoleValidator());
+			_container.Register<IConsoleFormViewModel>(() => new ConsoleFormViewModel());
+			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
+			_container.Register<IConsolesPanelViewViewModel>(() => new ConsolesPanelViewViewModel());
+			_container.Register<IValidator<IConsoleViewModel>>(() => new ConsoleValidator());
+			_container.Register<IConsoleProcessService>(() => new ConsoleProcessService());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

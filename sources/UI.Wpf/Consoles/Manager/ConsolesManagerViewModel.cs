@@ -11,32 +11,32 @@ using System.Threading.Tasks;
 namespace UI.Wpf.Consoles
 {
 	/// <summary>
-	/// Console configurations view model interface.
+	/// Consoles manager view model interface.
 	/// </summary>
-	public interface IConsoleConfigsViewModel
+	public interface IConsolesManagerViewModel
 	{
 		bool IsBusy { get; }
 		ReactiveCommand AddOptionCommand { get; }
 		ReactiveCommand<Unit, List<ConsoleEntity>> LoadOptionsCommand { get; }
 		IReactiveDerivedList<IConsoleViewModel> Options { get; }
-		IConsoleFormViewModel Form { get; set; }
+		IConsoleFormViewModel Form { get; }
 	}
 
 	/// <summary>
-	/// App console configurations view model implementation.
+	/// App consoles manager view model implementation.
 	/// </summary>
-	public class ConsoleConfigsViewModel : ReactiveObject, IConsoleConfigsViewModel
+	public class ConsolesManagerViewModel : ReactiveObject, IConsolesManagerViewModel
 	{
 		//
-		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
 		private readonly IReactiveList<ConsoleEntity> _consoleOptionsSourceList;
+		private readonly IConsoleOptionsRepository _consoleOptionsRepository;
+		private readonly IConsoleFormViewModel _consoleFormViewModel;
 
 		//
 		private bool _isBusy;
 		private IDisposable _saveFormEvent;
 		private IDisposable _deleteFormEvent;
 		private IDisposable _cancelFormEvent;
-		private IConsoleFormViewModel _form;
 		private ReactiveCommand _addOptionCommand;
 		private ReactiveCommand _saveOptionCommand;
 		private ReactiveCommand _cancelOptionCommand;
@@ -47,11 +47,12 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleConfigsViewModel(IConsoleOptionsRepository consoleOptionsRepository = null)
+		public ConsolesManagerViewModel(IConsoleOptionsRepository consoleOptionsRepository = null, IConsoleFormViewModel consoleFormViewModel = null)
 		{
 			var locator = Locator.CurrentMutable;
 
 			_consoleOptionsRepository = consoleOptionsRepository ?? locator.GetService<IConsoleOptionsRepository>();
+			_consoleFormViewModel = consoleFormViewModel ?? locator.GetService<IConsoleFormViewModel>();
 
 			_consoleOptionsSourceList = new ReactiveList<ConsoleEntity>();
 
@@ -59,21 +60,29 @@ namespace UI.Wpf.Consoles
 				selector: option => Mapper.Map<IConsoleViewModel>(option)
 			);
 
+			_cancelFormEvent = Observable.FromEventPattern<EventHandler, EventArgs>(
+				@this => _consoleFormViewModel.OnCancel += @this,
+				@this => _consoleFormViewModel.OnCancel -= @this)
+				.Subscribe((e) =>
+				{
+					Form.Data = null;
+				});
+
 			_addOptionCommand = ReactiveCommand.Create(() =>
 			{
-				Form = locator.GetService<IConsoleFormViewModel>();
+				Form.Data = locator.GetService<IConsoleViewModel>();
 			});
 
 			_saveOptionCommand = ReactiveCommand.Create(() =>
 			{
-				//if (FormData.Id.Equals(Guid.Empty))
-				//{
+				if (Form.Data.Id.Equals(Guid.Empty))
+				{
 
-				//}
-				//else
-				//{
+				}
+				else
+				{
 
-				//}
+				}
 			});
 
 			_cancelOptionCommand = ReactiveCommand.Create(() =>
@@ -82,24 +91,6 @@ namespace UI.Wpf.Consoles
 			});
 
 			LoadOptionsCommandSetup();
-
-			this.WhenAnyValue(@this => @this.Form).Subscribe(data =>
-			{
-				if (data != null)
-				{
-					_cancelFormEvent = Observable.FromEventPattern<EventHandler, EventArgs>(
-						@this => Form.OnCancel += @this,
-						@this => Form.OnCancel -= @this)
-						.Subscribe((e) =>
-						{
-							Form = null;
-						});
-				}
-				else
-				{
-					_cancelFormEvent?.Dispose();
-				}
-			});
 
 			this.WhenAnyValue(viewModel => viewModel.Form).Where(option => option != null).Subscribe(option =>
 			{
@@ -132,13 +123,9 @@ namespace UI.Wpf.Consoles
 		public IReactiveDerivedList<IConsoleViewModel> Options => _options;
 
 		/// <summary>
-		/// Gets or sets the form instance.
+		/// Gets the form instance.
 		/// </summary>
-		public IConsoleFormViewModel Form
-		{
-			get => _form;
-			set => this.RaiseAndSetIfChanged(ref _form, value);
-		}
+		public IConsoleFormViewModel Form => _consoleFormViewModel;
 
 		/// <summary>
 		/// Setup the load options comand actions and observables.

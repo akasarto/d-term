@@ -14,7 +14,7 @@ namespace UI.Wpf.Shell
 	{
 		ReactiveCommand OpenSettingsCommand { get; }
 		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
-		IConsoleOptionsPanelViewModel ConsolesPanelViewModel { get; }
+		IConsolesPanelViewViewModel ConsolesPanel { get; }
 	}
 
 	/// <summary>
@@ -25,22 +25,22 @@ namespace UI.Wpf.Shell
 	{
 		//
 		private readonly ReactiveCommand _openSettingsCommand;
-		private readonly IConsoleOptionsPanelViewModel _consoleOptionsPanelViewModel;
+		private readonly IConsolesPanelViewViewModel _consolesPanel;
 		private readonly Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
-		private readonly ISettingsViewModel _settingsViewModel;
+		private readonly ISettingsViewModel _settings;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel = null, ISettingsViewModel settingsViewModel = null)
+		public ShellViewModel(IConsolesPanelViewViewModel consolesPanel = null, ISettingsViewModel settings = null)
 		{
-			_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? Locator.CurrentMutable.GetService<IConsoleOptionsPanelViewModel>();
-			_settingsViewModel = settingsViewModel ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
+			_consolesPanel = consolesPanel ?? Locator.CurrentMutable.GetService<IConsolesPanelViewViewModel>();
+			_settings = settings ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
 
 			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
 
 			_openSettingsCommand = ReactiveCommand.Create(
-				() => OpenSettingsInteraction.Handle(_settingsViewModel).Subscribe()
+				() => OpenSettingsInteraction.Handle(_settings).Subscribe()
 			);
 		}
 
@@ -57,6 +57,6 @@ namespace UI.Wpf.Shell
 		/// <summary>
 		/// Gets or sets the console options panel view model.
 		/// </summary>
-		public IConsoleOptionsPanelViewModel ConsolesPanelViewModel => _consoleOptionsPanelViewModel;
+		public IConsolesPanelViewViewModel ConsolesPanel => _consolesPanel;
 	}
 }

@@ -8,7 +8,7 @@ namespace UI.Wpf.Settings
 	/// </summary>
 	public interface ISettingsViewModel
 	{
-		IConsoleConfigsViewModel ConsoleConfigsViewModel { get; }
+		IConsolesManagerViewModel ConsolesManager { get; }
 	}
 
 	/// <summary>
@@ -17,19 +17,19 @@ namespace UI.Wpf.Settings
 	public class SettingsViewModel : ISettingsViewModel
 	{
 		//
-		private readonly IConsoleConfigsViewModel _consoleConfigsViewModel;
+		private readonly IConsolesManagerViewModel _consolesManager;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public SettingsViewModel(IConsoleConfigsViewModel consoleConfigsViewModel = null)
+		public SettingsViewModel(IConsolesManagerViewModel consolesManager = null)
 		{
-			_consoleConfigsViewModel = consoleConfigsViewModel ?? Locator.CurrentMutable.GetService<IConsoleConfigsViewModel>();
+			_consolesManager = consolesManager ?? Locator.CurrentMutable.GetService<IConsolesManagerViewModel>();
 		}
 
 		/// <summary>
-		/// Gets the console settings view model instance.
+		/// Gets the consoles manager instance.
 		/// </summary>
-		public IConsoleConfigsViewModel ConsoleConfigsViewModel => _consoleConfigsViewModel;
+		public IConsolesManagerViewModel ConsolesManager => _consolesManager;
 	}
 }
