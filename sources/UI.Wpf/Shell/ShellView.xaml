@@ -45,7 +45,7 @@
 					</Grid.ColumnDefinitions>
 
 					<reactiveui:ViewModelViewHost
-						ViewModel="{Binding ConsolesPanel}"
+						ViewModel="{Binding ProcessesPanelViewModel}"
 						VerticalAlignment="Center" />
 
 					<Rectangle
@@ -57,7 +57,7 @@
 						SnapsToDevicePixels="True" />
 
 					<Button
-						Command="{Binding OpenSettingsCommand}"
+						Command="{Binding OpenSettingsReactiveCommand}"
 						Grid.Column="2"
 						Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
 						ToolTip="General Settings"

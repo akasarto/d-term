@@ -8,7 +8,6 @@ namespace UI.Wpf.Processes
 	/// </summary>
 	public interface IProcessFormViewModel
 	{
-		event EventHandler OnDelete;
 		event EventHandler OnCancel;
 		event EventHandler OnSave;
 
@@ -28,11 +27,6 @@ namespace UI.Wpf.Processes
 		public ProcessFormViewModel()
 		{
 		}
-
-		/// <summary>
-		/// Raised when data deletion is requested.
-		/// </summary>
-		public event EventHandler OnDelete;
 
 		/// <summary>
 		/// Raised when data add/edit is canceled.

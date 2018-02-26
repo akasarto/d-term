@@ -12,9 +12,9 @@ namespace UI.Wpf.Shell
 	/// </summary>
 	public interface IShellViewModel
 	{
-		ReactiveCommand OpenSettingsCommand { get; }
+		ReactiveCommand OpenSettingsReactiveCommand { get; }
 		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
-		IProcessesPanelViewModel ConsolesPanel { get; }
+		IProcessesPanelViewModel ProcessesPanelViewModel { get; }
 	}
 
 	/// <summary>
@@ -24,30 +24,30 @@ namespace UI.Wpf.Shell
 	public class ShellViewModel : ReactiveObject, IShellViewModel
 	{
 		//
-		private readonly ReactiveCommand _openSettingsCommand;
-		private readonly IProcessesPanelViewModel _consolesPanel;
+		private readonly ISettingsViewModel _settingsViewModel;
+		private readonly IProcessesPanelViewModel _processesPanelViewModel;
 		private readonly Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
-		private readonly ISettingsViewModel _settings;
+		private readonly ReactiveCommand _openSettingsReactiveCommand;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(IProcessesPanelViewModel consolesPanel = null, ISettingsViewModel settings = null)
+		public ShellViewModel(ISettingsViewModel settingsViewModel = null, IProcessesPanelViewModel processesPanelViewModel = null)
 		{
-			_consolesPanel = consolesPanel ?? Locator.CurrentMutable.GetService<IProcessesPanelViewModel>();
-			_settings = settings ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
+			_settingsViewModel = settingsViewModel ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
+			_processesPanelViewModel = processesPanelViewModel ?? Locator.CurrentMutable.GetService<IProcessesPanelViewModel>();
 
 			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
 
-			_openSettingsCommand = ReactiveCommand.Create(
-				() => OpenSettingsInteraction.Handle(_settings).Subscribe()
+			_openSettingsReactiveCommand = ReactiveCommand.Create(
+				() => OpenSettingsInteraction.Handle(_settingsViewModel).Subscribe()
 			);
 		}
 
 		/// <summary>
-		/// Gets the app general settings command instance.
+		/// Gets the processes panel view model instance.
 		/// </summary>
-		public ReactiveCommand OpenSettingsCommand => _openSettingsCommand;
+		public IProcessesPanelViewModel ProcessesPanelViewModel => _processesPanelViewModel;
 
 		/// <summary>
 		/// Gets the interaction that opens the general settings window.
@@ -55,8 +55,8 @@ namespace UI.Wpf.Shell
 		public Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction => _openSettingsInteraction;
 
 		/// <summary>
-		/// Gets or sets the console options panel view model.
+		/// Gets the app general settings command instance.
 		/// </summary>
-		public IProcessesPanelViewModel ConsolesPanel => _consolesPanel;
+		public ReactiveCommand OpenSettingsReactiveCommand => _openSettingsReactiveCommand;
 	}
 }

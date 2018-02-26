@@ -16,10 +16,10 @@ namespace UI.Wpf.Processes
 	public interface IProcessesManagerViewModel
 	{
 		bool IsBusy { get; }
-		ReactiveCommand AddOptionCommand { get; }
-		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<IProcessViewModel> Options { get; }
-		IProcessFormViewModel Form { get; }
+		ReactiveCommand AddProcessReactiveCommand { get; }
+		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesReactiveCommand { get; }
+		IReactiveDerivedList<IProcessViewModel> ProcessesReactiveDerivedList { get; }
+		IProcessFormViewModel ProcessFormViewModel { get; }
 	}
 
 	/// <summary>
@@ -28,54 +28,52 @@ namespace UI.Wpf.Processes
 	public class ProcessesManagerViewModel : ReactiveObject, IProcessesManagerViewModel
 	{
 		//
-		private readonly IReactiveList<ProcessEntity> _consoleOptionsSourceList;
-		private readonly IProcessesRepository _consoleOptionsRepository;
-		private readonly IProcessFormViewModel _consoleFormViewModel;
+		private readonly IReactiveList<ProcessEntity> _entities;
+		private readonly IProcessesRepository _processesRepository;
+		private readonly IProcessFormViewModel _processFormViewModel;
 
 		//
 		private bool _isBusy;
-		private IDisposable _saveFormEvent;
-		private IDisposable _deleteFormEvent;
-		private IDisposable _cancelFormEvent;
-		private ReactiveCommand _addOptionCommand;
-		private ReactiveCommand _saveOptionCommand;
-		private ReactiveCommand _cancelOptionCommand;
-		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
-		private IReactiveDerivedList<IProcessViewModel> _options;
+		private IDisposable _onCancelEventDisposable;
+		private ReactiveCommand _addOptionReactiveCommand;
+		private ReactiveCommand _saveOptionReactiveCommand;
+		private ReactiveCommand _cancelOptionReactiveCommand;
+		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsReactiveCommand;
+		private IReactiveDerivedList<IProcessViewModel> _processesReactiveDerivedList;
 
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesManagerViewModel(IProcessesRepository consoleOptionsRepository = null, IProcessFormViewModel consoleFormViewModel = null)
+		public ProcessesManagerViewModel(IProcessesRepository processesRepository = null, IProcessFormViewModel processFormViewModel = null)
 		{
 			var locator = Locator.CurrentMutable;
 
-			_consoleOptionsRepository = consoleOptionsRepository ?? locator.GetService<IProcessesRepository>();
-			_consoleFormViewModel = consoleFormViewModel ?? locator.GetService<IProcessFormViewModel>();
+			_processesRepository = processesRepository ?? locator.GetService<IProcessesRepository>();
+			_processFormViewModel = processFormViewModel ?? locator.GetService<IProcessFormViewModel>();
 
-			_consoleOptionsSourceList = new ReactiveList<ProcessEntity>();
+			_entities = new ReactiveList<ProcessEntity>();
 
-			_options = _consoleOptionsSourceList.CreateDerivedCollection(
+			_processesReactiveDerivedList = _entities.CreateDerivedCollection(
 				selector: option => Mapper.Map<IProcessViewModel>(option)
 			);
 
-			_cancelFormEvent = Observable.FromEventPattern<EventHandler, EventArgs>(
-				@this => _consoleFormViewModel.OnCancel += @this,
-				@this => _consoleFormViewModel.OnCancel -= @this)
+			_onCancelEventDisposable = Observable.FromEventPattern<EventHandler, EventArgs>(
+				@this => _processFormViewModel.OnCancel += @this,
+				@this => _processFormViewModel.OnCancel -= @this)
 				.Subscribe((e) =>
 				{
-					Form.Data = null;
+					ProcessFormViewModel.Data = null;
 				});
 
-			_addOptionCommand = ReactiveCommand.Create(() =>
+			_addOptionReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				Form.Data = locator.GetService<IProcessViewModel>();
+				ProcessFormViewModel.Data = locator.GetService<IProcessViewModel>();
 			});
 
-			_saveOptionCommand = ReactiveCommand.Create(() =>
+			_saveOptionReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				if (Form.Data.Id.Equals(Guid.Empty))
+				if (ProcessFormViewModel.Data.Id.Equals(Guid.Empty))
 				{
 
 				}
@@ -85,14 +83,14 @@ namespace UI.Wpf.Processes
 				}
 			});
 
-			_cancelOptionCommand = ReactiveCommand.Create(() =>
+			_cancelOptionReactiveCommand = ReactiveCommand.Create(() =>
 			{
 
 			});
 
 			LoadOptionsCommandSetup();
 
-			this.WhenAnyValue(viewModel => viewModel.Form).Where(option => option != null).Subscribe(option =>
+			this.WhenAnyValue(viewModel => viewModel.ProcessFormViewModel).Where(option => option != null).Subscribe(option =>
 			{
 				//FormData = Mapper.Map<IConsoleOptionFormViewModel>(option);
 			});
@@ -110,46 +108,46 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Gets the add console option command instance.
 		/// </summary>
-		public ReactiveCommand AddOptionCommand => _addOptionCommand;
+		public ReactiveCommand AddProcessReactiveCommand => _addOptionReactiveCommand;
 
 		/// <summary>
 		/// Gets the load options command instance.
 		/// </summary>
-		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
+		public ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesReactiveCommand => _loadOptionsReactiveCommand;
 
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IProcessViewModel> Options => _options;
+		public IReactiveDerivedList<IProcessViewModel> ProcessesReactiveDerivedList => _processesReactiveDerivedList;
 
 		/// <summary>
 		/// Gets the form instance.
 		/// </summary>
-		public IProcessFormViewModel Form => _consoleFormViewModel;
+		public IProcessFormViewModel ProcessFormViewModel => _processFormViewModel;
 
 		/// <summary>
 		/// Setup the load options comand actions and observables.
 		/// </summary>
 		private void LoadOptionsCommandSetup()
 		{
-			_loadOptionsCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
+			_loadOptionsReactiveCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
 			{
-				var items = _consoleOptionsRepository.GetAll();
+				var items = _processesRepository.GetAll();
 
 				return Task.FromResult(items);
 			}));
 
-			_loadOptionsCommand.IsExecuting.BindTo(this, @this => @this.IsBusy);
+			_loadOptionsReactiveCommand.IsExecuting.BindTo(this, @this => @this.IsBusy);
 
-			_loadOptionsCommand.ThrownExceptions.Subscribe(@exception =>
+			_loadOptionsReactiveCommand.ThrownExceptions.Subscribe(@exception =>
 			{
 				// ToDo: Show message
 			});
 
-			_loadOptionsCommand.Subscribe(options =>
+			_loadOptionsReactiveCommand.Subscribe(options =>
 			{
-				_consoleOptionsSourceList.Clear();
-				_consoleOptionsSourceList.AddRange(options);
+				_entities.Clear();
+				_entities.AddRange(options);
 			});
 		}
 	}

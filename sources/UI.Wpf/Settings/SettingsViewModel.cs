@@ -8,7 +8,7 @@ namespace UI.Wpf.Settings
 	/// </summary>
 	public interface ISettingsViewModel
 	{
-		IProcessesManagerViewModel ConsolesManager { get; }
+		IProcessesManagerViewModel ProcessesManagerViewModel { get; }
 	}
 
 	/// <summary>
@@ -17,19 +17,19 @@ namespace UI.Wpf.Settings
 	public class SettingsViewModel : ISettingsViewModel
 	{
 		//
-		private readonly IProcessesManagerViewModel _consolesManager;
+		private readonly IProcessesManagerViewModel _processesManagerViewModel;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public SettingsViewModel(IProcessesManagerViewModel consolesManager = null)
+		public SettingsViewModel(IProcessesManagerViewModel processesManagerViewModel = null)
 		{
-			_consolesManager = consolesManager ?? Locator.CurrentMutable.GetService<IProcessesManagerViewModel>();
+			_processesManagerViewModel = processesManagerViewModel ?? Locator.CurrentMutable.GetService<IProcessesManagerViewModel>();
 		}
 
 		/// <summary>
-		/// Gets the consoles manager instance.
+		/// Gets the processes manager view model instance.
 		/// </summary>
-		public IProcessesManagerViewModel ConsolesManager => _consolesManager;
+		public IProcessesManagerViewModel ProcessesManagerViewModel => _processesManagerViewModel;
 	}
 }

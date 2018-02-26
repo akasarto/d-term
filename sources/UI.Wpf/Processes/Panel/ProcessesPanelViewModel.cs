@@ -16,8 +16,8 @@ namespace UI.Wpf.Processes
 	public interface IProcessesPanelViewModel
 	{
 		bool IsBusy { get; }
-		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		IReactiveDerivedList<IProcessOptionViewModel> Consoles { get; }
+		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsReactiveCommand { get; }
+		IReactiveDerivedList<IProcessOptionViewModel> ConsolesReactiveDerivedList { get; }
 	}
 
 	/// <summary>
@@ -27,22 +27,22 @@ namespace UI.Wpf.Processes
 	public class ProcessesPanelViewModel : ReactiveObject, IProcessesPanelViewModel
 	{
 		//
-		private readonly IProcessesRepository _consoleOptionsRepository;
+		private readonly IProcessesRepository _processesRepository;
+		private readonly IReactiveList<ProcessEntity> _processes;
 
 		//
 		private bool _isBusy;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private IReactiveDerivedList<IProcessOptionViewModel> _consoles;
-		private IReactiveList<ProcessEntity> _processes;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesPanelViewModel(IProcessesRepository consoleOptionsRepository = null)
+		public ProcessesPanelViewModel(IProcessesRepository processesRepository = null)
 		{
-			_consoleOptionsRepository = consoleOptionsRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
+			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
 
-			_processes = new ReactiveList<ProcessEntity>();
+			_processes = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
 
 			_consoles = _processes.CreateDerivedCollection(
 				selector: option => Mapper.Map<IProcessOptionViewModel>(option)
@@ -63,12 +63,12 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Gets the load options command instance.
 		/// </summary>
-		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
+		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsReactiveCommand => _loadOptionsCommand;
 
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IProcessOptionViewModel> Consoles => _consoles;
+		public IReactiveDerivedList<IProcessOptionViewModel> ConsolesReactiveDerivedList => _consoles;
 
 		/// <summary>
 		/// Setup the load comand actions and observables.
@@ -77,7 +77,7 @@ namespace UI.Wpf.Processes
 		{
 			_loadOptionsCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
 			{
-				var items = _consoleOptionsRepository.GetAll();
+				var items = _processesRepository.GetAll();
 
 				return Task.FromResult(items);
 			}));

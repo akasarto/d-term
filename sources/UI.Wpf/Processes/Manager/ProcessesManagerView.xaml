@@ -47,7 +47,7 @@
 
 							<Grid>
 
-								<ListView x:Name="list" Margin="7.5" ItemsSource="{Binding Options}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding FormData}">
+								<ListView x:Name="list" Margin="7.5" ItemsSource="{Binding ProcessesReactiveDerivedList}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding FormData}">
 									<ListView.View>
 										<GridView>
 											<GridViewColumn Header="Icon">
