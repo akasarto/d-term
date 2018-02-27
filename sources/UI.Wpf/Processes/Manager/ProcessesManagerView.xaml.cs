@@ -25,8 +25,10 @@ namespace UI.Wpf.Processes
 				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadProcessesReactiveCommand).SelectMany(x => x.Execute()).Subscribe());
 				activator(this.WhenAnyValue(@this => @this.ViewModel.FormData).Subscribe(data =>
 				{
+					deleteButton.Visibility = data?.Id != Guid.Empty ? Visibility.Visible : Visibility.Collapsed;
+
 					contextIcon.Kind = data == null ? PackIconKind.FormatListBulleted : data.Id == Guid.Empty ? PackIconKind.Plus : PackIconKind.Pencil;
-					contextLabel.Text = data == null ? "Options List" : data.Id == Guid.Empty ? "Add Process" : "Edit Process";
+					contextLabel.Text = data == null ? "Processes List" : data.Id == Guid.Empty ? "Add Process" : "Edit Process";
 
 					listActions.Visibility = data == null ? Visibility.Visible : Visibility.Collapsed;
 					formActions.Visibility = data == null ? Visibility.Collapsed : Visibility.Visible;

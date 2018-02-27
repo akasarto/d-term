@@ -15,10 +15,13 @@ namespace UI.Wpf.Processes
 	/// </summary>
 	public interface IProcessesManagerViewModel
 	{
+		bool IsPopupOpen { get; }
+		string FilterText { get; set; }
 		bool IsLoadingProcesses { get; }
 		ReactiveCommand AddProcessReactiveCommand { get; }
-		ReactiveCommand CancelOperationReactiveCommand { get; }
 		ReactiveCommand SaveOperationReactiveCommand { get; }
+		ReactiveCommand CancelOperationReactiveCommand { get; }
+		ReactiveCommand DeleteOperationReactiveCommand { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesReactiveCommand { get; }
 		IReactiveDerivedList<IProcessViewModel> ProcessesReactiveDerivedList { get; }
 		IProcessViewModel FormData { get; set; }
@@ -30,15 +33,17 @@ namespace UI.Wpf.Processes
 	public class ProcessesManagerViewModel : ReactiveObject, IProcessesManagerViewModel
 	{
 		//
-		private readonly IReactiveList<ProcessEntity> _entities;
 		private readonly IProcessesRepository _processesRepository;
+		private readonly IReactiveList<ProcessEntity> _entitiesReactiveList;
 
 		//
+		private string _filterText;
+		private bool _isPopupOpen;
 		private bool _isLoadingProcesses;
-		//private IDisposable _onCancelEventDisposable;
 		private ReactiveCommand _addProcessReactiveCommand;
-		private ReactiveCommand _cancelOperationReactiveCommand;
 		private ReactiveCommand _saveOperationReactiveCommand;
+		private ReactiveCommand _cancelOperationReactiveCommand;
+		private ReactiveCommand _deleteOperationReactiveCommand;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsReactiveCommand;
 		private IReactiveDerivedList<IProcessViewModel> _processesReactiveDerivedList;
 		private IProcessViewModel _formData;
@@ -53,48 +58,116 @@ namespace UI.Wpf.Processes
 
 			_processesRepository = processesRepository ?? locator.GetService<IProcessesRepository>();
 
-			_entities = new ReactiveList<ProcessEntity>();
+			_entitiesReactiveList = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = true };
 
-			_processesReactiveDerivedList = _entities.CreateDerivedCollection(
-				selector: option => Mapper.Map<IProcessViewModel>(option)
+			_processesReactiveDerivedList = _entitiesReactiveList.CreateDerivedCollection(
+				selector: entity => Mapper.Map<IProcessViewModel>(entity),
+				filter: entity =>
+				{
+					var filterText = FilterText;
+
+					if (!string.IsNullOrEmpty(filterText))
+					{
+						var nameMatch = (entity?.Name?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
+						var processBasePathMatch = (entity?.ProcessBasePath.ToString()?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
+						var processExecutableNameMatch = (entity?.ProcessExecutableName?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
+						var processStartupArgsMatch = (entity?.ProcessStartupArgs?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
+
+						return nameMatch || processBasePathMatch || processExecutableNameMatch || processStartupArgsMatch;
+					}
+
+					return true;
+				},
+				signalReset: this.ObservableForProperty(@this => @this.FilterText).Throttle(TimeSpan.FromMilliseconds(175), RxApp.MainThreadScheduler)
 			);
 
-			//_onCancelEventDisposable = Observable.FromEventPattern<EventHandler, EventArgs>(
-			//	@this => _processFormViewModel.OnCancel += @this,
-			//	@this => _processFormViewModel.OnCancel -= @this)
-			//	.Subscribe((e) =>
-			//	{
-			//		ProcessFormViewModel.Data = null;
-			//	});
-
-			//_saveOperationReactiveCommand = ReactiveCommand.Create(() =>
-			//{
-			//	if (ProcessFormViewModel.Data.Id.Equals(Guid.Empty))
-			//	{
-
-			//	}
-			//	else
-			//	{
-
-			//	}
-			//});
-
+			/*
+			 * Add
+			 */
 			_addProcessReactiveCommand = ReactiveCommand.Create(() =>
 			{
 				FormData = Mapper.Map<IProcessViewModel>(new ProcessEntity());
 			});
 
+			/*
+			 * Edit
+			 */
+			this.WhenAnyValue(viewModel => viewModel.FormData).Where(option => option != null).Subscribe(option =>
+			{
+				FormData = option;
+			});
+
+			/*
+			 * Save
+			 */
+			_saveOperationReactiveCommand = ReactiveCommand.Create(() =>
+			{
+				if (FormData.Id.Equals(Guid.Empty))
+				{
+					System.Windows.MessageBox.Show("Adding");
+				}
+				else
+				{
+					System.Windows.MessageBox.Show("Editing");
+				}
+			});
+
+			/*
+			 * Cancel
+			 */
 			_cancelOperationReactiveCommand = ReactiveCommand.Create(() =>
 			{
 				FormData = null;
 			});
 
-			LoadOptionsCommandSetup();
-
-			this.WhenAnyValue(viewModel => viewModel.FormData).Where(option => option != null).Subscribe(option =>
+			/*
+			 * Delete
+			 */
+			_deleteOperationReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = option;
+				System.Windows.MessageBox.Show("Deleting");
+				IsPopupOpen = false;
 			});
+
+			/*
+			 * Load Options
+			 */
+			_loadOptionsReactiveCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
+			{
+				var items = _processesRepository.GetAll();
+
+				return Task.FromResult(items);
+			}));
+
+			_loadOptionsReactiveCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingProcesses);
+
+			_loadOptionsReactiveCommand.ThrownExceptions.Subscribe(@exception =>
+			{
+			});
+
+			_loadOptionsReactiveCommand.Subscribe(options =>
+			{
+				_entitiesReactiveList.Clear();
+				_entitiesReactiveList.AddRange(options);
+			});
+		}
+
+		/// <summary>
+		/// Tracks whether the delete popup is open or not.
+		/// </summary>
+		public bool IsPopupOpen
+		{
+			get => _isPopupOpen;
+			set => this.RaiseAndSetIfChanged(ref _isPopupOpen, value);
+		}
+
+		/// <summary>
+		/// Gets or sets the text used to filter processes.
+		/// </summary>
+		public string FilterText
+		{
+			get => _filterText;
+			set => this.RaiseAndSetIfChanged(ref _filterText, value);
 		}
 
 		/// <summary>
@@ -130,34 +203,10 @@ namespace UI.Wpf.Processes
 		/// </summary>
 		public ReactiveCommand AddProcessReactiveCommand => _addProcessReactiveCommand;
 
-		public ReactiveCommand CancelOperationReactiveCommand => _cancelOperationReactiveCommand;
-
 		public ReactiveCommand SaveOperationReactiveCommand => _saveOperationReactiveCommand;
 
-		/// <summary>
-		/// Setup the load options comand actions and observables.
-		/// </summary>
-		private void LoadOptionsCommandSetup()
-		{
-			_loadOptionsReactiveCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
-			{
-				var items = _processesRepository.GetAll();
+		public ReactiveCommand CancelOperationReactiveCommand => _cancelOperationReactiveCommand;
 
-				return Task.FromResult(items);
-			}));
-
-			_loadOptionsReactiveCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingProcesses);
-
-			_loadOptionsReactiveCommand.ThrownExceptions.Subscribe(@exception =>
-			{
-				// ToDo: Show message
-			});
-
-			_loadOptionsReactiveCommand.Subscribe(options =>
-			{
-				_entities.Clear();
-				_entities.AddRange(options);
-			});
-		}
+		public ReactiveCommand DeleteOperationReactiveCommand => _deleteOperationReactiveCommand;
 	}
 }

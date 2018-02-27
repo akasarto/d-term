@@ -32,9 +32,9 @@
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Grid Grid.Column="0" Margin="10 0 25 0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+		<Grid Grid.Column="0" Margin="10 0 25 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-			<ContentControl Width="175" Height="175" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<ContentControl Width="175" Height="175" HorizontalAlignment="Stretch" VerticalAlignment="Top">
 				<ContentControl.Style>
 					<Style TargetType="ContentControl">
 						<Style.Triggers>

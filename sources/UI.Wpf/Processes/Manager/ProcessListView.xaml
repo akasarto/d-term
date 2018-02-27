@@ -44,7 +44,7 @@
 							Margin="15 75"
 							Opacity=".55"
 							Style="{StaticResource MaterialDesignButtonTextBlock}"
-							Text="No console options found."
+							Text="No processes found."
 							Visibility="Collapsed"
 							x:Name="empty" />
 

@@ -10,6 +10,8 @@
 	mc:Ignorable="d"
 	MinWidth="800"
 	MinHeight="600"
+	Width="1024"
+	Height="768"
 	ShowInTaskbar="False"
 	IsMinButtonEnabled="False"
 	WindowTransitionsEnabled="False"

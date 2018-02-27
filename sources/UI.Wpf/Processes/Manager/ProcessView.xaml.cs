@@ -1,6 +1,10 @@
 ﻿using ReactiveUI;
 using System.Windows;
 using System.Windows.Controls;
+using System;
+using System.Reactive.Linq;
+using System.Windows.Navigation;
+using System.Diagnostics;
 
 namespace UI.Wpf.Processes
 {
@@ -19,7 +23,14 @@ namespace UI.Wpf.Processes
 
 			this.WhenActivated(activator =>
 			{
-				//activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
+				activator(Observable.FromEventPattern<RequestNavigateEventHandler, RequestNavigateEventArgs>(
+					handler => iconSampleLink.RequestNavigate += handler,
+					handler => iconSampleLink.RequestNavigate -= handler)
+					.Subscribe(@event =>
+					{
+						Process.Start(new ProcessStartInfo(@event.EventArgs.Uri.AbsoluteUri));
+						@event.EventArgs.Handled = true;
+					}));
 			});
 		}
 
