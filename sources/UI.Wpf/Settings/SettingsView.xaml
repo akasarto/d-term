@@ -24,8 +24,10 @@
 				<reactiveui:ViewModelViewHost HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ViewModel="{Binding ProcessesManagerViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 			</TabItem>
 
+			<!-- Coming (back) soon
 			<TabItem Header="NOTEBOOKS">
 			</TabItem>
+			-->
 
 		</dragablz:TabablzControl>
 

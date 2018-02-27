@@ -18,33 +18,61 @@
 	<Grid>
 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="65" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<DockPanel Grid.Row="0" Margin="3.5 13.5 7.5 7.5" HorizontalAlignment="Stretch" LastChildFill="False">
-			
-			<StackPanel DockPanel.Dock="Left" Margin="3.5 0 0 0" Orientation="Horizontal" VerticalAlignment="Center">
-				<materialDesign:PackIcon Kind="FormatListBulleted" Margin="0 0 3.5 0" Width="22" Height="22" />
-				<TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Options List" />
+		<Grid Grid.Row="0" Margin="7.5 0 15 0">
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+				<materialDesign:PackIcon Kind="FormatListBulleted" Margin="0 0 3.5 0" Width="22" Height="22" VerticalAlignment="Center" />
+				<TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Options List" VerticalAlignment="Center" />
 			</StackPanel>
 
-			<Button Command="{Binding CancelOperationReactiveCommand}" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Right">
-				<StackPanel Orientation="Horizontal">
-					<materialDesign:PackIcon Kind="Cancel" Width="22" Height="22" />
-					<TextBlock Margin="3.5 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Cancel" VerticalAlignment="Center" />
-				</StackPanel>
-			</Button>
+			<StackPanel Grid.Column="2" Orientation="Horizontal" x:Name="listActions" VerticalAlignment="Center">
 
-			<Button Command="{Binding AddProcessReactiveCommand}" Style="{DynamicResource MaterialDesignFlatButton}" DockPanel.Dock="Right">
-				<StackPanel Orientation="Horizontal">
-					<materialDesign:PackIcon Kind="Plus" Width="22" Height="22" />
-					<TextBlock Margin="3.5 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Add New" VerticalAlignment="Center" />
-				</StackPanel>
-			</Button>
-			
-		</DockPanel>
+				<Border BorderThickness="1" BorderBrush="{DynamicResource MaterialDesignDivider}">
+					<WrapPanel Orientation="Horizontal">
+						<Button Style="{DynamicResource MaterialDesignToolButton}">
+							<materialDesign:PackIcon Kind="Magnify" Opacity=".5" />
+						</Button>
+						<TextBox
+							Grid.Column="1"
+							materialDesign:HintAssist.Hint="Search processes..."
+							materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+							BorderThickness="0"
+							Width="175"
+							VerticalAlignment="Center" />
+					</WrapPanel>
+				</Border>
+
+			</StackPanel>
+
+			<StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="Collapsed" x:Name="formActions" VerticalAlignment="Center">
+
+				<Button Command="{Binding CancelOperationReactiveCommand}" Style="{DynamicResource MaterialDesignToolButton}">
+					<StackPanel Orientation="Horizontal">
+						<materialDesign:PackIcon Kind="Cancel" Width="22" Height="22" />
+						<TextBlock Margin="3.5 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Cancel" VerticalAlignment="Center" />
+					</StackPanel>
+				</Button>
+
+				<Button Command="{Binding CancelOperationReactiveCommand}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="15 0 0 0">
+					<StackPanel Orientation="Horizontal">
+						<materialDesign:PackIcon Kind="ContentSave" Width="22" Height="22" />
+						<TextBlock Margin="3.5 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Save" VerticalAlignment="Center" />
+					</StackPanel>
+				</Button>
+
+			</StackPanel>
+
+		</Grid>
 
 		<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" Grid.Row="1" />
 

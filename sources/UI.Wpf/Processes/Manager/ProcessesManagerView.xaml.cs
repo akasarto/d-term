@@ -22,6 +22,11 @@ namespace UI.Wpf.Processes
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadProcessesReactiveCommand).SelectMany(x => x.Execute()).Subscribe());
+				activator(this.WhenAnyValue(@this => @this.ViewModel.FormData).Subscribe(data =>
+				{
+					listActions.Visibility = data == null ? Visibility.Visible : Visibility.Collapsed;
+					formActions.Visibility = data == null ? Visibility.Collapsed : Visibility.Visible;
+				}));
 			});
 		}
 

@@ -86,13 +86,13 @@
 				</StackPanel>
 
 				<ComboBox
-						Margin="0 15 0 15"
-						SelectedValuePath="Value"
-						DisplayMemberPath="Description"
-						materialDesign:HintAssist.Hint="Base Path Type"
-						SelectedValue="{Binding FormData.ProcessBasePath}"
-						ItemsSource="{Binding FormData.ProcessBasePathCollection}"
-						Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+					Margin="0 15 0 15"
+					SelectedValuePath="Value"
+					DisplayMemberPath="Description"
+					materialDesign:HintAssist.Hint="Base Path Type"
+					SelectedValue="{Binding FormData.ProcessBasePath}"
+					ItemsSource="{Binding FormData.ProcessBasePathCollection}"
+					Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
 
 				<StackPanel Margin="0 15 0 15" VerticalAlignment="Center">
 
@@ -110,7 +110,7 @@
 				</StackPanel>
 
 				<TextBox
-					Margin="0 15 0 15"
+					Margin="0 15 0 75"
 					VerticalAlignment="Center"
 					materialDesign:HintAssist.Hint="Executable Startup Args"
 					Style="{StaticResource MaterialDesignFloatingHintTextBox}"
