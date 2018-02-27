@@ -8,8 +8,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	mc:Ignorable="d"
-	Width="800"
-	Height="600"
+	MinWidth="800"
+	MinHeight="600"
 	ShowInTaskbar="False"
 	IsMinButtonEnabled="False"
 	WindowTransitionsEnabled="False"
@@ -21,7 +21,7 @@
 		<dragablz:TabablzControl BorderThickness="0" SelectedIndex="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 			<TabItem Header="PROCESSES">
-				<reactiveui:ViewModelViewHost HorizontalContentAlignment="Stretch" ViewModel="{Binding ProcessesManagerViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+				<reactiveui:ViewModelViewHost HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ViewModel="{Binding ProcessesManagerViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 			</TabItem>
 
 			<TabItem Header="NOTEBOOKS">

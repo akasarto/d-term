@@ -4,28 +4,37 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:wndbase="clr-namespace:System.ComponentModel;assembly=WindowsBase"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:local="clr-namespace:UI.Wpf.Processes"
 	xmlns:shared="clr-namespace:UI.Wpf"
 	mc:Ignorable="d" 
-	d:DesignHeight="300"
-	d:DesignWidth="300"
+	d:DesignHeight="700"
+	d:DesignWidth="700"
+	TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+	TextElement.FontWeight="Regular"
+	TextElement.FontSize="16"
+	TextOptions.TextFormattingMode="Ideal" 
+	TextOptions.TextRenderingMode="Auto"
 >
 
 	<UserControl.Resources>
+
 		<shared:IsValidGeometryConverter x:Key="isValidGeometryConverter" />
+
 	</UserControl.Resources>
 
-	<Grid Margin="15 25 15 15" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+	<Grid Margin="15 15 15 15" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="175" />
+			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
-		<Border Margin="10 0 25 0" VerticalAlignment="Top">
-			<ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Grid Grid.Column="0" Margin="10 0 25 0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+
+			<ContentControl Width="175" Height="175" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ContentControl.Style>
 					<Style TargetType="ContentControl">
 						<Style.Triggers>
@@ -45,76 +54,71 @@
 					</Style>
 				</ContentControl.Style>
 			</ContentControl>
-		</Border>
 
-		<StackPanel Grid.Column="1">
+		</Grid>
 
-			<TextBox
-				 FontSize="25"
-				 materialDesign:HintAssist.Hint="Name"
-				 materialDesign:HintAssist.FloatingScale="0.5"
-				 materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
-				 materialDesign:HintAssist.IsFloating="True"
-				 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-				 Text="{Binding FormData.Name, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+		<ScrollViewer Grid.Column="1">
 
-			<TextBox
-				FontSize="25"
-				MinHeight="35"
-				MaxHeight="100"
-				Margin="0 15 0 0"
-				TextWrapping="Wrap"
-				AcceptsReturn="True"
-				x:Name="descriptionField"
-				HorizontalAlignment="Stretch"
-				VerticalScrollBarVisibility="Auto"
-				materialDesign:HintAssist.Hint="Icon"
-				materialDesign:HintAssist.FloatingScale="0.5"
-				Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-				materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
-				Text="{Binding FormData.PicturePath, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+			<StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
-			<TextBlock Margin="0 7.5 0 3.5" Style="{StaticResource MaterialDesignCaptionTextBlock}">
-				<Run Text="The icon should be a single svg path" />
-				<Run FontWeight="Bold" Text="data." />
-				<Hyperlink NavigateUri="https://github.com/ButchersBoy/MaterialDesignInXamlToolkit/wiki/Using-icons" Foreground="{StaticResource PrimaryHueLightBrush}" x:Name="iconSampleLink">See sample.</Hyperlink>
-			</TextBlock>
+				<TextBox
+					Margin="0 0 0 15"
+					VerticalAlignment="Center"
+					materialDesign:HintAssist.Hint="Name"
+					Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+					Text="{Binding FormData.Name, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-			<ComboBox
-				FontSize="25"
-				Margin="0 15 0 0"
-				SelectedValuePath="Value"
-				DisplayMemberPath="Description"
-				materialDesign:HintAssist.Hint="Base Path Type"
-				materialDesign:TextFieldAssist.TextBoxViewMargin="1 3.5 1 0"
-				SelectedValue="{Binding FormData.ProcessBasePath}"
-				ItemsSource="{Binding FormData.ProcessBasePathCollection}"
-				Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+				<StackPanel Margin="0 15 0 15" VerticalAlignment="Center">
 
-			<TextBlock Margin="0 7.5 0 0" Style="{StaticResource MaterialDesignCaptionTextBlock}">
-				<Run Text="For types other than physical, use relative paths.   Eg. " />
-				<Run FontStyle="Italic" Text="/git/bin/sh.exe" />
-			</TextBlock>
+					<TextBox
+						TextWrapping="Wrap"
+						AcceptsReturn="True"
+						materialDesign:HintAssist.Hint="Icon Data"
+						Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+						Text="{Binding FormData.PicturePath, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
-			<TextBox
-				FontSize="25"
-				Margin="0 15 0 0"
-				materialDesign:HintAssist.Hint="Executable Filename"
-				materialDesign:HintAssist.FloatingScale="0.5"
-				materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
-				Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-				Text="{Binding FormData.ProcessExecutableName, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+					<TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+						<Run Text="The icon should be a single svg path" />
+						<Run FontWeight="Bold" Text="data." />
+						<Hyperlink NavigateUri="https://github.com/ButchersBoy/MaterialDesignInXamlToolkit/wiki/Using-icons" Foreground="{StaticResource PrimaryHueLightBrush}" x:Name="iconSampleLink">See sample.</Hyperlink>
+					</TextBlock>
 
-			<TextBox
-				FontSize="25"
-				Margin="0 15 0 0"
-				materialDesign:HintAssist.Hint="Executable Filename"
-				materialDesign:HintAssist.FloatingScale="0.5"
-				materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
-				Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-				Text="{Binding FormData.ProcessStartupArgs, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+				</StackPanel>
 
-		</StackPanel>
+				<ComboBox
+						Margin="0 15 0 15"
+						SelectedValuePath="Value"
+						DisplayMemberPath="Description"
+						materialDesign:HintAssist.Hint="Base Path Type"
+						SelectedValue="{Binding FormData.ProcessBasePath}"
+						ItemsSource="{Binding FormData.ProcessBasePathCollection}"
+						Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+
+				<StackPanel Margin="0 15 0 15" VerticalAlignment="Center">
+
+					<TextBox
+						VerticalAlignment="Center"
+						materialDesign:HintAssist.Hint="Executable Filename"
+						Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+						Text="{Binding FormData.ProcessExecutableName, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+
+					<TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+						<Run Text="For types other than 'physical path', use relative values.   Eg. " />
+						<Run FontStyle="Italic" Text="/git/bin/sh.exe" />
+					</TextBlock>
+
+				</StackPanel>
+
+				<TextBox
+					Margin="0 15 0 15"
+					VerticalAlignment="Center"
+					materialDesign:HintAssist.Hint="Executable Startup Args"
+					Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+					Text="{Binding FormData.ProcessStartupArgs, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+
+			</StackPanel>
+
+		</ScrollViewer>
 
 	</Grid>
 
