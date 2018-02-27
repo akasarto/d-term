@@ -45,6 +45,8 @@ namespace Processes.Data.LiteDB
 
 		public List<ProcessEntity> GetAll()
 		{
+			System.Threading.Thread.Sleep(5000);
+
 			using (var database = new LiteDatabase(_connectionString))
 			{
 				var notes = database.GetCollection<ProcessEntity>(_processesCollection);

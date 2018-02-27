@@ -5,6 +5,7 @@ using ReactiveUI;
 using Splat;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -112,14 +113,22 @@ namespace UI.Wpf.Processes
 
 				if (ProcessViewModel.IsValid)
 				{
+					var entity = Mapper.Map<ProcessEntity>(ProcessViewModel);
+
 					if (ProcessViewModel.Id.Equals(Guid.Empty))
 					{
-						System.Windows.MessageBox.Show("Adding");
+						entity = _processesRepository.Add(entity);
+						_entitiesReactiveList.Add(entity);
 					}
 					else
 					{
-						System.Windows.MessageBox.Show("Editing");
+						_processesRepository.Update(entity);
+						var currentEntity = _entitiesReactiveList.FirstOrDefault(n => n.Id == entity.Id);
+						_entitiesReactiveList.Remove(currentEntity);
+						_entitiesReactiveList.Add(entity);
 					}
+
+					ProcessViewModel = null;
 				}
 			});
 
@@ -136,7 +145,14 @@ namespace UI.Wpf.Processes
 			 */
 			_deleteOperationReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				System.Windows.MessageBox.Show("Deleting");
+				var deleteId = ProcessViewModel.Id;
+				_processesRepository.Delete(deleteId);
+				var currentEnttiy = _entitiesReactiveList.Where(o => o.Id == deleteId).SingleOrDefault();
+				if (currentEnttiy != null)
+				{
+					_entitiesReactiveList.Remove(currentEnttiy);
+				}
+				ProcessViewModel = null;
 				IsPopupOpen = false;
 			});
 

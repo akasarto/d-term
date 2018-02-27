@@ -2,6 +2,7 @@
 using Splat;
 using System;
 using System.Reactive;
+using System.Reactive.Linq;
 using UI.Wpf.Processes;
 using UI.Wpf.Settings;
 
@@ -40,7 +41,10 @@ namespace UI.Wpf.Shell
 			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
 
 			_openSettingsReactiveCommand = ReactiveCommand.Create(
-				() => OpenSettingsInteraction.Handle(_settingsViewModel).Subscribe()
+				() => OpenSettingsInteraction.Handle(_settingsViewModel).Subscribe(result =>
+				{
+					_processesPanelViewModel.LoadOptionsReactiveCommand.Execute().Subscribe();
+				})
 			);
 		}
 

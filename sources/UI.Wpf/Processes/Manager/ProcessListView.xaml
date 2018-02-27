@@ -13,7 +13,38 @@
 
 	<Grid>
 
+		<ProgressBar
+			ToolTip="Loading console options..."
+			HorizontalAlignment="Center"
+			VerticalAlignment="Top"
+			IsIndeterminate="True"
+			Margin="0 75 0 0"
+			Value="35">
+			<ProgressBar.Style>
+				<Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+					<Setter Property="Visibility" Value="Collapsed" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="True">
+							<Setter Property="Visibility" Value="Visible" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</ProgressBar.Style>
+		</ProgressBar>
+
 		<ContentControl Margin="7.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding}">
+
+			<ContentControl.Style>
+				<Style TargetType="ContentControl">
+					<Setter Property="Visibility" Value="Collapsed" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="False">
+							<Setter Property="Visibility" Value="Visible" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</ContentControl.Style>
+			
 			<ContentControl.ContentTemplate>
 				<DataTemplate>
 
@@ -61,7 +92,19 @@
 			</ContentControl.ContentTemplate>
 		</ContentControl>
 
-		<Button Command="{Binding AddProcessReactiveCommand}" HorizontalAlignment="Right" Margin="0 15 35 25" VerticalAlignment="Bottom" Style="{DynamicResource MaterialDesignFloatingActionDarkButton}">
+		<Button Command="{Binding AddProcessReactiveCommand}" HorizontalAlignment="Right" Margin="0 15 35 25" VerticalAlignment="Bottom">
+
+			<Button.Style>
+				<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionDarkButton}">
+					<Setter Property="IsEnabled" Value="False" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="False">
+							<Setter Property="IsEnabled" Value="True" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Button.Style>
+			
 			<materialDesign:PackIcon Kind="Plus" Width="24" Height="24" />
 		</Button>
 
