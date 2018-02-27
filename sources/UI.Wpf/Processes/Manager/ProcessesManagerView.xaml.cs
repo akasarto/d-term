@@ -3,6 +3,7 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System;
+using MaterialDesignThemes.Wpf;
 
 namespace UI.Wpf.Processes
 {
@@ -24,6 +25,9 @@ namespace UI.Wpf.Processes
 				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadProcessesReactiveCommand).SelectMany(x => x.Execute()).Subscribe());
 				activator(this.WhenAnyValue(@this => @this.ViewModel.FormData).Subscribe(data =>
 				{
+					contextIcon.Kind = data == null ? PackIconKind.FormatListBulleted : data.Id == Guid.Empty ? PackIconKind.Plus : PackIconKind.Pencil;
+					contextLabel.Text = data == null ? "Options List" : data.Id == Guid.Empty ? "Add Process" : "Edit Process";
+
 					listActions.Visibility = data == null ? Visibility.Visible : Visibility.Collapsed;
 					formActions.Visibility = data == null ? Visibility.Collapsed : Visibility.Visible;
 				}));

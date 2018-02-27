@@ -18,7 +18,7 @@
 	<Grid>
 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="65" />
+			<RowDefinition Height="75" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
@@ -31,8 +31,8 @@
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-				<materialDesign:PackIcon Kind="FormatListBulleted" Margin="0 0 3.5 0" Width="22" Height="22" VerticalAlignment="Center" />
-				<TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="Options List" VerticalAlignment="Center" />
+				<materialDesign:PackIcon Kind="FormatListBulleted" Margin="0 0 3.5 0" Width="32" Height="32" VerticalAlignment="Center" x:Name="contextIcon" />
+				<TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="20" Text="Options List" VerticalAlignment="Center" x:Name="contextLabel" />
 			</StackPanel>
 
 			<StackPanel Grid.Column="2" Orientation="Horizontal" x:Name="listActions" VerticalAlignment="Center">
