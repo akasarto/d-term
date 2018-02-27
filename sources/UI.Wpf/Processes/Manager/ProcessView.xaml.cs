@@ -5,34 +5,35 @@ using System.Windows.Controls;
 namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Process form view.
+	/// Process view.
+	/// <seealso cref="IProcessViewModel"/>
 	/// </summary>
-	public partial class ProcessFormView : UserControl, IViewFor<IProcessFormViewModel>
+	public partial class ProcessView : UserControl, IViewFor<IProcessViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessFormView()
+		public ProcessView()
 		{
 			InitializeComponent();
 
 			this.WhenActivated(activator =>
 			{
-				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
+				//activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 			});
 		}
 
 		/// <summary>
 		/// View model dependency property backing field.
 		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessFormViewModel), typeof(ProcessFormView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessViewModel), typeof(ProcessView), new PropertyMetadata(null));
 
 		/// <summary>
 		/// Gets or sets the view model instance.
 		/// </summary>
-		public IProcessFormViewModel ViewModel
+		public IProcessViewModel ViewModel
 		{
-			get { return (IProcessFormViewModel)GetValue(ViewModelProperty); }
+			get { return (IProcessViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
@@ -42,7 +43,7 @@ namespace UI.Wpf.Processes
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IProcessFormViewModel)value; }
+			set { ViewModel = (IProcessViewModel)value; }
 		}
 	}
 }

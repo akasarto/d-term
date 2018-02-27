@@ -15,11 +15,13 @@ namespace UI.Wpf.Processes
 	/// </summary>
 	public interface IProcessesManagerViewModel
 	{
-		bool IsBusy { get; }
+		bool IsLoadingProcesses { get; }
 		ReactiveCommand AddProcessReactiveCommand { get; }
+		ReactiveCommand CancelOperationReactiveCommand { get; }
+		ReactiveCommand SaveOperationReactiveCommand { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesReactiveCommand { get; }
 		IReactiveDerivedList<IProcessViewModel> ProcessesReactiveDerivedList { get; }
-		IProcessFormViewModel ProcessFormViewModel { get; }
+		IProcessViewModel FormData { get; set; }
 	}
 
 	/// <summary>
@@ -30,27 +32,26 @@ namespace UI.Wpf.Processes
 		//
 		private readonly IReactiveList<ProcessEntity> _entities;
 		private readonly IProcessesRepository _processesRepository;
-		private readonly IProcessFormViewModel _processFormViewModel;
 
 		//
-		private bool _isBusy;
-		private IDisposable _onCancelEventDisposable;
-		private ReactiveCommand _addOptionReactiveCommand;
-		private ReactiveCommand _saveOptionReactiveCommand;
-		private ReactiveCommand _cancelOptionReactiveCommand;
+		private bool _isLoadingProcesses;
+		//private IDisposable _onCancelEventDisposable;
+		private ReactiveCommand _addProcessReactiveCommand;
+		private ReactiveCommand _cancelOperationReactiveCommand;
+		private ReactiveCommand _saveOperationReactiveCommand;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsReactiveCommand;
 		private IReactiveDerivedList<IProcessViewModel> _processesReactiveDerivedList;
+		private IProcessViewModel _formData;
 
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesManagerViewModel(IProcessesRepository processesRepository = null, IProcessFormViewModel processFormViewModel = null)
+		public ProcessesManagerViewModel(IProcessesRepository processesRepository = null)
 		{
 			var locator = Locator.CurrentMutable;
 
 			_processesRepository = processesRepository ?? locator.GetService<IProcessesRepository>();
-			_processFormViewModel = processFormViewModel ?? locator.GetService<IProcessFormViewModel>();
 
 			_entities = new ReactiveList<ProcessEntity>();
 
@@ -58,57 +59,52 @@ namespace UI.Wpf.Processes
 				selector: option => Mapper.Map<IProcessViewModel>(option)
 			);
 
-			_onCancelEventDisposable = Observable.FromEventPattern<EventHandler, EventArgs>(
-				@this => _processFormViewModel.OnCancel += @this,
-				@this => _processFormViewModel.OnCancel -= @this)
-				.Subscribe((e) =>
-				{
-					ProcessFormViewModel.Data = null;
-				});
+			//_onCancelEventDisposable = Observable.FromEventPattern<EventHandler, EventArgs>(
+			//	@this => _processFormViewModel.OnCancel += @this,
+			//	@this => _processFormViewModel.OnCancel -= @this)
+			//	.Subscribe((e) =>
+			//	{
+			//		ProcessFormViewModel.Data = null;
+			//	});
 
-			_addOptionReactiveCommand = ReactiveCommand.Create(() =>
+			//_saveOperationReactiveCommand = ReactiveCommand.Create(() =>
+			//{
+			//	if (ProcessFormViewModel.Data.Id.Equals(Guid.Empty))
+			//	{
+
+			//	}
+			//	else
+			//	{
+
+			//	}
+			//});
+
+			_addProcessReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				ProcessFormViewModel.Data = locator.GetService<IProcessViewModel>();
+				FormData = locator.GetService<IProcessViewModel>();
 			});
 
-			_saveOptionReactiveCommand = ReactiveCommand.Create(() =>
+			_cancelOperationReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				if (ProcessFormViewModel.Data.Id.Equals(Guid.Empty))
-				{
-
-				}
-				else
-				{
-
-				}
-			});
-
-			_cancelOptionReactiveCommand = ReactiveCommand.Create(() =>
-			{
-
+				FormData = null;
 			});
 
 			LoadOptionsCommandSetup();
 
-			this.WhenAnyValue(viewModel => viewModel.ProcessFormViewModel).Where(option => option != null).Subscribe(option =>
+			this.WhenAnyValue(viewModel => viewModel.FormData).Where(option => option != null).Subscribe(option =>
 			{
-				//FormData = Mapper.Map<IConsoleOptionFormViewModel>(option);
+				FormData = option;
 			});
 		}
 
 		/// <summary>
-		/// Gets or sets the loading status.
+		/// Gets or sets the processes loading status.
 		/// </summary>
-		public bool IsBusy
+		public bool IsLoadingProcesses
 		{
-			get => _isBusy;
-			set => this.RaiseAndSetIfChanged(ref _isBusy, value);
+			get => _isLoadingProcesses;
+			set => this.RaiseAndSetIfChanged(ref _isLoadingProcesses, value);
 		}
-
-		/// <summary>
-		/// Gets the add console option command instance.
-		/// </summary>
-		public ReactiveCommand AddProcessReactiveCommand => _addOptionReactiveCommand;
 
 		/// <summary>
 		/// Gets the load options command instance.
@@ -123,7 +119,20 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Gets the form instance.
 		/// </summary>
-		public IProcessFormViewModel ProcessFormViewModel => _processFormViewModel;
+		public IProcessViewModel FormData
+		{
+			get => _formData;
+			set => this.RaiseAndSetIfChanged(ref _formData, value);
+		}
+
+		/// <summary>
+		/// Gets the add process command instance.
+		/// </summary>
+		public ReactiveCommand AddProcessReactiveCommand => _addProcessReactiveCommand;
+
+		public ReactiveCommand CancelOperationReactiveCommand => _cancelOperationReactiveCommand;
+
+		public ReactiveCommand SaveOperationReactiveCommand => _saveOperationReactiveCommand;
 
 		/// <summary>
 		/// Setup the load options comand actions and observables.
@@ -137,7 +146,7 @@ namespace UI.Wpf.Processes
 				return Task.FromResult(items);
 			}));
 
-			_loadOptionsReactiveCommand.IsExecuting.BindTo(this, @this => @this.IsBusy);
+			_loadOptionsReactiveCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingProcesses);
 
 			_loadOptionsReactiveCommand.ThrownExceptions.Subscribe(@exception =>
 			{

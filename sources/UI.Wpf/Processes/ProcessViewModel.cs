@@ -1,6 +1,7 @@
 ﻿using Processes.Core;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 
 namespace UI.Wpf.Processes
 {
@@ -10,6 +11,7 @@ namespace UI.Wpf.Processes
 	public interface IProcessViewModel
 	{
 		Guid Id { get; set; }
+		bool IsSupported { get; set; }
 		string Name { get; set; }
 		int OrderIndex { get; set; }
 		string PicturePath { get; set; }
@@ -17,6 +19,7 @@ namespace UI.Wpf.Processes
 		string ProcessBasePathDescription { get; set; }
 		string ProcessExecutableName { get; set; }
 		string ProcessStartupArgs { get; set; }
+		ICollection<EnumViewModel<ProcessBasePath>> ProcessBasePathCollection { get; set; }
 	}
 
 	/// <summary>
@@ -26,6 +29,7 @@ namespace UI.Wpf.Processes
 	{
 		//
 		private Guid _id;
+		private bool _isSupported;
 		private string _name;
 		private int _orderIndex;
 		private string _picturePath;
@@ -33,6 +37,7 @@ namespace UI.Wpf.Processes
 		private string _processBasePathDescription;
 		private string _processExecutableName;
 		private string _processStartupArgs;
+		private ICollection<EnumViewModel<ProcessBasePath>> _processBasePathCollection;
 
 		/// <summary>
 		/// Constructor method.
@@ -48,6 +53,15 @@ namespace UI.Wpf.Processes
 		{
 			get => _id;
 			set => this.RaiseAndSetIfChanged(ref _id, value);
+		}
+
+		/// <summary>
+		/// Gets or sets the flag indicating if this option can be instantiated by the system.
+		/// </summary>
+		public bool IsSupported
+		{
+			get => _isSupported;
+			set => this.RaiseAndSetIfChanged(ref _isSupported, value);
 		}
 
 		/// <summary>
@@ -111,6 +125,15 @@ namespace UI.Wpf.Processes
 		{
 			get => _processStartupArgs;
 			set => this.RaiseAndSetIfChanged(ref _processStartupArgs, value);
+		}
+
+		/// <summary>
+		/// Gets or sets the available process base path options.
+		/// </summary>
+		public ICollection<EnumViewModel<ProcessBasePath>> ProcessBasePathCollection
+		{
+			get => _processBasePathCollection;
+			set => this.RaiseAndSetIfChanged(ref _processBasePathCollection, value);
 		}
 	}
 }

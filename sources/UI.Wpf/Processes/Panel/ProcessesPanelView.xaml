@@ -39,7 +39,7 @@
 				<Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
 					<Setter Property="Visibility" Value="Collapsed" />
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding IsBusy}" Value="True">
+						<DataTrigger Binding="{Binding IsLoadingOptions}" Value="True">
 							<Setter Property="Visibility" Value="Visible" />
 						</DataTrigger>
 					</Style.Triggers>
@@ -54,7 +54,7 @@
 				<Style TargetType="ItemsControl">
 					<Setter Property="Visibility" Value="Collapsed" />
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding IsBusy}" Value="False">
+						<DataTrigger Binding="{Binding IsLoadingOptions}" Value="False">
 							<Setter Property="Visibility" Value="Visible" />
 						</DataTrigger>
 					</Style.Triggers>

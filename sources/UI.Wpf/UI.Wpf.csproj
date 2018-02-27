@@ -228,16 +228,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
-    <Compile Include="Processes\Manager\ProcessFormView.xaml.cs">
-      <DependentUpon>ProcessFormView.xaml</DependentUpon>
+    <Compile Include="Processes\Manager\ProcessView.xaml.cs">
+      <DependentUpon>ProcessView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\Manager\ProcessFormViewModel.cs" />
-    <Compile Include="Processes\Manager\ProcessViewModelValidator.cs" />
+    <Compile Include="Processes\Manager\ProcessListView.xaml.cs">
+      <DependentUpon>ProcessListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\EnumViewModel.cs" />
+    <Compile Include="Processes\ProcessViewModel.cs" />
+    <Compile Include="Processes\ProcessViewModelValidator.cs" />
     <Compile Include="Processes\ProcessFactory.cs" />
     <Compile Include="Processes\Manager\ProcessesManagerView.xaml.cs">
       <DependentUpon>ProcessesManagerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\Manager\ProcessViewModel.cs" />
     <Compile Include="Processes\Panel\ProcessesPanelView.xaml.cs">
       <DependentUpon>ProcessesPanelView.xaml</DependentUpon>
     </Compile>
@@ -245,7 +248,6 @@
     <Compile Include="Processes\Manager\ProcessesManagerViewModel.cs" />
     <Compile Include="Mappings\MapperProfileProcesses.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />
-    <Compile Include="Processes\Panel\ProcessOptionViewModel.cs" />
     <Compile Include="Shell\ShellViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -259,7 +261,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\Manager\ProcessFormView.xaml">
+    <Page Include="Processes\Manager\ProcessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Processes\Manager\ProcessListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -345,7 +351,9 @@
       <Name>Shared.Kernel</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Shared\.info.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -15,9 +15,9 @@ namespace UI.Wpf.Processes
 	/// </summary>
 	public interface IProcessesPanelViewModel
 	{
-		bool IsBusy { get; }
+		bool IsLoadingOptions { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsReactiveCommand { get; }
-		IReactiveDerivedList<IProcessOptionViewModel> ConsolesReactiveDerivedList { get; }
+		IReactiveDerivedList<IProcessViewModel> ConsolesReactiveDerivedList { get; }
 	}
 
 	/// <summary>
@@ -31,9 +31,9 @@ namespace UI.Wpf.Processes
 		private readonly IReactiveList<ProcessEntity> _processes;
 
 		//
-		private bool _isBusy;
+		private bool _isLoadingOptions;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
-		private IReactiveDerivedList<IProcessOptionViewModel> _consoles;
+		private IReactiveDerivedList<IProcessViewModel> _consoles;
 
 		/// <summary>
 		/// Constructor method.
@@ -45,19 +45,19 @@ namespace UI.Wpf.Processes
 			_processes = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
 
 			_consoles = _processes.CreateDerivedCollection(
-				selector: option => Mapper.Map<IProcessOptionViewModel>(option)
+				selector: option => Mapper.Map<IProcessViewModel>(option)
 			);
 
 			LoadOptionsCommandSetup();
 		}
 
 		/// <summary>
-		/// Gets or sets the loading status.
+		/// Gets or sets the options loading status.
 		/// </summary>
-		public bool IsBusy
+		public bool IsLoadingOptions
 		{
-			get => _isBusy;
-			set => this.RaiseAndSetIfChanged(ref _isBusy, value);
+			get => _isLoadingOptions;
+			set => this.RaiseAndSetIfChanged(ref _isLoadingOptions, value);
 		}
 
 		/// <summary>
@@ -68,7 +68,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Gets the current available console options.
 		/// </summary>
-		public IReactiveDerivedList<IProcessOptionViewModel> ConsolesReactiveDerivedList => _consoles;
+		public IReactiveDerivedList<IProcessViewModel> ConsolesReactiveDerivedList => _consoles;
 
 		/// <summary>
 		/// Setup the load comand actions and observables.
@@ -82,7 +82,7 @@ namespace UI.Wpf.Processes
 				return Task.FromResult(items);
 			}));
 
-			_loadOptionsCommand.IsExecuting.BindTo(this, @this => @this.IsBusy);
+			_loadOptionsCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingOptions);
 
 			_loadOptionsCommand.ThrownExceptions.Subscribe(@exception =>
 			{

@@ -3,6 +3,9 @@ using Processes.Core;
 using Humanizer;
 using Splat;
 using UI.Wpf.Processes;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace UI.Wpf.Mappings
 {
@@ -35,16 +38,21 @@ namespace UI.Wpf.Mappings
 			//
 			CreateMap<ProcessEntity, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>()).AfterMap((source, dest) =>
 			{
+				dest.IsSupported = _processService.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
 				dest.ProcessBasePathDescription = source.ProcessBasePath.Humanize();
+
+				dest.ProcessBasePathCollection = new List<EnumViewModel<ProcessBasePath>>();
+
+				Enum.GetValues(typeof(ProcessBasePath)).Cast<ProcessBasePath>().ToList().ForEach(basePath =>
+				{
+					dest.ProcessBasePathCollection.Add(new EnumViewModel<ProcessBasePath>()
+					{
+						Description = basePath.Humanize(),
+						Value = basePath
+					});
+				});
 			});
 			CreateMap<IProcessViewModel, ProcessEntity>();
-
-			//
-			CreateMap<ProcessEntity, IProcessOptionViewModel>().ConstructUsing(source => _locator.GetService<IProcessOptionViewModel>()).AfterMap((source, dest) =>
-			{
-				dest.IsSupported = _processService.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
-			});
-			CreateMap<IProcessOptionViewModel, ProcessEntity>();
 		}
 	}
 }

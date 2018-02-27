@@ -54,11 +54,9 @@ namespace UI.Wpf
 
 			//
 			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
-			_container.Register<IProcessFormViewModel>(() => new ProcessFormViewModel());
-			_container.Register<IProcessOptionViewModel>(() => new ProcessOptionViewModel());
 			_container.Register<IProcessesManagerViewModel>(() => new ProcessesManagerViewModel());
-			_container.Register<IProcessesPanelViewModel>(() => new ProcessesPanelViewModel());
 			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessViewModelValidator());
+			_container.Register<IProcessesPanelViewModel>(() => new ProcessesPanelViewModel());
 			_container.Register<IProcessFactory>(() => new ProcessFactory());
 
 			//
