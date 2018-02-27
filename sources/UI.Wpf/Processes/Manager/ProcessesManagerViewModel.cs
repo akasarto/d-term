@@ -81,7 +81,7 @@ namespace UI.Wpf.Processes
 
 			_addProcessReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = locator.GetService<IProcessViewModel>();
+				FormData = Mapper.Map<IProcessViewModel>(new ProcessEntity());
 			});
 
 			_cancelOperationReactiveCommand = ReactiveCommand.Create(() =>

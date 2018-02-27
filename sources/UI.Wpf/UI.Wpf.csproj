@@ -248,6 +248,7 @@
     <Compile Include="Processes\Manager\ProcessesManagerViewModel.cs" />
     <Compile Include="Mappings\MapperProfileProcesses.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />
+    <Compile Include="Shared\IsValidGeometryConverter.cs" />
     <Compile Include="Shell\ShellViewModel.cs" />
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
