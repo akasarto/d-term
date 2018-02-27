@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Processes.Core;
 using ReactiveUI;
 using Splat;
@@ -24,7 +25,8 @@ namespace UI.Wpf.Processes
 		ReactiveCommand DeleteOperationReactiveCommand { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesReactiveCommand { get; }
 		IReactiveDerivedList<IProcessViewModel> ProcessesReactiveDerivedList { get; }
-		IProcessViewModel FormData { get; set; }
+		IValidator<IProcessViewModel> ProcessViewModelaValidator { get; }
+		IProcessViewModel ProcessViewModel { get; set; }
 	}
 
 	/// <summary>
@@ -46,17 +48,19 @@ namespace UI.Wpf.Processes
 		private ReactiveCommand _deleteOperationReactiveCommand;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsReactiveCommand;
 		private IReactiveDerivedList<IProcessViewModel> _processesReactiveDerivedList;
-		private IProcessViewModel _formData;
+		private IValidator<IProcessViewModel> _processViewModelaValidator;
+		private IProcessViewModel _processViewModel;
 
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesManagerViewModel(IProcessesRepository processesRepository = null)
+		public ProcessesManagerViewModel(IProcessesRepository processesRepository = null, IValidator<IProcessViewModel> processViewModelaValidator = null)
 		{
 			var locator = Locator.CurrentMutable;
 
 			_processesRepository = processesRepository ?? locator.GetService<IProcessesRepository>();
+			_processViewModelaValidator = processViewModelaValidator ?? locator.GetService<IValidator<IProcessViewModel>>();
 
 			_entitiesReactiveList = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = true };
 
@@ -86,15 +90,15 @@ namespace UI.Wpf.Processes
 			 */
 			_addProcessReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = Mapper.Map<IProcessViewModel>(new ProcessEntity());
+				ProcessViewModel = Mapper.Map<IProcessViewModel>(new ProcessEntity());
 			});
 
 			/*
 			 * Edit
 			 */
-			this.WhenAnyValue(viewModel => viewModel.FormData).Where(option => option != null).Subscribe(option =>
+			this.WhenAnyValue(viewModel => viewModel.ProcessViewModel).Where(option => option != null).Subscribe(option =>
 			{
-				FormData = option;
+				ProcessViewModel = option;
 			});
 
 			/*
@@ -102,13 +106,20 @@ namespace UI.Wpf.Processes
 			 */
 			_saveOperationReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				if (FormData.Id.Equals(Guid.Empty))
+				var validationResult = _processViewModelaValidator.Validate(ProcessViewModel);
+
+				ProcessViewModel.SetErrors(validationResult.Errors);
+
+				if (ProcessViewModel.IsValid)
 				{
-					System.Windows.MessageBox.Show("Adding");
-				}
-				else
-				{
-					System.Windows.MessageBox.Show("Editing");
+					if (ProcessViewModel.Id.Equals(Guid.Empty))
+					{
+						System.Windows.MessageBox.Show("Adding");
+					}
+					else
+					{
+						System.Windows.MessageBox.Show("Editing");
+					}
 				}
 			});
 
@@ -117,7 +128,7 @@ namespace UI.Wpf.Processes
 			 */
 			_cancelOperationReactiveCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = null;
+				ProcessViewModel = null;
 			});
 
 			/*
@@ -190,12 +201,17 @@ namespace UI.Wpf.Processes
 		public IReactiveDerivedList<IProcessViewModel> ProcessesReactiveDerivedList => _processesReactiveDerivedList;
 
 		/// <summary>
-		/// Gets the form instance.
+		/// Gets the form data validator instance.
 		/// </summary>
-		public IProcessViewModel FormData
+		public IValidator<IProcessViewModel> ProcessViewModelaValidator => _processViewModelaValidator;
+
+		/// <summary>
+		/// Gets or sets the process instance to add/edit.
+		/// </summary>
+		public IProcessViewModel ProcessViewModel
 		{
-			get => _formData;
-			set => this.RaiseAndSetIfChanged(ref _formData, value);
+			get => _processViewModel;
+			set => this.RaiseAndSetIfChanged(ref _processViewModel, value);
 		}
 
 		/// <summary>
@@ -203,10 +219,19 @@ namespace UI.Wpf.Processes
 		/// </summary>
 		public ReactiveCommand AddProcessReactiveCommand => _addProcessReactiveCommand;
 
+		/// <summary>
+		/// Gets the add/edit operation save command instance.
+		/// </summary>
 		public ReactiveCommand SaveOperationReactiveCommand => _saveOperationReactiveCommand;
 
+		/// <summary>
+		/// Gets the add/edit operation cancel command instance.
+		/// </summary>
 		public ReactiveCommand CancelOperationReactiveCommand => _cancelOperationReactiveCommand;
 
+		/// <summary>
+		/// Gets the edit operation delete command instance.
+		/// </summary>
 		public ReactiveCommand DeleteOperationReactiveCommand => _deleteOperationReactiveCommand;
 	}
 }

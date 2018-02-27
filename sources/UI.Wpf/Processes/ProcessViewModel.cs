@@ -1,4 +1,5 @@
-﻿using Processes.Core;
+﻿using FluentValidation.Results;
+using Processes.Core;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace UI.Wpf.Processes
 	{
 		Guid Id { get; set; }
 		bool IsSupported { get; set; }
+		bool IsValid { get; set; }
 		string Name { get; set; }
 		int OrderIndex { get; set; }
 		string PicturePath { get; set; }
@@ -20,16 +22,18 @@ namespace UI.Wpf.Processes
 		string ProcessExecutableName { get; set; }
 		string ProcessStartupArgs { get; set; }
 		ICollection<EnumViewModel<ProcessBasePath>> ProcessBasePathCollection { get; set; }
+		void SetErrors(IEnumerable<ValidationFailure> validationFailures);
 	}
 
 	/// <summary>
 	/// App process view model implementation.
 	/// </summary>
-	public class ProcessViewModel : ReactiveObject, IProcessViewModel
+	public class ProcessViewModel : ReactiveObjectWithValidation, IProcessViewModel
 	{
 		//
 		private Guid _id;
 		private bool _isSupported;
+		private bool _isValid;
 		private string _name;
 		private int _orderIndex;
 		private string _picturePath;
@@ -134,6 +138,25 @@ namespace UI.Wpf.Processes
 		{
 			get => _processBasePathCollection;
 			set => this.RaiseAndSetIfChanged(ref _processBasePathCollection, value);
+		}
+
+		/// <summary>
+		/// Gets or sets the form validation state.
+		/// </summary>
+		public bool IsValid
+		{
+			get => _isValid;
+			set => this.RaiseAndSetIfChanged(ref _isValid, value);
+		}
+
+		/// <summary>
+		/// Validate the model.
+		/// </summary>
+		public void SetErrors(IEnumerable<ValidationFailure> validationFailures)
+		{
+			MergeErrors(validationFailures);
+
+			IsValid = !HasErrors;
 		}
 	}
 }

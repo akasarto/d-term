@@ -122,7 +122,7 @@
 
 			<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" Grid.Row="1" />
 
-			<reactiveui:ViewModelViewHost Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ViewModel="{Binding FormData}">
+			<reactiveui:ViewModelViewHost Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ViewModel="{Binding ProcessViewModel}">
 				<reactiveui:ViewModelViewHost.DefaultContent>
 
 					<!-- FormData == null ? List : Form -->

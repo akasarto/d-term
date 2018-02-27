@@ -234,6 +234,7 @@
     <Compile Include="Processes\Manager\ProcessListView.xaml.cs">
       <DependentUpon>ProcessListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
     <Compile Include="Processes\ProcessViewModel.cs" />
     <Compile Include="Processes\ProcessViewModelValidator.cs" />

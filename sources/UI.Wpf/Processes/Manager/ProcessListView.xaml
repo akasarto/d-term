@@ -19,7 +19,7 @@
 
 					<Grid>
 
-						<ListView x:Name="list" ItemsSource="{Binding ProcessesReactiveDerivedList}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding FormData}">
+						<ListView x:Name="list" ItemsSource="{Binding ProcessesReactiveDerivedList}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding ProcessViewModel}">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Header="Icon">
