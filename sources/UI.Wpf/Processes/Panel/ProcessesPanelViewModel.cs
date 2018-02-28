@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using WinApi.User32;
 
 namespace UI.Wpf.Processes
 {
@@ -36,7 +37,7 @@ namespace UI.Wpf.Processes
 		private bool _isLoadingOptions;
 		private IReactiveDerivedList<IProcessViewModel> _processes;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadProcessesCommand;
-		private ReactiveCommand<IProcessViewModel, IProcessInstance> _createProcessInstanceCommand;
+		private Func<ReactiveCommand<IProcessViewModel, IProcessInstance>> _createProcessInstanceCommandFactory;
 
 		/// <summary>
 		/// Constructor method.
@@ -55,12 +56,37 @@ namespace UI.Wpf.Processes
 			/*
 			 * Create Instances
 			 */
-			_createProcessInstanceCommand = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstance>(async (option) => await Task.Run(() =>
+			_createProcessInstanceCommandFactory = () =>
 			{
-				var instance = _processFactory.Create(null);
+				var commandIntance = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstance>(async (option) => await Task.Run(() =>
+				{
+					var instance = _processFactory.Create(option);
 
-				return Task.FromResult(instance);
-			}));
+					System.Threading.Thread.Sleep(3000);
+
+					instance.Start();
+
+					return Task.FromResult(instance);
+				}));
+
+				commandIntance.ThrownExceptions.Subscribe(@exception =>
+				{
+					// ToDo: Show message
+				});
+
+				commandIntance.Subscribe(instance =>
+				{
+					if (instance.IsStarted)
+					{
+						User32Methods.ShowWindow(instance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
+						return;
+					}
+
+					instance.Dispose();
+				});
+
+				return commandIntance;
+			};
 
 			/*
 			 * Load Processess
@@ -103,7 +129,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Gets the create process instance command.
 		/// </summary>
-		public ReactiveCommand<IProcessViewModel, IProcessInstance> CreateProcessInstanceCommand => _createProcessInstanceCommand;
+		public ReactiveCommand<IProcessViewModel, IProcessInstance> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
 
 		/// <summary>
 		/// Gets the current available processes.

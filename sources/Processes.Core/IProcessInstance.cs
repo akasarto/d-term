@@ -2,7 +2,7 @@
 
 namespace Processes.Core
 {
-	public interface IProcessInstance
+	public interface IProcessInstance : IDisposable
 	{
 		event ProcessTerminatedHandler Terminated;
 

@@ -10,7 +10,8 @@
 	mc:Ignorable="d"
 	d:DesignWidth="375"
 	d:DesignHeight="215"
->
+	x:Name="processesPanelControl"
+	>
 
 	<UserControl.Resources>
 
@@ -53,7 +54,7 @@
 				<Style TargetType="ItemsControl">
 					<Setter Property="Visibility" Value="Collapsed" />
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="False">
+						<DataTrigger Binding="{Binding DataContext.IsLoadingProcesses, ElementName=processesPanelControl}" Value="False">
 							<Setter Property="Visibility" Value="Visible" />
 						</DataTrigger>
 					</Style.Triggers>
@@ -70,7 +71,8 @@
 				<DataTemplate>
 
 					<Button
-						Command="{Binding CreateProcessInstanceCommand}"
+						Command="{Binding DataContext.CreateProcessInstanceCommand, ElementName=processesPanelControl}"
+						CommandParameter="{Binding}"
 						Focusable="False"
 						IsEnabled="{Binding IsSupported}"
 						IsTabStop="False"

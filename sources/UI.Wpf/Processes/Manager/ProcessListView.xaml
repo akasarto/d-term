@@ -93,7 +93,7 @@
 			</ContentControl.ContentTemplate>
 		</ContentControl>
 
-		<Button Command="{Binding AddProcessReactiveCommand}" HorizontalAlignment="Right" Margin="0 15 35 25" VerticalAlignment="Bottom">
+		<Button Command="{Binding AddProcessCommand}" HorizontalAlignment="Right" Margin="0 15 35 25" VerticalAlignment="Bottom">
 
 			<Button.Style>
 				<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionDarkButton}">

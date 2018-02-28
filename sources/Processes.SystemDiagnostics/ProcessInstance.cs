@@ -4,8 +4,12 @@ using System.Diagnostics;
 
 namespace Processes.SystemDiagnostics
 {
+	/// <summary>
+	/// Represents a system <see cref="Process"/> instance in the system.
+	/// </summary>
 	public class ProcessInstance : IProcessInstance
 	{
+		//
 		private readonly Process _systemProcess;
 		private readonly ProcessStartInfo _processStartInfo = null;
 		private readonly int _startupTimeoutInSeconds;
@@ -17,11 +21,7 @@ namespace Processes.SystemDiagnostics
 		public ProcessInstance(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
 		{
 			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ProcessInstance));
-			if (startupTimeoutInSeconds <= 0)
-			{
-				throw new ArgumentOutOfRangeException(nameof(startupTimeoutInSeconds), startupTimeoutInSeconds, nameof(ProcessInstance));
-			}
-			_startupTimeoutInSeconds = startupTimeoutInSeconds;
+			_startupTimeoutInSeconds = startupTimeoutInSeconds <= 0 ? 3 : startupTimeoutInSeconds;
 			_systemProcess = CreateProcess();
 		}
 
@@ -72,6 +72,11 @@ namespace Processes.SystemDiagnostics
 			}
 
 			IsStarted = false;
+		}
+
+		public void Dispose()
+		{
+			_systemProcess?.Dispose();
 		}
 
 		/// <summary>
