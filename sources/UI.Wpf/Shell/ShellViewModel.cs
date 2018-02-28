@@ -1,13 +1,10 @@
-﻿using Processes.Core;
-using ReactiveUI;
+﻿using ReactiveUI;
 using Splat;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using UI.Wpf.Processes;
 using UI.Wpf.Settings;
-using WinApi.User32;
 
 namespace UI.Wpf.Shell
 {
@@ -16,10 +13,9 @@ namespace UI.Wpf.Shell
 	/// </summary>
 	public interface IShellViewModel
 	{
-		ReactiveCommand OpenSettingsReactiveCommand { get; }
-		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
-		ReactiveCommand<IProcessViewModel, IProcessInstance> CreateProcessInstanceCommand { get; }
 		IProcessesPanelViewModel ProcessesPanelViewModel { get; }
+		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
+		ReactiveCommand OpenSettingsCommand { get; }
 	}
 
 	/// <summary>
@@ -32,18 +28,15 @@ namespace UI.Wpf.Shell
 		private readonly ISettingsViewModel _settingsViewModel;
 		private readonly IProcessesPanelViewModel _processesPanelViewModel;
 		private readonly Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
-		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstance>> _createProcessInstanceCommandFactory;
 		private readonly ReactiveCommand _openSettingsReactiveCommand;
-		private readonly IProcessFactory _processFactory;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(ISettingsViewModel settingsViewModel = null, IProcessesPanelViewModel processesPanelViewModel = null, IProcessFactory processFactory = null)
+		public ShellViewModel(ISettingsViewModel settingsViewModel = null, IProcessesPanelViewModel processesPanelViewModel = null)
 		{
 			_settingsViewModel = settingsViewModel ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
 			_processesPanelViewModel = processesPanelViewModel ?? Locator.CurrentMutable.GetService<IProcessesPanelViewModel>();
-			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
 
 			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
 
@@ -56,43 +49,10 @@ namespace UI.Wpf.Shell
 					_processesPanelViewModel.LoadProcessesCommand.Execute().Subscribe();
 				})
 			);
-
-			/*
-			 * Create Instances
-			 */
-			_createProcessInstanceCommandFactory = () =>
-			{
-				var commandIntance = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstance>(async (option) => await Task.Run(() =>
-				{
-					var instance = _processFactory.Create(option);
-
-					instance.Start();
-
-					return Task.FromResult(instance);
-				}));
-
-				commandIntance.ThrownExceptions.Subscribe(@exception =>
-				{
-					// ToDo: Show message
-				});
-
-				commandIntance.Subscribe(instance =>
-				{
-					if (instance.IsStarted)
-					{
-						User32Methods.ShowWindow(instance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
-						return;
-					}
-
-					instance.Dispose();
-				});
-
-				return commandIntance;
-			};
 		}
 
 		/// <summary>
-		/// Gets the processes panel view model instance.
+		/// Gets the processes panel view model.
 		/// </summary>
 		public IProcessesPanelViewModel ProcessesPanelViewModel => _processesPanelViewModel;
 
@@ -102,13 +62,8 @@ namespace UI.Wpf.Shell
 		public Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction => _openSettingsInteraction;
 
 		/// <summary>
-		/// Gets the create process instance command.
+		/// Gets the open settings command.
 		/// </summary>
-		public ReactiveCommand<IProcessViewModel, IProcessInstance> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
-
-		/// <summary>
-		/// Gets the app general settings command instance.
-		/// </summary>
-		public ReactiveCommand OpenSettingsReactiveCommand => _openSettingsReactiveCommand;
+		public ReactiveCommand OpenSettingsCommand => _openSettingsReactiveCommand;
 	}
 }

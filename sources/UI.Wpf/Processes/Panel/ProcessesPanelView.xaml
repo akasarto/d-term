@@ -15,7 +15,7 @@
 
 	<UserControl.Resources>
 
-		<CollectionViewSource x:Key="processesItemsSource" Source="{Binding Processes}">
+		<CollectionViewSource x:Key="processesItemsSource" Source="{Binding ProcessOptions}">
 			<CollectionViewSource.SortDescriptions>
 				<wndbase:SortDescription PropertyName="OrderIndex" />
 			</CollectionViewSource.SortDescriptions>
@@ -70,10 +70,9 @@
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 
-					<!--Command="{Binding DataContext.CreateProcessInstanceCommand, ElementName=shellView}"-->
+					<!---->
 					<Button
-						
-						Command="{Binding DataContext.CreateProcessInstanceCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+						Command="{Binding DataContext.CreateProcessInstanceCommand, ElementName=processesPanelControl}"
 						CommandParameter="{Binding}"
 						Focusable="False"
 						IsEnabled="{Binding IsSupported}"

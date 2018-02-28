@@ -228,12 +228,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
+    <Compile Include="Processes\Instances\ProcessInstanceView.xaml.cs">
+      <DependentUpon>ProcessInstanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Processes\Instances\ProcessInstanceViewModel.cs" />
+    <Compile Include="Processes\Instances\ProcessHwndHost.cs" />
     <Compile Include="Processes\Manager\ProcessView.xaml.cs">
       <DependentUpon>ProcessView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\Manager\ProcessListView.xaml.cs">
       <DependentUpon>ProcessListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Processes\ProcessHostFactory.cs" />
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
     <Compile Include="Processes\ProcessViewModel.cs" />
@@ -259,6 +265,10 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsViewModel.cs" />
+    <Page Include="Processes\Instances\ProcessInstanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Processes\Manager\ProcessesManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

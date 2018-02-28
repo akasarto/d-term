@@ -14,6 +14,7 @@ namespace Processes.SystemDiagnostics
 		private readonly ProcessStartInfo _processStartInfo = null;
 		private readonly int _startupTimeoutInSeconds;
 		private IntPtr _processMainWindowHandle;
+		private IntPtr _parentHandle;
 
 		/// <summary>
 		/// Constructor method.
@@ -46,6 +47,15 @@ namespace Processes.SystemDiagnostics
 		public IntPtr MainWindowHandle => _processMainWindowHandle;
 
 		/// <summary>
+		/// Gets or sets the process parent handle.
+		/// </summary>
+		public IntPtr ParentHandle
+		{
+			get => _parentHandle;
+			set => _parentHandle = value;
+		}
+
+		/// <summary>
 		/// Starts the process.
 		/// </summary>
 		public void Start()
@@ -74,6 +84,9 @@ namespace Processes.SystemDiagnostics
 			IsStarted = false;
 		}
 
+		/// <summary>
+		/// Release instance resources.
+		/// </summary>
 		public void Dispose()
 		{
 			_systemProcess?.Dispose();

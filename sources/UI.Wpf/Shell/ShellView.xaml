@@ -58,7 +58,7 @@
 						SnapsToDevicePixels="True" />
 
 					<Button
-						Command="{Binding OpenSettingsReactiveCommand}"
+						Command="{Binding OpenSettingsCommand}"
 						Grid.Column="2"
 						Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
 						ToolTip="General Settings"

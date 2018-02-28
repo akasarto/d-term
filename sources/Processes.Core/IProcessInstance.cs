@@ -9,6 +9,7 @@ namespace Processes.Core
 		int Id { get; }
 		bool IsStarted { get; }
 		IntPtr MainWindowHandle { get; }
+		IntPtr ParentHandle { get; set; }
 		void Start();
 	}
 }
