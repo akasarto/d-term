@@ -61,6 +61,7 @@
 										</GridViewColumn.CellTemplate>
 									</GridViewColumn>
 									<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
+									<GridViewColumn DisplayMemberBinding="{Binding IsSupportedDescription}" Header="Status" />
 									<GridViewColumn DisplayMemberBinding="{Binding ProcessBasePathDescription}" Header="Base Path" />
 									<GridViewColumn DisplayMemberBinding="{Binding ProcessExecutableName}" Header="Executable Filename" />
 									<GridViewColumn DisplayMemberBinding="{Binding ProcessStartupArgs}" Header="Startup Args" />

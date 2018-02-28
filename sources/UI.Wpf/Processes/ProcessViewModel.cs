@@ -13,6 +13,7 @@ namespace UI.Wpf.Processes
 	{
 		Guid Id { get; set; }
 		bool IsSupported { get; set; }
+		string IsSupportedDescription { get; }
 		bool IsValid { get; set; }
 		string Name { get; set; }
 		int OrderIndex { get; set; }
@@ -67,6 +68,11 @@ namespace UI.Wpf.Processes
 			get => _isSupported;
 			set => this.RaiseAndSetIfChanged(ref _isSupported, value);
 		}
+
+		/// <summary>
+		/// Gets or sets the supported flag description.
+		/// </summary>
+		public string IsSupportedDescription => _isSupported ? "Supported" : "Not Supported";
 
 		/// <summary>
 		/// Gets or sets the name.
