@@ -20,7 +20,7 @@ namespace UI.Wpf.Processes
 	{
 		private IProcessInstance _processInstance;
 		private IProcessHostFactory _processHostFactory;
-		private IProcessInstanceHost _processHost;
+		private IProcessInstanceHost _processInstanceHost;
 
 		/// <summary>
 		/// Constructor method.
@@ -30,7 +30,7 @@ namespace UI.Wpf.Processes
 			_processInstance = processInstance ?? throw new ArgumentNullException(nameof(processInstance), nameof(ProcessInstanceViewModel));
 			_processHostFactory = processHostFactory ?? throw new ArgumentNullException(nameof(processHostFactory), nameof(ProcessInstanceViewModel));
 
-			_processHost = _processHostFactory.Create(processInstance);
+			_processInstanceHost = _processHostFactory.Create(processInstance);
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Gets the Win32 process instance host.
 		/// </summary>
-		public IProcessInstanceHost Host => _processHost;
+		public IProcessInstanceHost Host => _processInstanceHost;
 
 		/// <summary>
 		/// Gets the process instance main window handle.

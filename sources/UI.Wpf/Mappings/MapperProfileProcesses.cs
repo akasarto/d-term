@@ -16,13 +16,15 @@ namespace UI.Wpf.Mappings
 	{
 		//
 		private readonly IProcessInstanceFactory _processService;
+		private readonly IProcessHostFactory _processHostFactory;
 
 		/// <summary>
 		/// constructor method.
 		/// </summary>
-		public MapperProfileProcesses(IProcessInstanceFactory processService = null)
+		public MapperProfileProcesses(IProcessInstanceFactory processService = null, IProcessHostFactory processHostFactory = null)
 		{
 			_processService = processService ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
+			_processHostFactory = processHostFactory ?? Locator.CurrentMutable.GetService<IProcessHostFactory>();
 
 			SetupMaps();
 		}
@@ -32,7 +34,6 @@ namespace UI.Wpf.Mappings
 		/// </summary>
 		private void SetupMaps()
 		{
-			//
 			var _locator = Locator.CurrentMutable;
 
 			//
@@ -53,6 +54,11 @@ namespace UI.Wpf.Mappings
 				});
 			});
 			CreateMap<IProcessViewModel, ProcessEntity>();
+
+			//
+			CreateMap<IProcessInstance, IProcessInstanceViewModel>().ConstructUsing(
+				source => new ProcessInstanceViewModel(source, _processHostFactory)
+			);
 		}
 	}
 }

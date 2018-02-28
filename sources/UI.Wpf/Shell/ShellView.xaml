@@ -31,7 +31,7 @@
 
 		<Path Style="{StaticResource logoVisualStyle}" />
 
-		<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding ProcessesViewModel.Instances}">
+		<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding ProcessesViewModel.ProcessInstances}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<StackPanel Orientation="Horizontal" />
@@ -39,7 +39,7 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Text="{Binding Name}" />
+					<TextBlock Text="{Binding Pid}" />
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
