@@ -14,8 +14,7 @@
 
 	<UserControl.Resources>
 
-		<!-- Console options source -->
-		<CollectionViewSource x:Key="consoleItemsSource" Source="{Binding ConsolesReactiveDerivedList}">
+		<CollectionViewSource x:Key="processesItemsSource" Source="{Binding Processes}">
 			<CollectionViewSource.SortDescriptions>
 				<wndbase:SortDescription PropertyName="OrderIndex" />
 			</CollectionViewSource.SortDescriptions>
@@ -32,14 +31,14 @@
 		<ProgressBar
 			IsIndeterminate="True"
 			Margin="0 0 15 0"
-			ToolTip="Loading console options..."
+			ToolTip="Loading processes..."
 			Value="35"
 			VerticalAlignment="Center">
 			<ProgressBar.Style>
 				<Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
 					<Setter Property="Visibility" Value="Collapsed" />
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding IsLoadingOptions}" Value="True">
+						<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="True">
 							<Setter Property="Visibility" Value="Visible" />
 						</DataTrigger>
 					</Style.Triggers>
@@ -48,13 +47,13 @@
 		</ProgressBar>
 
 		<!-- Options List -->
-		<ItemsControl ItemsSource="{Binding Source={StaticResource consoleItemsSource}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<ItemsControl ItemsSource="{Binding Source={StaticResource processesItemsSource}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
 			<ItemsControl.Style>
 				<Style TargetType="ItemsControl">
 					<Setter Property="Visibility" Value="Collapsed" />
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding IsLoadingOptions}" Value="False">
+						<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="False">
 							<Setter Property="Visibility" Value="Visible" />
 						</DataTrigger>
 					</Style.Triggers>

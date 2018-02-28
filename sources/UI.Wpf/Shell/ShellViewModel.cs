@@ -43,7 +43,7 @@ namespace UI.Wpf.Shell
 			_openSettingsReactiveCommand = ReactiveCommand.Create(
 				() => OpenSettingsInteraction.Handle(_settingsViewModel).Subscribe(result =>
 				{
-					_processesPanelViewModel.LoadOptionsReactiveCommand.Execute().Subscribe();
+					_processesPanelViewModel.LoadProcessesCommand.Execute().Subscribe();
 				})
 			);
 		}

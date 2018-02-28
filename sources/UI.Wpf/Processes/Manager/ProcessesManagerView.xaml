@@ -59,7 +59,7 @@
 
 				<StackPanel Grid.Column="2" Orientation="Horizontal" Visibility="Collapsed" x:Name="formActions" VerticalAlignment="Center">
 
-					<Button Command="{Binding CancelOperationReactiveCommand}" Style="{DynamicResource MaterialDesignToolButton}">
+					<Button Command="{Binding CancelFormCommand}" Style="{DynamicResource MaterialDesignToolButton}">
 						<StackPanel Orientation="Horizontal">
 							<materialDesign:PackIcon Kind="Cancel" Width="24" Height="24" />
 							<TextBlock Margin="3.5 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Cancel" VerticalAlignment="Center" />
@@ -92,7 +92,7 @@
 												IsCancel="True"
 												Style="{StaticResource MaterialDesignToolForegroundButton}" />
 											<Button
-												Command="{Binding DeleteOperationReactiveCommand}"
+												Command="{Binding DeleteProcessCommand}"
 												Content="delete"
 												HorizontalAlignment="Right"
 												IsDefault="True"
@@ -109,7 +109,7 @@
 						</StackPanel>
 					</Button>
 
-					<Button Command="{Binding SaveOperationReactiveCommand}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="15 0 0 0">
+					<Button Command="{Binding SaveProcessCommand}" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="15 0 0 0">
 						<StackPanel Orientation="Horizontal">
 							<materialDesign:PackIcon Kind="ContentSave" Width="24" Height="24" />
 							<TextBlock Margin="3.5 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Save" VerticalAlignment="Center" />
@@ -122,7 +122,7 @@
 
 			<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" Grid.Row="1" />
 
-			<reactiveui:ViewModelViewHost Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ViewModel="{Binding ProcessViewModel}">
+			<reactiveui:ViewModelViewHost Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ViewModel="{Binding FormData}">
 				<reactiveui:ViewModelViewHost.DefaultContent>
 
 					<!-- FormData == null ? List : Form -->

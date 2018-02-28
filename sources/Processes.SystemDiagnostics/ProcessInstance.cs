@@ -4,8 +4,7 @@ using System.Diagnostics;
 
 namespace Processes.SystemDiagnostics
 {
-#warning review
-	public class ConsoleProcess : IProcess
+	public class ProcessInstance : IProcessInstance
 	{
 		private readonly Process _systemProcess;
 		private readonly ProcessStartInfo _processStartInfo = null;
@@ -15,12 +14,12 @@ namespace Processes.SystemDiagnostics
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleProcess(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
+		public ProcessInstance(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
 		{
-			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ConsoleProcess));
+			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ProcessInstance));
 			if (startupTimeoutInSeconds <= 0)
 			{
-				throw new ArgumentOutOfRangeException(nameof(startupTimeoutInSeconds), startupTimeoutInSeconds, nameof(ConsoleProcess));
+				throw new ArgumentOutOfRangeException(nameof(startupTimeoutInSeconds), startupTimeoutInSeconds, nameof(ProcessInstance));
 			}
 			_startupTimeoutInSeconds = startupTimeoutInSeconds;
 			_systemProcess = CreateProcess();
@@ -60,7 +59,7 @@ namespace Processes.SystemDiagnostics
 			{
 				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 				{
-					_processMainWindowHandle = Win32Api.FindHiddenConsoleWindowHandle(_systemProcess);
+					_processMainWindowHandle = Win32Api.FindHiddenProcessWindowHandle(_systemProcess);
 
 					if (_processMainWindowHandle != IntPtr.Zero)
 					{

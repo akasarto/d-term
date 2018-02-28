@@ -20,14 +20,14 @@ namespace UI.Wpf.Processes
 		bool IsPopupOpen { get; }
 		string FilterText { get; set; }
 		bool IsLoadingProcesses { get; }
-		ReactiveCommand AddProcessReactiveCommand { get; }
-		ReactiveCommand SaveOperationReactiveCommand { get; }
-		ReactiveCommand CancelOperationReactiveCommand { get; }
-		ReactiveCommand DeleteOperationReactiveCommand { get; }
-		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesReactiveCommand { get; }
-		IReactiveDerivedList<IProcessViewModel> ProcessesReactiveDerivedList { get; }
-		IValidator<IProcessViewModel> ProcessViewModelaValidator { get; }
-		IProcessViewModel ProcessViewModel { get; set; }
+		ReactiveCommand AddProcessCommand { get; }
+		ReactiveCommand SaveProcessCommand { get; }
+		ReactiveCommand CancelFormCommand { get; }
+		ReactiveCommand DeleteProcessCommand { get; }
+		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand { get; }
+		IReactiveDerivedList<IProcessViewModel> Processes { get; }
+		IValidator<IProcessViewModel> FormDataValidator { get; }
+		IProcessViewModel FormData { get; set; }
 	}
 
 	/// <summary>
@@ -37,20 +37,20 @@ namespace UI.Wpf.Processes
 	{
 		//
 		private readonly IProcessesRepository _processesRepository;
-		private readonly IReactiveList<ProcessEntity> _entitiesReactiveList;
+		private readonly IReactiveList<ProcessEntity> _entities;
 
 		//
 		private string _filterText;
 		private bool _isPopupOpen;
 		private bool _isLoadingProcesses;
-		private ReactiveCommand _addProcessReactiveCommand;
-		private ReactiveCommand _saveOperationReactiveCommand;
-		private ReactiveCommand _cancelOperationReactiveCommand;
-		private ReactiveCommand _deleteOperationReactiveCommand;
-		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsReactiveCommand;
-		private IReactiveDerivedList<IProcessViewModel> _processesReactiveDerivedList;
-		private IValidator<IProcessViewModel> _processViewModelaValidator;
-		private IProcessViewModel _processViewModel;
+		private ReactiveCommand _addProcessCommand;
+		private ReactiveCommand _saveProcessCommand;
+		private ReactiveCommand _cancelFormCommand;
+		private ReactiveCommand _deleteProcessCommand;
+		private ReactiveCommand<Unit, List<ProcessEntity>> _loadProcessesCommand;
+		private IReactiveDerivedList<IProcessViewModel> _processes;
+		private IValidator<IProcessViewModel> _formDataValidator;
+		private IProcessViewModel _formData;
 
 
 		/// <summary>
@@ -58,14 +58,12 @@ namespace UI.Wpf.Processes
 		/// </summary>
 		public ProcessesManagerViewModel(IProcessesRepository processesRepository = null, IValidator<IProcessViewModel> processViewModelaValidator = null)
 		{
-			var locator = Locator.CurrentMutable;
+			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
+			_formDataValidator = processViewModelaValidator ?? Locator.CurrentMutable.GetService<IValidator<IProcessViewModel>>();
 
-			_processesRepository = processesRepository ?? locator.GetService<IProcessesRepository>();
-			_processViewModelaValidator = processViewModelaValidator ?? locator.GetService<IValidator<IProcessViewModel>>();
+			_entities = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = true };
 
-			_entitiesReactiveList = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = true };
-
-			_processesReactiveDerivedList = _entitiesReactiveList.CreateDerivedCollection(
+			_processes = _entities.CreateDerivedCollection(
 				selector: entity => Mapper.Map<IProcessViewModel>(entity),
 				filter: entity =>
 				{
@@ -89,103 +87,94 @@ namespace UI.Wpf.Processes
 			/*
 			 * Add
 			 */
-			_addProcessReactiveCommand = ReactiveCommand.Create(() =>
+			_addProcessCommand = ReactiveCommand.Create(() =>
 			{
-				ProcessViewModel = Mapper.Map<IProcessViewModel>(new ProcessEntity());
+				FormData = Mapper.Map<IProcessViewModel>(new ProcessEntity());
 			});
 
 			/*
 			 * Edit
 			 */
-			this.WhenAnyValue(viewModel => viewModel.ProcessViewModel).Where(option => option != null).Subscribe(option =>
+			this.WhenAnyValue(viewModel => viewModel.FormData).Where(option => option != null).Subscribe(option =>
 			{
-				ProcessViewModel = option;
+				FormData = option;
 			});
 
 			/*
 			 * Save
 			 */
-			_saveOperationReactiveCommand = ReactiveCommand.Create(() =>
+			_saveProcessCommand = ReactiveCommand.Create(() =>
 			{
-				var validationResult = _processViewModelaValidator.Validate(ProcessViewModel);
+				var validationResult = _formDataValidator.Validate(FormData);
 
-				ProcessViewModel.SetErrors(validationResult.Errors);
+				FormData.SetErrors(validationResult.Errors);
 
-				if (ProcessViewModel.IsValid)
+				if (FormData.IsValid)
 				{
-					var entity = Mapper.Map<ProcessEntity>(ProcessViewModel);
+					var entity = Mapper.Map<ProcessEntity>(FormData);
 
-					if (ProcessViewModel.Id.Equals(Guid.Empty))
+					if (FormData.Id.Equals(Guid.Empty))
 					{
 						entity = _processesRepository.Add(entity);
-						_entitiesReactiveList.Add(entity);
+						_entities.Add(entity);
 					}
 					else
 					{
 						_processesRepository.Update(entity);
-						var currentEntity = _entitiesReactiveList.FirstOrDefault(n => n.Id == entity.Id);
-						_entitiesReactiveList.Remove(currentEntity);
-						_entitiesReactiveList.Add(entity);
+						var currentEntity = _entities.FirstOrDefault(n => n.Id == entity.Id);
+						_entities.Remove(currentEntity);
+						_entities.Add(entity);
 					}
 
-					ProcessViewModel = null;
+					FormData = null;
 				}
 			});
 
 			/*
 			 * Cancel
 			 */
-			_cancelOperationReactiveCommand = ReactiveCommand.Create(() =>
+			_cancelFormCommand = ReactiveCommand.Create(() =>
 			{
-				ProcessViewModel = null;
+				FormData = null;
 			});
 
 			/*
 			 * Delete
 			 */
-			_deleteOperationReactiveCommand = ReactiveCommand.Create(() =>
+			_deleteProcessCommand = ReactiveCommand.Create(() =>
 			{
-				var deleteId = ProcessViewModel.Id;
+				var deleteId = FormData.Id;
 				_processesRepository.Delete(deleteId);
-				var currentEnttiy = _entitiesReactiveList.Where(o => o.Id == deleteId).SingleOrDefault();
+				var currentEnttiy = _entities.Where(o => o.Id == deleteId).SingleOrDefault();
 				if (currentEnttiy != null)
 				{
-					_entitiesReactiveList.Remove(currentEnttiy);
+					_entities.Remove(currentEnttiy);
 				}
-				ProcessViewModel = null;
+				FormData = null;
 				IsPopupOpen = false;
 			});
 
 			/*
-			 * Load Options
+			 * Load Processess
 			 */
-			_loadOptionsReactiveCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
+			_loadProcessesCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
 			{
 				var items = _processesRepository.GetAll();
 
 				return Task.FromResult(items);
 			}));
 
-			_loadOptionsReactiveCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingProcesses);
+			_loadProcessesCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingProcesses);
 
-			_loadOptionsReactiveCommand.ThrownExceptions.Subscribe(@exception =>
+			_loadProcessesCommand.ThrownExceptions.Subscribe(@exception =>
 			{
 			});
 
-			_loadOptionsReactiveCommand.Subscribe(options =>
+			_loadProcessesCommand.Subscribe(options =>
 			{
-				_entitiesReactiveList.Clear();
-				_entitiesReactiveList.AddRange(options);
+				_entities.Clear();
+				_entities.AddRange(options);
 			});
-		}
-
-		/// <summary>
-		/// Tracks whether the delete popup is open or not.
-		/// </summary>
-		public bool IsPopupOpen
-		{
-			get => _isPopupOpen;
-			set => this.RaiseAndSetIfChanged(ref _isPopupOpen, value);
 		}
 
 		/// <summary>
@@ -198,6 +187,15 @@ namespace UI.Wpf.Processes
 		}
 
 		/// <summary>
+		/// Tracks whether the delete popup is open or not.
+		/// </summary>
+		public bool IsPopupOpen
+		{
+			get => _isPopupOpen;
+			set => this.RaiseAndSetIfChanged(ref _isPopupOpen, value);
+		}
+
+		/// <summary>
 		/// Gets or sets the processes loading status.
 		/// </summary>
 		public bool IsLoadingProcesses
@@ -207,47 +205,47 @@ namespace UI.Wpf.Processes
 		}
 
 		/// <summary>
-		/// Gets the load options command instance.
+		/// Gets the load processes command.
 		/// </summary>
-		public ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesReactiveCommand => _loadOptionsReactiveCommand;
+		public ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand => _loadProcessesCommand;
 
 		/// <summary>
-		/// Gets the current available console options.
+		/// Gets the current available processes.
 		/// </summary>
-		public IReactiveDerivedList<IProcessViewModel> ProcessesReactiveDerivedList => _processesReactiveDerivedList;
+		public IReactiveDerivedList<IProcessViewModel> Processes => _processes;
 
 		/// <summary>
-		/// Gets the form data validator instance.
+		/// Gets the form data validator.
 		/// </summary>
-		public IValidator<IProcessViewModel> ProcessViewModelaValidator => _processViewModelaValidator;
+		public IValidator<IProcessViewModel> FormDataValidator => _formDataValidator;
 
 		/// <summary>
 		/// Gets or sets the process instance to add/edit.
 		/// </summary>
-		public IProcessViewModel ProcessViewModel
+		public IProcessViewModel FormData
 		{
-			get => _processViewModel;
-			set => this.RaiseAndSetIfChanged(ref _processViewModel, value);
+			get => _formData;
+			set => this.RaiseAndSetIfChanged(ref _formData, value);
 		}
 
 		/// <summary>
-		/// Gets the add process command instance.
+		/// Gets the add process command.
 		/// </summary>
-		public ReactiveCommand AddProcessReactiveCommand => _addProcessReactiveCommand;
+		public ReactiveCommand AddProcessCommand => _addProcessCommand;
 
 		/// <summary>
-		/// Gets the add/edit operation save command instance.
+		/// Gets the add/edit save command.
 		/// </summary>
-		public ReactiveCommand SaveOperationReactiveCommand => _saveOperationReactiveCommand;
+		public ReactiveCommand SaveProcessCommand => _saveProcessCommand;
 
 		/// <summary>
-		/// Gets the add/edit operation cancel command instance.
+		/// Gets the add/edit cancel command.
 		/// </summary>
-		public ReactiveCommand CancelOperationReactiveCommand => _cancelOperationReactiveCommand;
+		public ReactiveCommand CancelFormCommand => _cancelFormCommand;
 
 		/// <summary>
-		/// Gets the edit operation delete command instance.
+		/// Gets the delete command.
 		/// </summary>
-		public ReactiveCommand DeleteOperationReactiveCommand => _deleteOperationReactiveCommand;
+		public ReactiveCommand DeleteProcessCommand => _deleteProcessCommand;
 	}
 }

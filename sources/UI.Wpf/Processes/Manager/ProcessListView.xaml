@@ -14,7 +14,7 @@
 	<Grid>
 
 		<ProgressBar
-			ToolTip="Loading console options..."
+			ToolTip="Loading processes..."
 			HorizontalAlignment="Center"
 			VerticalAlignment="Top"
 			IsIndeterminate="True"
@@ -50,7 +50,7 @@
 
 					<Grid>
 
-						<ListView x:Name="list" ItemsSource="{Binding ProcessesReactiveDerivedList}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding ProcessViewModel}">
+						<ListView x:Name="list" ItemsSource="{Binding Processes}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding FormData}">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Header="Icon">
@@ -83,7 +83,7 @@
 					</Grid>
 
 					<DataTemplate.Triggers>
-						<DataTrigger Binding="{Binding ProcessesReactiveDerivedList.Count}" Value="0">
+						<DataTrigger Binding="{Binding Processes.Count}" Value="0">
 							<Setter TargetName="list" Property="Visibility" Value="Collapsed"/>
 							<Setter TargetName="empty" Property="Visibility" Value="Visible"/>
 						</DataTrigger>

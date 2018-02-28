@@ -8,6 +8,15 @@ using System.IO;
 namespace UI.Wpf.Processes
 {
 	/// <summary>
+	/// Process factory interface.
+	/// </summary>
+	public interface IProcessFactory
+	{
+		bool CanCreate(ProcessBasePath processBasePath, string processExecutableName);
+		IProcessInstance Create(IProcessViewModel IProcessViewModel);
+	}
+
+	/// <summary>
 	/// App process factory implementation.
 	/// </summary>
 	public class ProcessFactory : IProcessFactory
@@ -31,26 +40,23 @@ namespace UI.Wpf.Processes
 			return !string.IsNullOrWhiteSpace(path) && new FileInfo(path).Exists;
 		}
 
-		public IProcess Create(IProcessDescriptor processDescriptor)
+		public IProcessInstance Create(IProcessViewModel descriptor)
 		{
-			var console = processDescriptor?.ConsoleOption;
-
-			if (console == null || !CanCreate(console.ProcessBasePath, console.ProcessExecutableName))
+			if (descriptor == null || !CanCreate(descriptor.ProcessBasePath, descriptor.ProcessExecutableName))
 			{
 				return null;
 			}
 
-			var fullPath = _processPathBuilder.Build(console.ProcessBasePath, console.ProcessExecutableName);
-			var startupArgs = processDescriptor.ConsoleOption.ProcessStartupArgs;
+			var fullPath = _processPathBuilder.Build(descriptor.ProcessBasePath, descriptor.ProcessExecutableName);
 
 			var processStartInfo = new ProcessStartInfo(fullPath)
 			{
-				WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
 				WindowStyle = ProcessWindowStyle.Hidden,
-				Arguments = startupArgs
+				WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+				Arguments = descriptor.ProcessStartupArgs
 			};
 
-			var consoleInstance = new ConsoleProcess(processStartInfo, processDescriptor.StartupTimeoutInSeconds);
+			var consoleInstance = new ProcessInstance(processStartInfo, 3);
 
 			consoleInstance.Start();
 

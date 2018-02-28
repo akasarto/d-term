@@ -1,4 +1,4 @@
 ﻿namespace Processes.Core
 {
-	public delegate void ProcessTerminatedHandler(IProcess process);
+	public delegate void ProcessTerminatedHandler(IProcessInstance process);
 }

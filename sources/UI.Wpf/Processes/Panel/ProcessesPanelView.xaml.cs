@@ -21,7 +21,7 @@ namespace UI.Wpf.Processes
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
-				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptionsReactiveCommand).SelectMany(x => x.Execute()).Subscribe());
+				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadProcessesCommand).SelectMany(x => x.Execute()).Subscribe());
 			});
 		}
 

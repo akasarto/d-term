@@ -22,14 +22,14 @@ namespace UI.Wpf.Processes
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
-				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadProcessesReactiveCommand).SelectMany(x => x.Execute()).Subscribe());
+				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadProcessesCommand).SelectMany(x => x.Execute()).Subscribe());
 				activator(this.WhenAnyValue(@this => @this.ViewModel.IsLoadingProcesses).Subscribe(loading =>
 				{
 					listActions.IsHitTestVisible = !loading;
 					listActions.Focusable = !loading;
 					listActions.IsEnabled = !loading;
 				}));
-				activator(this.WhenAnyValue(@this => @this.ViewModel.ProcessViewModel).Subscribe(data =>
+				activator(this.WhenAnyValue(@this => @this.ViewModel.FormData).Subscribe(data =>
 				{
 					deleteButton.Visibility = data?.Id != Guid.Empty ? Visibility.Visible : Visibility.Collapsed;
 
