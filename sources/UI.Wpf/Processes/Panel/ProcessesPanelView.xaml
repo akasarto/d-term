@@ -70,8 +70,10 @@
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 
+					<!--Command="{Binding DataContext.CreateProcessInstanceCommand, ElementName=shellView}"-->
 					<Button
-						Command="{Binding DataContext.CreateProcessInstanceCommand, ElementName=processesPanelControl}"
+						
+						Command="{Binding DataContext.CreateProcessInstanceCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
 						CommandParameter="{Binding}"
 						Focusable="False"
 						IsEnabled="{Binding IsSupported}"

@@ -19,7 +19,6 @@ namespace UI.Wpf.Processes
 		bool IsLoadingProcesses { get; }
 		IReactiveDerivedList<IProcessViewModel> Processes { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand { get; }
-		ReactiveCommand<IProcessViewModel, IProcessInstance> CreateProcessInstanceCommand { get; }
 	}
 
 	/// <summary>
@@ -29,7 +28,6 @@ namespace UI.Wpf.Processes
 	public class ProcessesPanelViewModel : ReactiveObject, IProcessesPanelViewModel
 	{
 		//
-		private readonly IProcessFactory _processFactory;
 		private readonly IProcessesRepository _processesRepository;
 		private readonly IReactiveList<ProcessEntity> _entities;
 
@@ -37,56 +35,19 @@ namespace UI.Wpf.Processes
 		private bool _isLoadingOptions;
 		private IReactiveDerivedList<IProcessViewModel> _processes;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadProcessesCommand;
-		private Func<ReactiveCommand<IProcessViewModel, IProcessInstance>> _createProcessInstanceCommandFactory;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesPanelViewModel(IProcessesRepository processesRepository = null, IProcessFactory processFactory = null)
+		public ProcessesPanelViewModel(IProcessesRepository processesRepository = null)
 		{
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
-			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
 
 			_entities = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
 
 			_processes = _entities.CreateDerivedCollection(
 				selector: option => Mapper.Map<IProcessViewModel>(option)
 			);
-
-			/*
-			 * Create Instances
-			 */
-			_createProcessInstanceCommandFactory = () =>
-			{
-				var commandIntance = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstance>(async (option) => await Task.Run(() =>
-				{
-					var instance = _processFactory.Create(option);
-
-					System.Threading.Thread.Sleep(3000);
-
-					instance.Start();
-
-					return Task.FromResult(instance);
-				}));
-
-				commandIntance.ThrownExceptions.Subscribe(@exception =>
-				{
-					// ToDo: Show message
-				});
-
-				commandIntance.Subscribe(instance =>
-				{
-					if (instance.IsStarted)
-					{
-						User32Methods.ShowWindow(instance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
-						return;
-					}
-
-					instance.Dispose();
-				});
-
-				return commandIntance;
-			};
 
 			/*
 			 * Load Processess
@@ -125,11 +86,6 @@ namespace UI.Wpf.Processes
 		/// Gets the load processes command.
 		/// </summary>
 		public ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand => _loadProcessesCommand;
-
-		/// <summary>
-		/// Gets the create process instance command.
-		/// </summary>
-		public ReactiveCommand<IProcessViewModel, IProcessInstance> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
 
 		/// <summary>
 		/// Gets the current available processes.

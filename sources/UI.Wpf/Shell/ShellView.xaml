@@ -24,6 +24,7 @@
 	Title="dTerm"
 	MinWidth="1280"
 	MinHeight="800"
+	x:Name="shellView"
 >
 
 	<Grid UseLayoutRounding="True">
