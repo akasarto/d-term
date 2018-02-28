@@ -54,11 +54,11 @@ namespace UI.Wpf
 
 			//
 			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
+			_container.Register<IProcessesViewModel>(() => new ProcessesViewModel());
 			_container.Register<IProcessesManagerViewModel>(() => new ProcessesManagerViewModel());
-			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessViewModelValidator());
-			_container.Register<IProcessesPanelViewModel>(() => new ProcessesPanelViewModel());
-			_container.Register<IProcessHostFactory>(() => new ProcessHostFactory());
-			_container.Register<IProcessFactory>(() => new ProcessFactory());
+			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessValidator());
+			_container.Register<IProcessHostFactory>(() => new ProcessInstanceHostFactory());
+			_container.Register<IProcessInstanceFactory>(() => new ProcessInstanceFactory());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

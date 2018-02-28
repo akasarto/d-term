@@ -5,12 +5,12 @@ namespace UI.Wpf.Processes
 	/// <summary>
 	/// Validation rules for process view model instances.
 	/// </summary>
-	public class ProcessViewModelValidator : AbstractValidator<IProcessViewModel>
+	public class ProcessValidator : AbstractValidator<IProcessViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessViewModelValidator()
+		public ProcessValidator()
 		{
 			//
 			RuleFor(model => model.PicturePath).Must(BeValidGeometryPath);

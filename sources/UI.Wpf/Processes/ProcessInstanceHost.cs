@@ -7,17 +7,17 @@ using WinApi.User32;
 namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Process host interface.
+	/// Process instance host interface.
 	/// </summary>
-	public interface IProcessHost
+	public interface IProcessInstanceHost
 	{
 	}
 
 	/// <summary>
-	/// App process host implementation.
-	/// <para>Hosts Win32 windows into WPF controls.</para>
+	/// App process instance host implementation.
+	/// <para>Hosts Win32 process windows into WPF controls.</para>
 	/// </summary>
-	public class ProcessHost : HwndHost, IProcessHost
+	public class ProcessInstanceHost : HwndHost, IProcessInstanceHost
 	{
 		//
 		private IProcessInstance _processInstance;
@@ -26,9 +26,9 @@ namespace UI.Wpf.Processes
 		/// Constructor method.
 		/// </summary>
 		/// <param name="processInstance">The started process instance to be hosted.</param>
-		public ProcessHost(IProcessInstance processInstance)
+		public ProcessInstanceHost(IProcessInstance processInstance)
 		{
-			_processInstance = processInstance ?? throw new ArgumentNullException(nameof(processInstance), nameof(ProcessHost));
+			_processInstance = processInstance ?? throw new ArgumentNullException(nameof(processInstance), nameof(ProcessInstanceHost));
 		}
 
 		/// <summary>

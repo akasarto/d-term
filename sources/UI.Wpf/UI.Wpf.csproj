@@ -232,26 +232,27 @@
       <DependentUpon>ProcessInstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\Instances\ProcessInstanceViewModel.cs" />
-    <Compile Include="Processes\Instances\ProcessHwndHost.cs" />
+    <Compile Include="Processes\ProcessInstanceHost.cs" />
     <Compile Include="Processes\Manager\ProcessView.xaml.cs">
       <DependentUpon>ProcessView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\Manager\ProcessListView.xaml.cs">
       <DependentUpon>ProcessListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\ProcessHostFactory.cs" />
+    <Compile Include="Processes\Factories\ProcessInstanceHostFactory.cs" />
+    <Compile Include="Shared\Class1.cs" />
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
     <Compile Include="Processes\ProcessViewModel.cs" />
-    <Compile Include="Processes\ProcessViewModelValidator.cs" />
-    <Compile Include="Processes\ProcessFactory.cs" />
+    <Compile Include="Processes\ProcessValidator.cs" />
+    <Compile Include="Processes\Factories\ProcessInstanceFactory.cs" />
     <Compile Include="Processes\Manager\ProcessesManagerView.xaml.cs">
       <DependentUpon>ProcessesManagerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\Panel\ProcessesPanelView.xaml.cs">
-      <DependentUpon>ProcessesPanelView.xaml</DependentUpon>
+    <Compile Include="Processes\ProcessesView.xaml.cs">
+      <DependentUpon>ProcessesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\Panel\ProcessesPanelViewModel.cs" />
+    <Compile Include="Processes\ProcessesViewModel.cs" />
     <Compile Include="Processes\Manager\ProcessesManagerViewModel.cs" />
     <Compile Include="Mappings\MapperProfileProcesses.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />
@@ -285,7 +286,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\Panel\ProcessesPanelView.xaml">
+    <Page Include="Processes\ProcessesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

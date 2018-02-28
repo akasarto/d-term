@@ -7,35 +7,35 @@ using System.Windows.Controls;
 namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Processes panel view.
+	/// Processes view.
 	/// </summary>
-	public partial class ProcessesPanelView : UserControl, IViewFor<IProcessesPanelViewModel>
+	public partial class ProcessesView : UserControl, IViewFor<IProcessesViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesPanelView()
+		public ProcessesView()
 		{
 			InitializeComponent();
 
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
-				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadProcessesCommand).SelectMany(x => x.Execute()).Subscribe());
+				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptionsCommand).SelectMany(x => x.Execute()).Subscribe());
 			});
 		}
 
 		/// <summary>
 		/// View model dependency property backing field.
 		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessesPanelViewModel), typeof(ProcessesPanelView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessesViewModel), typeof(ProcessesView), new PropertyMetadata(null));
 
 		/// <summary>
 		/// Gets or sets the view model instance.
 		/// </summary>
-		public IProcessesPanelViewModel ViewModel
+		public IProcessesViewModel ViewModel
 		{
-			get { return (IProcessesPanelViewModel)GetValue(ViewModelProperty); }
+			get { return (IProcessesViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
@@ -45,7 +45,7 @@ namespace UI.Wpf.Processes
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IProcessesPanelViewModel)value; }
+			set { ViewModel = (IProcessesViewModel)value; }
 		}
 	}
 }

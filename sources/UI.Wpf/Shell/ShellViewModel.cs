@@ -13,7 +13,7 @@ namespace UI.Wpf.Shell
 	/// </summary>
 	public interface IShellViewModel
 	{
-		IProcessesPanelViewModel ProcessesPanelViewModel { get; }
+		IProcessesViewModel ProcessesViewModel { get; }
 		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
 		ReactiveCommand OpenSettingsCommand { get; }
 	}
@@ -25,18 +25,18 @@ namespace UI.Wpf.Shell
 	public class ShellViewModel : ReactiveObject, IShellViewModel
 	{
 		//
-		private readonly ISettingsViewModel _settingsViewModel;
-		private readonly IProcessesPanelViewModel _processesPanelViewModel;
+		private readonly IProcessesViewModel _processesViewModel;
 		private readonly Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
 		private readonly ReactiveCommand _openSettingsReactiveCommand;
+		private readonly ISettingsViewModel _settingsViewModel;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(ISettingsViewModel settingsViewModel = null, IProcessesPanelViewModel processesPanelViewModel = null)
+		public ShellViewModel(ISettingsViewModel settingsViewModel = null, IProcessesViewModel processesPanelViewModel = null)
 		{
 			_settingsViewModel = settingsViewModel ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
-			_processesPanelViewModel = processesPanelViewModel ?? Locator.CurrentMutable.GetService<IProcessesPanelViewModel>();
+			_processesViewModel = processesPanelViewModel ?? Locator.CurrentMutable.GetService<IProcessesViewModel>();
 
 			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
 
@@ -46,15 +46,15 @@ namespace UI.Wpf.Shell
 			_openSettingsReactiveCommand = ReactiveCommand.Create(
 				() => OpenSettingsInteraction.Handle(_settingsViewModel).Subscribe(result =>
 				{
-					_processesPanelViewModel.LoadProcessesCommand.Execute().Subscribe();
+					_processesViewModel.LoadOptionsCommand.Execute().Subscribe();
 				})
 			);
 		}
 
 		/// <summary>
-		/// Gets the processes panel view model.
+		/// Gets the processes view model.
 		/// </summary>
-		public IProcessesPanelViewModel ProcessesPanelViewModel => _processesPanelViewModel;
+		public IProcessesViewModel ProcessesViewModel => _processesViewModel;
 
 		/// <summary>
 		/// Gets the interaction that opens the general settings window.

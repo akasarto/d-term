@@ -8,7 +8,9 @@ namespace UI.Wpf.Processes
 	/// </summary>
 	public interface IProcessInstanceViewModel
 	{
-		IProcessHost ProcessHost { get; }
+		int Pid { get; }
+		IProcessInstanceHost Host { get; }
+		IntPtr MainWindowHandle { get; }
 	}
 
 	/// <summary>
@@ -18,7 +20,7 @@ namespace UI.Wpf.Processes
 	{
 		private IProcessInstance _processInstance;
 		private IProcessHostFactory _processHostFactory;
-		private IProcessHost _processHost;
+		private IProcessInstanceHost _processHost;
 
 		/// <summary>
 		/// Constructor method.
@@ -32,8 +34,18 @@ namespace UI.Wpf.Processes
 		}
 
 		/// <summary>
-		/// Gets the Win32 process host.
+		/// Gets the process instance id (PID).
 		/// </summary>
-		public IProcessHost ProcessHost => _processHost;
+		public int Pid => _processInstance.Id;
+
+		/// <summary>
+		/// Gets the Win32 process instance host.
+		/// </summary>
+		public IProcessInstanceHost Host => _processHost;
+
+		/// <summary>
+		/// Gets the process instance main window handle.
+		/// </summary>
+		public IntPtr MainWindowHandle => _processInstance.MainWindowHandle;
 	}
 }

@@ -31,6 +31,19 @@
 
 		<Path Style="{StaticResource logoVisualStyle}" />
 
+		<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding ProcessesViewModel.Instances}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel Orientation="Horizontal" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}" />
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+
 		<Grid Margin="15 0 15 15" VerticalAlignment="Bottom">
 
 			<Rectangle Fill="Black" Height="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
@@ -46,7 +59,7 @@
 					</Grid.ColumnDefinitions>
 
 					<reactiveui:ViewModelViewHost
-						ViewModel="{Binding ProcessesPanelViewModel}"
+						ViewModel="{Binding ProcessesViewModel}"
 						VerticalAlignment="Center" />
 
 					<Rectangle

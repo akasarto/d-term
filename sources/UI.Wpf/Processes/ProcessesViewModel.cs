@@ -12,22 +12,22 @@ using WinApi.User32;
 namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Processes panel view model interface.
+	/// Processes view model interface.
 	/// </summary>
-	public interface IProcessesPanelViewModel
+	public interface IProcessesViewModel
 	{
 		bool IsLoadingProcesses { get; }
 		IReactiveDerivedList<IProcessViewModel> ProcessOptions { get; }
-		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand { get; }
+		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
 		ReactiveCommand<IProcessViewModel, IProcessInstance> CreateProcessInstanceCommand { get; }
 		IReactiveDerivedList<IProcessInstanceViewModel> ProcessInstances { get; }
 	}
 
 	/// <summary>
-	/// App processes panel view model implementation.
-	/// <seealso cref="IProcessesPanelViewModel"/>
+	/// App processes view model implementation.
+	/// <seealso cref="IProcessesViewModel"/>
 	/// </summary>
-	public class ProcessesPanelViewModel : ReactiveObject, IProcessesPanelViewModel
+	public class ProcessesViewModel : ReactiveObject, IProcessesViewModel
 	{
 		//
 		private readonly IProcessesRepository _processesRepository;
@@ -37,18 +37,18 @@ namespace UI.Wpf.Processes
 		//
 		private bool _isLoadingOptions;
 		private IReactiveDerivedList<IProcessViewModel> _processOptions;
-		private ReactiveCommand<Unit, List<ProcessEntity>> _loadProcessesCommand;
+		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstance>> _createProcessInstanceCommandFactory;
 		private IReactiveDerivedList<IProcessInstanceViewModel> _processInstances;
-		private readonly IProcessFactory _processFactory;
+		private readonly IProcessInstanceFactory _processFactory;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesPanelViewModel(IProcessesRepository processesRepository = null, IProcessFactory processFactory = null)
+		public ProcessesViewModel(IProcessesRepository processesRepository = null, IProcessInstanceFactory processFactory = null)
 		{
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
-			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
+			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
 
 			_processOptionsSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
 			_processInstancesSource = new ReactiveList<IProcessInstance>() { ChangeTrackingEnabled = true };
@@ -61,24 +61,29 @@ namespace UI.Wpf.Processes
 				selector: instance => Mapper.Map<IProcessInstanceViewModel>(instance)
 			);
 
+			_processInstances.ItemsAdded.Subscribe(instance =>
+			{
+				User32Methods.ShowWindow(instance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
+			});
+
 			/*
 			 * Load Processess
 			 */
-			_loadProcessesCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
+			_loadOptionsCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
 			{
 				var items = _processesRepository.GetAll();
 
 				return Task.FromResult(items);
 			}));
 
-			_loadProcessesCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingProcesses);
+			_loadOptionsCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingProcesses);
 
-			_loadProcessesCommand.ThrownExceptions.Subscribe(@exception =>
+			_loadOptionsCommand.ThrownExceptions.Subscribe(@exception =>
 			{
 				// ToDo: Show message
 			});
 
-			_loadProcessesCommand.Subscribe(options =>
+			_loadOptionsCommand.Subscribe(options =>
 			{
 				_processOptionsSource.Clear();
 				_processOptionsSource.AddRange(options);
@@ -107,9 +112,12 @@ namespace UI.Wpf.Processes
 				{
 					if (instance.IsStarted)
 					{
-						User32Methods.ShowWindow(instance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
+						_processInstancesSource.Add(instance);
+
 						return;
 					}
+
+					// ToDo: Show start failure message
 
 					instance.Dispose();
 				});
@@ -140,7 +148,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Gets the load processes command.
 		/// </summary>
-		public ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand => _loadProcessesCommand;
+		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 
 		/// <summary>
 		/// Gets the current available process instances.

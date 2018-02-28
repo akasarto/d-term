@@ -15,14 +15,14 @@ namespace UI.Wpf.Mappings
 	public class MapperProfileProcesses : Profile
 	{
 		//
-		private readonly IProcessFactory _processService;
+		private readonly IProcessInstanceFactory _processService;
 
 		/// <summary>
 		/// constructor method.
 		/// </summary>
-		public MapperProfileProcesses(IProcessFactory processService = null)
+		public MapperProfileProcesses(IProcessInstanceFactory processService = null)
 		{
-			_processService = processService ?? Locator.CurrentMutable.GetService<IProcessFactory>();
+			_processService = processService ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
 
 			SetupMaps();
 		}
