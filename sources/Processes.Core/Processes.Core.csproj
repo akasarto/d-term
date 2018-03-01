@@ -60,13 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProcessEntity.cs" />
-    <Compile Include="IProcessesRepository.cs" />
+    <Compile Include="IProcessRepository.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="IProcessPathBuilder.cs" />
     <Compile Include="IProcessTracker.cs" />
     <Compile Include="ProcessBasePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_Events.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared.Kernel\Shared.Kernel.csproj">

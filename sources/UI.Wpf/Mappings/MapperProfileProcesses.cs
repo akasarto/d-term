@@ -15,15 +15,15 @@ namespace UI.Wpf.Mappings
 	public class MapperProfileProcesses : Profile
 	{
 		//
-		private readonly IProcessInstanceFactory _processService;
+		private readonly IProcessFactory _processFactory;
 		private readonly IProcessHostFactory _processHostFactory;
 
 		/// <summary>
 		/// constructor method.
 		/// </summary>
-		public MapperProfileProcesses(IProcessInstanceFactory processService = null, IProcessHostFactory processHostFactory = null)
+		public MapperProfileProcesses(IProcessFactory processFactory = null, IProcessHostFactory processHostFactory = null)
 		{
-			_processService = processService ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
+			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
 			_processHostFactory = processHostFactory ?? Locator.CurrentMutable.GetService<IProcessHostFactory>();
 
 			SetupMaps();
@@ -39,7 +39,7 @@ namespace UI.Wpf.Mappings
 			//
 			CreateMap<ProcessEntity, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>()).AfterMap((source, dest) =>
 			{
-				dest.IsSupported = _processService.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
+				dest.IsSupported = _processFactory.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
 				dest.ProcessBasePathDescription = source.ProcessBasePath.Humanize();
 
 				dest.ProcessBasePathCollection = new List<EnumViewModel<ProcessBasePath>>();

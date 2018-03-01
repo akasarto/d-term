@@ -2,16 +2,13 @@
 
 namespace Processes.Core
 {
-	/// <summary>
-	/// Process interface.
-	/// </summary>
 	public interface IProcess : IDisposable
 	{
-		event ProcessTerminatedHandler Terminated;
+		event EventHandler Exited;
 
 		int Id { get; }
 		IntPtr MainWindowHandle { get; }
 		IntPtr ParentHandle { get; set; }
-		bool Start();
+		bool Start(int startupTimeoutInSeconds = 3);
 	}
 }

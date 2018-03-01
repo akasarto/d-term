@@ -1,116 +1,97 @@
 ﻿using Processes.Core;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Processes.SystemDiagnostics
 {
-	/// <summary>
-	/// App system process implementation.
-	/// </summary>
-	public class SysProcess : IProcess
+	[DesignerCategory("Code")]
+	public class SysProcess : Process, IProcess
 	{
-		//
-		private readonly Process _systemProcess;
-		private readonly ProcessStartInfo _processStartInfo = null;
-		private readonly int _startupTimeoutInSeconds;
+		private readonly IProcessTracker _processTracker;
 		private IntPtr _processMainWindowHandle;
 		private IntPtr _parentHandle;
+		private bool _isStarted;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public SysProcess(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
+		public SysProcess(IProcessTracker processTracker, ProcessStartInfo processStartInfo)
 		{
-			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(SysProcess));
-			_startupTimeoutInSeconds = startupTimeoutInSeconds <= 0 ? 3 : startupTimeoutInSeconds;
-			_systemProcess = CreateProcess();
+			_processTracker = processTracker ?? throw new ArgumentNullException(nameof(processTracker), nameof(SysProcess));
+
+			StartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(SysProcess));
+
+			EnableRaisingEvents = true;
 		}
 
-		/// <summary>
-		/// Process terminated/exited event.
-		/// </summary>
-		public event ProcessTerminatedHandler Terminated;
-
-		/// <summary>
-		/// Gets the process id.
-		/// </summary>
-		public int Id => _systemProcess.Id;
-
-		/// <summary>
-		/// Gets the process main window handle pointer.
-		/// </summary>
-		public IntPtr MainWindowHandle => _processMainWindowHandle;
-
-		/// <summary>
-		/// Gets or sets the process parent handle.
-		/// </summary>
 		public IntPtr ParentHandle
 		{
 			get => _parentHandle;
 			set => _parentHandle = value;
 		}
 
-		/// <summary>
-		/// Starts the process.
-		/// </summary>
-		/// <returns><c>True</c> if the process has started and a main window handle was acquired. Otherwise <c>false</c>.</returns>
-		public bool Start()
-		{
-			var processStopwatch = Stopwatch.StartNew();
-			var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
+		public new IntPtr MainWindowHandle => _processMainWindowHandle;
 
-			var newProcessStarted = _systemProcess.Start();
+		public bool Start(int startupTimeoutInSeconds = 3)
+		{
+			if (_isStarted)
+			{
+				throw new ArgumentException(nameof(SysProcess), "The process is already started.");
+			}
+
+			var processStopwatch = Stopwatch.StartNew();
+			var processTimeoutMiliseconds = startupTimeoutInSeconds * 1000;
+
+			var newProcessStarted = base.Start();
 
 			if (newProcessStarted)
 			{
 				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 				{
-					_processMainWindowHandle = Win32Api.FindHiddenProcessWindowHandle(_systemProcess);
+					_processMainWindowHandle = FindHiddenProcessWindowHandle(this);
 
 					if (_processMainWindowHandle != IntPtr.Zero)
 					{
+						_processTracker.Track(Id);
+						_isStarted = true;
+
 						return true;
 					}
 				}
 
-				_systemProcess.Kill();
+				Kill();
 			}
 
 			return false;
 		}
 
-		/// <summary>
-		/// Release instance resources.
-		/// </summary>
-		public void Dispose()
+		private static IntPtr FindHiddenProcessWindowHandle(Process consoleProcess)
 		{
-			_systemProcess?.Dispose();
+			uint threadId = 0;
+			uint processId = 0;
+			IntPtr windowHandle = IntPtr.Zero;
+
+			do
+			{
+				processId = 0;
+				consoleProcess.Refresh();
+				windowHandle = FindWindowEx(IntPtr.Zero, windowHandle, null, null);
+				threadId = GetWindowThreadProcessId(windowHandle, out processId);
+				if (processId == consoleProcess.Id)
+				{
+					return windowHandle;
+				}
+			} while (!windowHandle.Equals(IntPtr.Zero));
+
+			return IntPtr.Zero;
 		}
 
-		/// <summary>
-		/// Create the underlying system process.
-		/// </summary>
-		/// <returns><see cref="Process"/> instance.</returns>
-		private Process CreateProcess()
-		{
-			var process = new Process()
-			{
-				EnableRaisingEvents = true,
-				StartInfo = _processStartInfo
-			};
+		[DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
 
-			process.Exited += (object sender, EventArgs eventArgs) =>
-			{
-				Terminated?.Invoke(this);
-			};
-
-			return process;
-		}
-
-		/// <summary>
-		/// Get the amount of time to wait for the process to start.
-		/// </summary>
-		/// <returns>Timeout in miliseconds.</returns>
-		private int GetTimeoutInMiliseconds() => _startupTimeoutInSeconds * 1000;
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
 	}
 }

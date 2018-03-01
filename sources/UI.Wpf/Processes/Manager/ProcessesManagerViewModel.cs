@@ -36,7 +36,7 @@ namespace UI.Wpf.Processes
 	public class ProcessesManagerViewModel : ReactiveObject, IProcessesManagerViewModel
 	{
 		//
-		private readonly IProcessesRepository _processesRepository;
+		private readonly IProcessRepository _processesRepository;
 		private readonly IReactiveList<ProcessEntity> _entities;
 
 		//
@@ -56,9 +56,9 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesManagerViewModel(IProcessesRepository processesRepository = null, IValidator<IProcessViewModel> processViewModelaValidator = null)
+		public ProcessesManagerViewModel(IProcessRepository processesRepository = null, IValidator<IProcessViewModel> processViewModelaValidator = null)
 		{
-			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
+			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
 			_formDataValidator = processViewModelaValidator ?? Locator.CurrentMutable.GetService<IValidator<IProcessViewModel>>();
 
 			_entities = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = true };

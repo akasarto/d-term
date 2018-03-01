@@ -1,28 +1,28 @@
 ﻿using Processes.Core;
 using ReactiveUI;
 using System;
+using System.Reactive;
+using System.Reactive.Linq;
 
 namespace UI.Wpf.Processes
 {
-	/// <summary>
-	/// Process instance view model interface.
-	/// </summary>
+	//
 	public interface IProcessInstanceViewModel
 	{
 		int Pid { get; }
 		string Name { get; set; }
 		IProcessHost Host { get; }
 		IntPtr MainWindowHandle { get; }
+		IObservable<EventPattern<EventArgs>> Terminated { get; }
 	}
 
-	/// <summary>
-	/// App process instance view model implementation.
-	/// </summary>
+	//
 	public class ProcessInstanceViewModel : ReactiveObject, IProcessInstanceViewModel
 	{
 		//
 		private readonly IProcess _process;
 		private readonly IProcessHostFactory _processHostFactory;
+		private readonly IObservable<EventPattern<EventArgs>> _terminated;
 
 		//
 		private string _name;
@@ -35,25 +35,20 @@ namespace UI.Wpf.Processes
 		{
 			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ProcessInstanceViewModel));
 			_processHostFactory = processHostFactory ?? throw new ArgumentNullException(nameof(processHostFactory), nameof(ProcessInstanceViewModel));
+
+			_terminated = Observable.FromEventPattern<EventHandler, EventArgs>(
+				handler => _process.Exited += handler,
+				handler => _process.Exited -= handler);
 		}
 
-		/// <summary>
-		/// Gets the underlying process id (PID).
-		/// </summary>
 		public int Pid => _process.Id;
 
-		/// <summary>
-		/// Gets or sets the instance name.
-		/// </summary>
 		public string Name
 		{
 			get => _name;
 			set => this.RaiseAndSetIfChanged(ref _name, value);
 		}
 
-		/// <summary>
-		/// Gets the instance Win32 process host.
-		/// </summary>
 		public IProcessHost Host
 		{
 			get
@@ -67,9 +62,8 @@ namespace UI.Wpf.Processes
 			}
 		}
 
-		/// <summary>
-		/// Gets the underlying process main window handle.
-		/// </summary>
 		public IntPtr MainWindowHandle => _process.MainWindowHandle;
+
+		public IObservable<EventPattern<EventArgs>> Terminated => _terminated;
 	}
 }

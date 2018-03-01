@@ -49,16 +49,16 @@ namespace UI.Wpf
 			_container.Register<IProcessPathBuilder>(() => new ProcessPathBuilder());
 
 			//
-			_container.Register<IProcessesRepository>(() => new ProcessesRepository(dbConnectionString));
+			_container.Register<IProcessRepository>(() => new ProcessRepository(dbConnectionString));
 			_container.Register<INotebooksRepository>(() => new NotebooksRepository(dbConnectionString));
 
 			//
+			_container.Register<IProcessFactory>(() => new ProcessFactory());
 			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
 			_container.Register<IProcessesViewModel>(() => new ProcessesViewModel());
 			_container.Register<IProcessesManagerViewModel>(() => new ProcessesManagerViewModel());
 			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessValidator());
 			_container.Register<IProcessHostFactory>(() => new ProcessHostFactory());
-			_container.Register<IProcessInstanceFactory>(() => new ProcessInstanceFactory());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

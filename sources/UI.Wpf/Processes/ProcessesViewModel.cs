@@ -4,6 +4,7 @@ using ReactiveUI;
 using Splat;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -11,9 +12,7 @@ using WinApi.User32;
 
 namespace UI.Wpf.Processes
 {
-	/// <summary>
-	/// Processes view model interface.
-	/// </summary>
+	//
 	public interface IProcessesViewModel
 	{
 		bool IsLoadingProcesses { get; }
@@ -23,32 +22,26 @@ namespace UI.Wpf.Processes
 		IReactiveDerivedList<IProcessInstanceViewModel> ProcessInstances { get; }
 	}
 
-	/// <summary>
-	/// App processes view model implementation.
-	/// <seealso cref="IProcessesViewModel"/>
-	/// </summary>
+	//
 	public class ProcessesViewModel : ReactiveObject, IProcessesViewModel
 	{
-		//
-		private readonly IProcessesRepository _processesRepository;
-		private readonly IProcessInstanceFactory _processInstanceFactory;
+		private readonly IProcessFactory _processFactory;
+		private readonly IProcessRepository _processesRepository;
 		private readonly IReactiveList<ProcessEntity> _processOptionsSource;
 		private readonly IReactiveDerivedList<IProcessViewModel> _processOptions;
 		private readonly IReactiveList<IProcessInstanceViewModel> _processInstancesSource;
 		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _processInstances;
 		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _createProcessInstanceCommandFactory;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
-
-		//
 		private bool _isLoadingOptions;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesViewModel(IProcessesRepository processesRepository = null, IProcessInstanceFactory processInstanceFactory = null)
+		public ProcessesViewModel(IProcessFactory processFactory = null, IProcessRepository processesRepository = null)
 		{
-			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
-			_processInstanceFactory = processInstanceFactory ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
+			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
+			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
 
 			_processOptionsSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
 			_processInstancesSource = new ReactiveList<IProcessInstanceViewModel>() { ChangeTrackingEnabled = true };
@@ -96,7 +89,26 @@ namespace UI.Wpf.Processes
 			{
 				var commandIntance = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstanceViewModel>(async (option) => await Task.Run(() =>
 				{
-					var instance = _processInstanceFactory.Create(option);
+					var instance = default(IProcessInstanceViewModel);
+
+					var process = _processFactory.Create(option);
+
+					if (process.Start())
+					{
+						instance = Mapper.Map<IProcessInstanceViewModel>(process);
+
+						instance = (IProcessInstanceViewModel)Mapper.Map(
+							option,
+							instance,
+							typeof(IProcessViewModel),
+							typeof(IProcessInstanceViewModel)
+						);
+					}
+
+					if (instance == null)
+					{
+						process.Dispose();
+					}
 
 					return Task.FromResult(instance);
 				}));
@@ -110,6 +122,21 @@ namespace UI.Wpf.Processes
 				{
 					if (instance != null)
 					{
+						instance.Terminated.ObserveOnDispatcher().Subscribe(@event =>
+						{
+							var process = @event.Sender as IProcess;
+
+							if (process != null)
+							{
+								var terminatedInstance = _processInstancesSource.Where(i => i.Pid == process.Id).SingleOrDefault();
+
+								if (terminatedInstance != null)
+								{
+									_processInstancesSource.Remove(terminatedInstance);
+								}
+							}
+						});
+
 						_processInstancesSource.Add(instance);
 
 						return;

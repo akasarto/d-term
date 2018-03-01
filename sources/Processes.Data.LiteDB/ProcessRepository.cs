@@ -6,15 +6,18 @@ using System.Linq;
 
 namespace Processes.Data.LiteDB
 {
-	public class ProcessesRepository : IProcessesRepository
+	public class ProcessRepository : IProcessRepository
 	{
 		private string _processesCollection = "processes";
 
 		private readonly string _connectionString = null;
 
-		public ProcessesRepository(string connectionString)
+		/// <summary>
+		/// Constructorm method.
+		/// </summary>
+		public ProcessRepository(string connectionString)
 		{
-			_connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString), nameof(ProcessesRepository));
+			_connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString), nameof(ProcessRepository));
 
 			CheckSeed();
 		}

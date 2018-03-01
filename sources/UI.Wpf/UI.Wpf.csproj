@@ -240,12 +240,12 @@
       <DependentUpon>ProcessListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\Instances\ProcessHostFactory.cs" />
+    <Compile Include="Processes\ProcessFactory.cs" />
     <Compile Include="Shared\Class1.cs" />
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
     <Compile Include="Processes\ProcessViewModel.cs" />
     <Compile Include="Processes\ProcessValidator.cs" />
-    <Compile Include="Processes\Instances\ProcessInstanceFactory.cs" />
     <Compile Include="Processes\Manager\ProcessesManagerView.xaml.cs">
       <DependentUpon>ProcessesManagerView.xaml</DependentUpon>
     </Compile>
