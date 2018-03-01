@@ -39,7 +39,10 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
+					<StackPanel>
 					<TextBlock Text="{Binding Name}" />
+					<TextBlock Text="{Binding Pid}" />
+					</StackPanel>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>

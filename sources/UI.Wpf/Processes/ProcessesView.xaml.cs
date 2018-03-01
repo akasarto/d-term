@@ -1,5 +1,6 @@
 ﻿using ReactiveUI;
 using System;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +23,32 @@ namespace UI.Wpf.Processes
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptionsCommand).SelectMany(x => x.Execute()).Subscribe());
+
+				activator(ViewModel.EmbedProcessInstanceInteraction.RegisterHandler(instance =>
+				{
+					var settingsView = new ProcessInstanceView()
+					{
+						Owner = Application.Current.MainWindow,
+						ViewModel = instance.Input
+					};
+
+					settingsView.Show();
+
+					instance.SetOutput(Unit.Default);
+				}));
+
+				//activator(this.WhenAnyValue(@this => @this.ViewModel.EmbedProcessInstanceInteraction.RegisterHandler(instance =>
+				//{
+				//var settingsView = new ProcessInstanceView()
+				//{
+				//	Owner = Application.Current.MainWindow
+				//};
+
+				//settingsView.ShowDialog();
+
+				//instance.SetOutput(Unit.Default);
+				//})));
+
 			});
 		}
 

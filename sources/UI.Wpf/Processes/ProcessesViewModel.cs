@@ -18,6 +18,7 @@ namespace UI.Wpf.Processes
 		bool IsLoadingProcesses { get; }
 		IReactiveDerivedList<IProcessViewModel> ProcessOptions { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
+		Interaction<IProcessInstanceViewModel, Unit> EmbedProcessInstanceInteraction { get; }
 		ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand { get; }
 		IReactiveDerivedList<IProcessInstanceViewModel> ProcessInstances { get; }
 	}
@@ -32,6 +33,7 @@ namespace UI.Wpf.Processes
 		private readonly IReactiveList<IProcessInstanceViewModel> _processInstancesSource;
 		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _processInstances;
 		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _createProcessInstanceCommandFactory;
+		private readonly Interaction<IProcessInstanceViewModel, Unit> _embedProcessInstanceInteraction;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private bool _isLoadingOptions;
 
@@ -42,6 +44,8 @@ namespace UI.Wpf.Processes
 		{
 			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
+
+			_embedProcessInstanceInteraction = new Interaction<IProcessInstanceViewModel, Unit>();
 
 			_processOptionsSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
 			_processInstancesSource = new ReactiveList<IProcessInstanceViewModel>() { ChangeTrackingEnabled = true };
@@ -56,7 +60,8 @@ namespace UI.Wpf.Processes
 
 			_processInstances.ItemsAdded.Subscribe(instance =>
 			{
-				User32Methods.ShowWindow(instance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
+				_embedProcessInstanceInteraction.Handle(instance).Subscribe();
+				//User32Methods.ShowWindow(instance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
 			});
 
 			/*
@@ -149,33 +154,20 @@ namespace UI.Wpf.Processes
 			};
 		}
 
-		/// <summary>
-		/// Gets or sets the options loading status.
-		/// </summary>
 		public bool IsLoadingProcesses
 		{
 			get => _isLoadingOptions;
 			set => this.RaiseAndSetIfChanged(ref _isLoadingOptions, value);
 		}
 
-		/// <summary>
-		/// Gets the current available process options.
-		/// </summary>
 		public IReactiveDerivedList<IProcessViewModel> ProcessOptions => _processOptions;
 
-		/// <summary>
-		/// Gets the create process instance command.
-		/// </summary>
 		public ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
 
-		/// <summary>
-		/// Gets the load processes command.
-		/// </summary>
+		public Interaction<IProcessInstanceViewModel, Unit> EmbedProcessInstanceInteraction => _embedProcessInstanceInteraction;
+
 		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 
-		/// <summary>
-		/// Gets the current available process instances.
-		/// </summary>
 		public IReactiveDerivedList<IProcessInstanceViewModel> ProcessInstances => _processInstances;
 	}
 }

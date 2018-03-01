@@ -7,7 +7,7 @@ namespace UI.Wpf.Processes
 	/// <summary>
 	/// Process intance view.
 	/// </summary>
-	public partial class ProcessInstanceView : UserControl, IViewFor<IProcessInstanceViewModel>
+	public partial class ProcessInstanceView : IViewFor<IProcessInstanceViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
