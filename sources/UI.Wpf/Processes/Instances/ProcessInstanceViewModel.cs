@@ -1,4 +1,5 @@
 ﻿using Processes.Core;
+using ReactiveUI;
 using System;
 
 namespace UI.Wpf.Processes
@@ -9,43 +10,66 @@ namespace UI.Wpf.Processes
 	public interface IProcessInstanceViewModel
 	{
 		int Pid { get; }
-		IProcessInstanceHost Host { get; }
+		string Name { get; set; }
+		IProcessHost Host { get; }
 		IntPtr MainWindowHandle { get; }
 	}
 
 	/// <summary>
 	/// App process instance view model implementation.
 	/// </summary>
-	public class ProcessInstanceViewModel : IProcessInstanceViewModel
+	public class ProcessInstanceViewModel : ReactiveObject, IProcessInstanceViewModel
 	{
-		private IProcessInstance _processInstance;
-		private IProcessHostFactory _processHostFactory;
-		private IProcessInstanceHost _processInstanceHost;
+		//
+		private readonly IProcess _process;
+		private readonly IProcessHostFactory _processHostFactory;
+
+		//
+		private string _name;
+		private IProcessHost _processHost;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstanceViewModel(IProcessInstance processInstance, IProcessHostFactory processHostFactory)
+		public ProcessInstanceViewModel(IProcess process, IProcessHostFactory processHostFactory)
 		{
-			_processInstance = processInstance ?? throw new ArgumentNullException(nameof(processInstance), nameof(ProcessInstanceViewModel));
+			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ProcessInstanceViewModel));
 			_processHostFactory = processHostFactory ?? throw new ArgumentNullException(nameof(processHostFactory), nameof(ProcessInstanceViewModel));
-
-			_processInstanceHost = _processHostFactory.Create(processInstance);
 		}
 
 		/// <summary>
-		/// Gets the process instance id (PID).
+		/// Gets the underlying process id (PID).
 		/// </summary>
-		public int Pid => _processInstance.Id;
+		public int Pid => _process.Id;
 
 		/// <summary>
-		/// Gets the Win32 process instance host.
+		/// Gets or sets the instance name.
 		/// </summary>
-		public IProcessInstanceHost Host => _processInstanceHost;
+		public string Name
+		{
+			get => _name;
+			set => this.RaiseAndSetIfChanged(ref _name, value);
+		}
 
 		/// <summary>
-		/// Gets the process instance main window handle.
+		/// Gets the instance Win32 process host.
 		/// </summary>
-		public IntPtr MainWindowHandle => _processInstance.MainWindowHandle;
+		public IProcessHost Host
+		{
+			get
+			{
+				if (_processHost == null)
+				{
+					_processHost = _processHostFactory.Create(_process);
+				}
+
+				return _processHost;
+			}
+		}
+
+		/// <summary>
+		/// Gets the underlying process main window handle.
+		/// </summary>
+		public IntPtr MainWindowHandle => _process.MainWindowHandle;
 	}
 }

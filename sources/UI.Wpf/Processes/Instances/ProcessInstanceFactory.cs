@@ -1,4 +1,5 @@
-﻿using Processes.Core;
+﻿using AutoMapper;
+using Processes.Core;
 using Processes.SystemDiagnostics;
 using Splat;
 using System;
@@ -13,7 +14,7 @@ namespace UI.Wpf.Processes
 	public interface IProcessInstanceFactory
 	{
 		bool CanCreate(ProcessBasePath processBasePath, string processExecutableName);
-		IProcessInstance Create(IProcessViewModel IProcessViewModel);
+		IProcessInstanceViewModel Create(IProcessViewModel IProcessViewModel, int startupTimeoutInSeconds = 3);
 	}
 
 	/// <summary>
@@ -22,16 +23,18 @@ namespace UI.Wpf.Processes
 	public class ProcessInstanceFactory : IProcessInstanceFactory
 	{
 		//
-		private readonly IProcessTracker _processTracker = null;
-		private readonly IProcessPathBuilder _processPathBuilder = null;
+		private readonly IProcessTracker _processTracker;
+		private readonly IProcessPathBuilder _processPathBuilder;
+		private readonly IProcessHostFactory _processHostFactory;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstanceFactory(IProcessTracker processTracker = null, IProcessPathBuilder processPathBuilder = null)
+		public ProcessInstanceFactory(IProcessTracker processTracker = null, IProcessPathBuilder processPathBuilder = null, IProcessHostFactory processHostFactory = null)
 		{
 			_processTracker = processTracker ?? Locator.CurrentMutable.GetService<IProcessTracker>();
 			_processPathBuilder = processPathBuilder ?? Locator.CurrentMutable.GetService<IProcessPathBuilder>();
+			_processHostFactory = processHostFactory ?? Locator.CurrentMutable.GetService<IProcessHostFactory>();
 		}
 
 		/// <summary>
@@ -50,34 +53,43 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Create a new process instance.
 		/// </summary>
-		/// <param name="descriptor">The process view model.</param>
-		/// <returns>An <see cref="IProcessInstance"/> instance.</returns>
-		public IProcessInstance Create(IProcessViewModel descriptor)
+		/// <param name="processViewModel">The process view model.</param>
+		/// <returns>An <see cref="IProcessInstanceViewModel"/> instance.</returns>
+		public IProcessInstanceViewModel Create(IProcessViewModel processViewModel, int startupTimeoutInSeconds = 3)
 		{
-			if (descriptor == null || !CanCreate(descriptor.ProcessBasePath, descriptor.ProcessExecutableName))
+			IProcessInstanceViewModel result = null;
+
+			if (processViewModel == null || !CanCreate(processViewModel.ProcessBasePath, processViewModel.ProcessExecutableName))
 			{
 				return null;
 			}
 
-			var fullPath = _processPathBuilder.Build(descriptor.ProcessBasePath, descriptor.ProcessExecutableName);
+			var fullPath = _processPathBuilder.Build(processViewModel.ProcessBasePath, processViewModel.ProcessExecutableName);
 
 			var processStartInfo = new ProcessStartInfo(fullPath)
 			{
 				WindowStyle = ProcessWindowStyle.Hidden,
 				WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-				Arguments = descriptor.ProcessStartupArgs
+				Arguments = processViewModel.ProcessStartupArgs
 			};
 
-			var consoleInstance = new ProcessInstance(processStartInfo, 3);
+			var process = new SysProcess(processStartInfo, startupTimeoutInSeconds);
 
-			consoleInstance.Start();
-
-			if (consoleInstance.IsStarted)
+			if (process.Start())
 			{
-				_processTracker.Track(consoleInstance.Id);
+				_processTracker.Track(process.Id);
+
+				result = Mapper.Map<IProcessInstanceViewModel>(process);
+
+				result = Mapper.Map(processViewModel, result, typeof(IProcessViewModel), typeof(IProcessInstanceViewModel)) as IProcessInstanceViewModel;
 			}
 
-			return consoleInstance;
+			if (result == null)
+			{
+				process.Dispose();
+			}
+
+			return result;
 		}
 	}
 }

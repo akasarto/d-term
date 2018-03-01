@@ -61,7 +61,7 @@
   <ItemGroup>
     <Compile Include="ProcessEntity.cs" />
     <Compile Include="IProcessesRepository.cs" />
-    <Compile Include="IProcessInstance.cs" />
+    <Compile Include="IProcess.cs" />
     <Compile Include="IProcessPathBuilder.cs" />
     <Compile Include="IProcessTracker.cs" />
     <Compile Include="ProcessBasePath.cs" />

@@ -19,7 +19,7 @@ namespace UI.Wpf.Processes
 		bool IsLoadingProcesses { get; }
 		IReactiveDerivedList<IProcessViewModel> ProcessOptions { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		ReactiveCommand<IProcessViewModel, IProcessInstance> CreateProcessInstanceCommand { get; }
+		ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand { get; }
 		IReactiveDerivedList<IProcessInstanceViewModel> ProcessInstances { get; }
 	}
 
@@ -31,34 +31,34 @@ namespace UI.Wpf.Processes
 	{
 		//
 		private readonly IProcessesRepository _processesRepository;
+		private readonly IProcessInstanceFactory _processInstanceFactory;
 		private readonly IReactiveList<ProcessEntity> _processOptionsSource;
-		private readonly IReactiveList<IProcessInstance> _processInstancesSource;
+		private readonly IReactiveDerivedList<IProcessViewModel> _processOptions;
+		private readonly IReactiveList<IProcessInstanceViewModel> _processInstancesSource;
+		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _processInstances;
+		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _createProcessInstanceCommandFactory;
+		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 
 		//
 		private bool _isLoadingOptions;
-		private IReactiveDerivedList<IProcessViewModel> _processOptions;
-		private ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
-		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstance>> _createProcessInstanceCommandFactory;
-		private IReactiveDerivedList<IProcessInstanceViewModel> _processInstances;
-		private readonly IProcessInstanceFactory _processFactory;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesViewModel(IProcessesRepository processesRepository = null, IProcessInstanceFactory processFactory = null)
+		public ProcessesViewModel(IProcessesRepository processesRepository = null, IProcessInstanceFactory processInstanceFactory = null)
 		{
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessesRepository>();
-			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
+			_processInstanceFactory = processInstanceFactory ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
 
 			_processOptionsSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
-			_processInstancesSource = new ReactiveList<IProcessInstance>() { ChangeTrackingEnabled = true };
+			_processInstancesSource = new ReactiveList<IProcessInstanceViewModel>() { ChangeTrackingEnabled = true };
 
 			_processOptions = _processOptionsSource.CreateDerivedCollection(
 				selector: process => Mapper.Map<IProcessViewModel>(process)
 			);
 
 			_processInstances = _processInstancesSource.CreateDerivedCollection(
-				selector: instance => Mapper.Map<IProcessInstanceViewModel>(instance)
+				selector: instance => instance
 			);
 
 			_processInstances.ItemsAdded.Subscribe(instance =>
@@ -94,32 +94,28 @@ namespace UI.Wpf.Processes
 			 */
 			_createProcessInstanceCommandFactory = () =>
 			{
-				var commandIntance = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstance>(async (option) => await Task.Run(() =>
+				var commandIntance = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstanceViewModel>(async (option) => await Task.Run(() =>
 				{
-					var instance = _processFactory.Create(option);
-
-					instance.Start();
+					var instance = _processInstanceFactory.Create(option);
 
 					return Task.FromResult(instance);
 				}));
 
 				commandIntance.ThrownExceptions.Subscribe(@exception =>
 				{
-					// ToDo: Show message
+					// ToDo: Show error message
 				});
 
 				commandIntance.Subscribe(instance =>
 				{
-					if (instance.IsStarted)
+					if (instance != null)
 					{
 						_processInstancesSource.Add(instance);
 
 						return;
 					}
 
-					// ToDo: Show start failure message
-
-					instance.Dispose();
+					// ToDo: Show startup error.
 				});
 
 				return commandIntance;
@@ -143,7 +139,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Gets the create process instance command.
 		/// </summary>
-		public ReactiveCommand<IProcessViewModel, IProcessInstance> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
+		public ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
 
 		/// <summary>
 		/// Gets the load processes command.

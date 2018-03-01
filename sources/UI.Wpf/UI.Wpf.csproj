@@ -232,20 +232,20 @@
       <DependentUpon>ProcessInstanceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\Instances\ProcessInstanceViewModel.cs" />
-    <Compile Include="Processes\ProcessInstanceHost.cs" />
+    <Compile Include="Processes\Instances\ProcessHost.cs" />
     <Compile Include="Processes\Manager\ProcessView.xaml.cs">
       <DependentUpon>ProcessView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\Manager\ProcessListView.xaml.cs">
       <DependentUpon>ProcessListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\Factories\ProcessInstanceHostFactory.cs" />
+    <Compile Include="Processes\Instances\ProcessHostFactory.cs" />
     <Compile Include="Shared\Class1.cs" />
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
     <Compile Include="Processes\ProcessViewModel.cs" />
     <Compile Include="Processes\ProcessValidator.cs" />
-    <Compile Include="Processes\Factories\ProcessInstanceFactory.cs" />
+    <Compile Include="Processes\Instances\ProcessInstanceFactory.cs" />
     <Compile Include="Processes\Manager\ProcessesManagerView.xaml.cs">
       <DependentUpon>ProcessesManagerView.xaml</DependentUpon>
     </Compile>
@@ -370,6 +370,7 @@
   <ItemGroup>
     <Resource Include="Notebooks\.info.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

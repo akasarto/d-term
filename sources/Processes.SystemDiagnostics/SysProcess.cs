@@ -5,9 +5,9 @@ using System.Diagnostics;
 namespace Processes.SystemDiagnostics
 {
 	/// <summary>
-	/// Represents a system <see cref="Process"/> instance in the system.
+	/// App system process implementation.
 	/// </summary>
-	public class ProcessInstance : IProcessInstance
+	public class SysProcess : IProcess
 	{
 		//
 		private readonly Process _systemProcess;
@@ -19,9 +19,9 @@ namespace Processes.SystemDiagnostics
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstance(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
+		public SysProcess(ProcessStartInfo processStartInfo, int startupTimeoutInSeconds)
 		{
-			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(ProcessInstance));
+			_processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(SysProcess));
 			_startupTimeoutInSeconds = startupTimeoutInSeconds <= 0 ? 3 : startupTimeoutInSeconds;
 			_systemProcess = CreateProcess();
 		}
@@ -35,11 +35,6 @@ namespace Processes.SystemDiagnostics
 		/// Gets the process id.
 		/// </summary>
 		public int Id => _systemProcess.Id;
-
-		/// <summary>
-		/// Gets the flag indicating if it has successfully started.
-		/// </summary>
-		public bool IsStarted { get; private set; }
 
 		/// <summary>
 		/// Gets the process main window handle pointer.
@@ -58,7 +53,8 @@ namespace Processes.SystemDiagnostics
 		/// <summary>
 		/// Starts the process.
 		/// </summary>
-		public void Start()
+		/// <returns><c>True</c> if the process has started and a main window handle was acquired. Otherwise <c>false</c>.</returns>
+		public bool Start()
 		{
 			var processStopwatch = Stopwatch.StartNew();
 			var processTimeoutMiliseconds = GetTimeoutInMiliseconds();
@@ -73,15 +69,14 @@ namespace Processes.SystemDiagnostics
 
 					if (_processMainWindowHandle != IntPtr.Zero)
 					{
-						IsStarted = true;
-						return;
+						return true;
 					}
 				}
 
 				_systemProcess.Kill();
 			}
 
-			IsStarted = false;
+			return false;
 		}
 
 		/// <summary>

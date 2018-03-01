@@ -7,28 +7,28 @@ using WinApi.User32;
 namespace UI.Wpf.Processes
 {
 	/// <summary>
-	/// Process instance host interface.
+	/// Process host interface.
 	/// </summary>
-	public interface IProcessInstanceHost
+	public interface IProcessHost
 	{
 	}
 
 	/// <summary>
-	/// App process instance host implementation.
+	/// App process host implementation.
 	/// <para>Hosts Win32 process windows into WPF controls.</para>
 	/// </summary>
-	public class ProcessInstanceHost : HwndHost, IProcessInstanceHost
+	public class ProcessHost : HwndHost, IProcessHost
 	{
 		//
-		private IProcessInstance _processInstance;
+		private IProcess _process;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		/// <param name="processInstance">The started process instance to be hosted.</param>
-		public ProcessInstanceHost(IProcessInstance processInstance)
+		/// <param name="process">The started process instance to be hosted.</param>
+		public ProcessHost(IProcess process)
 		{
-			_processInstance = processInstance ?? throw new ArgumentNullException(nameof(processInstance), nameof(ProcessInstanceHost));
+			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ProcessHost));
 		}
 
 		/// <summary>
@@ -39,10 +39,10 @@ namespace UI.Wpf.Processes
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)
 		{
 			var parentHandle = hwndParent.Handle;
-			var childHandle = _processInstance.MainWindowHandle;
+			var childHandle = _process.MainWindowHandle;
 
 			//
-			_processInstance.ParentHandle = parentHandle;
+			_process.ParentHandle = parentHandle;
 
 			//
 			User32Methods.SetParent(childHandle, parentHandle);
