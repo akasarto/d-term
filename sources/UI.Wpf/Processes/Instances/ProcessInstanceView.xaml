@@ -1,4 +1,4 @@
-﻿<mahApps:MetroWindow
+﻿<Window
 	x:Class="UI.Wpf.Processes.ProcessInstanceView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
@@ -13,11 +13,17 @@
 	Width="800"
 	Height="600"
 	ShowInTaskbar="False"
-	IsMinButtonEnabled="False"
-	WindowTransitionsEnabled="False"
 	WindowStartupLocation="CenterOwner"
 	Title="{Binding Name}"
 >
+
+	<!--
+	TitleCaps="False"
+	ShowTitleBar="True"
+	ShowIconOnTitleBar="True"
+	IsMinButtonEnabled="False"
+	WindowTransitionsEnabled="False"
+	-->
 
 	<Grid>
 
@@ -25,4 +31,4 @@
 
 	</Grid>
 
-</mahApps:MetroWindow>
+</Window>

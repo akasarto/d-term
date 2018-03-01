@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 
 namespace UI.Wpf.Processes
 {
@@ -24,31 +25,34 @@ namespace UI.Wpf.Processes
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptionsCommand).SelectMany(x => x.Execute()).Subscribe());
 
-				activator(ViewModel.EmbedProcessInstanceInteraction.RegisterHandler(instance =>
+				activator(ViewModel.OpenProcessInstanceViewInteraction.RegisterHandler(interaction =>
 				{
 					var settingsView = new ProcessInstanceView()
 					{
 						Owner = Application.Current.MainWindow,
-						ViewModel = instance.Input
+						ViewModel = interaction.Input
 					};
 
 					settingsView.Show();
 
-					instance.SetOutput(Unit.Default);
+					var hwndSource = new WindowInteropHelper(settingsView);
+
+					interaction.SetOutput(hwndSource.Handle);
 				}));
 
-				//activator(this.WhenAnyValue(@this => @this.ViewModel.EmbedProcessInstanceInteraction.RegisterHandler(instance =>
-				//{
-				//var settingsView = new ProcessInstanceView()
-				//{
-				//	Owner = Application.Current.MainWindow
-				//};
+				activator(ViewModel.CloseProcessInstanceViewInteraction.RegisterHandler(interaction =>
+				{
+					var settingsView = HwndSource.FromHwnd(interaction.Input).RootVisual as Window;
 
-				//settingsView.ShowDialog();
+					if (settingsView != null)
+					{
+						settingsView.Close();
+						interaction.SetOutput(true);
+						return;
+					}
 
-				//instance.SetOutput(Unit.Default);
-				//})));
-
+					interaction.SetOutput(false);
+				}));
 			});
 		}
 

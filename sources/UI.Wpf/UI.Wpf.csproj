@@ -233,6 +233,7 @@
     </Compile>
     <Compile Include="Processes\Instances\ProcessInstanceViewModel.cs" />
     <Compile Include="Processes\Instances\ProcessHost.cs" />
+    <Compile Include="Processes\Instances\ProcessInstanceViewWndProc.cs" />
     <Compile Include="Processes\Manager\ProcessView.xaml.cs">
       <DependentUpon>ProcessView.xaml</DependentUpon>
     </Compile>
@@ -261,7 +262,7 @@
     <Compile Include="Shell\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WinApiMethods.cs" />
+    <Compile Include="Win32Api.cs" />
     <Compile Include="Settings\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>

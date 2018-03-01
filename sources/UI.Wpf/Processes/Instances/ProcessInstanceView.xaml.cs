@@ -1,6 +1,9 @@
 ﻿using ReactiveUI;
+using System;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 
 namespace UI.Wpf.Processes
 {
@@ -9,6 +12,9 @@ namespace UI.Wpf.Processes
 	/// </summary>
 	public partial class ProcessInstanceView : IViewFor<IProcessInstanceViewModel>
 	{
+		private IntPtr _instanceViewHandle;
+		private ProcessInstanceViewWndProc _instanceViewWndProc;
+
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
@@ -19,6 +25,20 @@ namespace UI.Wpf.Processes
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
+
+				//activator(this.WhenAnyValue(@this => @this.ViewModel).Where(vm => vm != null).Subscribe(instance =>
+				//{
+				//	this.Events().Activated.Subscribe(args =>
+				//	{
+				//		User32Methods.SetForegroundWindow(instance.MainWindowHandle);
+				//	});
+				//}));
+			});
+
+			this.Events().SourceInitialized.Subscribe(args =>
+			{
+				_instanceViewHandle = new WindowInteropHelper(this).Handle;
+				_instanceViewWndProc = new ProcessInstanceViewWndProc(HwndSource.FromHwnd(_instanceViewHandle));
 			});
 		}
 

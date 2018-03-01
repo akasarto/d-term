@@ -18,9 +18,10 @@ namespace UI.Wpf.Processes
 		bool IsLoadingProcesses { get; }
 		IReactiveDerivedList<IProcessViewModel> ProcessOptions { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		Interaction<IProcessInstanceViewModel, Unit> EmbedProcessInstanceInteraction { get; }
+		Interaction<IProcessInstanceViewModel, IntPtr> OpenProcessInstanceViewInteraction { get; }
 		ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand { get; }
 		IReactiveDerivedList<IProcessInstanceViewModel> ProcessInstances { get; }
+		Interaction<IntPtr, bool> CloseProcessInstanceViewInteraction { get; }
 	}
 
 	//
@@ -30,11 +31,13 @@ namespace UI.Wpf.Processes
 		private readonly IProcessRepository _processesRepository;
 		private readonly IReactiveList<ProcessEntity> _processOptionsSource;
 		private readonly IReactiveDerivedList<IProcessViewModel> _processOptions;
+		private readonly Interaction<IntPtr, bool> _closeProcessInstanceViewInteraction;
 		private readonly IReactiveList<IProcessInstanceViewModel> _processInstancesSource;
 		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _processInstances;
 		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _createProcessInstanceCommandFactory;
-		private readonly Interaction<IProcessInstanceViewModel, Unit> _embedProcessInstanceInteraction;
+		private readonly Interaction<IProcessInstanceViewModel, IntPtr> _openProcessInstanceViewInteraction;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
+		private readonly Dictionary<int, IntPtr> _embeddedInstancesTracker;
 		private bool _isLoadingOptions;
 
 		/// <summary>
@@ -42,27 +45,57 @@ namespace UI.Wpf.Processes
 		/// </summary>
 		public ProcessesViewModel(IProcessFactory processFactory = null, IProcessRepository processesRepository = null)
 		{
+			//
 			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
 
-			_embedProcessInstanceInteraction = new Interaction<IProcessInstanceViewModel, Unit>();
+			//
+			_embeddedInstancesTracker = new Dictionary<int, IntPtr>();
+			_openProcessInstanceViewInteraction = new Interaction<IProcessInstanceViewModel, IntPtr>();
+			_closeProcessInstanceViewInteraction = new Interaction<IntPtr, bool>();
 
+			//
 			_processOptionsSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
 			_processInstancesSource = new ReactiveList<IProcessInstanceViewModel>() { ChangeTrackingEnabled = true };
 
+			//
 			_processOptions = _processOptionsSource.CreateDerivedCollection(
 				selector: process => Mapper.Map<IProcessViewModel>(process)
 			);
-
 			_processInstances = _processInstancesSource.CreateDerivedCollection(
 				selector: instance => instance
 			);
 
-			_processInstances.ItemsAdded.Subscribe(instance =>
+			/*
+			 * Instances (Open / Close Windows)
+			 */
+			_processInstances.ItemsAdded.Subscribe(addedInstance =>
 			{
-				_embedProcessInstanceInteraction.Handle(instance).Subscribe();
-				//User32Methods.ShowWindow(instance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
+				if (Win32Api.IsConsoleProcess(addedInstance.MainWindowHandle))
+				{
+					_openProcessInstanceViewInteraction.Handle(addedInstance).Subscribe(windowHandle =>
+					{
+						if (!_embeddedInstancesTracker.ContainsKey(addedInstance.Pid))
+						{
+							_embeddedInstancesTracker.Add(addedInstance.Pid, windowHandle);
+						}
+					});
+
+					return;
+				}
+
+				User32Methods.ShowWindow(addedInstance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
 			});
+
+			_processInstances.ItemsRemoved.ObserveOnDispatcher().Subscribe(removedInstance => _openProcessInstanceViewInteraction.Handle(removedInstance).Subscribe(windowHandle =>
+			{
+				var instanceHandle = _embeddedInstancesTracker[removedInstance.Pid];
+
+				_closeProcessInstanceViewInteraction.Handle(instanceHandle).Where(closed => !closed).Subscribe(closed =>
+				{
+					// ToDo: Log error closing view.
+				});
+			}));
 
 			/*
 			 * Load Processess
@@ -127,7 +160,7 @@ namespace UI.Wpf.Processes
 				{
 					if (instance != null)
 					{
-						instance.Terminated.ObserveOnDispatcher().Subscribe(@event =>
+						var instanceSubscription = instance.Terminated.ObserveOnDispatcher().Subscribe(@event =>
 						{
 							var process = @event.Sender as IProcess;
 
@@ -164,7 +197,9 @@ namespace UI.Wpf.Processes
 
 		public ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
 
-		public Interaction<IProcessInstanceViewModel, Unit> EmbedProcessInstanceInteraction => _embedProcessInstanceInteraction;
+		public Interaction<IProcessInstanceViewModel, IntPtr> OpenProcessInstanceViewInteraction => _openProcessInstanceViewInteraction;
+
+		public Interaction<IntPtr, bool> CloseProcessInstanceViewInteraction => _closeProcessInstanceViewInteraction;
 
 		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 
