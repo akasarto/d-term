@@ -25,20 +25,14 @@ namespace UI.Wpf.Processes
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
-
-				//activator(this.WhenAnyValue(@this => @this.ViewModel).Where(vm => vm != null).Subscribe(instance =>
-				//{
-				//	this.Events().Activated.Subscribe(args =>
-				//	{
-				//		User32Methods.SetForegroundWindow(instance.MainWindowHandle);
-				//	});
-				//}));
 			});
 
 			this.Events().SourceInitialized.Subscribe(args =>
 			{
 				_instanceViewHandle = new WindowInteropHelper(this).Handle;
-				_instanceViewWndProc = new ProcessInstanceViewWndProc(HwndSource.FromHwnd(_instanceViewHandle));
+				_instanceViewWndProc = new ProcessInstanceViewWndProc(
+					HwndSource.FromHwnd(_instanceViewHandle)
+				);
 			});
 		}
 

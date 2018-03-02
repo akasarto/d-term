@@ -9,11 +9,11 @@ namespace UI.Wpf.Processes
 	//
 	public interface IProcessInstanceViewModel
 	{
-		int Pid { get; }
 		string Name { get; set; }
-		IProcessHost Host { get; }
-		IntPtr MainWindowHandle { get; }
-		IObservable<EventPattern<EventArgs>> Terminated { get; }
+		int ProcessId { get; }
+		IProcessHost ProcessHost { get; }
+		IntPtr ProcessMainWindowHandle { get; }
+		IObservable<EventPattern<EventArgs>> ProcessExited { get; }
 	}
 
 	//
@@ -41,15 +41,13 @@ namespace UI.Wpf.Processes
 				handler => _process.Exited -= handler);
 		}
 
-		public int Pid => _process.Id;
-
 		public string Name
 		{
 			get => _name;
 			set => this.RaiseAndSetIfChanged(ref _name, value);
 		}
 
-		public IProcessHost Host
+		public IProcessHost ProcessHost
 		{
 			get
 			{
@@ -62,8 +60,10 @@ namespace UI.Wpf.Processes
 			}
 		}
 
-		public IntPtr MainWindowHandle => _process.MainWindowHandle;
+		public int ProcessId => _process.Id;
 
-		public IObservable<EventPattern<EventArgs>> Terminated => _terminated;
+		public IntPtr ProcessMainWindowHandle => _process.MainWindowHandle;
+
+		public IObservable<EventPattern<EventArgs>> ProcessExited => _terminated;
 	}
 }

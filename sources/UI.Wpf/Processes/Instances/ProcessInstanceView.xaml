@@ -27,7 +27,7 @@
 
 	<Grid>
 
-		<ContentControl Content="{Binding Host}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+		<ContentControl Content="{Binding ProcessHost}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
 	</Grid>
 

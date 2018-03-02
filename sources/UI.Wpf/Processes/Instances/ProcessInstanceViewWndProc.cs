@@ -7,29 +7,29 @@ namespace UI.Wpf.Processes
 {
 	public class ProcessInstanceViewWndProc
 	{
-		private IntPtr _instanceWindowHandle;
+		private IntPtr _instanceViewHandle;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstanceViewWndProc(HwndSource parentHwndSource)
+		public ProcessInstanceViewWndProc(HwndSource hwndSource)
 		{
-			_instanceWindowHandle = parentHwndSource.Handle;
-			parentHwndSource.AddHook(WndProc);
+			_instanceViewHandle = hwndSource.Handle;
+			hwndSource.AddHook(WndProcCallback);
 		}
 
 		private void ActivateWindow(IntPtr wndHandle)
 		{
-			User32Methods.SetActiveWindow(_instanceWindowHandle);
-			User32Methods.SetForegroundWindow(_instanceWindowHandle);
+			User32Methods.SetActiveWindow(_instanceViewHandle);
+			User32Methods.SetForegroundWindow(_instanceViewHandle);
 			User32Methods.SetForegroundWindow(wndHandle);
 
 			SetShellVisualAsActive();
 		}
 
-		private void SetShellVisualAsActive() => Win32Api.SetVisualAsActive(_instanceWindowHandle);
+		private void SetShellVisualAsActive() => Win32Api.SetVisualAsActive(_instanceViewHandle);
 
-		private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+		private IntPtr WndProcCallback(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
 		{
 			var message = (WM)msg;
 

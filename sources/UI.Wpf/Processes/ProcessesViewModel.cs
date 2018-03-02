@@ -31,11 +31,11 @@ namespace UI.Wpf.Processes
 		private readonly IProcessRepository _processesRepository;
 		private readonly IReactiveList<ProcessEntity> _processOptionsSource;
 		private readonly IReactiveDerivedList<IProcessViewModel> _processOptions;
-		private readonly Interaction<IntPtr, bool> _closeProcessInstanceViewInteraction;
 		private readonly IReactiveList<IProcessInstanceViewModel> _processInstancesSource;
 		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _processInstances;
 		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _createProcessInstanceCommandFactory;
 		private readonly Interaction<IProcessInstanceViewModel, IntPtr> _openProcessInstanceViewInteraction;
+		private readonly Interaction<IntPtr, bool> _closeProcessInstanceViewInteraction;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private readonly Dictionary<int, IntPtr> _embeddedInstancesTracker;
 		private bool _isLoadingOptions;
@@ -51,8 +51,8 @@ namespace UI.Wpf.Processes
 
 			//
 			_embeddedInstancesTracker = new Dictionary<int, IntPtr>();
-			_openProcessInstanceViewInteraction = new Interaction<IProcessInstanceViewModel, IntPtr>();
 			_closeProcessInstanceViewInteraction = new Interaction<IntPtr, bool>();
+			_openProcessInstanceViewInteraction = new Interaction<IProcessInstanceViewModel, IntPtr>();
 
 			//
 			_processOptionsSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
@@ -71,31 +71,28 @@ namespace UI.Wpf.Processes
 			 */
 			_processInstances.ItemsAdded.Subscribe(addedInstance =>
 			{
-				if (Win32Api.IsConsoleProcess(addedInstance.MainWindowHandle))
+				// For now, console windows are embedded into the application.
+				if (Win32Api.IsConsoleProcess(addedInstance.ProcessMainWindowHandle))
 				{
-					_openProcessInstanceViewInteraction.Handle(addedInstance).Subscribe(windowHandle =>
+					_openProcessInstanceViewInteraction.Handle(addedInstance).Subscribe(instanceViewHandle =>
 					{
-						if (!_embeddedInstancesTracker.ContainsKey(addedInstance.Pid))
-						{
-							_embeddedInstancesTracker.Add(addedInstance.Pid, windowHandle);
-						}
+						_embeddedInstancesTracker.Add(addedInstance.ProcessId, instanceViewHandle);
 					});
 
 					return;
 				}
 
-				User32Methods.ShowWindow(addedInstance.MainWindowHandle, ShowWindowCommands.SW_SHOW);
+				User32Methods.ShowWindow(addedInstance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);
 			});
 
-			_processInstances.ItemsRemoved.ObserveOnDispatcher().Subscribe(removedInstance => _openProcessInstanceViewInteraction.Handle(removedInstance).Subscribe(windowHandle =>
+			_processInstances.ItemsRemoved.Subscribe(removedInstance =>
 			{
-				var instanceHandle = _embeddedInstancesTracker[removedInstance.Pid];
+				var instanceViewHandle = _embeddedInstancesTracker[removedInstance.ProcessId];
 
-				_closeProcessInstanceViewInteraction.Handle(instanceHandle).Where(closed => !closed).Subscribe(closed =>
+				_closeProcessInstanceViewInteraction.Handle(instanceViewHandle).Subscribe(removed =>
 				{
-					// ToDo: Log error closing view.
 				});
-			}));
+			});
 
 			/*
 			 * Load Processess
@@ -160,13 +157,13 @@ namespace UI.Wpf.Processes
 				{
 					if (instance != null)
 					{
-						var instanceSubscription = instance.Terminated.ObserveOnDispatcher().Subscribe(@event =>
+						var instanceSubscription = instance.ProcessExited.ObserveOnDispatcher().Subscribe(@event =>
 						{
 							var process = @event.Sender as IProcess;
 
 							if (process != null)
 							{
-								var terminatedInstance = _processInstancesSource.Where(i => i.Pid == process.Id).SingleOrDefault();
+								var terminatedInstance = _processInstancesSource.Where(i => i.ProcessId == process.Id).SingleOrDefault();
 
 								if (terminatedInstance != null)
 								{

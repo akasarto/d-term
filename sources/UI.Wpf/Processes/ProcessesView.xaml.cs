@@ -27,26 +27,24 @@ namespace UI.Wpf.Processes
 
 				activator(ViewModel.OpenProcessInstanceViewInteraction.RegisterHandler(interaction =>
 				{
-					var settingsView = new ProcessInstanceView()
+					var processInstanceView = new ProcessInstanceView()
 					{
 						Owner = Application.Current.MainWindow,
 						ViewModel = interaction.Input
 					};
 
-					settingsView.Show();
+					processInstanceView.Show();
 
-					var hwndSource = new WindowInteropHelper(settingsView);
-
-					interaction.SetOutput(hwndSource.Handle);
+					interaction.SetOutput(new WindowInteropHelper(processInstanceView).Handle);
 				}));
 
 				activator(ViewModel.CloseProcessInstanceViewInteraction.RegisterHandler(interaction =>
 				{
-					var settingsView = HwndSource.FromHwnd(interaction.Input).RootVisual as Window;
+					var processInstanceView = HwndSource.FromHwnd(interaction.Input).RootVisual as Window;
 
-					if (settingsView != null)
+					if (processInstanceView != null)
 					{
-						settingsView.Close();
+						processInstanceView.Close();
 						interaction.SetOutput(true);
 						return;
 					}
