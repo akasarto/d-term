@@ -50,7 +50,7 @@
 
 					<Grid>
 
-						<ListView x:Name="list" ItemsSource="{Binding Processes}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding FormData}">
+						<ListView x:Name="list" ItemsSource="{Binding Processes}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding SelectedProcess}">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Header="Icon">

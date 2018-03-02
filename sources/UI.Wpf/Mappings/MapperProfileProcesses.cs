@@ -37,6 +37,8 @@ namespace UI.Wpf.Mappings
 			var _locator = Locator.CurrentMutable;
 
 			//
+			CreateMap<IProcessViewModel, ProcessEntity>();
+			CreateMap<IProcessViewModel, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>());
 			CreateMap<ProcessEntity, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>()).AfterMap((source, dest) =>
 			{
 				dest.IsSupported = _processFactory.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
@@ -53,7 +55,6 @@ namespace UI.Wpf.Mappings
 					});
 				});
 			});
-			CreateMap<IProcessViewModel, ProcessEntity>();
 
 			//
 			CreateMap<IProcess, IProcessInstanceViewModel>().ConstructUsing(

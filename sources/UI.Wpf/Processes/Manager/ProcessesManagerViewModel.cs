@@ -27,6 +27,7 @@ namespace UI.Wpf.Processes
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand { get; }
 		IReactiveDerivedList<IProcessViewModel> Processes { get; }
 		IValidator<IProcessViewModel> FormDataValidator { get; }
+		IProcessViewModel SelectedProcess{ get; set; }
 		IProcessViewModel FormData { get; set; }
 	}
 
@@ -50,6 +51,7 @@ namespace UI.Wpf.Processes
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadProcessesCommand;
 		private IReactiveDerivedList<IProcessViewModel> _processes;
 		private IValidator<IProcessViewModel> _formDataValidator;
+		private IProcessViewModel _selectedProcess;
 		private IProcessViewModel _formData;
 
 
@@ -95,9 +97,9 @@ namespace UI.Wpf.Processes
 			/*
 			 * Edit
 			 */
-			this.WhenAnyValue(viewModel => viewModel.FormData).Where(option => option != null).Subscribe(option =>
+			this.WhenAnyValue(viewModel => viewModel.SelectedProcess).Where(option => option != null).Subscribe(process =>
 			{
-				FormData = option;
+				FormData = Mapper.Map<IProcessViewModel>(process);
 			});
 
 			/*
@@ -135,6 +137,7 @@ namespace UI.Wpf.Processes
 			 */
 			_cancelFormCommand = ReactiveCommand.Create(() =>
 			{
+				SelectedProcess = null;
 				FormData = null;
 			});
 
@@ -177,75 +180,43 @@ namespace UI.Wpf.Processes
 			});
 		}
 
-		/// <summary>
-		/// Gets or sets the text used to filter processes.
-		/// </summary>
 		public string FilterText
 		{
 			get => _filterText;
 			set => this.RaiseAndSetIfChanged(ref _filterText, value);
 		}
 
-		/// <summary>
-		/// Tracks whether the delete popup is open or not.
-		/// </summary>
 		public bool IsPopupOpen
 		{
 			get => _isPopupOpen;
 			set => this.RaiseAndSetIfChanged(ref _isPopupOpen, value);
 		}
 
-		/// <summary>
-		/// Gets or sets the processes loading status.
-		/// </summary>
 		public bool IsLoadingProcesses
 		{
 			get => _isLoadingProcesses;
 			set => this.RaiseAndSetIfChanged(ref _isLoadingProcesses, value);
 		}
 
-		/// <summary>
-		/// Gets the load processes command.
-		/// </summary>
-		public ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand => _loadProcessesCommand;
+		public IProcessViewModel SelectedProcess
+		{
+			get => _selectedProcess;
+			set => this.RaiseAndSetIfChanged(ref _selectedProcess, value);
+		}
 
-		/// <summary>
-		/// Gets the current available processes.
-		/// </summary>
-		public IReactiveDerivedList<IProcessViewModel> Processes => _processes;
-
-		/// <summary>
-		/// Gets the form data validator.
-		/// </summary>
-		public IValidator<IProcessViewModel> FormDataValidator => _formDataValidator;
-
-		/// <summary>
-		/// Gets or sets the process instance to add/edit.
-		/// </summary>
 		public IProcessViewModel FormData
 		{
 			get => _formData;
 			set => this.RaiseAndSetIfChanged(ref _formData, value);
 		}
 
-		/// <summary>
-		/// Gets the add process command.
-		/// </summary>
+		public IValidator<IProcessViewModel> FormDataValidator => _formDataValidator;
+		public IReactiveDerivedList<IProcessViewModel> Processes => _processes;
+
 		public ReactiveCommand AddProcessCommand => _addProcessCommand;
-
-		/// <summary>
-		/// Gets the add/edit save command.
-		/// </summary>
 		public ReactiveCommand SaveProcessCommand => _saveProcessCommand;
-
-		/// <summary>
-		/// Gets the add/edit cancel command.
-		/// </summary>
 		public ReactiveCommand CancelFormCommand => _cancelFormCommand;
-
-		/// <summary>
-		/// Gets the delete command.
-		/// </summary>
 		public ReactiveCommand DeleteProcessCommand => _deleteProcessCommand;
+		public ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand => _loadProcessesCommand;
 	}
 }
