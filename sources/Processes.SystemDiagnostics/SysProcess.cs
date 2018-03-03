@@ -10,8 +10,6 @@ namespace Processes.SystemDiagnostics
 	public class SysProcess : Process, IProcess
 	{
 		private readonly IProcessTracker _processTracker;
-		private IntPtr _processMainWindowHandle;
-		private IntPtr _parentHandle;
 		private bool _isStarted;
 
 		/// <summary>
@@ -26,13 +24,9 @@ namespace Processes.SystemDiagnostics
 			EnableRaisingEvents = true;
 		}
 
-		public IntPtr ParentHandle
-		{
-			get => _parentHandle;
-			set => _parentHandle = value;
-		}
+		public new IntPtr MainWindowHandle { get; private set; }
 
-		public new IntPtr MainWindowHandle => _processMainWindowHandle;
+		public IntPtr ParentHandle { get; set; }
 
 		public bool Start(int startupTimeoutInSeconds = 3)
 		{
@@ -50,9 +44,9 @@ namespace Processes.SystemDiagnostics
 			{
 				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 				{
-					_processMainWindowHandle = FindHiddenProcessWindowHandle(this);
+					MainWindowHandle = FindHiddenProcessWindowHandle(this);
 
-					if (_processMainWindowHandle != IntPtr.Zero)
+					if (MainWindowHandle != IntPtr.Zero)
 					{
 						_processTracker.Track(Id);
 						_isStarted = true;

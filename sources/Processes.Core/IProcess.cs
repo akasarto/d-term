@@ -10,5 +10,6 @@ namespace Processes.Core
 		IntPtr MainWindowHandle { get; }
 		IntPtr ParentHandle { get; set; }
 		bool Start(int startupTimeoutInSeconds = 3);
+		void Kill();
 	}
 }

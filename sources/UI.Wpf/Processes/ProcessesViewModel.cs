@@ -72,7 +72,7 @@ namespace UI.Wpf.Processes
 			_processInstances.ItemsAdded.Subscribe(addedInstance =>
 			{
 				// For now, console windows are embedded into the application.
-				if (Win32Api.IsConsoleProcess(addedInstance.ProcessMainWindowHandle))
+				if (addedInstance.IsConsole)
 				{
 					_openProcessInstanceViewInteraction.Handle(addedInstance).Subscribe(instanceViewHandle =>
 					{
@@ -87,11 +87,14 @@ namespace UI.Wpf.Processes
 
 			_processInstances.ItemsRemoved.Subscribe(removedInstance =>
 			{
-				var instanceViewHandle = _embeddedInstancesTracker[removedInstance.ProcessId];
-
-				_closeProcessInstanceViewInteraction.Handle(instanceViewHandle).Subscribe(removed =>
+				if (removedInstance.IsConsole)
 				{
-				});
+					var instanceViewHandle = _embeddedInstancesTracker[removedInstance.ProcessId];
+
+					_closeProcessInstanceViewInteraction.Handle(instanceViewHandle).Subscribe(removed =>
+					{
+					});
+				}
 			});
 
 			/*

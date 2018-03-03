@@ -63,9 +63,10 @@ namespace UI.Wpf.Mappings
 			CreateMap<IProcessViewModel, ProcessEntity>();
 
 			//
-			CreateMap<IProcess, IProcessInstanceViewModel>().ConstructUsing(
-				source => new ProcessInstanceViewModel(source, _processHostFactory)
-			);
+			CreateMap<IProcess, IProcessInstanceViewModel>().ConstructUsing(source => new ProcessInstanceViewModel(source, _processHostFactory)).AfterMap((source, dest) =>
+			{
+				dest.IsConsole = Win32Api.IsConsoleProcess(source.MainWindowHandle);
+			});
 
 			//
 			CreateMap<IProcessViewModel, IProcessInstanceViewModel>();

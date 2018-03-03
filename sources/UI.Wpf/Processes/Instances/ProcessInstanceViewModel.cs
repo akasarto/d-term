@@ -10,6 +10,7 @@ namespace UI.Wpf.Processes
 	public interface IProcessInstanceViewModel
 	{
 		string Name { get; set; }
+		bool IsConsole { get; set; }
 		int ProcessId { get; }
 		IProcessHost ProcessHost { get; }
 		IntPtr ProcessMainWindowHandle { get; }
@@ -26,6 +27,7 @@ namespace UI.Wpf.Processes
 
 		//
 		private string _name;
+		private bool _isConsole;
 		private IProcessHost _processHost;
 
 		/// <summary>
@@ -45,6 +47,12 @@ namespace UI.Wpf.Processes
 		{
 			get => _name;
 			set => this.RaiseAndSetIfChanged(ref _name, value);
+		}
+
+		public bool IsConsole
+		{
+			get => _isConsole;
+			set => this.RaiseAndSetIfChanged(ref _isConsole, value);
 		}
 
 		public IProcessHost ProcessHost

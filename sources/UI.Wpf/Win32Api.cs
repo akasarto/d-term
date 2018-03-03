@@ -7,6 +7,10 @@ namespace UI.Wpf
 {
 	internal static class Win32Api
 	{
+		[return: MarshalAs(UnmanagedType.Bool)]
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		internal static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
 		internal static void SetVisualAsActive(IntPtr handle)
 		{
 			PostMessage(handle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
@@ -30,8 +34,35 @@ namespace UI.Wpf
 			}
 		}
 
-		[return: MarshalAs(UnmanagedType.Bool)]
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		internal static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+		internal static void TakeOwnership(IntPtr targetWindoHandle, IntPtr newOwnerHandle)
+		{
+			SetOwner(targetWindoHandle, newOwnerHandle);
+			RemoveFromTaskbar(targetWindoHandle);
+			//MakeToolWindow(targetWindoHandle);
+		}
+
+		private static void SetOwner(IntPtr targetWindoHandle, IntPtr newOwnerHandle)
+		{
+			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWLP_HWNDPARENT, newOwnerHandle);
+		}
+
+		private static void RemoveFromTaskbar(IntPtr targetWindoHandle)
+		{
+			var newStyle = (WindowExStyles)User32Helpers.GetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_EXSTYLE);
+
+			newStyle &= ~WindowExStyles.WS_EX_APPWINDOW;
+
+			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_EXSTYLE, new IntPtr((long)newStyle));
+		}
+
+		private static void MakeToolWindow(IntPtr targetWindoHandle)
+		{
+			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_STYLE);
+
+			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
+			newStyle &= ~WindowStyles.WS_MINIMIZEBOX;
+
+			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
+		}
 	}
 }
