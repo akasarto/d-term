@@ -3,6 +3,7 @@ using Processes.Core;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using UI.Wpf.Properties;
 
 namespace UI.Wpf.Processes
 {
@@ -18,6 +19,7 @@ namespace UI.Wpf.Processes
 		string Name { get; set; }
 		int OrderIndex { get; set; }
 		string PicturePath { get; set; }
+		string PicturePathDefault { get; }
 		ProcessBasePath ProcessBasePath { get; set; }
 		string ProcessBasePathDescription { get; set; }
 		string ProcessExecutableName { get; set; }
@@ -100,6 +102,11 @@ namespace UI.Wpf.Processes
 			get => _picturePath;
 			set => this.RaiseAndSetIfChanged(ref _picturePath, value);
 		}
+
+		/// <summary>
+		/// Gets the default icon path.
+		/// </summary>
+		public string PicturePathDefault => Resources.ProcessPicturePathDefault;
 
 		/// <summary>
 		/// Gets or sets the process base path.

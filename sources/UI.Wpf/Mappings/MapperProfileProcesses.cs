@@ -6,6 +6,7 @@ using UI.Wpf.Processes;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using UI.Wpf.Properties;
 
 namespace UI.Wpf.Mappings
 {
@@ -37,10 +38,14 @@ namespace UI.Wpf.Mappings
 			var _locator = Locator.CurrentMutable;
 
 			//
-			CreateMap<IProcessViewModel, ProcessEntity>();
 			CreateMap<IProcessViewModel, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>());
 			CreateMap<ProcessEntity, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>()).AfterMap((source, dest) =>
 			{
+				if (string.IsNullOrWhiteSpace(source.PicturePath))
+				{
+					dest.PicturePath = Resources.ProcessPicturePathDefault;
+				}
+
 				dest.IsSupported = _processFactory.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
 				dest.ProcessBasePathDescription = source.ProcessBasePath.Humanize();
 
@@ -55,6 +60,7 @@ namespace UI.Wpf.Mappings
 					});
 				});
 			});
+			CreateMap<IProcessViewModel, ProcessEntity>();
 
 			//
 			CreateMap<IProcess, IProcessInstanceViewModel>().ConstructUsing(

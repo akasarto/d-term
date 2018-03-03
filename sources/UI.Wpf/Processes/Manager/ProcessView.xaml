@@ -8,6 +8,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:local="clr-namespace:UI.Wpf.Processes"
+	xmlns:resources="clr-namespace:UI.Wpf.Properties"
 	xmlns:shared="clr-namespace:UI.Wpf"
 	mc:Ignorable="d" 
 	d:DesignHeight="700"
@@ -48,7 +49,7 @@
 						</Style.Triggers>
 						<Setter Property="Content">
 							<Setter.Value>
-								<Path Data="M13,19V16H21V19H13M8.5,13L2.47,7H6.71L11.67,11.95C12.25,12.54 12.25,13.5 11.67,14.07L6.74,19H2.5L8.5,13Z" Fill="Black" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+								<Path Data="{Binding FormData.PicturePathDefault}" Fill="Black" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 							</Setter.Value>
 						</Setter>
 					</Style>

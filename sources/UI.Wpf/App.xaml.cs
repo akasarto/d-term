@@ -7,9 +7,6 @@ using UI.Wpf.Shell;
 
 namespace UI.Wpf
 {
-	/// <summary>
-	/// Interaction logic for App.xaml
-	/// </summary>
 	public partial class App : Application
 	{
 		/// <summary>
@@ -27,7 +24,7 @@ namespace UI.Wpf
 				config.AddProfile(container.GetService<MapperProfileNotebooks>());
 			});
 
-			// App startup
+			//
 			Startup += (object sender, StartupEventArgs args) =>
 			{
 				var shellViewModel = container.GetService<IShellViewModel>();
@@ -37,13 +34,13 @@ namespace UI.Wpf
 				MainWindow.Show();
 			};
 
-			// App exceptions
+			//
 			DispatcherUnhandledException += (object sender, DispatcherUnhandledExceptionEventArgs args) =>
 			{
 				// ToDo: Log exception.
 			};
 
-			// App shutdown
+			//
 			Exit += (object sender, ExitEventArgs args) =>
 			{
 				container.Dispose();

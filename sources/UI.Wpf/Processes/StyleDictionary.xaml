@@ -6,6 +6,29 @@
 	xmlns:local="clr-namespace:UI.Wpf.Processes"
 >
 
+	<DataTemplate x:Key="processIcon" DataType="{x:Type local:ProcessView}">
+		<Path HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<Path.Style>
+				<Style TargetType="ContentControl">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding PicturePath, Converter={StaticResource isValidGeometryConverter}}" Value="True">
+							<Setter Property="Content">
+								<Setter.Value>
+									<Path Data="{Binding PicturePath}" Fill="Black" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+								</Setter.Value>
+							</Setter>
+						</DataTrigger>
+					</Style.Triggers>
+					<Setter Property="Content">
+						<Setter.Value>
+							<Path Data="{Binding FormData.PicturePathDefault}" Fill="Black" Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</Path.Style>
+		</Path>
+	</DataTemplate>
+
 	<Style x:Key="processDialogPopupStyle" TargetType="{x:Type controlzEx:PopupEx}">
 		<Setter Property="StaysOpen" Value="True" />
 		<Setter Property="AllowsTransparency" Value="True" />
