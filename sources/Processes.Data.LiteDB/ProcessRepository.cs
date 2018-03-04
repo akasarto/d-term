@@ -22,27 +22,27 @@ namespace Processes.Data.LiteDB
 			CheckSeed();
 		}
 
-		public ProcessEntity Add(ProcessEntity consoleOption)
+		public ProcessEntity Add(ProcessEntity entity)
 		{
-			consoleOption.Id = Guid.NewGuid();
-
+			entity.Id = Guid.NewGuid();
+			entity.OrderIndex = int.MaxValue;
 			using (var database = new LiteDatabase(_connectionString))
 			{
 				var notes = database.GetCollection<ProcessEntity>(_processesCollection);
 
-				notes.Insert(consoleOption);
+				notes.Insert(entity);
 			}
 
-			return consoleOption;
+			return entity;
 		}
 
-		public void Delete(Guid consoleOptionId)
+		public void Delete(Guid entityId)
 		{
 			using (var database = new LiteDatabase(_connectionString))
 			{
 				var notes = database.GetCollection<ProcessEntity>(_processesCollection);
 
-				notes.Delete(n => n.Id == consoleOptionId);
+				notes.Delete(n => n.Id == entityId);
 			}
 		}
 
@@ -56,24 +56,24 @@ namespace Processes.Data.LiteDB
 			}
 		}
 
-		public void Update(ProcessEntity consoleOption)
+		public void Update(ProcessEntity entity)
 		{
 			using (var database = new LiteDatabase(_connectionString))
 			{
 				var notes = database.GetCollection<ProcessEntity>(_processesCollection);
 
-				var note = notes.FindOne(n => n.Id == consoleOption.Id);
+				var note = notes.FindOne(n => n.Id == entity.Id);
 
 				if (note != null)
 				{
-					note.Name = consoleOption.Name;
-					note.OrderIndex = consoleOption.OrderIndex;
-					note.PicturePath = consoleOption.PicturePath;
-					note.ProcessBasePath = consoleOption.ProcessBasePath;
-					note.ProcessExecutableName = consoleOption.ProcessExecutableName;
-					note.ProcessStartupArgs = consoleOption.ProcessStartupArgs;
+					note.Name = entity.Name;
+					note.OrderIndex = entity.OrderIndex;
+					note.PicturePath = entity.PicturePath;
+					note.ProcessBasePath = entity.ProcessBasePath;
+					note.ProcessExecutableName = entity.ProcessExecutableName;
+					note.ProcessStartupArgs = entity.ProcessStartupArgs;
 
-					notes.Update(consoleOption);
+					notes.Update(entity);
 				}
 			}
 		}
@@ -131,9 +131,9 @@ namespace Processes.Data.LiteDB
 			{
 				if (!database.CollectionExists(_processesCollection))
 				{
-					var notes = database.GetCollection<ProcessEntity>(_processesCollection);
+					var entities = database.GetCollection<ProcessEntity>(_processesCollection);
 
-					notes.InsertBulk(initialConsoles);
+					entities.InsertBulk(initialConsoles);
 				}
 			}
 		}
