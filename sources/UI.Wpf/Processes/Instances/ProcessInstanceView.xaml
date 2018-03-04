@@ -17,14 +17,6 @@
 	Title="{Binding Name}"
 >
 
-	<!--
-	TitleCaps="False"
-	ShowTitleBar="True"
-	ShowIconOnTitleBar="True"
-	IsMinButtonEnabled="False"
-	WindowTransitionsEnabled="False"
-	-->
-
 	<Grid>
 
 		<ContentControl Content="{Binding ProcessHost}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />

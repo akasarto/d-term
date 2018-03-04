@@ -33,5 +33,24 @@ namespace UI.Wpf
 				return false;
 			}
 		}
+
+		public static void RemoveFromTaskbar(IntPtr targetWindoHandle)
+		{
+			var newStyle = (WindowExStyles)User32Helpers.GetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_EXSTYLE);
+
+			newStyle &= ~WindowExStyles.WS_EX_APPWINDOW;
+
+			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_EXSTYLE, new IntPtr((long)newStyle));
+		}
+
+		public static void MakeToolWindow(IntPtr targetWindoHandle)
+		{
+			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_STYLE);
+
+			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
+			newStyle &= ~WindowStyles.WS_MINIMIZEBOX;
+
+			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
+		}
 	}
 }

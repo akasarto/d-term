@@ -27,6 +27,8 @@ namespace UI.Wpf.Processes
 			var parentHandle = hwndParent.Handle;
 			var childHandle = _process.MainWindowHandle;
 
+			Win32Api.MakeToolWindow(parentHandle);
+
 			//
 			_process.ParentHandle = parentHandle;
 

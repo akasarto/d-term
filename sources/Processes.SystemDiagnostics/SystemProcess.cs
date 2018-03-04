@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 
 namespace Processes.SystemDiagnostics
 {
@@ -59,17 +60,21 @@ namespace Processes.SystemDiagnostics
 
 			if (newProcessStarted)
 			{
+				Thread.Sleep(175);
+
+				_process.Refresh();
+
 				while (processStopwatch.ElapsedMilliseconds <= processTimeoutMiliseconds)
 				{
-					_process.Refresh();
+					var mainWindowHandle = _process.MainWindowHandle != IntPtr.Zero
+						? _process.MainWindowHandle
+						: GetProcessMainWindowHandle(_process);
 
-					var result = GetProcessInfo(_process);
-
-					if (result.mainWindowHandle != IntPtr.Zero)
+					if (mainWindowHandle != IntPtr.Zero)
 					{
-						ThreadId = result.threadId;
-						MainWindowClassName = GetWindowClassName(result.mainWindowHandle);
-						MainWindowHandle = result.mainWindowHandle;
+						ThreadId = GetWindowThreadProcessId(mainWindowHandle, IntPtr.Zero);
+						MainWindowClassName = GetWindowClassName(mainWindowHandle);
+						MainWindowHandle = mainWindowHandle;
 						_processTracker.Track(_process.Id);
 						_isStarted = true;
 						return true;
@@ -96,7 +101,7 @@ namespace Processes.SystemDiagnostics
 			Exited?.Invoke(this, args);
 		}
 
-		private static (uint threadId, IntPtr mainWindowHandle) GetProcessInfo(Process consoleProcess)
+		private static IntPtr GetProcessMainWindowHandle(Process process)
 		{
 			uint threadId = 0;
 			uint processId = 0;
@@ -105,15 +110,16 @@ namespace Processes.SystemDiagnostics
 			do
 			{
 				processId = 0;
+				process.Refresh();
 				windowHandle = FindWindowEx(IntPtr.Zero, windowHandle, null, null);
 				threadId = GetWindowThreadProcessId(windowHandle, out processId);
-				if (processId == consoleProcess.Id)
+				if (processId == process.Id)
 				{
-					return (threadId, windowHandle);
+					return windowHandle;
 				}
 			} while (!windowHandle.Equals(IntPtr.Zero));
 
-			return (0, IntPtr.Zero);
+			return IntPtr.Zero;
 		}
 
 		private static string GetWindowClassName(IntPtr hWnd)
@@ -139,5 +145,8 @@ namespace Processes.SystemDiagnostics
 
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+
+		[DllImport("user32.dll")]
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
 	}
 }
