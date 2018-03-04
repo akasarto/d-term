@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Processes.Core;
 using Humanizer;
+using Processes.Core;
 using Splat;
-using UI.Wpf.Processes;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using UI.Wpf.Processes;
 using UI.Wpf.Properties;
 
 namespace UI.Wpf.Mappings
@@ -65,7 +65,7 @@ namespace UI.Wpf.Mappings
 			//
 			CreateMap<IProcess, IProcessInstanceViewModel>().ConstructUsing(source => new ProcessInstanceViewModel(source, _processHostFactory)).AfterMap((source, dest) =>
 			{
-				dest.IsConsole = Win32Api.IsConsoleProcess(source.MainWindowHandle);
+				dest.IsConsole = source.MainWindowClassName.ToLower().Contains("consolewindowclass");
 			});
 
 			//

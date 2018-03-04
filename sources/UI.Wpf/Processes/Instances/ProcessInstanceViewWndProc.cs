@@ -7,14 +7,17 @@ namespace UI.Wpf.Processes
 {
 	public class ProcessInstanceViewWndProc
 	{
-		private IntPtr _instanceViewHandle;
+		private readonly IProcessInstanceViewModel _processInstanceViewModel;
+		private readonly IntPtr _instanceViewHandle;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstanceViewWndProc(HwndSource hwndSource)
+		public ProcessInstanceViewWndProc(IProcessInstanceViewModel processInstanceViewModel, HwndSource hwndSource)
 		{
+			_processInstanceViewModel = processInstanceViewModel;
 			_instanceViewHandle = hwndSource.Handle;
+
 			hwndSource.AddHook(WndProcCallback);
 		}
 
@@ -73,6 +76,7 @@ namespace UI.Wpf.Processes
 						{
 							case SysCommand.SC_CLOSE:
 								{
+									_processInstanceViewModel.TerminateProcess();
 									handled = true;
 								}
 								break;

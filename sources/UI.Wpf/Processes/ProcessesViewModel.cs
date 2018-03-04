@@ -82,7 +82,10 @@ namespace UI.Wpf.Processes
 					return;
 				}
 
-				User32Methods.ShowWindow(addedInstance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);
+				if (!User32Methods.IsWindowVisible(addedInstance.ProcessMainWindowHandle))
+				{
+					User32Methods.ShowWindow(addedInstance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);
+				}
 			});
 
 			_processInstances.ItemsRemoved.Subscribe(removedInstance =>

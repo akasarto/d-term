@@ -31,6 +31,7 @@ namespace UI.Wpf.Processes
 			{
 				_instanceViewHandle = new WindowInteropHelper(this).Handle;
 				_instanceViewWndProc = new ProcessInstanceViewWndProc(
+					ViewModel,
 					HwndSource.FromHwnd(_instanceViewHandle)
 				);
 			});

@@ -13,8 +13,11 @@ namespace UI.Wpf.Processes
 		bool IsConsole { get; set; }
 		int ProcessId { get; }
 		IProcessHost ProcessHost { get; }
+		IntPtr ProcessMainModuleHandle { get; }
 		IntPtr ProcessMainWindowHandle { get; }
+		uint ProcessThreadId { get; }
 		IObservable<EventPattern<EventArgs>> ProcessExited { get; }
+		void TerminateProcess();
 	}
 
 	//
@@ -70,8 +73,17 @@ namespace UI.Wpf.Processes
 
 		public int ProcessId => _process.Id;
 
+		public IntPtr ProcessMainModuleHandle => _process.MainModuleHandle;
+
 		public IntPtr ProcessMainWindowHandle => _process.MainWindowHandle;
 
+		public uint ProcessThreadId => _process.ThreadId;
+
 		public IObservable<EventPattern<EventArgs>> ProcessExited => _terminated;
+
+		public void TerminateProcess()
+		{
+			_process.Stop();
+		}
 	}
 }

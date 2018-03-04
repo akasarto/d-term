@@ -48,10 +48,11 @@ namespace UI.Wpf.Processes
 				{
 					WindowStyle = ProcessWindowStyle.Hidden,
 					WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-					Arguments = processViewModel.ProcessStartupArgs
+					Arguments = processViewModel.ProcessStartupArgs,
+					UseShellExecute = true
 				};
 
-				return new SysProcess(_processTracker, processStartInfo);
+				return new SystemProcess(processStartInfo, _processTracker);
 			}
 
 			return null;
