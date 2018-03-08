@@ -23,10 +23,8 @@ namespace UI.Wpf.Processes
 
 		private void ActivateWindow(IntPtr wndHandle)
 		{
-			User32Methods.SetActiveWindow(_instanceViewHandle);
-			User32Methods.SetForegroundWindow(_instanceViewHandle);
 			User32Methods.SetForegroundWindow(wndHandle);
-
+			User32Methods.SetActiveWindow(_instanceViewHandle);
 			SetShellVisualAsActive();
 		}
 
@@ -38,11 +36,12 @@ namespace UI.Wpf.Processes
 
 			switch (message)
 			{
-				//case WM.MOUSEACTIVATE:
-				//	{
-				//		handled = true;
-				//		return new IntPtr((int)MouseActivationResult.MA_NOACTIVATE);
-				//	}
+				// https://msdn.microsoft.com/en-us/library/windows/desktop/ms645612%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
+				case WM.MOUSEACTIVATE:
+					{
+						handled = true;
+						return new IntPtr((int)MouseActivationResult.MA_NOACTIVATE);
+					}
 
 				// https://msdn.microsoft.com/en-us/library/windows/desktop/ms648382%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
 				case WM.SETCURSOR:

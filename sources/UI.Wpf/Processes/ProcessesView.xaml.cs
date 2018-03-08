@@ -7,9 +7,6 @@ using System.Windows.Interop;
 
 namespace UI.Wpf.Processes
 {
-	/// <summary>
-	/// Processes view.
-	/// </summary>
 	public partial class ProcessesView : UserControl, IViewFor<IProcessesViewModel>
 	{
 		/// <summary>
@@ -32,6 +29,17 @@ namespace UI.Wpf.Processes
 						ViewModel = interaction.Input
 					};
 
+					processInstanceView.Events().SourceInitialized.Subscribe(args =>
+					{
+						var hwndSource = PresentationSource.FromVisual(processInstanceView) as HwndSource;
+						var instanceViewWndProc = new ProcessInstanceViewWndProc(processInstanceView.ViewModel, hwndSource);
+					});
+
+					processInstanceView.Events().Closing.Subscribe(args =>
+					{
+						Application.Current.MainWindow.Activate();
+					});
+
 					processInstanceView.Show();
 
 					interaction.SetOutput(new WindowInteropHelper(processInstanceView).Handle);
@@ -53,23 +61,14 @@ namespace UI.Wpf.Processes
 			});
 		}
 
-		/// <summary>
-		/// View model dependency property backing field.
-		/// </summary>
 		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessesViewModel), typeof(ProcessesView), new PropertyMetadata(null));
 
-		/// <summary>
-		/// Gets or sets the view model instance.
-		/// </summary>
 		public IProcessesViewModel ViewModel
 		{
 			get { return (IProcessesViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
-		/// <summary>
-		/// Gets or sets the view model instance.
-		/// </summary>
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
