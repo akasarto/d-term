@@ -23,10 +23,12 @@ namespace UI.Wpf.Processes
 
 				activator(ViewModel.OpenProcessInstanceViewInteraction.RegisterHandler(interaction =>
 				{
+					var viewModel = interaction.Input;
+
 					var processInstanceView = new ProcessInstanceView()
 					{
 						Owner = Application.Current.MainWindow,
-						ViewModel = interaction.Input
+						ViewModel = viewModel
 					};
 
 					processInstanceView.Events().SourceInitialized.Subscribe(args =>

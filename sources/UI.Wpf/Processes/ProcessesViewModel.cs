@@ -82,10 +82,10 @@ namespace UI.Wpf.Processes
 					return;
 				}
 
-				if (!User32Methods.IsWindowVisible(addedInstance.ProcessMainWindowHandle))
-				{
-					User32Methods.ShowWindow(addedInstance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);
-				}
+				//if (!User32Methods.IsWindowVisible(addedInstance.ProcessMainWindowHandle))
+				//{
+				//	User32Methods.ShowWindow(addedInstance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);
+				//}
 			});
 
 			_processInstances.ItemsRemoved.Subscribe(removedInstance =>
@@ -165,6 +165,9 @@ namespace UI.Wpf.Processes
 					{
 						var instanceSubscription = instance.ProcessExited.ObserveOnDispatcher().Subscribe(@event =>
 						{
+							_processInstancesSource.Remove(instance);
+
+							/*
 							var process = @event.Sender as IProcess;
 
 							if (process != null)
@@ -176,6 +179,7 @@ namespace UI.Wpf.Processes
 									_processInstancesSource.Remove(terminatedInstance);
 								}
 							}
+							*/
 						});
 
 						_processInstancesSource.Add(instance);

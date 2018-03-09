@@ -32,6 +32,7 @@
 
 		<Path Style="{StaticResource logoVisualStyle}" />
 
+		<!--
 		<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding ProcessesViewModel.ProcessInstances}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
@@ -47,6 +48,7 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
+		-->
 
 		<Grid Margin="15 0 15 15" VerticalAlignment="Bottom">
 
