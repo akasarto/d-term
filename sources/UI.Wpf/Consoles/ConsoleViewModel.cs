@@ -5,10 +5,10 @@ using System;
 using System.Collections.Generic;
 using UI.Wpf.Properties;
 
-namespace UI.Wpf.Processes
+namespace UI.Wpf.Consoles
 {
 	//
-	public interface IProcessViewModel
+	public interface IConsoleViewModel
 	{
 		Guid Id { get; set; }
 		bool IsSupported { get; set; }
@@ -27,7 +27,7 @@ namespace UI.Wpf.Processes
 	}
 
 	//
-	public class ProcessViewModel : ReactiveObjectWithValidation, IProcessViewModel
+	public class ConsoleViewModel : ReactiveObjectWithValidation, IConsoleViewModel
 	{
 		private Guid _id;
 		private bool _isSupported;
@@ -44,7 +44,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessViewModel()
+		public ConsoleViewModel()
 		{
 		}
 

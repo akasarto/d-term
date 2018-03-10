@@ -1,16 +1,13 @@
 ﻿using FluentValidation;
 
-namespace UI.Wpf.Processes
+namespace UI.Wpf.Consoles
 {
-	/// <summary>
-	/// Validation rules for process view model instances.
-	/// </summary>
-	public class ProcessValidator : AbstractValidator<IProcessViewModel>
+	public class ConsoleViewModelValidator : AbstractValidator<IConsoleViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessValidator()
+		public ConsoleViewModelValidator()
 		{
 			//
 			RuleFor(model => model.PicturePath).Must(BeValidGeometryPath);
@@ -25,9 +22,6 @@ namespace UI.Wpf.Processes
 			RuleFor(model => model.ProcessExecutableName).NotEmpty();
 		}
 
-		/// <summary>
-		/// Validates the provided icon data.
-		/// </summary>
 		private bool BeValidGeometryPath(string input)
 		{
 			var pathData = input?.ToString() ?? string.Empty;

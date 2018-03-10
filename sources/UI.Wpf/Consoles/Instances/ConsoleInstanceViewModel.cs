@@ -4,15 +4,15 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace UI.Wpf.Processes
+namespace UI.Wpf.Consoles
 {
 	//
-	public interface IProcessInstanceViewModel
+	public interface IConsoleInstanceViewModel
 	{
 		string Name { get; set; }
 		bool IsConsole { get; set; }
 		int ProcessId { get; }
-		IProcessHost ProcessHost { get; }
+		IConsoleHwndHost ProcessHost { get; }
 		IntPtr ProcessMainModuleHandle { get; }
 		IntPtr ProcessMainWindowHandle { get; }
 		uint ProcessThreadId { get; }
@@ -21,25 +21,25 @@ namespace UI.Wpf.Processes
 	}
 
 	//
-	public class ProcessInstanceViewModel : ReactiveObject, IProcessInstanceViewModel
+	public class ConsoleInstanceViewModel : ReactiveObject, IConsoleInstanceViewModel
 	{
 		//
 		private readonly IProcess _process;
-		private readonly IProcessHostFactory _processHostFactory;
+		private readonly IConsoleHwndHostFactory _processHostFactory;
 		private readonly IObservable<EventPattern<EventArgs>> _terminated;
 
 		//
 		private string _name;
 		private bool _isConsole;
-		private IProcessHost _processHost;
+		private IConsoleHwndHost _processHost;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstanceViewModel(IProcess process, IProcessHostFactory processHostFactory)
+		public ConsoleInstanceViewModel(IProcess process, IConsoleHwndHostFactory processHostFactory)
 		{
-			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ProcessInstanceViewModel));
-			_processHostFactory = processHostFactory ?? throw new ArgumentNullException(nameof(processHostFactory), nameof(ProcessInstanceViewModel));
+			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ConsoleInstanceViewModel));
+			_processHostFactory = processHostFactory ?? throw new ArgumentNullException(nameof(processHostFactory), nameof(ConsoleInstanceViewModel));
 
 			_terminated = Observable.FromEventPattern<EventHandler, EventArgs>(
 				handler => _process.Exited += handler,
@@ -58,7 +58,7 @@ namespace UI.Wpf.Processes
 			set => this.RaiseAndSetIfChanged(ref _isConsole, value);
 		}
 
-		public IProcessHost ProcessHost
+		public IConsoleHwndHost ProcessHost
 		{
 			get
 			{

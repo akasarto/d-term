@@ -228,33 +228,34 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
-    <Compile Include="Processes\Instances\ProcessInstanceView.xaml.cs">
-      <DependentUpon>ProcessInstanceView.xaml</DependentUpon>
+    <Compile Include="Consoles\Instances\ConsoleInstanceView.xaml.cs">
+      <DependentUpon>ConsoleInstanceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\Instances\ProcessInstanceViewModel.cs" />
-    <Compile Include="Processes\Instances\ProcessHost.cs" />
-    <Compile Include="Processes\Instances\ProcessInstanceViewWndProc.cs" />
-    <Compile Include="Processes\Manager\ProcessView.xaml.cs">
-      <DependentUpon>ProcessView.xaml</DependentUpon>
+    <Compile Include="Consoles\Instances\ConsoleInstanceViewModel.cs" />
+    <Compile Include="Consoles\Instances\ConsoleHwndHost.cs" />
+    <Compile Include="Consoles\Instances\ConsolenstanceWndProc.cs" />
+    <Compile Include="Consoles\Manager\ConsoleView.xaml.cs">
+      <DependentUpon>ConsoleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\Manager\ProcessListView.xaml.cs">
-      <DependentUpon>ProcessListView.xaml</DependentUpon>
+    <Compile Include="Consoles\Manager\ConsolesListView.xaml.cs">
+      <DependentUpon>ConsolesListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\Instances\ProcessHostFactory.cs" />
-    <Compile Include="Processes\ProcessFactory.cs" />
+    <Compile Include="Consoles\Instances\ConsoleHwndHostFactory.cs" />
+    <Compile Include="Consoles\ConsolesFactory.cs" />
+    <Compile Include="Consoles\WndProcManager.cs" />
     <Compile Include="Shared\Class1.cs" />
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
-    <Compile Include="Processes\ProcessViewModel.cs" />
-    <Compile Include="Processes\ProcessValidator.cs" />
-    <Compile Include="Processes\Manager\ProcessesManagerView.xaml.cs">
-      <DependentUpon>ProcessesManagerView.xaml</DependentUpon>
+    <Compile Include="Consoles\ConsoleViewModel.cs" />
+    <Compile Include="Consoles\ConsoleViewModelValidator.cs" />
+    <Compile Include="Consoles\Manager\ConsolesManagerView.xaml.cs">
+      <DependentUpon>ConsolesManagerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\ProcessesView.xaml.cs">
-      <DependentUpon>ProcessesView.xaml</DependentUpon>
+    <Compile Include="Consoles\ConsolesPanelView.xaml.cs">
+      <DependentUpon>ConsolesPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\ProcessesViewModel.cs" />
-    <Compile Include="Processes\Manager\ProcessesManagerViewModel.cs" />
+    <Compile Include="Consoles\ConsolesPanelViewModel.cs" />
+    <Compile Include="Consoles\Manager\ConsolesManagerViewModel.cs" />
     <Compile Include="Mappings\MapperProfileProcesses.cs" />
     <Compile Include="Mappings\MapperProfileNotebooks.cs" />
     <Compile Include="Shared\IsValidGeometryConverter.cs" />
@@ -267,27 +268,27 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsViewModel.cs" />
-    <Page Include="Processes\Instances\ProcessInstanceView.xaml">
+    <Page Include="Consoles\Instances\ConsoleInstanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\Manager\ProcessesManagerView.xaml">
+    <Page Include="Consoles\Manager\ConsolesManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\Manager\ProcessView.xaml">
+    <Page Include="Consoles\Manager\ConsoleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\Manager\ProcessListView.xaml">
+    <Page Include="Consoles\Manager\ConsolesListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\StyleDictionary.xaml">
+    <Page Include="Consoles\StyleDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\ProcessesView.xaml">
+    <Page Include="Consoles\ConsolesPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

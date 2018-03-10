@@ -5,7 +5,7 @@ using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UI.Wpf.Processes;
+using UI.Wpf.Consoles;
 using UI.Wpf.Properties;
 
 namespace UI.Wpf.Mappings
@@ -16,16 +16,16 @@ namespace UI.Wpf.Mappings
 	public class MapperProfileProcesses : Profile
 	{
 		//
-		private readonly IProcessFactory _processFactory;
-		private readonly IProcessHostFactory _processHostFactory;
+		private readonly IConsolesFactory _processFactory;
+		private readonly IConsoleHwndHostFactory _processHostFactory;
 
 		/// <summary>
 		/// constructor method.
 		/// </summary>
-		public MapperProfileProcesses(IProcessFactory processFactory = null, IProcessHostFactory processHostFactory = null)
+		public MapperProfileProcesses(IConsolesFactory processFactory = null, IConsoleHwndHostFactory processHostFactory = null)
 		{
-			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
-			_processHostFactory = processHostFactory ?? Locator.CurrentMutable.GetService<IProcessHostFactory>();
+			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IConsolesFactory>();
+			_processHostFactory = processHostFactory ?? Locator.CurrentMutable.GetService<IConsoleHwndHostFactory>();
 
 			SetupMaps();
 		}
@@ -38,8 +38,8 @@ namespace UI.Wpf.Mappings
 			var _locator = Locator.CurrentMutable;
 
 			//
-			CreateMap<IProcessViewModel, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>());
-			CreateMap<ProcessEntity, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>()).AfterMap((source, dest) =>
+			CreateMap<IConsoleViewModel, IConsoleViewModel>().ConstructUsing(source => _locator.GetService<IConsoleViewModel>());
+			CreateMap<ProcessEntity, IConsoleViewModel>().ConstructUsing(source => _locator.GetService<IConsoleViewModel>()).AfterMap((source, dest) =>
 			{
 				if (string.IsNullOrWhiteSpace(source.PicturePath))
 				{
@@ -60,16 +60,16 @@ namespace UI.Wpf.Mappings
 					});
 				});
 			});
-			CreateMap<IProcessViewModel, ProcessEntity>();
+			CreateMap<IConsoleViewModel, ProcessEntity>();
 
 			//
-			CreateMap<IProcess, IProcessInstanceViewModel>().ConstructUsing(source => new ProcessInstanceViewModel(source, _processHostFactory)).AfterMap((source, dest) =>
+			CreateMap<IProcess, IConsoleInstanceViewModel>().ConstructUsing(source => new ConsoleInstanceViewModel(source, _processHostFactory)).AfterMap((source, dest) =>
 			{
 				dest.IsConsole = source.MainWindowClassName.ToLower().Contains("consolewindowclass");
 			});
 
 			//
-			CreateMap<IProcessViewModel, IProcessInstanceViewModel>();
+			CreateMap<IConsoleViewModel, IConsoleInstanceViewModel>();
 		}
 	}
 }

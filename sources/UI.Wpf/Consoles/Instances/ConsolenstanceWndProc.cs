@@ -3,17 +3,17 @@ using System;
 using System.Windows.Interop;
 using WinApi.User32;
 
-namespace UI.Wpf.Processes
+namespace UI.Wpf.Consoles
 {
-	public class ProcessInstanceViewWndProc
+	public class ConsolenstanceWndProc
 	{
-		private readonly IProcessInstanceViewModel _processInstanceViewModel;
+		private readonly IConsoleInstanceViewModel _processInstanceViewModel;
 		private readonly IntPtr _instanceViewHandle;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstanceViewWndProc(IProcessInstanceViewModel processInstanceViewModel, HwndSource hwndSource)
+		public ConsolenstanceWndProc(IConsoleInstanceViewModel processInstanceViewModel, HwndSource hwndSource)
 		{
 			var hwndSourceParams = new HwndSourceParameters();
 
@@ -33,10 +33,8 @@ namespace UI.Wpf.Processes
 		{
 			User32Methods.SetForegroundWindow(wndHandle);
 			User32Methods.SetActiveWindow(_instanceViewHandle);
-			SetShellVisualAsActive();
+			Win32Api.SetVisualAsActive(_instanceViewHandle);
 		}
-
-		private void SetShellVisualAsActive() => Win32Api.SetVisualAsActive(_instanceViewHandle);
 
 		private IntPtr WndProcCallback(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
 		{

@@ -5,14 +5,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 
-namespace UI.Wpf.Processes
+namespace UI.Wpf.Consoles
 {
-	public partial class ProcessesView : UserControl, IViewFor<IProcessesViewModel>
+	public partial class ConsolesPanelView : UserControl, IViewFor<IConsolesPanelViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesView()
+		public ConsolesPanelView()
 		{
 			InitializeComponent();
 
@@ -25,7 +25,7 @@ namespace UI.Wpf.Processes
 				{
 					var viewModel = interaction.Input;
 
-					var processInstanceView = new ProcessInstanceView()
+					var processInstanceView = new ConsoleInstanceView()
 					{
 						Owner = Application.Current.MainWindow,
 						ViewModel = viewModel
@@ -34,7 +34,7 @@ namespace UI.Wpf.Processes
 					processInstanceView.Events().SourceInitialized.Subscribe(args =>
 					{
 						var hwndSource = PresentationSource.FromVisual(processInstanceView) as HwndSource;
-						var instanceViewWndProc = new ProcessInstanceViewWndProc(processInstanceView.ViewModel, hwndSource);
+						var instanceViewWndProc = new ConsolenstanceWndProc(processInstanceView.ViewModel, hwndSource);
 					});
 
 					processInstanceView.Events().Closing.Subscribe(args =>
@@ -63,18 +63,18 @@ namespace UI.Wpf.Processes
 			});
 		}
 
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessesViewModel), typeof(ProcessesView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesPanelViewModel), typeof(ConsolesPanelView), new PropertyMetadata(null));
 
-		public IProcessesViewModel ViewModel
+		public IConsolesPanelViewModel ViewModel
 		{
-			get { return (IProcessesViewModel)GetValue(ViewModelProperty); }
+			get { return (IConsolesPanelViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IProcessesViewModel)value; }
+			set { ViewModel = (IConsolesPanelViewModel)value; }
 		}
 	}
 }

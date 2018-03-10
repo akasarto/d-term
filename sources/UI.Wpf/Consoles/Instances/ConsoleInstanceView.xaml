@@ -1,5 +1,5 @@
 ﻿<Window
-	x:Class="UI.Wpf.Processes.ProcessInstanceView"
+	x:Class="UI.Wpf.Consoles.ConsoleInstanceView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
 	xmlns:reactiveui="http://reactiveui.net"

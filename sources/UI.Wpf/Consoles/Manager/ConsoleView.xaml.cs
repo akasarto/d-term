@@ -6,18 +6,14 @@ using System.Reactive.Linq;
 using System.Windows.Navigation;
 using System.Diagnostics;
 
-namespace UI.Wpf.Processes
+namespace UI.Wpf.Consoles
 {
-	/// <summary>
-	/// Process view.
-	/// <seealso cref="IProcessViewModel"/>
-	/// </summary>
-	public partial class ProcessView : UserControl, IViewFor<IProcessViewModel>
+	public partial class ConsoleView : UserControl, IViewFor<IConsoleViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessView()
+		public ConsoleView()
 		{
 			InitializeComponent();
 
@@ -34,27 +30,18 @@ namespace UI.Wpf.Processes
 			});
 		}
 
-		/// <summary>
-		/// View model dependency property backing field.
-		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessViewModel), typeof(ProcessView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleViewModel), typeof(ConsoleView), new PropertyMetadata(null));
 
-		/// <summary>
-		/// Gets or sets the view model instance.
-		/// </summary>
-		public IProcessViewModel ViewModel
+		public IConsoleViewModel ViewModel
 		{
-			get { return (IProcessViewModel)GetValue(ViewModelProperty); }
+			get { return (IConsoleViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
-		/// <summary>
-		/// Gets or sets the view model instance.
-		/// </summary>
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IProcessViewModel)value; }
+			set { ViewModel = (IConsoleViewModel)value; }
 		}
 	}
 }

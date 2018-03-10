@@ -5,17 +5,14 @@ using System.Windows.Controls;
 using System;
 using MaterialDesignThemes.Wpf;
 
-namespace UI.Wpf.Processes
+namespace UI.Wpf.Consoles
 {
-	/// <summary>
-	/// Processes manager view.
-	/// </summary>
-	public partial class ProcessesManagerView : UserControl, IViewFor<IProcessesManagerViewModel>
+	public partial class ConsolesManagerView : UserControl, IViewFor<IConsolesManagerViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesManagerView()
+		public ConsolesManagerView()
 		{
 			InitializeComponent();
 
@@ -34,7 +31,7 @@ namespace UI.Wpf.Processes
 					deleteButton.Visibility = data?.Id != Guid.Empty ? Visibility.Visible : Visibility.Collapsed;
 
 					contextIcon.Kind = data == null ? PackIconKind.FormatListBulleted : data.Id == Guid.Empty ? PackIconKind.Plus : PackIconKind.Pencil;
-					contextLabel.Text = data == null ? "Processes List" : data.Id == Guid.Empty ? "Add Process" : "Edit Process";
+					contextLabel.Text = data == null ? "Consoles List" : data.Id == Guid.Empty ? "Add Console" : "Edit Console";
 
 					listActions.Visibility = data == null ? Visibility.Visible : Visibility.Collapsed;
 					formActions.Visibility = data == null ? Visibility.Collapsed : Visibility.Visible;
@@ -42,27 +39,18 @@ namespace UI.Wpf.Processes
 			});
 		}
 
-		/// <summary>
-		/// View model dependency property backing field.
-		/// </summary>
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessesManagerViewModel), typeof(ProcessesManagerView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesManagerViewModel), typeof(ConsolesManagerView), new PropertyMetadata(null));
 
-		/// <summary>
-		/// Gets or sets the view model instance.
-		/// </summary>
-		public IProcessesManagerViewModel ViewModel
+		public IConsolesManagerViewModel ViewModel
 		{
-			get { return (IProcessesManagerViewModel)GetValue(ViewModelProperty); }
+			get { return (IConsolesManagerViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
-		/// <summary>
-		/// Gets or sets the view model instance.
-		/// </summary>
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IProcessesManagerViewModel)value; }
+			set { ViewModel = (IConsolesManagerViewModel)value; }
 		}
 	}
 }

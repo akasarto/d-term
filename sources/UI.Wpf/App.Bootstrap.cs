@@ -7,23 +7,20 @@ using Notebook.Data.LiteDB;
 using ReactiveUI;
 using Splat;
 using System.Reflection;
-using UI.Wpf.Processes;
+using UI.Wpf.Consoles;
 using UI.Wpf.Mappings;
 using UI.Wpf.Settings;
 using UI.Wpf.Shell;
 
 namespace UI.Wpf
 {
-	/// <summary>
-	/// Main app container bootstrapper.
-	/// </summary>
 	public static class AppBootstrap
 	{
 		//
 		private static IMutableDependencyResolver _container;
 
 		/// <summary>
-		/// Constructor method.
+		/// Static constructor method.
 		/// </summary>
 		static AppBootstrap()
 		{
@@ -53,12 +50,12 @@ namespace UI.Wpf
 			_container.Register<INotebooksRepository>(() => new NotebooksRepository(dbConnectionString));
 
 			//
-			_container.Register<IProcessFactory>(() => new ProcessFactory());
-			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
-			_container.Register<IProcessesViewModel>(() => new ProcessesViewModel());
-			_container.Register<IProcessesManagerViewModel>(() => new ProcessesManagerViewModel());
-			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessValidator());
-			_container.Register<IProcessHostFactory>(() => new ProcessHostFactory());
+			_container.Register<IConsolesFactory>(() => new ConsolesFactory());
+			_container.Register<IConsoleViewModel>(() => new ConsoleViewModel());
+			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
+			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
+			_container.Register<IValidator<IConsoleViewModel>>(() => new ConsoleViewModelValidator());
+			_container.Register<IConsoleHwndHostFactory>(() => new ConsoleHwndHostFactory());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

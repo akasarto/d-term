@@ -4,22 +4,22 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using WinApi.User32;
 
-namespace UI.Wpf.Processes
+namespace UI.Wpf.Consoles
 {
-	public interface IProcessHost
+	public interface IConsoleHwndHost
 	{
 	}
 
-	public class ProcessHost : HwndHost, IProcessHost
+	public class ConsoleHwndHost : HwndHost, IConsoleHwndHost
 	{
 		private IProcess _process;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessHost(IProcess process)
+		public ConsoleHwndHost(IProcess process)
 		{
-			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ProcessHost));
+			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ConsoleHwndHost));
 		}
 
 		protected override HandleRef BuildWindowCore(HandleRef hwndParent)

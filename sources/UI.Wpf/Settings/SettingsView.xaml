@@ -22,8 +22,8 @@
 
 		<dragablz:TabablzControl BorderThickness="0" SelectedIndex="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-			<TabItem Header="PROCESSES">
-				<reactiveui:ViewModelViewHost HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ViewModel="{Binding ProcessesManagerViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+			<TabItem Header="CONSOLES">
+				<reactiveui:ViewModelViewHost HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ViewModel="{Binding ConsolesManagerViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 			</TabItem>
 
 			<!-- Coming (back) soon

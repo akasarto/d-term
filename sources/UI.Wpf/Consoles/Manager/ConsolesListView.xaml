@@ -1,11 +1,11 @@
 ﻿<UserControl
-	x:Class="UI.Wpf.Processes.ProcessListView"
+	x:Class="UI.Wpf.Consoles.ConsolesListView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	xmlns:local="clr-namespace:UI.Wpf.Processes"
+	xmlns:local="clr-namespace:UI.Wpf.Consoles"
 	mc:Ignorable="d" 
 	d:DesignHeight="300"
 	d:DesignWidth="300"
@@ -14,7 +14,7 @@
 	<Grid>
 
 		<ProgressBar
-			ToolTip="Loading processes..."
+			ToolTip="Loading console options..."
 			HorizontalAlignment="Center"
 			VerticalAlignment="Top"
 			IsIndeterminate="True"
@@ -76,7 +76,7 @@
 							Margin="15 75"
 							Opacity=".55"
 							Style="{StaticResource MaterialDesignButtonTextBlock}"
-							Text="No processes found."
+							Text="No console options found."
 							Visibility="Collapsed"
 							x:Name="empty" />
 

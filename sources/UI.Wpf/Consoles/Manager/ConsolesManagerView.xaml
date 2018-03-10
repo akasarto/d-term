@@ -1,5 +1,5 @@
 ﻿<UserControl
-	x:Class="UI.Wpf.Processes.ProcessesManagerView"
+	x:Class="UI.Wpf.Consoles.ConsolesManagerView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
@@ -9,7 +9,7 @@
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	xmlns:local="clr-namespace:UI.Wpf.Processes"
+	xmlns:local="clr-namespace:UI.Wpf.Consoles"
 	mc:Ignorable="d" 
 	d:DesignHeight="300"
 	d:DesignWidth="300"
@@ -34,7 +34,7 @@
 
 				<StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
 					<materialDesign:PackIcon Kind="FormatListBulleted" Margin="0 0 3.5 0" Width="32" Height="32" VerticalAlignment="Center" x:Name="contextIcon" />
-					<TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="20" Text="Processes List" VerticalAlignment="Center" x:Name="contextLabel" />
+					<TextBlock Style="{StaticResource MaterialDesignSubheadingTextBlock}" FontSize="20" VerticalAlignment="Center" x:Name="contextLabel" />
 				</StackPanel>
 
 				<StackPanel Grid.Column="2" Orientation="Horizontal" x:Name="listActions" VerticalAlignment="Center">
@@ -46,7 +46,7 @@
 							</Button>
 							<TextBox
 								Grid.Column="1"
-								materialDesign:HintAssist.Hint="Search processes..."
+								materialDesign:HintAssist.Hint="Search consoles..."
 								materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
 								BorderThickness="0"
 								Width="175"
@@ -83,7 +83,7 @@
 									materialDesign:ShadowAssist.ShadowDepth="Depth3"
 									BorderThickness="0">
 									<StackPanel HorizontalAlignment="Stretch">
-										<TextBlock Margin="3.5" TextWrapping="Wrap" Text="This process will be permanently deleted." />
+										<TextBlock Margin="3.5" TextWrapping="Wrap" Text="This console will be permanently deleted." />
 										<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="3.5 7.5 3.5 3.5">
 											<Button
 												Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
@@ -126,7 +126,7 @@
 				<reactiveui:ViewModelViewHost.DefaultContent>
 
 					<!-- FormData == null ? List : Form -->
-					<local:ProcessListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+					<local:ConsolesListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
 				</reactiveui:ViewModelViewHost.DefaultContent>
 			</reactiveui:ViewModelViewHost>

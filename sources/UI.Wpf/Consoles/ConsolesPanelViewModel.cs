@@ -4,37 +4,35 @@ using ReactiveUI;
 using Splat;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using WinApi.User32;
 
-namespace UI.Wpf.Processes
+namespace UI.Wpf.Consoles
 {
 	//
-	public interface IProcessesViewModel
+	public interface IConsolesPanelViewModel
 	{
 		bool IsLoadingProcesses { get; }
-		IReactiveDerivedList<IProcessViewModel> ProcessOptions { get; }
+		IReactiveDerivedList<IConsoleViewModel> ProcessOptions { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		Interaction<IProcessInstanceViewModel, IntPtr> OpenProcessInstanceViewInteraction { get; }
-		ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand { get; }
-		IReactiveDerivedList<IProcessInstanceViewModel> ProcessInstances { get; }
+		Interaction<IConsoleInstanceViewModel, IntPtr> OpenProcessInstanceViewInteraction { get; }
+		ReactiveCommand<IConsoleViewModel, IConsoleInstanceViewModel> CreateProcessInstanceCommand { get; }
+		IReactiveDerivedList<IConsoleInstanceViewModel> ProcessInstances { get; }
 		Interaction<IntPtr, bool> CloseProcessInstanceViewInteraction { get; }
 	}
 
 	//
-	public class ProcessesViewModel : ReactiveObject, IProcessesViewModel
+	public class ConsolesPanelViewModel : ReactiveObject, IConsolesPanelViewModel
 	{
-		private readonly IProcessFactory _processFactory;
+		private readonly IConsolesFactory _processFactory;
 		private readonly IProcessRepository _processesRepository;
 		private readonly IReactiveList<ProcessEntity> _processOptionsSource;
-		private readonly IReactiveDerivedList<IProcessViewModel> _processOptions;
-		private readonly IReactiveList<IProcessInstanceViewModel> _processInstancesSource;
-		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _processInstances;
-		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _createProcessInstanceCommandFactory;
-		private readonly Interaction<IProcessInstanceViewModel, IntPtr> _openProcessInstanceViewInteraction;
+		private readonly IReactiveDerivedList<IConsoleViewModel> _processOptions;
+		private readonly IReactiveList<IConsoleInstanceViewModel> _processInstancesSource;
+		private readonly IReactiveDerivedList<IConsoleInstanceViewModel> _processInstances;
+		private readonly Func<ReactiveCommand<IConsoleViewModel, IConsoleInstanceViewModel>> _createProcessInstanceCommandFactory;
+		private readonly Interaction<IConsoleInstanceViewModel, IntPtr> _openProcessInstanceViewInteraction;
 		private readonly Interaction<IntPtr, bool> _closeProcessInstanceViewInteraction;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private readonly Dictionary<int, IntPtr> _embeddedInstancesTracker;
@@ -43,24 +41,24 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesViewModel(IProcessFactory processFactory = null, IProcessRepository processesRepository = null)
+		public ConsolesPanelViewModel(IConsolesFactory processFactory = null, IProcessRepository processesRepository = null)
 		{
 			//
-			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
+			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IConsolesFactory>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
 
 			//
 			_embeddedInstancesTracker = new Dictionary<int, IntPtr>();
 			_closeProcessInstanceViewInteraction = new Interaction<IntPtr, bool>();
-			_openProcessInstanceViewInteraction = new Interaction<IProcessInstanceViewModel, IntPtr>();
+			_openProcessInstanceViewInteraction = new Interaction<IConsoleInstanceViewModel, IntPtr>();
 
 			//
 			_processOptionsSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
-			_processInstancesSource = new ReactiveList<IProcessInstanceViewModel>() { ChangeTrackingEnabled = true };
+			_processInstancesSource = new ReactiveList<IConsoleInstanceViewModel>() { ChangeTrackingEnabled = true };
 
 			//
 			_processOptions = _processOptionsSource.CreateDerivedCollection(
-				selector: process => Mapper.Map<IProcessViewModel>(process)
+				selector: process => Mapper.Map<IConsoleViewModel>(process)
 			);
 			_processInstances = _processInstancesSource.CreateDerivedCollection(
 				selector: instance => instance
@@ -128,21 +126,21 @@ namespace UI.Wpf.Processes
 			 */
 			_createProcessInstanceCommandFactory = () =>
 			{
-				var commandIntance = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstanceViewModel>(async (option) => await Task.Run(() =>
+				var commandIntance = ReactiveCommand.CreateFromTask<IConsoleViewModel, IConsoleInstanceViewModel>(async (option) => await Task.Run(() =>
 				{
-					var instance = default(IProcessInstanceViewModel);
+					var instance = default(IConsoleInstanceViewModel);
 
 					var process = _processFactory.Create(option);
 
 					if (process.Start())
 					{
-						instance = Mapper.Map<IProcessInstanceViewModel>(process);
+						instance = Mapper.Map<IConsoleInstanceViewModel>(process);
 
-						instance = (IProcessInstanceViewModel)Mapper.Map(
+						instance = (IConsoleInstanceViewModel)Mapper.Map(
 							option,
 							instance,
-							typeof(IProcessViewModel),
-							typeof(IProcessInstanceViewModel)
+							typeof(IConsoleViewModel),
+							typeof(IConsoleInstanceViewModel)
 						);
 					}
 
@@ -200,16 +198,16 @@ namespace UI.Wpf.Processes
 			set => this.RaiseAndSetIfChanged(ref _isLoadingOptions, value);
 		}
 
-		public IReactiveDerivedList<IProcessViewModel> ProcessOptions => _processOptions;
+		public IReactiveDerivedList<IConsoleViewModel> ProcessOptions => _processOptions;
 
-		public ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
+		public ReactiveCommand<IConsoleViewModel, IConsoleInstanceViewModel> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
 
-		public Interaction<IProcessInstanceViewModel, IntPtr> OpenProcessInstanceViewInteraction => _openProcessInstanceViewInteraction;
+		public Interaction<IConsoleInstanceViewModel, IntPtr> OpenProcessInstanceViewInteraction => _openProcessInstanceViewInteraction;
 
 		public Interaction<IntPtr, bool> CloseProcessInstanceViewInteraction => _closeProcessInstanceViewInteraction;
 
 		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 
-		public IReactiveDerivedList<IProcessInstanceViewModel> ProcessInstances => _processInstances;
+		public IReactiveDerivedList<IConsoleInstanceViewModel> ProcessInstances => _processInstances;
 	}
 }
