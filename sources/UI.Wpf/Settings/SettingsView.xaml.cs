@@ -2,9 +2,6 @@
 
 namespace UI.Wpf.Settings
 {
-	/// <summary>
-	/// General settings view.
-	/// </summary>
 	public partial class SettingsView : IActivatable
 	{
 		/// <summary>

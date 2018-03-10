@@ -34,6 +34,11 @@ namespace UI.Wpf
 			}
 		}
 
+		public static void TakeOwnership(IntPtr targetWindoHandle, IntPtr parentWindowHandle)
+		{
+			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWLP_HWNDPARENT, parentWindowHandle);
+		}
+
 		public static void RemoveFromTaskbar(IntPtr targetWindoHandle)
 		{
 			var newStyle = (WindowExStyles)User32Helpers.GetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_EXSTYLE);

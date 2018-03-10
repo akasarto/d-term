@@ -50,11 +50,11 @@ namespace UI.Wpf
 			_container.Register<INotebooksRepository>(() => new NotebooksRepository(dbConnectionString));
 
 			//
-			_container.Register<IConsolesFactory>(() => new ConsolesFactory());
-			_container.Register<IConsoleViewModel>(() => new ConsoleViewModel());
+			_container.Register<IConsoleProcessFactory>(() => new ConsoleProcessFactory());
+			_container.Register<IConsoleOptionViewModel>(() => new ConsoleOptionViewModel());
 			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
 			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
-			_container.Register<IValidator<IConsoleViewModel>>(() => new ConsoleViewModelValidator());
+			_container.Register<IValidator<IConsoleOptionViewModel>>(() => new ConsoleOptionViewModelValidator());
 			_container.Register<IConsoleHwndHostFactory>(() => new ConsoleHwndHostFactory());
 
 			//

@@ -16,15 +16,15 @@ namespace UI.Wpf.Mappings
 	public class MapperProfileProcesses : Profile
 	{
 		//
-		private readonly IConsolesFactory _processFactory;
+		private readonly IConsoleProcessFactory _processFactory;
 		private readonly IConsoleHwndHostFactory _processHostFactory;
 
 		/// <summary>
 		/// constructor method.
 		/// </summary>
-		public MapperProfileProcesses(IConsolesFactory processFactory = null, IConsoleHwndHostFactory processHostFactory = null)
+		public MapperProfileProcesses(IConsoleProcessFactory processFactory = null, IConsoleHwndHostFactory processHostFactory = null)
 		{
-			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IConsolesFactory>();
+			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IConsoleProcessFactory>();
 			_processHostFactory = processHostFactory ?? Locator.CurrentMutable.GetService<IConsoleHwndHostFactory>();
 
 			SetupMaps();
@@ -38,8 +38,8 @@ namespace UI.Wpf.Mappings
 			var _locator = Locator.CurrentMutable;
 
 			//
-			CreateMap<IConsoleViewModel, IConsoleViewModel>().ConstructUsing(source => _locator.GetService<IConsoleViewModel>());
-			CreateMap<ProcessEntity, IConsoleViewModel>().ConstructUsing(source => _locator.GetService<IConsoleViewModel>()).AfterMap((source, dest) =>
+			CreateMap<IConsoleOptionViewModel, IConsoleOptionViewModel>().ConstructUsing(source => _locator.GetService<IConsoleOptionViewModel>());
+			CreateMap<ProcessEntity, IConsoleOptionViewModel>().ConstructUsing(source => _locator.GetService<IConsoleOptionViewModel>()).AfterMap((source, dest) =>
 			{
 				if (string.IsNullOrWhiteSpace(source.PicturePath))
 				{
@@ -60,7 +60,7 @@ namespace UI.Wpf.Mappings
 					});
 				});
 			});
-			CreateMap<IConsoleViewModel, ProcessEntity>();
+			CreateMap<IConsoleOptionViewModel, ProcessEntity>();
 
 			//
 			CreateMap<IProcess, IConsoleInstanceViewModel>().ConstructUsing(source => new ConsoleInstanceViewModel(source, _processHostFactory)).AfterMap((source, dest) =>
@@ -69,7 +69,7 @@ namespace UI.Wpf.Mappings
 			});
 
 			//
-			CreateMap<IConsoleViewModel, IConsoleInstanceViewModel>();
+			CreateMap<IConsoleOptionViewModel, IConsoleInstanceViewModel>();
 		}
 	}
 }

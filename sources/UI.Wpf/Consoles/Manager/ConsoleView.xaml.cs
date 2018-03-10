@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace UI.Wpf.Consoles
 {
-	public partial class ConsoleView : UserControl, IViewFor<IConsoleViewModel>
+	public partial class ConsoleView : UserControl, IViewFor<IConsoleOptionViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
@@ -30,18 +30,18 @@ namespace UI.Wpf.Consoles
 			});
 		}
 
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleViewModel), typeof(ConsoleView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionViewModel), typeof(ConsoleView), new PropertyMetadata(null));
 
-		public IConsoleViewModel ViewModel
+		public IConsoleOptionViewModel ViewModel
 		{
-			get { return (IConsoleViewModel)GetValue(ViewModelProperty); }
+			get { return (IConsoleOptionViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsoleViewModel)value; }
+			set { ViewModel = (IConsoleOptionViewModel)value; }
 		}
 	}
 }

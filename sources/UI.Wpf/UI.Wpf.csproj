@@ -241,13 +241,12 @@
       <DependentUpon>ConsolesListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consoles\Instances\ConsoleHwndHostFactory.cs" />
-    <Compile Include="Consoles\ConsolesFactory.cs" />
+    <Compile Include="Consoles\ConsoleProcessFactory.cs" />
     <Compile Include="Consoles\WndProcManager.cs" />
-    <Compile Include="Shared\Class1.cs" />
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
-    <Compile Include="Consoles\ConsoleViewModel.cs" />
-    <Compile Include="Consoles\ConsoleViewModelValidator.cs" />
+    <Compile Include="Consoles\ConsoleOptionViewModel.cs" />
+    <Compile Include="Consoles\ConsoleOptionViewModelValidator.cs" />
     <Compile Include="Consoles\Manager\ConsolesManagerView.xaml.cs">
       <DependentUpon>ConsolesManagerView.xaml</DependentUpon>
     </Compile>

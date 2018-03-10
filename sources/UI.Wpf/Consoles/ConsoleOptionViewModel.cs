@@ -8,7 +8,7 @@ using UI.Wpf.Properties;
 namespace UI.Wpf.Consoles
 {
 	//
-	public interface IConsoleViewModel
+	public interface IConsoleOptionViewModel
 	{
 		Guid Id { get; set; }
 		bool IsSupported { get; set; }
@@ -27,7 +27,7 @@ namespace UI.Wpf.Consoles
 	}
 
 	//
-	public class ConsoleViewModel : ReactiveObjectWithValidation, IConsoleViewModel
+	public class ConsoleOptionViewModel : ReactiveObjectWithValidation, IConsoleOptionViewModel
 	{
 		private Guid _id;
 		private bool _isSupported;
@@ -44,7 +44,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleViewModel()
+		public ConsoleOptionViewModel()
 		{
 		}
 

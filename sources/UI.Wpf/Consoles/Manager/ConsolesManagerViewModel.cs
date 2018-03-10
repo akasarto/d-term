@@ -22,10 +22,10 @@ namespace UI.Wpf.Consoles
 		ReactiveCommand CancelFormCommand { get; }
 		ReactiveCommand DeleteProcessCommand { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand { get; }
-		IReactiveDerivedList<IConsoleViewModel> Processes { get; }
-		IValidator<IConsoleViewModel> FormDataValidator { get; }
-		IConsoleViewModel SelectedProcess{ get; set; }
-		IConsoleViewModel FormData { get; set; }
+		IReactiveDerivedList<IConsoleOptionViewModel> Processes { get; }
+		IValidator<IConsoleOptionViewModel> FormDataValidator { get; }
+		IConsoleOptionViewModel SelectedProcess{ get; set; }
+		IConsoleOptionViewModel FormData { get; set; }
 	}
 
 	public class ConsolesManagerViewModel : ReactiveObject, IConsolesManagerViewModel
@@ -43,24 +43,24 @@ namespace UI.Wpf.Consoles
 		private ReactiveCommand _cancelFormCommand;
 		private ReactiveCommand _deleteProcessCommand;
 		private ReactiveCommand<Unit, List<ProcessEntity>> _loadProcessesCommand;
-		private IReactiveDerivedList<IConsoleViewModel> _processes;
-		private IValidator<IConsoleViewModel> _formDataValidator;
-		private IConsoleViewModel _selectedProcess;
-		private IConsoleViewModel _formData;
+		private IReactiveDerivedList<IConsoleOptionViewModel> _processes;
+		private IValidator<IConsoleOptionViewModel> _formDataValidator;
+		private IConsoleOptionViewModel _selectedProcess;
+		private IConsoleOptionViewModel _formData;
 
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesManagerViewModel(IProcessRepository processesRepository = null, IValidator<IConsoleViewModel> processViewModelaValidator = null)
+		public ConsolesManagerViewModel(IProcessRepository processesRepository = null, IValidator<IConsoleOptionViewModel> processViewModelaValidator = null)
 		{
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
-			_formDataValidator = processViewModelaValidator ?? Locator.CurrentMutable.GetService<IValidator<IConsoleViewModel>>();
+			_formDataValidator = processViewModelaValidator ?? Locator.CurrentMutable.GetService<IValidator<IConsoleOptionViewModel>>();
 
 			_entities = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = true };
 
 			_processes = _entities.CreateDerivedCollection(
-				selector: entity => Mapper.Map<IConsoleViewModel>(entity),
+				selector: entity => Mapper.Map<IConsoleOptionViewModel>(entity),
 				filter: entity =>
 				{
 					var filterText = FilterText;
@@ -85,7 +85,7 @@ namespace UI.Wpf.Consoles
 			 */
 			_addProcessCommand = ReactiveCommand.Create(() =>
 			{
-				FormData = Mapper.Map<IConsoleViewModel>(new ProcessEntity());
+				FormData = Mapper.Map<IConsoleOptionViewModel>(new ProcessEntity());
 			});
 
 			/*
@@ -93,7 +93,7 @@ namespace UI.Wpf.Consoles
 			 */
 			this.WhenAnyValue(viewModel => viewModel.SelectedProcess).Where(option => option != null).Subscribe(process =>
 			{
-				FormData = Mapper.Map<IConsoleViewModel>(process);
+				FormData = Mapper.Map<IConsoleOptionViewModel>(process);
 			});
 
 			/*
@@ -192,20 +192,20 @@ namespace UI.Wpf.Consoles
 			set => this.RaiseAndSetIfChanged(ref _isLoadingProcesses, value);
 		}
 
-		public IConsoleViewModel SelectedProcess
+		public IConsoleOptionViewModel SelectedProcess
 		{
 			get => _selectedProcess;
 			set => this.RaiseAndSetIfChanged(ref _selectedProcess, value);
 		}
 
-		public IConsoleViewModel FormData
+		public IConsoleOptionViewModel FormData
 		{
 			get => _formData;
 			set => this.RaiseAndSetIfChanged(ref _formData, value);
 		}
 
-		public IValidator<IConsoleViewModel> FormDataValidator => _formDataValidator;
-		public IReactiveDerivedList<IConsoleViewModel> Processes => _processes;
+		public IValidator<IConsoleOptionViewModel> FormDataValidator => _formDataValidator;
+		public IReactiveDerivedList<IConsoleOptionViewModel> Processes => _processes;
 
 		public ReactiveCommand AddProcessCommand => _addProcessCommand;
 		public ReactiveCommand SaveProcessCommand => _saveProcessCommand;

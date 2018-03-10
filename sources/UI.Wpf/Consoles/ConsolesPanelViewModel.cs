@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows.Interop;
+using WinApi.User32;
 
 namespace UI.Wpf.Consoles
 {
@@ -14,10 +16,10 @@ namespace UI.Wpf.Consoles
 	public interface IConsolesPanelViewModel
 	{
 		bool IsLoadingProcesses { get; }
-		IReactiveDerivedList<IConsoleViewModel> ProcessOptions { get; }
+		IReactiveDerivedList<IConsoleOptionViewModel> ProcessOptions { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
 		Interaction<IConsoleInstanceViewModel, IntPtr> OpenProcessInstanceViewInteraction { get; }
-		ReactiveCommand<IConsoleViewModel, IConsoleInstanceViewModel> CreateProcessInstanceCommand { get; }
+		ReactiveCommand<IConsoleOptionViewModel, IConsoleInstanceViewModel> CreateProcessInstanceCommand { get; }
 		IReactiveDerivedList<IConsoleInstanceViewModel> ProcessInstances { get; }
 		Interaction<IntPtr, bool> CloseProcessInstanceViewInteraction { get; }
 	}
@@ -25,13 +27,13 @@ namespace UI.Wpf.Consoles
 	//
 	public class ConsolesPanelViewModel : ReactiveObject, IConsolesPanelViewModel
 	{
-		private readonly IConsolesFactory _processFactory;
+		private readonly IConsoleProcessFactory _processFactory;
 		private readonly IProcessRepository _processesRepository;
 		private readonly IReactiveList<ProcessEntity> _processOptionsSource;
-		private readonly IReactiveDerivedList<IConsoleViewModel> _processOptions;
+		private readonly IReactiveDerivedList<IConsoleOptionViewModel> _processOptions;
 		private readonly IReactiveList<IConsoleInstanceViewModel> _processInstancesSource;
 		private readonly IReactiveDerivedList<IConsoleInstanceViewModel> _processInstances;
-		private readonly Func<ReactiveCommand<IConsoleViewModel, IConsoleInstanceViewModel>> _createProcessInstanceCommandFactory;
+		private readonly Func<ReactiveCommand<IConsoleOptionViewModel, IConsoleInstanceViewModel>> _createProcessInstanceCommandFactory;
 		private readonly Interaction<IConsoleInstanceViewModel, IntPtr> _openProcessInstanceViewInteraction;
 		private readonly Interaction<IntPtr, bool> _closeProcessInstanceViewInteraction;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
@@ -41,10 +43,10 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesPanelViewModel(IConsolesFactory processFactory = null, IProcessRepository processesRepository = null)
+		public ConsolesPanelViewModel(IConsoleProcessFactory processFactory = null, IProcessRepository processesRepository = null)
 		{
 			//
-			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IConsolesFactory>();
+			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IConsoleProcessFactory>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
 
 			//
@@ -58,7 +60,7 @@ namespace UI.Wpf.Consoles
 
 			//
 			_processOptions = _processOptionsSource.CreateDerivedCollection(
-				selector: process => Mapper.Map<IConsoleViewModel>(process)
+				selector: process => Mapper.Map<IConsoleOptionViewModel>(process)
 			);
 			_processInstances = _processInstancesSource.CreateDerivedCollection(
 				selector: instance => instance
@@ -70,20 +72,21 @@ namespace UI.Wpf.Consoles
 			_processInstances.ItemsAdded.Subscribe(addedInstance =>
 			{
 				// For now, console windows are embedded into the application.
-				if (addedInstance.IsConsole)
-				{
-					_openProcessInstanceViewInteraction.Handle(addedInstance).Subscribe(instanceViewHandle =>
-					{
-						_embeddedInstancesTracker.Add(addedInstance.ProcessId, instanceViewHandle);
-					});
-
-					return;
-				}
-
-				//if (!User32Methods.IsWindowVisible(addedInstance.ProcessMainWindowHandle))
+				//if (addedInstance.IsConsole)
 				//{
-				//	User32Methods.ShowWindow(addedInstance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);
+				//	_openProcessInstanceViewInteraction.Handle(addedInstance).Subscribe(instanceViewHandle =>
+				//	{
+				//		_embeddedInstancesTracker.Add(addedInstance.ProcessId, instanceViewHandle);
+				//	});
+
+				//	return;
 				//}
+
+				if (!User32Methods.IsWindowVisible(addedInstance.ProcessMainWindowHandle))
+				{
+					Win32Api.TakeOwnership(addedInstance.ProcessMainWindowHandle, new WindowInteropHelper(App.Current.MainWindow).Handle);
+					User32Methods.ShowWindow(addedInstance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);
+				}
 			});
 
 			_processInstances.ItemsRemoved.Subscribe(removedInstance =>
@@ -112,6 +115,7 @@ namespace UI.Wpf.Consoles
 
 			_loadOptionsCommand.ThrownExceptions.Subscribe(@exception =>
 			{
+				
 				// ToDo: Show message
 			});
 
@@ -126,7 +130,7 @@ namespace UI.Wpf.Consoles
 			 */
 			_createProcessInstanceCommandFactory = () =>
 			{
-				var commandIntance = ReactiveCommand.CreateFromTask<IConsoleViewModel, IConsoleInstanceViewModel>(async (option) => await Task.Run(() =>
+				var commandIntance = ReactiveCommand.CreateFromTask<IConsoleOptionViewModel, IConsoleInstanceViewModel>(async (option) => await Task.Run(() =>
 				{
 					var instance = default(IConsoleInstanceViewModel);
 
@@ -139,7 +143,7 @@ namespace UI.Wpf.Consoles
 						instance = (IConsoleInstanceViewModel)Mapper.Map(
 							option,
 							instance,
-							typeof(IConsoleViewModel),
+							typeof(IConsoleOptionViewModel),
 							typeof(IConsoleInstanceViewModel)
 						);
 					}
@@ -198,9 +202,9 @@ namespace UI.Wpf.Consoles
 			set => this.RaiseAndSetIfChanged(ref _isLoadingOptions, value);
 		}
 
-		public IReactiveDerivedList<IConsoleViewModel> ProcessOptions => _processOptions;
+		public IReactiveDerivedList<IConsoleOptionViewModel> ProcessOptions => _processOptions;
 
-		public ReactiveCommand<IConsoleViewModel, IConsoleInstanceViewModel> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
+		public ReactiveCommand<IConsoleOptionViewModel, IConsoleInstanceViewModel> CreateProcessInstanceCommand => _createProcessInstanceCommandFactory();
 
 		public Interaction<IConsoleInstanceViewModel, IntPtr> OpenProcessInstanceViewInteraction => _openProcessInstanceViewInteraction;
 

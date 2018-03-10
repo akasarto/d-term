@@ -15,18 +15,10 @@ namespace UI.Wpf.Consoles
 		/// </summary>
 		public ConsolenstanceWndProc(IConsoleInstanceViewModel processInstanceViewModel, HwndSource hwndSource)
 		{
-			var hwndSourceParams = new HwndSourceParameters();
-
-			hwndSourceParams.UsesPerPixelTransparency = true;
-			hwndSourceParams.HwndSourceHook = new HwndSourceHook(WndProcCallback);
-			hwndSourceParams.ParentWindow = hwndSource.Handle;
-
 			_processInstanceViewModel = processInstanceViewModel;
 			_instanceViewHandle = hwndSource.Handle;
-
-			var source = new HwndSource(hwndSourceParams);
-
-			//hwndSource.AddHook(WndProcCallback);
+		
+			hwndSource.AddHook(WndProcCallback);
 		}
 
 		private void ActivateWindow(IntPtr wndHandle)

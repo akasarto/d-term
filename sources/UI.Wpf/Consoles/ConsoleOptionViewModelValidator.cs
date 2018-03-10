@@ -2,12 +2,12 @@
 
 namespace UI.Wpf.Consoles
 {
-	public class ConsoleViewModelValidator : AbstractValidator<IConsoleViewModel>
+	public class ConsoleOptionViewModelValidator : AbstractValidator<IConsoleOptionViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleViewModelValidator()
+		public ConsoleOptionViewModelValidator()
 		{
 			//
 			RuleFor(model => model.PicturePath).Must(BeValidGeometryPath);
