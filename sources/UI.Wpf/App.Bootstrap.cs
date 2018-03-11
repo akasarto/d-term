@@ -1,9 +1,11 @@
 ﻿using FluentValidation;
+using MaterialDesignThemes.Wpf;
 using Processes.Core;
 using Processes.Data.LiteDB;
 using Processes.SystemDiagnostics;
 using ReactiveUI;
 using Splat;
+using System;
 using System.Reflection;
 using UI.Wpf.Consoles;
 using UI.Wpf.Mappings;
@@ -58,6 +60,9 @@ namespace UI.Wpf
 
 			//
 			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
+
+			//
+			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(3)));
 		}
 	}
 }

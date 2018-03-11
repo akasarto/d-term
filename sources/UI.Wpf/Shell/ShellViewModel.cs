@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using MaterialDesignThemes.Wpf;
+using ReactiveUI;
 using Splat;
 using System;
 using System.Reactive;
@@ -14,13 +15,14 @@ namespace UI.Wpf.Shell
 		IConsolesViewModel ConsolesViewModel { get; }
 		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
 		ReactiveCommand OpenSettingsCommand { get; }
+		ISnackbarMessageQueue MessageQueue { get; }
 	}
 
 	//
 	public class ShellViewModel : ReactiveObject, IShellViewModel
 	{
-		//
 		private readonly IConsolesViewModel _consolesViewModel;
+		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
 		private readonly Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
 		private readonly ReactiveCommand _openSettingsReactiveCommand;
 		private readonly ISettingsViewModel _settingsViewModel;
@@ -28,8 +30,9 @@ namespace UI.Wpf.Shell
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(ISettingsViewModel settingsViewModel = null, IConsolesViewModel consolesViewModel = null)
+		public ShellViewModel(ISnackbarMessageQueue snackbarMessageQueue = null, ISettingsViewModel settingsViewModel = null, IConsolesViewModel consolesViewModel = null)
 		{
+			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
 			_settingsViewModel = settingsViewModel ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
 			_consolesViewModel = consolesViewModel ?? Locator.CurrentMutable.GetService<IConsolesViewModel>();
 
@@ -49,5 +52,7 @@ namespace UI.Wpf.Shell
 		public Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction => _openSettingsInteraction;
 
 		public ReactiveCommand OpenSettingsCommand => _openSettingsReactiveCommand;
+
+		public ISnackbarMessageQueue MessageQueue => _snackbarMessageQueue;
 	}
 }

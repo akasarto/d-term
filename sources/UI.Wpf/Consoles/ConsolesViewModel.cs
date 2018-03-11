@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MaterialDesignThemes.Wpf;
 using Processes.Core;
 using ReactiveUI;
 using Splat;
@@ -33,16 +34,18 @@ namespace UI.Wpf.Consoles
 		private readonly IReactiveDerivedList<IConsoleInstanceViewModel> _consoleInstances;
 		private readonly Func<ReactiveCommand<IConsoleOptionViewModel, IConsoleInstanceViewModel>> _createConsoleInstanceCommandFactory;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
+		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
 		private bool _isLoadingConsoles;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesViewModel(IProcessRepository processesRepository = null, IConsoleProcessFactory consoleProcessFactory = null)
+		public ConsolesViewModel(IProcessRepository processesRepository = null, IConsoleProcessFactory consoleProcessFactory = null, ISnackbarMessageQueue snackbarMessageQueue = null)
 		{
 			//
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
 			_consoleProcessFactory = consoleProcessFactory ?? Locator.CurrentMutable.GetService<IConsoleProcessFactory>();
+			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
 
 			//
 			_processEntitiesSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
@@ -84,12 +87,6 @@ namespace UI.Wpf.Consoles
 
 			_loadOptionsCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingConsoles);
 
-			_loadOptionsCommand.ThrownExceptions.Subscribe(@exception =>
-			{
-
-				// ToDo: Show message
-			});
-
 			_loadOptionsCommand.Subscribe(options =>
 			{
 				_processEntitiesSource.Clear();
@@ -101,7 +98,7 @@ namespace UI.Wpf.Consoles
 			 */
 			_createConsoleInstanceCommandFactory = () =>
 			{
-				var commandIntance = ReactiveCommand.CreateFromTask<IConsoleOptionViewModel, IConsoleInstanceViewModel>(async (option) => await Task.Run(() =>
+				var commandInstance = ReactiveCommand.CreateFromTask<IConsoleOptionViewModel, IConsoleInstanceViewModel>(async (option) => await Task.Run(() =>
 				{
 					var instance = default(IConsoleInstanceViewModel);
 
@@ -121,35 +118,42 @@ namespace UI.Wpf.Consoles
 
 					if (instance == null)
 					{
+						process.Stop();
 						process.Dispose();
 					}
 
 					return Task.FromResult(instance);
 				}));
 
-				commandIntance.ThrownExceptions.Subscribe(@exception =>
+				commandInstance.ThrownExceptions.Subscribe(@exception =>
 				{
 					// ToDo: Show error message
 				});
 
-				commandIntance.Subscribe(instance =>
+				commandInstance.Subscribe(instance =>
 				{
-					if (instance != null)
+					if (instance == null)
 					{
-						var instanceSubscription = instance.ProcessTerminated.ObserveOnDispatcher().Subscribe(@event =>
-						{
-							_instancesSource.Remove(instance);
-						});
-
-						_instancesSource.Add(instance);
-
+						_snackbarMessageQueue.Enqueue("The process failed to start. Please try again.");
 						return;
 					}
 
-					// ToDo: Show startup error.
+					if (!Win32Api.IsConsoleProcess(instance.ProcessMainWindowHandle))
+					{
+						_snackbarMessageQueue.Enqueue("The process is not a valid console application.");
+						instance.TerminateProcess();
+						return;
+					}
+
+					var instanceSubscription = instance.ProcessTerminated.ObserveOnDispatcher().Subscribe(@event =>
+					{
+						_instancesSource.Remove(instance);
+					});
+
+					_instancesSource.Add(instance);
 				});
 
-				return commandIntance;
+				return commandInstance;
 			};
 		}
 
