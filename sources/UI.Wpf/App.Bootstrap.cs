@@ -1,9 +1,9 @@
-﻿using Processes.Core;
-using Processes.Data.LiteDB;
-using Processes.SystemDiagnostics;
-using FluentValidation;
+﻿using FluentValidation;
 using Notebook.Core;
 using Notebook.Data.LiteDB;
+using Processes.Core;
+using Processes.Data.LiteDB;
+using Processes.SystemDiagnostics;
 using ReactiveUI;
 using Splat;
 using System.Reflection;
@@ -55,7 +55,6 @@ namespace UI.Wpf
 			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
 			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
 			_container.Register<IValidator<IConsoleOptionViewModel>>(() => new ConsoleOptionViewModelValidator());
-			_container.Register<IConsoleHwndHostFactory>(() => new ConsoleHwndHostFactory());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

@@ -17,15 +17,13 @@ namespace UI.Wpf.Mappings
 	{
 		//
 		private readonly IConsoleProcessFactory _processFactory;
-		private readonly IConsoleHwndHostFactory _processHostFactory;
 
 		/// <summary>
 		/// constructor method.
 		/// </summary>
-		public MapperProfileProcesses(IConsoleProcessFactory processFactory = null, IConsoleHwndHostFactory processHostFactory = null)
+		public MapperProfileProcesses(IConsoleProcessFactory processFactory = null)
 		{
 			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IConsoleProcessFactory>();
-			_processHostFactory = processHostFactory ?? Locator.CurrentMutable.GetService<IConsoleHwndHostFactory>();
 
 			SetupMaps();
 		}
@@ -63,13 +61,13 @@ namespace UI.Wpf.Mappings
 			CreateMap<IConsoleOptionViewModel, ProcessEntity>();
 
 			//
-			CreateMap<IProcess, IConsoleInstanceViewModel>().ConstructUsing(source => new ConsoleInstanceViewModel(source, _processHostFactory)).AfterMap((source, dest) =>
+			CreateMap<IProcess, IProcessInstanceViewModel>().ConstructUsing(source => new ProcessInstanceViewModel(source)).AfterMap((source, dest) =>
 			{
-				dest.IsConsole = source.MainWindowClassName.ToLower().Contains("consolewindowclass");
+
 			});
 
 			//
-			CreateMap<IConsoleOptionViewModel, IConsoleInstanceViewModel>();
+			CreateMap<IConsoleOptionViewModel, IProcessInstanceViewModel>();
 		}
 	}
 }

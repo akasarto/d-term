@@ -36,20 +36,19 @@ namespace UI.Wpf.Consoles
 			return !string.IsNullOrWhiteSpace(path) && new FileInfo(path).Exists;
 		}
 
-		public IProcess Create(IConsoleOptionViewModel processViewModel)
+		public IProcess Create(IConsoleOptionViewModel consoleOptionViewModel)
 		{
-			processViewModel = processViewModel ?? throw new ArgumentNullException(nameof(processViewModel), nameof(ConsoleProcessFactory));
+			consoleOptionViewModel = consoleOptionViewModel ?? throw new ArgumentNullException(nameof(consoleOptionViewModel), nameof(ConsoleProcessFactory));
 
-			if (CanCreate(processViewModel.ProcessBasePath, processViewModel.ProcessExecutableName))
+			if (CanCreate(consoleOptionViewModel.ProcessBasePath, consoleOptionViewModel.ProcessExecutableName))
 			{
-				var fullPath = _processPathBuilder.Build(processViewModel.ProcessBasePath, processViewModel.ProcessExecutableName);
+				var fullPath = _processPathBuilder.Build(consoleOptionViewModel.ProcessBasePath, consoleOptionViewModel.ProcessExecutableName);
 
 				var processStartInfo = new ProcessStartInfo(fullPath)
 				{
-					WindowStyle = ProcessWindowStyle.Hidden,
+					UseShellExecute = true,
 					WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-					Arguments = processViewModel.ProcessStartupArgs,
-					UseShellExecute = true
+					Arguments = consoleOptionViewModel.ProcessStartupArgs
 				};
 
 				return new SystemProcess(processStartInfo, _processTracker);

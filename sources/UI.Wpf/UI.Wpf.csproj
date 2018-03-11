@@ -228,21 +228,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
-    <Compile Include="Consoles\Instances\ConsoleInstanceView.xaml.cs">
-      <DependentUpon>ConsoleInstanceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Consoles\Instances\ConsoleInstanceViewModel.cs" />
-    <Compile Include="Consoles\Instances\ConsoleHwndHost.cs" />
-    <Compile Include="Consoles\Instances\ConsolenstanceWndProc.cs" />
+    <Compile Include="Consoles\Instances\ProcessInstanceViewModel.cs" />
     <Compile Include="Consoles\Manager\ConsoleView.xaml.cs">
       <DependentUpon>ConsoleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Consoles\Manager\ConsolesListView.xaml.cs">
       <DependentUpon>ConsolesListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\Instances\ConsoleHwndHostFactory.cs" />
     <Compile Include="Consoles\ConsoleProcessFactory.cs" />
-    <Compile Include="Consoles\WndProcManager.cs" />
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
     <Compile Include="Consoles\ConsoleOptionViewModel.cs" />
@@ -267,10 +260,6 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsViewModel.cs" />
-    <Page Include="Consoles\Instances\ConsoleInstanceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Consoles\Manager\ConsolesManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

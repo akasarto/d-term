@@ -7,10 +7,6 @@ namespace UI.Wpf
 {
 	internal static class Win32Api
 	{
-		[return: MarshalAs(UnmanagedType.Bool)]
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		internal static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
-
 		internal static void SetVisualAsActive(IntPtr handle)
 		{
 			PostMessage(handle, (uint)WM.NCACTIVATE, new IntPtr(1), IntPtr.Zero);
@@ -57,5 +53,59 @@ namespace UI.Wpf
 
 			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
 		}
+
+		public static string GetWindowClassName(IntPtr hWnd)
+		{
+			int outLength;
+			var stringBuilder = new StringBuilder(256);
+
+			outLength = GetClassName(hWnd, stringBuilder, stringBuilder.Capacity);
+
+			if (outLength != 0)
+			{
+				return stringBuilder.ToString();
+			}
+
+			return string.Empty;
+		}
+
+		/*
+		private static IntPtr GetProcessMainWindowHandle(Process process)
+		{
+			uint threadId = 0;
+			uint processId = 0;
+			IntPtr windowHandle = IntPtr.Zero;
+
+			do
+			{
+				processId = 0;
+				process.Refresh();
+				windowHandle = FindWindowEx(IntPtr.Zero, windowHandle, null, null);
+				threadId = GetWindowThreadProcessId(windowHandle, out processId);
+				if (processId == process.Id)
+				{
+					return windowHandle;
+				}
+			} while (!windowHandle.Equals(IntPtr.Zero));
+
+			return IntPtr.Zero;
+		}
+		*/
+
+		[return: MarshalAs(UnmanagedType.Bool)]
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+		[DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		private static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+
+		[DllImport("user32.dll")]
+		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
 	}
 }

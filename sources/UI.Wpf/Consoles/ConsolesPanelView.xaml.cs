@@ -3,7 +3,6 @@ using System;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 
 namespace UI.Wpf.Consoles
 {
@@ -21,6 +20,7 @@ namespace UI.Wpf.Consoles
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptionsCommand).SelectMany(x => x.Execute()).Subscribe());
 
+				/*
 				activator(ViewModel.OpenProcessInstanceViewInteraction.RegisterHandler(interaction =>
 				{
 					var viewModel = interaction.Input;
@@ -60,6 +60,7 @@ namespace UI.Wpf.Consoles
 
 					interaction.SetOutput(false);
 				}));
+				*/
 			});
 		}
 
