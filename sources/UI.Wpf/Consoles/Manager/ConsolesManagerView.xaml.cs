@@ -1,9 +1,9 @@
-﻿using ReactiveUI;
+﻿using MaterialDesignThemes.Wpf;
+using ReactiveUI;
+using System;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System;
-using MaterialDesignThemes.Wpf;
 
 namespace UI.Wpf.Consoles
 {
@@ -31,7 +31,7 @@ namespace UI.Wpf.Consoles
 					deleteButton.Visibility = data?.Id != Guid.Empty ? Visibility.Visible : Visibility.Collapsed;
 
 					contextIcon.Kind = data == null ? PackIconKind.FormatListBulleted : data.Id == Guid.Empty ? PackIconKind.Plus : PackIconKind.Pencil;
-					contextLabel.Text = data == null ? "Consoles List" : data.Id == Guid.Empty ? "Add Console" : "Edit Console";
+					contextLabel.Text = data == null ? "Options List" : data.Id == Guid.Empty ? "Add Console" : "Edit Console";
 
 					listActions.Visibility = data == null ? Visibility.Visible : Visibility.Collapsed;
 					formActions.Visibility = data == null ? Visibility.Collapsed : Visibility.Visible;

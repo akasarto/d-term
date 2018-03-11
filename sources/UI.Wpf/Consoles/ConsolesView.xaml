@@ -1,21 +1,20 @@
 ﻿<UserControl
-	x:Class="UI.Wpf.Consoles.ConsolesPanelView"
+	x:Class="UI.Wpf.Consoles.ConsolesView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wndbase="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	xmlns:local="clr-namespace:UI.Wpf.Consoles"
 	mc:Ignorable="d"
 	d:DesignWidth="375"
 	d:DesignHeight="215"
 	x:Name="processesPanelControl"
-	>
+>
 
 	<UserControl.Resources>
 
-		<CollectionViewSource x:Key="processesItemsSource" Source="{Binding ProcessOptions}">
+		<CollectionViewSource x:Key="processesItemsSource" Source="{Binding Options}">
 			<CollectionViewSource.SortDescriptions>
 				<wndbase:SortDescription PropertyName="OrderIndex" />
 			</CollectionViewSource.SortDescriptions>
@@ -32,14 +31,14 @@
 		<ProgressBar
 			IsIndeterminate="True"
 			Margin="0 0 15 0"
-			ToolTip="Loading processes..."
+			ToolTip="Loading consoles..."
 			Value="35"
 			VerticalAlignment="Center">
 			<ProgressBar.Style>
 				<Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
 					<Setter Property="Visibility" Value="Collapsed" />
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="True">
+						<DataTrigger Binding="{Binding IsLoadingConsoles}" Value="True">
 							<Setter Property="Visibility" Value="Visible" />
 						</DataTrigger>
 					</Style.Triggers>
@@ -54,7 +53,7 @@
 				<Style TargetType="ItemsControl">
 					<Setter Property="Visibility" Value="Collapsed" />
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding DataContext.IsLoadingProcesses, ElementName=processesPanelControl}" Value="False">
+						<DataTrigger Binding="{Binding DataContext.IsLoadingConsoles, ElementName=processesPanelControl}" Value="False">
 							<Setter Property="Visibility" Value="Visible" />
 						</DataTrigger>
 					</Style.Triggers>

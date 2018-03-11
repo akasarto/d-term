@@ -1,19 +1,19 @@
 ﻿using ReactiveUI;
+using System;
+using System.Diagnostics;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System;
-using System.Reactive.Linq;
 using System.Windows.Navigation;
-using System.Diagnostics;
 
 namespace UI.Wpf.Consoles
 {
-	public partial class ConsoleView : UserControl, IViewFor<IConsoleOptionViewModel>
+	public partial class ConsoleOptionView : UserControl, IViewFor<IConsoleOptionViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleView()
+		public ConsoleOptionView()
 		{
 			InitializeComponent();
 
@@ -30,7 +30,7 @@ namespace UI.Wpf.Consoles
 			});
 		}
 
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionViewModel), typeof(ConsoleView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionViewModel), typeof(ConsoleOptionView), new PropertyMetadata(null));
 
 		public IConsoleOptionViewModel ViewModel
 		{

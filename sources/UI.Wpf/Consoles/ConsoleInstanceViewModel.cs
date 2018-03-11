@@ -7,7 +7,7 @@ using System.Reactive.Linq;
 namespace UI.Wpf.Consoles
 {
 	//
-	public interface IProcessInstanceViewModel
+	public interface IConsoleInstanceViewModel
 	{
 		string Name { get; set; }
 		int ProcessId { get; }
@@ -17,7 +17,7 @@ namespace UI.Wpf.Consoles
 	}
 
 	//
-	public class ProcessInstanceViewModel : ReactiveObject, IProcessInstanceViewModel
+	public class ConsoleInstanceViewModel : ReactiveObject, IConsoleInstanceViewModel
 	{
 		private readonly IProcess _process;
 		private readonly IObservable<EventPattern<EventArgs>> _terminated;
@@ -27,9 +27,9 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstanceViewModel(IProcess process)
+		public ConsoleInstanceViewModel(IProcess process)
 		{
-			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ProcessInstanceViewModel));
+			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ConsoleInstanceViewModel));
 
 			_terminated = Observable.FromEventPattern<EventHandler, EventArgs>(
 				handler => _process.Exited += handler,

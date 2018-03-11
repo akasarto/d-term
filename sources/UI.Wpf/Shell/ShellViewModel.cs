@@ -11,7 +11,7 @@ namespace UI.Wpf.Shell
 	//
 	public interface IShellViewModel
 	{
-		IConsolesPanelViewModel ConsolesPanelViewModel { get; }
+		IConsolesViewModel ConsolesViewModel { get; }
 		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
 		ReactiveCommand OpenSettingsCommand { get; }
 	}
@@ -20,7 +20,7 @@ namespace UI.Wpf.Shell
 	public class ShellViewModel : ReactiveObject, IShellViewModel
 	{
 		//
-		private readonly IConsolesPanelViewModel _consolesPanelViewModel;
+		private readonly IConsolesViewModel _consolesViewModel;
 		private readonly Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
 		private readonly ReactiveCommand _openSettingsReactiveCommand;
 		private readonly ISettingsViewModel _settingsViewModel;
@@ -28,25 +28,23 @@ namespace UI.Wpf.Shell
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(ISettingsViewModel settingsViewModel = null, IConsolesPanelViewModel consolesPanelViewModel = null)
+		public ShellViewModel(ISettingsViewModel settingsViewModel = null, IConsolesViewModel consolesViewModel = null)
 		{
 			_settingsViewModel = settingsViewModel ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
-			_consolesPanelViewModel = consolesPanelViewModel ?? Locator.CurrentMutable.GetService<IConsolesPanelViewModel>();
+			_consolesViewModel = consolesViewModel ?? Locator.CurrentMutable.GetService<IConsolesViewModel>();
 
 			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
 
-			/*
-			 * Settings
-			 */
+			// Settings
 			_openSettingsReactiveCommand = ReactiveCommand.Create(
 				() => OpenSettingsInteraction.Handle(_settingsViewModel).Subscribe(result =>
 				{
-					_consolesPanelViewModel.LoadOptionsCommand.Execute().Subscribe();
+					_consolesViewModel.LoadOptionsCommand.Execute().Subscribe();
 				})
 			);
 		}
 
-		public IConsolesPanelViewModel ConsolesPanelViewModel => _consolesPanelViewModel;
+		public IConsolesViewModel ConsolesViewModel => _consolesViewModel;
 
 		public Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction => _openSettingsInteraction;
 

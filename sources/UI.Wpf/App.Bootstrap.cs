@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using Notebook.Core;
-using Notebook.Data.LiteDB;
 using Processes.Core;
 using Processes.Data.LiteDB;
 using Processes.SystemDiagnostics;
@@ -38,21 +36,17 @@ namespace UI.Wpf
 			var dbConnectionString = @"dTerm.db";
 
 			//
-			_container.Register(() => new MapperProfileProcesses());
-			_container.Register(() => new MapperProfileNotebooks());
+			_container.Register(() => new MapperProfileConsoles());
 
 			//
 			_container.Register<IProcessTracker>(() => new ProcessTracker());
 			_container.Register<IProcessPathBuilder>(() => new ProcessPathBuilder());
-
-			//
 			_container.Register<IProcessRepository>(() => new ProcessRepository(dbConnectionString));
-			_container.Register<INotebooksRepository>(() => new NotebooksRepository(dbConnectionString));
 
 			//
 			_container.Register<IConsoleProcessFactory>(() => new ConsoleProcessFactory());
 			_container.Register<IConsoleOptionViewModel>(() => new ConsoleOptionViewModel());
-			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
+			_container.Register<IConsolesViewModel>(() => new ConsolesViewModel());
 			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
 			_container.Register<IValidator<IConsoleOptionViewModel>>(() => new ConsoleOptionViewModelValidator());
 

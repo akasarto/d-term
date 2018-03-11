@@ -1,11 +1,9 @@
 ﻿using Processes.Core;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Processes.SystemDiagnostics
 {
-	[DesignerCategory("Code")]
 	public class SystemProcess : IProcess
 	{
 		private readonly Process _process;
@@ -33,11 +31,7 @@ namespace Processes.SystemDiagnostics
 
 		public int Id => _process.Id;
 
-		public IntPtr MainModuleHandle { get; private set; }
-
 		public IntPtr MainWindowHandle { get; private set; }
-
-		public uint ThreadId { get; private set; }
 
 		public bool Start(int startupTimeoutInSeconds = 3)
 		{
@@ -64,6 +58,7 @@ namespace Processes.SystemDiagnostics
 						MainWindowHandle = mainWindowHandle;
 						_processTracker.Track(_process.Id);
 						_isStarted = true;
+
 						return true;
 					}
 				}

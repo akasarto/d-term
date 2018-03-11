@@ -20,8 +20,7 @@ namespace UI.Wpf
 
 			Mapper.Initialize(config =>
 			{
-				config.AddProfile(container.GetService<MapperProfileProcesses>());
-				config.AddProfile(container.GetService<MapperProfileNotebooks>());
+				config.AddProfile(container.GetService<MapperProfileConsoles>());
 			});
 
 			//

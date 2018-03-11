@@ -6,8 +6,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:resources="clr-namespace:UI.Wpf.Properties"
 	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:resources="clr-namespace:UI.Wpf.Properties"
 	TextElement.FontSize="14"
 	TextElement.FontWeight="Medium"
 	TextOptions.TextFormattingMode="Ideal"
@@ -32,7 +32,7 @@
 
 		<Path Style="{StaticResource logoVisualStyle}" />
 
-		<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding ConsolesPanelViewModel.ProcessInstances}">
+		<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding ConsolesViewModel.Instances}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<StackPanel Orientation="Horizontal" />
@@ -63,7 +63,7 @@
 					</Grid.ColumnDefinitions>
 
 					<reactiveui:ViewModelViewHost
-						ViewModel="{Binding ConsolesPanelViewModel}"
+						ViewModel="{Binding ConsolesViewModel}"
 						VerticalAlignment="Center" />
 
 					<Rectangle

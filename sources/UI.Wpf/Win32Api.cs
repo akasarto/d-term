@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using WinApi.User32;
@@ -69,8 +70,7 @@ namespace UI.Wpf
 			return string.Empty;
 		}
 
-		/*
-		private static IntPtr GetProcessMainWindowHandle(Process process)
+		public static IntPtr GetProcessMainWindowHandle(Process process)
 		{
 			uint threadId = 0;
 			uint processId = 0;
@@ -90,7 +90,6 @@ namespace UI.Wpf
 
 			return IntPtr.Zero;
 		}
-		*/
 
 		[return: MarshalAs(UnmanagedType.Bool)]
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
