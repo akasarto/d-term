@@ -6,7 +6,7 @@ using System.Windows;
 [assembly: AssemblyTitle("dTerm")]
 [assembly: AssemblyProduct("dTerm")]
 [assembly: AssemblyCompany("Sarto Research")]
-[assembly: AssemblyDescription("General purpose console management terminal for developers.")]
+[assembly: AssemblyDescription("General purpose tool for developers.")]
 [assembly: AssemblyCopyright("Copyright © 2018 Sarto Research")]
 
 [assembly: NeutralResourcesLanguage("en-US")]

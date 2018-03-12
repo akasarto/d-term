@@ -9,6 +9,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Interop;
+using UI.Wpf.Properties;
 using WinApi.User32;
 
 namespace UI.Wpf.Consoles
@@ -68,11 +69,8 @@ namespace UI.Wpf.Consoles
 
 				Win32Api.RemoveFromTaskbar(addedInstance.ProcessMainWindowHandle);
 				Win32Api.TakeOwnership(addedInstance.ProcessMainWindowHandle, mainHandle);
-
-				if (!User32Methods.IsWindowVisible(addedInstance.ProcessMainWindowHandle))
-				{
-					User32Methods.ShowWindow(addedInstance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);
-				}
+				User32Methods.SendMessage(addedInstance.ProcessMainWindowHandle, 0x80, new IntPtr(0), Resources.dTermIcon.Handle);
+				User32Methods.SendMessage(addedInstance.ProcessMainWindowHandle, 0x80, new IntPtr(1), Resources.dTermIcon.Handle);
 			});
 
 			/*

@@ -62,7 +62,7 @@ namespace UI.Wpf
 			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
 
 			//
-			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(3)));
+			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(5)));
 		}
 	}
 }

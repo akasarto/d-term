@@ -6,6 +6,19 @@ using WinApi.User32;
 
 namespace UI.Wpf
 {
+	[StructLayout(LayoutKind.Explicit)]
+	public struct Win32Param
+	{
+		[FieldOffset(0)]
+		public uint BaseValue;
+
+		[FieldOffset(2)]
+		public ushort HOWord;
+
+		[FieldOffset(0)]
+		public ushort LOWord;
+	}
+
 	internal static class Win32Api
 	{
 		internal static void SetVisualAsActive(IntPtr handle)
