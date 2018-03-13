@@ -21,7 +21,7 @@ namespace UI.Wpf.Shell
 
 			this.WhenActivated(activator =>
 			{
-				activator(shellViewModel.OpenSettingsInteraction.RegisterHandler(context =>
+				activator(shellViewModel.Processes.OpenConfigsInteraction.RegisterHandler(context =>
 				{
 					var settingsView = new ConfigsView(context.Input)
 					{
