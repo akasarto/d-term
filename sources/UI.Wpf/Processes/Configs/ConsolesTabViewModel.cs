@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace UI.Wpf.Processes
 {
+	//
 	public interface IConsolesTabViewModel
 	{
 		bool IsPopupOpen { get; }
@@ -24,17 +25,16 @@ namespace UI.Wpf.Processes
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand { get; }
 		IReactiveDerivedList<IProcessViewModel> Processes { get; }
 		IValidator<IProcessViewModel> FormDataValidator { get; }
-		IProcessViewModel SelectedProcess{ get; set; }
+		IProcessViewModel SelectedProcess { get; set; }
 		IProcessViewModel FormData { get; set; }
 	}
 
+	//
 	public class ConsolesTabViewModel : ReactiveObject, IConsolesTabViewModel
 	{
-		//
 		private readonly IProcessRepository _processesRepository;
 		private readonly IReactiveList<ProcessEntity> _entities;
 
-		//
 		private string _filterText;
 		private bool _isPopupOpen;
 		private bool _isLoadingProcesses;
@@ -47,7 +47,6 @@ namespace UI.Wpf.Processes
 		private IValidator<IProcessViewModel> _formDataValidator;
 		private IProcessViewModel _selectedProcess;
 		private IProcessViewModel _formData;
-
 
 		/// <summary>
 		/// Constructor method.
@@ -80,25 +79,19 @@ namespace UI.Wpf.Processes
 				signalReset: this.ObservableForProperty(@this => @this.FilterText).Throttle(TimeSpan.FromMilliseconds(175), RxApp.MainThreadScheduler)
 			);
 
-			/*
-			 * Add
-			 */
+			// Add
 			_addProcessCommand = ReactiveCommand.Create(() =>
 			{
 				FormData = Mapper.Map<IProcessViewModel>(new ProcessEntity());
 			});
 
-			/*
-			 * Edit
-			 */
+			// Edit
 			this.WhenAnyValue(viewModel => viewModel.SelectedProcess).Where(option => option != null).Subscribe(process =>
 			{
 				FormData = Mapper.Map<IProcessViewModel>(process);
 			});
 
-			/*
-			 * Save
-			 */
+			// Save
 			_saveProcessCommand = ReactiveCommand.Create(() =>
 			{
 				var validationResult = _formDataValidator.Validate(FormData);
@@ -126,18 +119,14 @@ namespace UI.Wpf.Processes
 				}
 			});
 
-			/*
-			 * Cancel
-			 */
+			// Cancel
 			_cancelFormCommand = ReactiveCommand.Create(() =>
 			{
 				SelectedProcess = null;
 				FormData = null;
 			});
 
-			/*
-			 * Delete
-			 */
+			// Delete
 			_deleteProcessCommand = ReactiveCommand.Create(() =>
 			{
 				var deleteId = FormData.Id;
@@ -151,22 +140,13 @@ namespace UI.Wpf.Processes
 				IsPopupOpen = false;
 			});
 
-			/*
-			 * Load Processess
-			 */
+			// Load Processess
 			_loadProcessesCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
 			{
 				var items = _processesRepository.GetAll();
-
 				return Task.FromResult(items);
 			}));
-
 			_loadProcessesCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingProcesses);
-
-			_loadProcessesCommand.ThrownExceptions.Subscribe(@exception =>
-			{
-			});
-
 			_loadProcessesCommand.Subscribe(options =>
 			{
 				_entities.Clear();

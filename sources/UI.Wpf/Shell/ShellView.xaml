@@ -79,7 +79,7 @@
 
 		</Grid>
 
-		<materialDesign:Snackbar MessageQueue="{Binding MessageQueue}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 3.5" />
+		<materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 3.5" />
 
 	</Grid>
 

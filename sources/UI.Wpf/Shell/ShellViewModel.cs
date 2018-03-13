@@ -9,7 +9,7 @@ namespace UI.Wpf.Shell
 	public interface IShellViewModel
 	{
 		IProcessesController Processes { get; }
-		ISnackbarMessageQueue MessageQueue { get; }
+		ISnackbarMessageQueue SnackbarMessageQueue { get; }
 	}
 
 	//
@@ -30,6 +30,6 @@ namespace UI.Wpf.Shell
 
 		public IProcessesController Processes => _processesController;
 
-		public ISnackbarMessageQueue MessageQueue => _snackbarMessageQueue;
+		public ISnackbarMessageQueue SnackbarMessageQueue => _snackbarMessageQueue;
 	}
 }

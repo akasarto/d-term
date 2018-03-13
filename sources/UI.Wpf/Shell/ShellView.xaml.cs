@@ -5,9 +5,6 @@ using UI.Wpf.Processes;
 
 namespace UI.Wpf.Shell
 {
-	/// <summary>
-	/// Shell view.
-	/// </summary>
 	public partial class ShellView : IActivatable
 	{
 		/// <summary>

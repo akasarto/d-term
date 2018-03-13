@@ -15,7 +15,6 @@ namespace UI.Wpf
 {
 	public static class AppBootstrap
 	{
-		//
 		private static IMutableDependencyResolver _container;
 
 		/// <summary>
