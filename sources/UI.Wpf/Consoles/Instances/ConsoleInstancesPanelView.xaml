@@ -2,7 +2,8 @@
 	x:Class="UI.Wpf.Consoles.ConsoleInstancesPanelView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:local="clr-namespace:UI.Wpf.Consoles"
 	mc:Ignorable="d"
@@ -18,10 +19,17 @@
 		</ItemsControl.ItemsPanel>
 		<ItemsControl.ItemTemplate>
 			<DataTemplate>
-				<StackPanel>
-					<TextBlock Text="{Binding Name}" />
-					<TextBlock Text="{Binding ProcessId}" />
-				</StackPanel>
+				<materialDesign:Chip Content="{Binding Name}" IconBackground="{DynamicResource PrimaryHueDarkBrush}" IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}" Margin="0 0 15 0">
+					<materialDesign:Chip.Icon>
+						<materialDesign:PackIcon>
+							<materialDesign:PackIcon.Template>
+								<ControlTemplate>
+									<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding PicturePath}" />
+								</ControlTemplate>
+							</materialDesign:PackIcon.Template>
+						</materialDesign:PackIcon>
+					</materialDesign:Chip.Icon>
+				</materialDesign:Chip>
 			</DataTemplate>
 		</ItemsControl.ItemTemplate>
 	</ItemsControl>
