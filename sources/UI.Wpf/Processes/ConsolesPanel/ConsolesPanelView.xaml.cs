@@ -6,12 +6,12 @@ using System.Windows.Controls;
 
 namespace UI.Wpf.Processes
 {
-	public partial class ConsoleOptionsPanelView : UserControl, IViewFor<IConsoleOptionsPanelViewModel>
+	public partial class ConsolesPanelView : UserControl, IViewFor<IConsolesPanelViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionsPanelView()
+		public ConsolesPanelView()
 		{
 			InitializeComponent();
 
@@ -22,18 +22,18 @@ namespace UI.Wpf.Processes
 			});
 		}
 
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionsPanelViewModel), typeof(ConsoleOptionsPanelView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesPanelViewModel), typeof(ConsolesPanelView), new PropertyMetadata(null));
 
-		public IConsoleOptionsPanelViewModel ViewModel
+		public IConsolesPanelViewModel ViewModel
 		{
-			get { return (IConsoleOptionsPanelViewModel)GetValue(ViewModelProperty); }
+			get { return (IConsolesPanelViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsoleOptionsPanelViewModel)value; }
+			set { ViewModel = (IConsolesPanelViewModel)value; }
 		}
 	}
 }

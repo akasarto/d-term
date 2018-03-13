@@ -7,12 +7,12 @@ using System.Windows.Controls;
 
 namespace UI.Wpf.Processes
 {
-	public partial class ConsolesManagerView : UserControl, IViewFor<IConsolesManagerViewModel>
+	public partial class ConsolesTabView : UserControl, IViewFor<IConsolesTabViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesManagerView()
+		public ConsolesTabView()
 		{
 			InitializeComponent();
 
@@ -39,18 +39,18 @@ namespace UI.Wpf.Processes
 			});
 		}
 
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesManagerViewModel), typeof(ConsolesManagerView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesTabViewModel), typeof(ConsolesTabView), new PropertyMetadata(null));
 
-		public IConsolesManagerViewModel ViewModel
+		public IConsolesTabViewModel ViewModel
 		{
-			get { return (IConsolesManagerViewModel)GetValue(ViewModelProperty); }
+			get { return (IConsolesTabViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsolesManagerViewModel)value; }
+			set { ViewModel = (IConsolesTabViewModel)value; }
 		}
 	}
 }

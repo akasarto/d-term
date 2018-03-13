@@ -233,33 +233,32 @@
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
     <Compile Include="AppState.cs" />
-    <Compile Include="Processes\MinimizedProcessesPanel\MinimizedProcessesPanelView.xaml.cs">
-      <DependentUpon>MinimizedProcessesPanelView.xaml</DependentUpon>
+    <Compile Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelView.xaml.cs">
+      <DependentUpon>MinimizedInstancesPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\MinimizedProcessesPanel\MinimizedProcessesPanelViewModel.cs" />
-    <Compile Include="Processes\ProcessInstanceModel.cs" />
-    <Compile Include="Processes\Configurations\ConsoleOptionView.xaml.cs">
-      <DependentUpon>ConsoleOptionView.xaml</DependentUpon>
+    <Compile Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelViewModel.cs" />
+    <Compile Include="Processes\ProcessesController.cs" />
+    <Compile Include="Processes\InstanceViewModel.cs" />
+    <Compile Include="Processes\Configs\ProcessFormView.xaml.cs">
+      <DependentUpon>ProcessFormView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\Configurations\ConsolesListView.xaml.cs">
-      <DependentUpon>ConsolesListView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Processes\ProcessViewModelValidator.cs" />
     <Compile Include="Processes\SystemProcessFactory.cs" />
-    <Compile Include="Processes\TransparencyManagerPanel\TransparencyManagerPanelViewModel.cs" />
-    <Compile Include="Processes\TransparencyManagerPanel\TransparencyManagerPanelView.xaml.cs">
+    <Compile Include="Processes\TransparencyManager\TransparencyManagerPanelViewModel.cs" />
+    <Compile Include="Processes\TransparencyManager\TransparencyManagerPanelView.xaml.cs">
       <DependentUpon>TransparencyManagerPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
-    <Compile Include="Processes\ConsoleOptionsPanel\ConsoleOptionViewModel.cs" />
-    <Compile Include="Processes\Configurations\ConsolesManagerView.xaml.cs">
-      <DependentUpon>ConsolesManagerView.xaml</DependentUpon>
+    <Compile Include="Processes\ProcessViewModel.cs" />
+    <Compile Include="Processes\Configs\ConsolesTabView.xaml.cs">
+      <DependentUpon>ConsolesTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\ConsoleOptionsPanel\ConsoleOptionsPanelView.xaml.cs">
-      <DependentUpon>ConsoleOptionsPanelView.xaml</DependentUpon>
+    <Compile Include="Processes\ConsolesPanel\ConsolesPanelView.xaml.cs">
+      <DependentUpon>ConsolesPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\ConsoleOptionsPanel\ConsoleOptionsPanelViewModel.cs" />
-    <Compile Include="Processes\Configurations\ConsolesManagerViewModel.cs" />
+    <Compile Include="Processes\ConsolesPanel\ConsolesPanelViewModel.cs" />
+    <Compile Include="Processes\Configs\ConsolesTabViewModel.cs" />
     <Compile Include="Mappings\MapperProfileConsoles.cs" />
     <Compile Include="Shared\IsValidGeometryConverter.cs" />
     <Compile Include="Shell\ShellViewModel.cs" />
@@ -267,23 +266,19 @@
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Win32Api.cs" />
-    <Compile Include="Settings\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
+    <Compile Include="Processes\Configs\ConfigsView.xaml.cs">
+      <DependentUpon>ConfigsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings\SettingsViewModel.cs" />
-    <Page Include="Processes\MinimizedProcessesPanel\MinimizedProcessesPanelView.xaml">
+    <Compile Include="Processes\Configs\ConfigsViewModel.cs" />
+    <Page Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\Configurations\ConsolesManagerView.xaml">
+    <Page Include="Processes\Configs\ConsolesTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\Configurations\ConsoleOptionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Processes\Configurations\ConsolesListView.xaml">
+    <Page Include="Processes\Configs\ProcessFormView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -291,15 +286,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\ConsoleOptionsPanel\ConsoleOptionsPanelView.xaml">
+    <Page Include="Processes\ConsolesPanel\ConsolesPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\TransparencyManagerPanel\TransparencyManagerPanelView.xaml">
+    <Page Include="Processes\TransparencyManager\TransparencyManagerPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Settings\SettingsView.xaml">
+    <Page Include="Processes\Configs\ConfigsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

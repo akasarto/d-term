@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Processes.Core;
 using ReactiveUI;
 using System;
@@ -9,7 +8,7 @@ using UI.Wpf.Properties;
 namespace UI.Wpf.Processes
 {
 	//
-	public interface IConsoleOptionViewModel
+	public interface IProcessViewModel
 	{
 		Guid Id { get; set; }
 		bool IsSupported { get; set; }
@@ -28,47 +27,7 @@ namespace UI.Wpf.Processes
 	}
 
 	//
-	public class ConsoleOptionViewModelValidator : AbstractValidator<IConsoleOptionViewModel>
-	{
-		/// <summary>
-		/// Constructor method.
-		/// </summary>
-		public ConsoleOptionViewModelValidator()
-		{
-			//
-			RuleFor(model => model.PicturePath).Must(BeValidGeometryPath);
-
-			//
-			RuleFor(model => model.Name).NotEmpty();
-
-			//
-			RuleFor(model => model.ProcessBasePath).NotNull();
-
-			//
-			RuleFor(model => model.ProcessExecutableName).NotEmpty();
-		}
-
-		private bool BeValidGeometryPath(string input)
-		{
-			var pathData = input?.ToString() ?? string.Empty;
-
-			if (string.IsNullOrWhiteSpace(pathData))
-			{
-				return true;
-			}
-
-			var result = new IsValidGeometryConverter().Convert(
-				pathData,
-				null,
-				null,
-				System.Threading.Thread.CurrentThread.CurrentCulture);
-
-			return (bool)result;
-		}
-	}
-
-	//
-	public class ConsoleOptionViewModel : ReactiveObjectWithValidation, IConsoleOptionViewModel
+	public class ProcessViewModel : ReactiveObjectWithValidation, IProcessViewModel
 	{
 		private Guid _id;
 		private bool _isSupported;
@@ -85,7 +44,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionViewModel()
+		public ProcessViewModel()
 		{
 		}
 

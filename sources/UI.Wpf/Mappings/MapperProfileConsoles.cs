@@ -28,9 +28,9 @@ namespace UI.Wpf.Mappings
 		{
 			var _locator = Locator.CurrentMutable;
 
-			CreateMap<IConsoleOptionViewModel, IConsoleOptionViewModel>().ConstructUsing(source => _locator.GetService<IConsoleOptionViewModel>());
+			CreateMap<IProcessViewModel, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>());
 
-			CreateMap<ProcessEntity, IConsoleOptionViewModel>().ConstructUsing(source => _locator.GetService<IConsoleOptionViewModel>()).AfterMap((source, dest) =>
+			CreateMap<ProcessEntity, IProcessViewModel>().ConstructUsing(source => _locator.GetService<IProcessViewModel>()).AfterMap((source, dest) =>
 			{
 				if (string.IsNullOrWhiteSpace(source.PicturePath))
 				{
@@ -52,11 +52,11 @@ namespace UI.Wpf.Mappings
 				});
 			});
 
-			CreateMap<IConsoleOptionViewModel, ProcessEntity>();
+			CreateMap<IProcessViewModel, ProcessEntity>();
 
-			CreateMap<IProcess, IProcessInstanceModel>().ConstructUsing(source => new ProcessInstanceModel(source));
+			CreateMap<IProcess, IInstanceViewModel>().ConstructUsing(source => new InstanceViewModel(source));
 
-			CreateMap<IConsoleOptionViewModel, IProcessInstanceModel>();
+			CreateMap<IProcessViewModel, IInstanceViewModel>();
 		}
 	}
 }

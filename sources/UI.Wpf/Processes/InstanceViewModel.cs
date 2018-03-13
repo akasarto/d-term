@@ -7,7 +7,7 @@ using System.Reactive.Linq;
 namespace UI.Wpf.Processes
 {
 	//
-	public interface IProcessInstanceModel
+	public interface IInstanceViewModel
 	{
 		string Name { get; set; }
 		string PicturePath { get; set; }
@@ -19,7 +19,7 @@ namespace UI.Wpf.Processes
 	}
 
 	//
-	public class ProcessInstanceModel : ReactiveObject, IProcessInstanceModel
+	public class InstanceViewModel : ReactiveObject, IInstanceViewModel
 	{
 		private readonly IProcess _process;
 		private readonly IObservable<EventPattern<EventArgs>> _terminated;
@@ -31,9 +31,9 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessInstanceModel(IProcess process)
+		public InstanceViewModel(IProcess process)
 		{
-			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ProcessInstanceModel));
+			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(InstanceViewModel));
 
 			_terminated = Observable.FromEventPattern<EventHandler, EventArgs>(
 				handler => _process.Exited += handler,

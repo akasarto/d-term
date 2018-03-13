@@ -1,5 +1,5 @@
 ﻿<UserControl
-	x:Class="UI.Wpf.Processes.ConsolesManagerView"
+	x:Class="UI.Wpf.Processes.ConsolesTabView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:reactiveui="http://reactiveui.net"
@@ -119,11 +119,109 @@
 
 			<Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" Grid.Row="1" />
 
-			<reactiveui:ViewModelViewHost Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ViewModel="{Binding FormData}">
+			<reactiveui:ViewModelViewHost Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ViewContract="ProcessFormView" ViewModel="{Binding FormData}">
 				<reactiveui:ViewModelViewHost.DefaultContent>
 
 					<!-- FormData == null ? List : Form -->
-					<local:ConsolesListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+					<Grid>
+
+						<ProgressBar
+							ToolTip="Loading console options..."
+							HorizontalAlignment="Center"
+							VerticalAlignment="Top"
+							IsIndeterminate="True"
+							Margin="0 75 0 0"
+							Value="35">
+							<ProgressBar.Style>
+								<Style TargetType="ProgressBar" BasedOn="{StaticResource MaterialDesignCircularProgressBar}">
+									<Setter Property="Visibility" Value="Collapsed" />
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="True">
+											<Setter Property="Visibility" Value="Visible" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</ProgressBar.Style>
+						</ProgressBar>
+
+						<ContentControl Margin="7.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{Binding}">
+
+							<ContentControl.Style>
+								<Style TargetType="ContentControl">
+									<Setter Property="Visibility" Value="Collapsed" />
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="False">
+											<Setter Property="Visibility" Value="Visible" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</ContentControl.Style>
+
+							<ContentControl.ContentTemplate>
+								<DataTemplate>
+
+									<Grid>
+
+										<ListView x:Name="list" ItemsSource="{Binding Processes}" SelectionMode="Single" FontSize="15" SelectedItem="{Binding SelectedProcess}">
+											<ListView.View>
+												<GridView>
+													<GridViewColumn Header="Icon">
+														<GridViewColumn.CellTemplate>
+															<DataTemplate>
+																<Path Stretch="Uniform" Fill="Black" Data="{Binding PicturePath}" />
+															</DataTemplate>
+														</GridViewColumn.CellTemplate>
+													</GridViewColumn>
+													<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" />
+													<GridViewColumn DisplayMemberBinding="{Binding IsSupportedDescription}" Header="Status" />
+													<GridViewColumn DisplayMemberBinding="{Binding ProcessBasePathDescription}" Header="Base Path" />
+													<GridViewColumn DisplayMemberBinding="{Binding ProcessExecutableName}" Header="Executable Filename" />
+													<GridViewColumn DisplayMemberBinding="{Binding ProcessStartupArgs}" Header="Startup Args" />
+												</GridView>
+											</ListView.View>
+										</ListView>
+
+										<TextBlock
+											FontStyle="Italic"
+											FontSize="12"
+											HorizontalAlignment="Center"
+											Margin="15 75"
+											Opacity=".55"
+											Style="{StaticResource MaterialDesignButtonTextBlock}"
+											Text="No console options found."
+											Visibility="Collapsed"
+											x:Name="empty" />
+
+									</Grid>
+
+									<DataTemplate.Triggers>
+										<DataTrigger Binding="{Binding Processes.Count}" Value="0">
+											<Setter TargetName="list" Property="Visibility" Value="Collapsed"/>
+											<Setter TargetName="empty" Property="Visibility" Value="Visible"/>
+										</DataTrigger>
+									</DataTemplate.Triggers>
+
+								</DataTemplate>
+							</ContentControl.ContentTemplate>
+						</ContentControl>
+
+						<Button Command="{Binding AddProcessCommand}" HorizontalAlignment="Right" Margin="0 15 35 25" VerticalAlignment="Bottom">
+
+							<Button.Style>
+								<Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionDarkButton}">
+									<Setter Property="IsEnabled" Value="False" />
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding IsLoadingProcesses}" Value="False">
+											<Setter Property="IsEnabled" Value="True" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Button.Style>
+
+							<materialDesign:PackIcon Kind="Plus" Width="24" Height="24" />
+						</Button>
+
+					</Grid>
 
 				</reactiveui:ViewModelViewHost.DefaultContent>
 			</reactiveui:ViewModelViewHost>

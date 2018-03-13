@@ -7,9 +7,8 @@ using ReactiveUI;
 using Splat;
 using System;
 using System.Reflection;
-using UI.Wpf.Processes;
 using UI.Wpf.Mappings;
-using UI.Wpf.Settings;
+using UI.Wpf.Processes;
 using UI.Wpf.Shell;
 
 namespace UI.Wpf
@@ -46,16 +45,17 @@ namespace UI.Wpf
 			_container.Register<IProcessRepository>(() => new ProcessRepository(dbConnectionString));
 
 			//
+			_container.Register<IProcessesController>(() => new ProcessesController());
 			_container.Register<IProcessInstanceFactory>(() => new SystemProcessFactory());
-			_container.Register<IConsoleOptionViewModel>(() => new ConsoleOptionViewModel());
-			_container.Register<IConsoleOptionsPanelViewModel>(() => new ConsoleOptionsPanelViewModel());
-			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
-			_container.Register<IValidator<IConsoleOptionViewModel>>(() => new ConsoleOptionViewModelValidator());
-			_container.Register<IMinimizedProcessesPanelViewModel>(() => new MinimizedProcessesPanelViewModel());
+			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
+			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
+			_container.Register<IConsolesTabViewModel>(() => new ConsolesTabViewModel());
+			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessViewModelValidator());
+			_container.Register<IMinimizedInstancesPanelViewModel>(() => new MinimizedInstancesPanelViewModel());
 			_container.Register<ITransparencyManagerPanelViewModel>(() => new TransparencyManagerPanelViewModel());
 
 			//
-			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());
+			_container.Register<IConfigsViewModel>(() => new ConfigsViewModel());
 
 			//
 			_container.Register<IShellViewModel>(() => new ShellViewModel());

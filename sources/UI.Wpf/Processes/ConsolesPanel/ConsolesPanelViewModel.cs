@@ -15,23 +15,23 @@ using WinApi.User32;
 namespace UI.Wpf.Processes
 {
 	//
-	public interface IConsoleOptionsPanelViewModel
+	public interface IConsolesPanelViewModel
 	{
 		bool IsLoadingConsoles { get; }
-		IReactiveDerivedList<IConsoleOptionViewModel> Options { get; }
+		IReactiveDerivedList<IProcessViewModel> Options { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		ReactiveCommand<IConsoleOptionViewModel, IProcessInstanceModel> CreateProcessInstanceCommand { get; }
+		ReactiveCommand<IProcessViewModel, IInstanceViewModel> CreateProcessInstanceCommand { get; }
 	}
 
 	//
-	public class ConsoleOptionsPanelViewModel : ReactiveObject, IConsoleOptionsPanelViewModel
+	public class ConsolesPanelViewModel : ReactiveObject, IConsolesPanelViewModel
 	{
 		private readonly IAppState _appState;
 		private readonly IProcessRepository _processesRepository;
 		private readonly IProcessInstanceFactory _consoleProcessFactory;
 		private readonly IReactiveList<ProcessEntity> _processEntitiesSource;
-		private readonly IReactiveDerivedList<IConsoleOptionViewModel> _consoleOptions;
-		private readonly Func<ReactiveCommand<IConsoleOptionViewModel, IProcessInstanceModel>> _createConsoleInstanceCommandFactory;
+		private readonly IReactiveDerivedList<IProcessViewModel> _consoleOptions;
+		private readonly Func<ReactiveCommand<IProcessViewModel, IInstanceViewModel>> _createConsoleInstanceCommandFactory;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
 		private bool _isLoadingConsoles;
@@ -39,7 +39,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionsPanelViewModel(IAppState appState = null, IProcessRepository processesRepository = null, IProcessInstanceFactory consoleProcessFactory = null, ISnackbarMessageQueue snackbarMessageQueue = null)
+		public ConsolesPanelViewModel(IAppState appState = null, IProcessRepository processesRepository = null, IProcessInstanceFactory consoleProcessFactory = null, ISnackbarMessageQueue snackbarMessageQueue = null)
 		{
 			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
@@ -51,13 +51,13 @@ namespace UI.Wpf.Processes
 
 			//
 			_consoleOptions = _processEntitiesSource.CreateDerivedCollection(
-				selector: process => Mapper.Map<IConsoleOptionViewModel>(process)
+				selector: process => Mapper.Map<IProcessViewModel>(process)
 			);
 
 			/*
 			 * Instances (Open / Close Windows)
 			 */
-			_appState.GetConsoleInstances().ItemsAdded.Subscribe(addedInstance =>
+			_appState.GetAll().ItemsAdded.Subscribe(addedInstance =>
 			{
 				var mainHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
 
@@ -90,21 +90,21 @@ namespace UI.Wpf.Processes
 			 */
 			_createConsoleInstanceCommandFactory = () =>
 			{
-				var commandInstance = ReactiveCommand.CreateFromTask<IConsoleOptionViewModel, IProcessInstanceModel>(async (option) => await Task.Run(() =>
+				var commandInstance = ReactiveCommand.CreateFromTask<IProcessViewModel, IInstanceViewModel>(async (option) => await Task.Run(() =>
 				{
-					var instance = default(IProcessInstanceModel);
+					var instance = default(IInstanceViewModel);
 
 					var process = _consoleProcessFactory.Create(option);
 
 					if (process.Start())
 					{
-						instance = Mapper.Map<IProcessInstanceModel>(process);
+						instance = Mapper.Map<IInstanceViewModel>(process);
 
-						instance = (IProcessInstanceModel)Mapper.Map(
+						instance = (IInstanceViewModel)Mapper.Map(
 							option,
 							instance,
-							typeof(IConsoleOptionViewModel),
-							typeof(IProcessInstanceModel)
+							typeof(IProcessViewModel),
+							typeof(IInstanceViewModel)
 						);
 					}
 
@@ -139,10 +139,10 @@ namespace UI.Wpf.Processes
 
 					var instanceSubscription = instance.ProcessTerminated.ObserveOnDispatcher().Subscribe(@event =>
 					{
-						_appState.RemoveConsoleInstance(instance);
+						_appState.Remove(instance);
 					});
 
-					_appState.AddConsoleInstance(instance);
+					_appState.Add(instance);
 				});
 
 				return commandInstance;
@@ -155,9 +155,9 @@ namespace UI.Wpf.Processes
 			set => this.RaiseAndSetIfChanged(ref _isLoadingConsoles, value);
 		}
 
-		public IReactiveDerivedList<IConsoleOptionViewModel> Options => _consoleOptions;
+		public IReactiveDerivedList<IProcessViewModel> Options => _consoleOptions;
 
-		public ReactiveCommand<IConsoleOptionViewModel, IProcessInstanceModel> CreateProcessInstanceCommand => _createConsoleInstanceCommandFactory();
+		public ReactiveCommand<IProcessViewModel, IInstanceViewModel> CreateProcessInstanceCommand => _createConsoleInstanceCommandFactory();
 
 		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 	}

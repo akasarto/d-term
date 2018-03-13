@@ -11,7 +11,7 @@ namespace UI.Wpf.Processes
 	public interface IProcessInstanceFactory
 	{
 		bool CanCreate(ProcessBasePath processBasePath, string processExecutableName);
-		IProcess Create(IConsoleOptionViewModel processViewModel);
+		IProcess Create(IProcessViewModel processViewModel);
 	}
 
 	//
@@ -36,7 +36,7 @@ namespace UI.Wpf.Processes
 			return !string.IsNullOrWhiteSpace(path) && new FileInfo(path).Exists;
 		}
 
-		public IProcess Create(IConsoleOptionViewModel consoleOptionViewModel)
+		public IProcess Create(IProcessViewModel consoleOptionViewModel)
 		{
 			consoleOptionViewModel = consoleOptionViewModel ?? throw new ArgumentNullException(nameof(consoleOptionViewModel), nameof(SystemProcessFactory));
 

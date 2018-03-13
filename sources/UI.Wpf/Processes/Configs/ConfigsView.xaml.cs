@@ -1,13 +1,13 @@
 ﻿using ReactiveUI;
 
-namespace UI.Wpf.Settings
+namespace UI.Wpf.Processes
 {
-	public partial class SettingsView : IActivatable
+	public partial class ConfigsView : IActivatable
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public SettingsView(ISettingsViewModel settingsViewModel)
+		public ConfigsView(IConfigsViewModel settingsViewModel)
 		{
 			InitializeComponent();
 

@@ -8,7 +8,8 @@ using System.Windows.Navigation;
 
 namespace UI.Wpf.Processes
 {
-	public partial class ConsoleOptionView : UserControl, IViewFor<IConsoleOptionViewModel>
+	[ViewContract("ProcessFormView")]
+	public partial class ConsoleOptionView : UserControl, IViewFor<IProcessViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
@@ -30,18 +31,18 @@ namespace UI.Wpf.Processes
 			});
 		}
 
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsoleOptionViewModel), typeof(ConsoleOptionView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessViewModel), typeof(ConsoleOptionView), new PropertyMetadata(null));
 
-		public IConsoleOptionViewModel ViewModel
+		public IProcessViewModel ViewModel
 		{
-			get { return (IConsoleOptionViewModel)GetValue(ViewModelProperty); }
+			get { return (IProcessViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsoleOptionViewModel)value; }
+			set { ViewModel = (IProcessViewModel)value; }
 		}
 	}
 }

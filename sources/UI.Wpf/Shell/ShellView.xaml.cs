@@ -1,7 +1,7 @@
 ﻿using ReactiveUI;
 using System.Reactive;
 using System.Windows;
-using UI.Wpf.Settings;
+using UI.Wpf.Processes;
 
 namespace UI.Wpf.Shell
 {
@@ -23,7 +23,7 @@ namespace UI.Wpf.Shell
 			{
 				activator(shellViewModel.OpenSettingsInteraction.RegisterHandler(context =>
 				{
-					var settingsView = new SettingsView(context.Input)
+					var settingsView = new ConfigsView(context.Input)
 					{
 						Owner = Application.Current.MainWindow
 					};
