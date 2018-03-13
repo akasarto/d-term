@@ -48,9 +48,10 @@ namespace UI.Wpf
 			//
 			_container.Register<IConsoleProcessFactory>(() => new ConsoleProcessFactory());
 			_container.Register<IConsoleOptionViewModel>(() => new ConsoleOptionViewModel());
-			_container.Register<IConsolesViewModel>(() => new ConsolesViewModel());
+			_container.Register<IConsoleOptionsPanelViewModel>(() => new ConsoleOptionsPanelViewModel());
 			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
 			_container.Register<IValidator<IConsoleOptionViewModel>>(() => new ConsoleOptionViewModelValidator());
+			_container.Register<IConsoleInstancesPanelViewModel>(() => new ConsoleInstancesPanelViewModel());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());
@@ -62,6 +63,7 @@ namespace UI.Wpf
 			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
 
 			//
+			_container.RegisterLazySingleton<IAppState>(() => new AppState());
 			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(5)));
 		}
 	}

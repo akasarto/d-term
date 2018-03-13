@@ -32,21 +32,7 @@
 
 		<Path Style="{StaticResource logoVisualStyle}" />
 
-		<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding ConsolesViewModel.Instances}">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<StackPanel Orientation="Horizontal" />
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<StackPanel>
-						<TextBlock Text="{Binding Name}" />
-						<TextBlock Text="{Binding ProcessId}" />
-					</StackPanel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
+		<reactiveui:ViewModelViewHost ViewModel="{Binding ConsoleInstancesPanelViewModel}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="15 25 7.5 7.5" />
 
 		<Grid Margin="15 0 15 15" VerticalAlignment="Bottom">
 
@@ -63,7 +49,7 @@
 					</Grid.ColumnDefinitions>
 
 					<reactiveui:ViewModelViewHost
-						ViewModel="{Binding ConsolesViewModel}"
+						ViewModel="{Binding ConsoleOptionsPanelViewModel}"
 						VerticalAlignment="Center" />
 
 					<Rectangle

@@ -232,7 +232,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
-    <Compile Include="Consoles\ConsoleInstanceViewModel.cs" />
+    <Compile Include="AppState.cs" />
+    <Compile Include="Consoles\Instances\ConsoleInstancesPanelView.xaml.cs">
+      <DependentUpon>ConsoleInstancesPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Consoles\Instances\ConsoleInstancesPanelViewModel.cs" />
+    <Compile Include="Consoles\Instances\ConsoleInstanceViewModel.cs" />
     <Compile Include="Consoles\Manager\ConsoleOptionView.xaml.cs">
       <DependentUpon>ConsoleOptionView.xaml</DependentUpon>
     </Compile>
@@ -242,14 +247,14 @@
     <Compile Include="Consoles\ConsoleProcessFactory.cs" />
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
-    <Compile Include="Consoles\ConsoleOptionViewModel.cs" />
+    <Compile Include="Consoles\Options\ConsoleOptionViewModel.cs" />
     <Compile Include="Consoles\Manager\ConsolesManagerView.xaml.cs">
       <DependentUpon>ConsolesManagerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ConsolesView.xaml.cs">
-      <DependentUpon>ConsolesView.xaml</DependentUpon>
+    <Compile Include="Consoles\Options\ConsoleOptionsPanelView.xaml.cs">
+      <DependentUpon>ConsoleOptionsPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Consoles\ConsolesViewModel.cs" />
+    <Compile Include="Consoles\Options\ConsoleOptionsPanelViewModel.cs" />
     <Compile Include="Consoles\Manager\ConsolesManagerViewModel.cs" />
     <Compile Include="Mappings\MapperProfileConsoles.cs" />
     <Compile Include="Shared\IsValidGeometryConverter.cs" />
@@ -262,6 +267,10 @@
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings\SettingsViewModel.cs" />
+    <Page Include="Consoles\Instances\ConsoleInstancesPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Consoles\Manager\ConsolesManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -278,7 +287,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Consoles\ConsolesView.xaml">
+    <Page Include="Consoles\Options\ConsoleOptionsPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
