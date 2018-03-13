@@ -4,12 +4,14 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	//
-	public interface IConsoleInstanceViewModel
+	public interface IProcessInstanceModel
 	{
 		string Name { get; set; }
+		string PicturePath { get; set; }
+		bool IsMinimized { get; set; }
 		int ProcessId { get; }
 		IntPtr ProcessMainWindowHandle { get; }
 		IObservable<EventPattern<EventArgs>> ProcessTerminated { get; }
@@ -17,19 +19,21 @@ namespace UI.Wpf.Consoles
 	}
 
 	//
-	public class ConsoleInstanceViewModel : ReactiveObject, IConsoleInstanceViewModel
+	public class ProcessInstanceModel : ReactiveObject, IProcessInstanceModel
 	{
 		private readonly IProcess _process;
 		private readonly IObservable<EventPattern<EventArgs>> _terminated;
 
 		private string _name;
+		private string _picturePath;
+		private bool _isMinimized;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleInstanceViewModel(IProcess process)
+		public ProcessInstanceModel(IProcess process)
 		{
-			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ConsoleInstanceViewModel));
+			_process = process ?? throw new ArgumentNullException(nameof(process), nameof(ProcessInstanceModel));
 
 			_terminated = Observable.FromEventPattern<EventHandler, EventArgs>(
 				handler => _process.Exited += handler,
@@ -40,6 +44,18 @@ namespace UI.Wpf.Consoles
 		{
 			get => _name;
 			set => this.RaiseAndSetIfChanged(ref _name, value);
+		}
+
+		public string PicturePath
+		{
+			get => _picturePath;
+			set => this.RaiseAndSetIfChanged(ref _picturePath, value);
+		}
+
+		public bool IsMinimized
+		{
+			get => _isMinimized;
+			set => this.RaiseAndSetIfChanged(ref _isMinimized, value);
 		}
 
 		public int ProcessId => _process.Id;

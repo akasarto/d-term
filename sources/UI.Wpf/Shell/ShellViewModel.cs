@@ -4,7 +4,7 @@ using Splat;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using UI.Wpf.Consoles;
+using UI.Wpf.Processes;
 using UI.Wpf.Settings;
 
 namespace UI.Wpf.Shell
@@ -16,7 +16,8 @@ namespace UI.Wpf.Shell
 		Interaction<ISettingsViewModel, Unit> OpenSettingsInteraction { get; }
 		ReactiveCommand OpenSettingsCommand { get; }
 		ISnackbarMessageQueue MessageQueue { get; }
-		IConsoleInstancesPanelViewModel ConsoleInstancesPanelViewModel { get; }
+		IMinimizedProcessesPanelViewModel ConsoleInstancesPanelViewModel { get; }
+		ITransparencyManagerPanelViewModel TransparencyManagerPanelViewModel { get; }
 	}
 
 	//
@@ -25,19 +26,26 @@ namespace UI.Wpf.Shell
 		private readonly IConsoleOptionsPanelViewModel _consoleOptionsPanelViewModel;
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
 		private readonly Interaction<ISettingsViewModel, Unit> _openSettingsInteraction;
-		private readonly IConsoleInstancesPanelViewModel _consoleInstancesPanelViewModel;
+		private readonly IMinimizedProcessesPanelViewModel _consoleInstancesPanelViewModel;
+		private readonly ITransparencyManagerPanelViewModel _transparencyManagerPanelViewModel;
 		private readonly ReactiveCommand _openSettingsReactiveCommand;
 		private readonly ISettingsViewModel _settingsViewModel;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellViewModel(ISnackbarMessageQueue snackbarMessageQueue = null, ISettingsViewModel settingsViewModel = null, IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel = null, IConsoleInstancesPanelViewModel consoleInstancesPanelViewModel = null)
+		public ShellViewModel(
+			ISnackbarMessageQueue snackbarMessageQueue = null,
+			ISettingsViewModel settingsViewModel = null,
+			IConsoleOptionsPanelViewModel consoleOptionsPanelViewModel = null,
+			IMinimizedProcessesPanelViewModel consoleInstancesPanelViewModel = null,
+			ITransparencyManagerPanelViewModel transparencyManagerPanelViewModel = null)
 		{
 			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
 			_settingsViewModel = settingsViewModel ?? Locator.CurrentMutable.GetService<ISettingsViewModel>();
 			_consoleOptionsPanelViewModel = consoleOptionsPanelViewModel ?? Locator.CurrentMutable.GetService<IConsoleOptionsPanelViewModel>();
-			_consoleInstancesPanelViewModel = consoleInstancesPanelViewModel ?? Locator.CurrentMutable.GetService<IConsoleInstancesPanelViewModel>();
+			_consoleInstancesPanelViewModel = consoleInstancesPanelViewModel ?? Locator.CurrentMutable.GetService<IMinimizedProcessesPanelViewModel>();
+			_transparencyManagerPanelViewModel = transparencyManagerPanelViewModel ?? Locator.CurrentMutable.GetService<ITransparencyManagerPanelViewModel>();
 
 			_openSettingsInteraction = new Interaction<ISettingsViewModel, Unit>();
 
@@ -58,6 +66,8 @@ namespace UI.Wpf.Shell
 
 		public ISnackbarMessageQueue MessageQueue => _snackbarMessageQueue;
 
-		public IConsoleInstancesPanelViewModel ConsoleInstancesPanelViewModel => _consoleInstancesPanelViewModel;
+		public IMinimizedProcessesPanelViewModel ConsoleInstancesPanelViewModel => _consoleInstancesPanelViewModel;
+
+		public ITransparencyManagerPanelViewModel TransparencyManagerPanelViewModel => _transparencyManagerPanelViewModel;
 	}
 }

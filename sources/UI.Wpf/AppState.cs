@@ -1,39 +1,40 @@
 ﻿using ReactiveUI;
-using UI.Wpf.Consoles;
+using UI.Wpf.Processes;
 
 namespace UI.Wpf
 {
 	public interface IAppState
 	{
-		IReactiveDerivedList<IConsoleInstanceViewModel> GetConsoleInstances();
-		void RemoveConsoleInstance(IConsoleInstanceViewModel instance);
-		void AddConsoleInstance(IConsoleInstanceViewModel instance);
+		IReactiveDerivedList<IProcessInstanceModel> GetConsoleInstances();
+		void RemoveConsoleInstance(IProcessInstanceModel instance);
+		void AddConsoleInstance(IProcessInstanceModel instance);
 	}
 
-	public class AppState : IAppState
+	public class AppState : ReactiveObject, IAppState
 	{
-		private readonly IReactiveList<IConsoleInstanceViewModel> _consoleInstancesSource;
-		private readonly IReactiveDerivedList<IConsoleInstanceViewModel> _consoleInstancesList;
+		private readonly IReactiveList<IProcessInstanceModel> _consoleInstancesSource;
+		private readonly IReactiveDerivedList<IProcessInstanceModel> _consoleInstancesList;
+		private readonly IReactiveDerivedList<IProcessInstanceModel> _minimizedconsoleInstancesList;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
 		public AppState()
 		{
-			_consoleInstancesSource = new ReactiveList<IConsoleInstanceViewModel>() { ChangeTrackingEnabled = true };
+			_consoleInstancesSource = new ReactiveList<IProcessInstanceModel>() { ChangeTrackingEnabled = true };
 			_consoleInstancesList = _consoleInstancesSource.CreateDerivedCollection(
 				selector: instance => instance
 			);
 		}
 
-		public IReactiveDerivedList<IConsoleInstanceViewModel> GetConsoleInstances() => _consoleInstancesList;
+		public IReactiveDerivedList<IProcessInstanceModel> GetConsoleInstances() => _consoleInstancesList;
 
-		public void AddConsoleInstance(IConsoleInstanceViewModel instance)
+		public void AddConsoleInstance(IProcessInstanceModel instance)
 		{
 			_consoleInstancesSource.Add(instance);
 		}
 
-		public void RemoveConsoleInstance(IConsoleInstanceViewModel instance)
+		public void RemoveConsoleInstance(IProcessInstanceModel instance)
 		{
 			_consoleInstancesSource.Remove(instance);
 		}

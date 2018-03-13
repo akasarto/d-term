@@ -5,17 +5,17 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	//
-	public interface IConsoleProcessFactory
+	public interface IProcessInstanceFactory
 	{
 		bool CanCreate(ProcessBasePath processBasePath, string processExecutableName);
 		IProcess Create(IConsoleOptionViewModel processViewModel);
 	}
 
 	//
-	public class ConsoleProcessFactory : IConsoleProcessFactory
+	public class SystemProcessFactory : IProcessInstanceFactory
 	{
 		private readonly IProcessTracker _processTracker;
 		private readonly IProcessPathBuilder _processPathBuilder;
@@ -23,7 +23,7 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleProcessFactory(IProcessTracker processTracker = null, IProcessPathBuilder processPathBuilder = null)
+		public SystemProcessFactory(IProcessTracker processTracker = null, IProcessPathBuilder processPathBuilder = null)
 		{
 			_processTracker = processTracker ?? Locator.CurrentMutable.GetService<IProcessTracker>();
 			_processPathBuilder = processPathBuilder ?? Locator.CurrentMutable.GetService<IProcessPathBuilder>();
@@ -38,7 +38,7 @@ namespace UI.Wpf.Consoles
 
 		public IProcess Create(IConsoleOptionViewModel consoleOptionViewModel)
 		{
-			consoleOptionViewModel = consoleOptionViewModel ?? throw new ArgumentNullException(nameof(consoleOptionViewModel), nameof(ConsoleProcessFactory));
+			consoleOptionViewModel = consoleOptionViewModel ?? throw new ArgumentNullException(nameof(consoleOptionViewModel), nameof(SystemProcessFactory));
 
 			if (CanCreate(consoleOptionViewModel.ProcessBasePath, consoleOptionViewModel.ProcessExecutableName))
 			{

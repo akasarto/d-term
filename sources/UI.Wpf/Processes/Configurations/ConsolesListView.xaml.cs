@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	public partial class ConsolesListView : UserControl
 	{

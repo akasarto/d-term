@@ -12,7 +12,7 @@ using System.Windows.Interop;
 using UI.Wpf.Properties;
 using WinApi.User32;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	//
 	public interface IConsoleOptionsPanelViewModel
@@ -20,7 +20,7 @@ namespace UI.Wpf.Consoles
 		bool IsLoadingConsoles { get; }
 		IReactiveDerivedList<IConsoleOptionViewModel> Options { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		ReactiveCommand<IConsoleOptionViewModel, IConsoleInstanceViewModel> CreateProcessInstanceCommand { get; }
+		ReactiveCommand<IConsoleOptionViewModel, IProcessInstanceModel> CreateProcessInstanceCommand { get; }
 	}
 
 	//
@@ -28,10 +28,10 @@ namespace UI.Wpf.Consoles
 	{
 		private readonly IAppState _appState;
 		private readonly IProcessRepository _processesRepository;
-		private readonly IConsoleProcessFactory _consoleProcessFactory;
+		private readonly IProcessInstanceFactory _consoleProcessFactory;
 		private readonly IReactiveList<ProcessEntity> _processEntitiesSource;
 		private readonly IReactiveDerivedList<IConsoleOptionViewModel> _consoleOptions;
-		private readonly Func<ReactiveCommand<IConsoleOptionViewModel, IConsoleInstanceViewModel>> _createConsoleInstanceCommandFactory;
+		private readonly Func<ReactiveCommand<IConsoleOptionViewModel, IProcessInstanceModel>> _createConsoleInstanceCommandFactory;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
 		private bool _isLoadingConsoles;
@@ -39,11 +39,11 @@ namespace UI.Wpf.Consoles
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsoleOptionsPanelViewModel(IAppState appState = null, IProcessRepository processesRepository = null, IConsoleProcessFactory consoleProcessFactory = null, ISnackbarMessageQueue snackbarMessageQueue = null)
+		public ConsoleOptionsPanelViewModel(IAppState appState = null, IProcessRepository processesRepository = null, IProcessInstanceFactory consoleProcessFactory = null, ISnackbarMessageQueue snackbarMessageQueue = null)
 		{
 			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
-			_consoleProcessFactory = consoleProcessFactory ?? Locator.CurrentMutable.GetService<IConsoleProcessFactory>();
+			_consoleProcessFactory = consoleProcessFactory ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
 			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
 
 			//
@@ -90,21 +90,21 @@ namespace UI.Wpf.Consoles
 			 */
 			_createConsoleInstanceCommandFactory = () =>
 			{
-				var commandInstance = ReactiveCommand.CreateFromTask<IConsoleOptionViewModel, IConsoleInstanceViewModel>(async (option) => await Task.Run(() =>
+				var commandInstance = ReactiveCommand.CreateFromTask<IConsoleOptionViewModel, IProcessInstanceModel>(async (option) => await Task.Run(() =>
 				{
-					var instance = default(IConsoleInstanceViewModel);
+					var instance = default(IProcessInstanceModel);
 
 					var process = _consoleProcessFactory.Create(option);
 
 					if (process.Start())
 					{
-						instance = Mapper.Map<IConsoleInstanceViewModel>(process);
+						instance = Mapper.Map<IProcessInstanceModel>(process);
 
-						instance = (IConsoleInstanceViewModel)Mapper.Map(
+						instance = (IProcessInstanceModel)Mapper.Map(
 							option,
 							instance,
 							typeof(IConsoleOptionViewModel),
-							typeof(IConsoleInstanceViewModel)
+							typeof(IProcessInstanceModel)
 						);
 					}
 
@@ -157,7 +157,7 @@ namespace UI.Wpf.Consoles
 
 		public IReactiveDerivedList<IConsoleOptionViewModel> Options => _consoleOptions;
 
-		public ReactiveCommand<IConsoleOptionViewModel, IConsoleInstanceViewModel> CreateProcessInstanceCommand => _createConsoleInstanceCommandFactory();
+		public ReactiveCommand<IConsoleOptionViewModel, IProcessInstanceModel> CreateProcessInstanceCommand => _createConsoleInstanceCommandFactory();
 
 		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 	}

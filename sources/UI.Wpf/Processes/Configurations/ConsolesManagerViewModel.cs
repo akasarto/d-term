@@ -10,7 +10,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	public interface IConsolesManagerViewModel
 	{

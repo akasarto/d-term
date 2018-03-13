@@ -7,7 +7,7 @@ using ReactiveUI;
 using Splat;
 using System;
 using System.Reflection;
-using UI.Wpf.Consoles;
+using UI.Wpf.Processes;
 using UI.Wpf.Mappings;
 using UI.Wpf.Settings;
 using UI.Wpf.Shell;
@@ -46,12 +46,13 @@ namespace UI.Wpf
 			_container.Register<IProcessRepository>(() => new ProcessRepository(dbConnectionString));
 
 			//
-			_container.Register<IConsoleProcessFactory>(() => new ConsoleProcessFactory());
+			_container.Register<IProcessInstanceFactory>(() => new SystemProcessFactory());
 			_container.Register<IConsoleOptionViewModel>(() => new ConsoleOptionViewModel());
 			_container.Register<IConsoleOptionsPanelViewModel>(() => new ConsoleOptionsPanelViewModel());
 			_container.Register<IConsolesManagerViewModel>(() => new ConsolesManagerViewModel());
 			_container.Register<IValidator<IConsoleOptionViewModel>>(() => new ConsoleOptionViewModelValidator());
-			_container.Register<IConsoleInstancesPanelViewModel>(() => new ConsoleInstancesPanelViewModel());
+			_container.Register<IMinimizedProcessesPanelViewModel>(() => new MinimizedProcessesPanelViewModel());
+			_container.Register<ITransparencyManagerPanelViewModel>(() => new TransparencyManagerPanelViewModel());
 
 			//
 			_container.Register<ISettingsViewModel>(() => new SettingsViewModel());

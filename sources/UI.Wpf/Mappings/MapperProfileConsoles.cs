@@ -5,21 +5,21 @@ using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UI.Wpf.Consoles;
+using UI.Wpf.Processes;
 using UI.Wpf.Properties;
 
 namespace UI.Wpf.Mappings
 {
 	public class MapperProfileConsoles : Profile
 	{
-		private readonly IConsoleProcessFactory _processFactory;
+		private readonly IProcessInstanceFactory _processFactory;
 
 		/// <summary>
 		/// constructor method.
 		/// </summary>
-		public MapperProfileConsoles(IConsoleProcessFactory processFactory = null)
+		public MapperProfileConsoles(IProcessInstanceFactory processFactory = null)
 		{
-			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IConsoleProcessFactory>();
+			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
 
 			SetupMaps();
 		}
@@ -54,9 +54,9 @@ namespace UI.Wpf.Mappings
 
 			CreateMap<IConsoleOptionViewModel, ProcessEntity>();
 
-			CreateMap<IProcess, IConsoleInstanceViewModel>().ConstructUsing(source => new ConsoleInstanceViewModel(source));
+			CreateMap<IProcess, IProcessInstanceModel>().ConstructUsing(source => new ProcessInstanceModel(source));
 
-			CreateMap<IConsoleOptionViewModel, IConsoleInstanceViewModel>();
+			CreateMap<IConsoleOptionViewModel, IProcessInstanceModel>();
 		}
 	}
 }

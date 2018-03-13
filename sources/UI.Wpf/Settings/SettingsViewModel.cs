@@ -1,5 +1,5 @@
 ﻿using Splat;
-using UI.Wpf.Consoles;
+using UI.Wpf.Processes;
 
 namespace UI.Wpf.Settings
 {

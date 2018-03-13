@@ -4,7 +4,7 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	public partial class ConsoleOptionsPanelView : UserControl, IViewFor<IConsoleOptionsPanelViewModel>
 	{

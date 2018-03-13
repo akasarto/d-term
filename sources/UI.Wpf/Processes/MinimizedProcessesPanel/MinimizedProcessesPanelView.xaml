@@ -1,11 +1,11 @@
 ﻿<UserControl
-	x:Class="UI.Wpf.Consoles.ConsoleInstancesPanelView"
+	x:Class="UI.Wpf.Processes.MinimizedProcessesPanelView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	xmlns:local="clr-namespace:UI.Wpf.Consoles"
+	xmlns:local="clr-namespace:UI.Wpf.Processes"
 	mc:Ignorable="d"
 	d:DesignWidth="800"
 	d:DesignHeight="450"

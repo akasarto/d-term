@@ -35,7 +35,7 @@
 				<!-- Dragablz Material Design -->
 				<ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml"/>
 
-				<ResourceDictionary Source="/Consoles/StyleDictionary.xaml" />
+				<ResourceDictionary Source="/Processes/StyleDictionary.xaml" />
 
 			</ResourceDictionary.MergedDictionaries>
 

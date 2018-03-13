@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	public partial class ConsoleOptionView : UserControl, IViewFor<IConsoleOptionViewModel>
 	{

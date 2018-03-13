@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using UI.Wpf.Properties;
 
-namespace UI.Wpf.Consoles
+namespace UI.Wpf.Processes
 {
 	//
 	public interface IConsoleOptionViewModel
