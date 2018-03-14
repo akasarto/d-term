@@ -74,26 +74,17 @@ namespace UI.Wpf.Processes
 			Win32Api.SetProcessWindowIcon(instanceHandle, iconHandle);
 			Win32Api.SetProcessWindowOwner(instanceHandle, _shellViewHandle);
 
-			SetHooks(instance.ProcessId, instanceHandle);
-		}
-
-		private void SetHooks(int processId, IntPtr instanceHandle)
-		{
 			var hookProc = new WinEventDelegate(WinEventProc);
+			var hookHandle = Win32Api.AddEventsHook(instanceHandle, hookProc);
 
-			var hookHandle = Win32Api.AddMinimizeEventHook(instanceHandle, hookProc);
-
-			if (hookHandle != IntPtr.Zero)
-			{
-				_processHooksTracker.Add(processId, (hookProc, hookHandle));
-			}
+			_processHooksTracker.Add(instance.ProcessId, (hookProc, hookHandle));
 		}
 
 		public void Release(IInstanceViewModel instance)
 		{
 			var hookData = _processHooksTracker[instance.ProcessId];
 			_processHooksTracker.Remove(instance.ProcessId);
-			Win32Api.RemoveHook(hookData.hookHandle);
+			Win32Api.RemoveEventsHook(hookData.hookHandle);
 		}
 
 		private void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
@@ -105,7 +96,7 @@ namespace UI.Wpf.Processes
 
 			switch (eventType)
 			{
-				case 0x0016:
+				case 0x0016: //EVENT_SYSTEM_MINIMIZESTART
 					var instance = _instancesSource.Where(i => i.ProcessMainWindowHandle == hwnd).SingleOrDefault();
 					if (instance != null)
 					{

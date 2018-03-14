@@ -91,13 +91,13 @@ namespace UI.Wpf
 			return string.Empty;
 		}
 
-		internal static IntPtr AddMinimizeEventHook(IntPtr instanceHandle, WinEventDelegate winEventDelegate)
+		internal static IntPtr AddEventsHook(IntPtr instanceHandle, WinEventDelegate winEventDelegate)
 		{
-			// EVENT_OBJECT_NAMECHANGE => 0x0016
-			return SetWinEventHook(0x0016, 0x0016, IntPtr.Zero, winEventDelegate, 0, 0, 0);
+			// EVENT_MIN [0x00000001] / EVENT_MAX [0x7FFFFFFF]
+			return SetWinEventHook(0x00000001, 0x7FFFFFFF, IntPtr.Zero, winEventDelegate, 0, 0, 0);
 		}
 
-		internal static void RemoveHook(IntPtr hookHandle)
+		internal static void RemoveEventsHook(IntPtr hookHandle)
 		{
 			UnhookWinEvent(hookHandle);
 		}
