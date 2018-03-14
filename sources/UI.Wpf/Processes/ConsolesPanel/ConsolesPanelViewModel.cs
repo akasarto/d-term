@@ -20,7 +20,7 @@ namespace UI.Wpf.Processes
 		bool IsLoadingConsoles { get; }
 		IReactiveDerivedList<IProcessViewModel> Options { get; }
 		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		ReactiveCommand<IProcessViewModel, IInstanceViewModel> CreateProcessInstanceCommand { get; }
+		ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand { get; }
 	}
 
 	//
@@ -31,7 +31,7 @@ namespace UI.Wpf.Processes
 		private readonly IProcessInstanceFactory _consoleProcessFactory;
 		private readonly IReactiveList<ProcessEntity> _processEntitiesSource;
 		private readonly IReactiveDerivedList<IProcessViewModel> _consoleOptions;
-		private readonly Func<ReactiveCommand<IProcessViewModel, IInstanceViewModel>> _createConsoleInstanceCommandFactory;
+		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _createConsoleInstanceCommandFactory;
 		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
 		private bool _isLoadingConsoles;
@@ -57,7 +57,7 @@ namespace UI.Wpf.Processes
 			/*
 			 * Instances (Open / Close Windows)
 			 */
-			_appState.GetAll().ItemsAdded.Subscribe(addedInstance =>
+			_appState.GetAllProcessInstances().ItemsAdded.Subscribe(addedInstance =>
 			{
 				var mainHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
 
@@ -90,21 +90,21 @@ namespace UI.Wpf.Processes
 			 */
 			_createConsoleInstanceCommandFactory = () =>
 			{
-				var commandInstance = ReactiveCommand.CreateFromTask<IProcessViewModel, IInstanceViewModel>(async (option) => await Task.Run(() =>
+				var commandInstance = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstanceViewModel>(async (option) => await Task.Run(() =>
 				{
-					var instance = default(IInstanceViewModel);
+					var instance = default(IProcessInstanceViewModel);
 
 					var process = _consoleProcessFactory.Create(option);
 
 					if (process.Start())
 					{
-						instance = Mapper.Map<IInstanceViewModel>(process);
+						instance = Mapper.Map<IProcessInstanceViewModel>(process);
 
-						instance = (IInstanceViewModel)Mapper.Map(
+						instance = (IProcessInstanceViewModel)Mapper.Map(
 							option,
 							instance,
 							typeof(IProcessViewModel),
-							typeof(IInstanceViewModel)
+							typeof(IProcessInstanceViewModel)
 						);
 					}
 
@@ -137,12 +137,7 @@ namespace UI.Wpf.Processes
 						return;
 					}
 
-					var instanceSubscription = instance.ProcessTerminated.ObserveOnDispatcher().Subscribe(@event =>
-					{
-						_appState.Remove(instance);
-					});
-
-					_appState.Add(instance);
+					_appState.AddProcessInstance(instance);
 				});
 
 				return commandInstance;
@@ -157,7 +152,7 @@ namespace UI.Wpf.Processes
 
 		public IReactiveDerivedList<IProcessViewModel> Options => _consoleOptions;
 
-		public ReactiveCommand<IProcessViewModel, IInstanceViewModel> CreateProcessInstanceCommand => _createConsoleInstanceCommandFactory();
+		public ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand => _createConsoleInstanceCommandFactory();
 
 		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 	}

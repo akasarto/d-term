@@ -1,28 +1,29 @@
 ﻿using ReactiveUI;
+using System;
+using System.Reactive.Linq;
 using UI.Wpf.Processes;
 
 namespace UI.Wpf
 {
 	public interface IAppState
 	{
-		void Add(IInstanceViewModel instance);
-		IReactiveDerivedList<IInstanceViewModel> GetAll();
-		IReactiveDerivedList<IInstanceViewModel> GetMinimized();
-		void Remove(IInstanceViewModel instance);
+		void AddProcessInstance(IProcessInstanceViewModel instance);
+		IReactiveDerivedList<IProcessInstanceViewModel> GetAllProcessInstances();
+		IReactiveDerivedList<IProcessInstanceViewModel> GetMinimizedProcessInstances();
 	}
 
 	public class AppState : ReactiveObject, IAppState
 	{
-		private readonly IReactiveList<IInstanceViewModel> _instancesSource;
-		private readonly IReactiveDerivedList<IInstanceViewModel> _allInstancesList;
-		private readonly IReactiveDerivedList<IInstanceViewModel> _minimizedInstancesList;
+		private readonly IReactiveList<IProcessInstanceViewModel> _instancesSource;
+		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _allInstancesList;
+		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _minimizedInstancesList;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
 		public AppState()
 		{
-			_instancesSource = new ReactiveList<IInstanceViewModel>() { ChangeTrackingEnabled = true };
+			_instancesSource = new ReactiveList<IProcessInstanceViewModel>() { ChangeTrackingEnabled = true };
 			_allInstancesList = _instancesSource.CreateDerivedCollection(
 				selector: instance => instance
 			);
@@ -32,16 +33,21 @@ namespace UI.Wpf
 			);
 		}
 
-		public void Add(IInstanceViewModel instance)
+		public void AddProcessInstance(IProcessInstanceViewModel instance)
 		{
+			var instanceSubscription = instance.ProcessTerminated.ObserveOnDispatcher().Subscribe(@event =>
+			{
+				_instancesSource.Remove(instance);
+			});
+
 			_instancesSource.Add(instance);
 		}
 
-		public IReactiveDerivedList<IInstanceViewModel> GetAll() => _allInstancesList;
+		public IReactiveDerivedList<IProcessInstanceViewModel> GetAllProcessInstances() => _allInstancesList;
 
-		public IReactiveDerivedList<IInstanceViewModel> GetMinimized() => _minimizedInstancesList;
+		public IReactiveDerivedList<IProcessInstanceViewModel> GetMinimizedProcessInstances() => _minimizedInstancesList;
 
-		public void Remove(IInstanceViewModel instance)
+		public void Remove(IProcessInstanceViewModel instance)
 		{
 			_instancesSource.Remove(instance);
 		}

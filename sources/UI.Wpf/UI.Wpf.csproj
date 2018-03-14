@@ -238,7 +238,7 @@
     </Compile>
     <Compile Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelViewModel.cs" />
     <Compile Include="Processes\ProcessesController.cs" />
-    <Compile Include="Processes\InstanceViewModel.cs" />
+    <Compile Include="Processes\ProcessInstanceViewModel.cs" />
     <Compile Include="Processes\Configs\ProcessFormView.xaml.cs">
       <DependentUpon>ProcessFormView.xaml</DependentUpon>
     </Compile>
