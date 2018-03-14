@@ -27,7 +27,7 @@ namespace UI.Wpf
 			PostMessage(handle, (uint)WM.NCPAINT, new IntPtr(1), IntPtr.Zero);
 		}
 
-		internal static bool IsConsoleProcess(IntPtr hWnd)
+		internal static bool IsConsoleClass(IntPtr hWnd)
 		{
 			int outLength;
 			var stringBuilder = new StringBuilder(256);
@@ -44,7 +44,13 @@ namespace UI.Wpf
 			}
 		}
 
-		public static void TakeOwnership(IntPtr targetWindoHandle, IntPtr parentWindowHandle)
+		public static void SetProcessWindowIcon(IntPtr targetWindoHandle, IntPtr newIconHandle)
+		{
+			User32Methods.SendMessage(targetWindoHandle, 0x80, new IntPtr(0), newIconHandle);
+			User32Methods.SendMessage(targetWindoHandle, 0x80, new IntPtr(1), newIconHandle);
+		}
+
+		public static void SetProcessWindowOwner(IntPtr targetWindoHandle, IntPtr parentWindowHandle)
 		{
 			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWLP_HWNDPARENT, parentWindowHandle);
 		}

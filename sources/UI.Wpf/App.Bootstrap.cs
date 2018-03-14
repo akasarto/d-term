@@ -7,6 +7,8 @@ using ReactiveUI;
 using Splat;
 using System;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Interop;
 using UI.Wpf.Mappings;
 using UI.Wpf.Processes;
 using UI.Wpf.Shell;
@@ -44,6 +46,9 @@ namespace UI.Wpf
 			_container.Register<IProcessRepository>(() => new ProcessRepository(dbConnectionString));
 
 			//
+			var interopHelper = new WindowInteropHelper(Application.Current.MainWindow);
+
+			_container.Register<IInstanceInteropManager>(() => new InstanceInteropManager(interopHelper.Handle));
 			_container.Register<IProcessesController>(() => new ProcessesController());
 			_container.Register<IProcessInstanceFactory>(() => new SystemProcessFactory());
 			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
@@ -64,7 +69,9 @@ namespace UI.Wpf
 
 			//
 			_container.RegisterLazySingleton<IAppState>(() => new AppState());
-			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(TimeSpan.FromSeconds(5)));
+			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(
+				TimeSpan.FromSeconds(5))
+			);
 		}
 	}
 }

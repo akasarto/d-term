@@ -6,7 +6,7 @@ namespace UI.Wpf.Processes
 	//
 	public interface IMinimizedInstancesPanelViewModel
 	{
-		IReactiveDerivedList<IProcessInstanceViewModel> Instances { get; }
+		IReactiveDerivedList<IInstanceViewModel> Instances { get; }
 	}
 
 	//
@@ -22,6 +22,6 @@ namespace UI.Wpf.Processes
 			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
 		}
 
-		public IReactiveDerivedList<IProcessInstanceViewModel> Instances => _appState.GetAllProcessInstances();
+		public IReactiveDerivedList<IInstanceViewModel> Instances => _appState.GetAllProcessInstances();
 	}
 }

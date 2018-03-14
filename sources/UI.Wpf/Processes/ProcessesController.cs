@@ -33,18 +33,9 @@ namespace UI.Wpf.Processes
 			_minimizedInstancesPanel = minimizedInstancesPanel ?? Locator.CurrentMutable.GetService<IMinimizedInstancesPanelViewModel>();
 			_transparencyManagerPanelViewModel = transparencyManagerPanelViewModel ?? Locator.CurrentMutable.GetService<ITransparencyManagerPanelViewModel>();
 
+			// Configs
 			_openConfigsInteraction = new Interaction<IConfigsViewModel, Unit>();
-
-			// Settings
-			_openConfigsCommand = ReactiveCommand.Create(() => {
-
-				var _configsViewModel = Locator.CurrentMutable.GetService<IConfigsViewModel>();
-
-				_openConfigsInteraction.Handle(_configsViewModel).Subscribe(result =>
-				{
-					_consolesPanelViewModel.LoadOptionsCommand.Execute().Subscribe();
-				});
-			});
+			_openConfigsCommand = ReactiveCommand.Create(() => OpenConfigsCommandAction());
 		}
 
 		public IConsolesPanelViewModel ConsolesPanel => _consolesPanelViewModel;
@@ -56,5 +47,15 @@ namespace UI.Wpf.Processes
 		public Interaction<IConfigsViewModel, Unit> OpenConfigsInteraction => _openConfigsInteraction;
 
 		public ReactiveCommand OpenConfigsCommand => _openConfigsCommand;
+
+		private void OpenConfigsCommandAction()
+		{
+			var _configsViewModel = Locator.CurrentMutable.GetService<IConfigsViewModel>();
+
+			_openConfigsInteraction.Handle(_configsViewModel).Subscribe(result =>
+			{
+				_consolesPanelViewModel.LoadOptionsCommand.Execute().Subscribe();
+			});
+		}
 	}
 }

@@ -22,7 +22,7 @@ namespace UI.Wpf.Processes
 		ReactiveCommand SaveProcessCommand { get; }
 		ReactiveCommand CancelFormCommand { get; }
 		ReactiveCommand DeleteProcessCommand { get; }
-		ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand { get; }
+		ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadProcessesCommand { get; }
 		IReactiveDerivedList<IProcessViewModel> Processes { get; }
 		IValidator<IProcessViewModel> FormDataValidator { get; }
 		IProcessViewModel SelectedProcess { get; set; }
@@ -33,7 +33,7 @@ namespace UI.Wpf.Processes
 	public class ConsolesTabViewModel : ReactiveObject, IConsolesTabViewModel
 	{
 		private readonly IProcessRepository _processesRepository;
-		private readonly IReactiveList<ProcessEntity> _entities;
+		private readonly IReactiveList<ProcessEntity> _processesSource;
 
 		private string _filterText;
 		private bool _isPopupOpen;
@@ -42,8 +42,8 @@ namespace UI.Wpf.Processes
 		private ReactiveCommand _saveProcessCommand;
 		private ReactiveCommand _cancelFormCommand;
 		private ReactiveCommand _deleteProcessCommand;
-		private ReactiveCommand<Unit, List<ProcessEntity>> _loadProcessesCommand;
-		private IReactiveDerivedList<IProcessViewModel> _processes;
+		private ReactiveCommand<Unit, IEnumerable<ProcessEntity>> _loadProcessesCommand;
+		private IReactiveDerivedList<IProcessViewModel> _processesList;
 		private IValidator<IProcessViewModel> _formDataValidator;
 		private IProcessViewModel _selectedProcess;
 		private IProcessViewModel _formData;
@@ -56,102 +56,35 @@ namespace UI.Wpf.Processes
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
 			_formDataValidator = processViewModelaValidator ?? Locator.CurrentMutable.GetService<IValidator<IProcessViewModel>>();
 
-			_entities = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = true };
-
-			_processes = _entities.CreateDerivedCollection(
+			// Lists
+			_processesSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = true };
+			_processesList = _processesSource.CreateDerivedCollection(
 				selector: entity => Mapper.Map<IProcessViewModel>(entity),
-				filter: entity =>
-				{
-					var filterText = FilterText;
-
-					if (!string.IsNullOrEmpty(filterText))
-					{
-						var nameMatch = (entity?.Name?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
-						var processBasePathMatch = (entity?.ProcessBasePath.ToString()?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
-						var processExecutableNameMatch = (entity?.ProcessExecutableName?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
-						var processStartupArgsMatch = (entity?.ProcessStartupArgs?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
-
-						return nameMatch || processBasePathMatch || processExecutableNameMatch || processStartupArgsMatch;
-					}
-
-					return true;
-				},
+				filter: entity => FilterEntity(entity),
 				signalReset: this.ObservableForProperty(@this => @this.FilterText).Throttle(TimeSpan.FromMilliseconds(175), RxApp.MainThreadScheduler)
 			);
 
 			// Add
-			_addProcessCommand = ReactiveCommand.Create(() =>
-			{
-				FormData = Mapper.Map<IProcessViewModel>(new ProcessEntity());
-			});
+			_addProcessCommand = ReactiveCommand.Create(() => AddProcessCommandAction());
 
 			// Edit
-			this.WhenAnyValue(viewModel => viewModel.SelectedProcess).Where(option => option != null).Subscribe(process =>
-			{
-				FormData = Mapper.Map<IProcessViewModel>(process);
-			});
+			this.WhenAnyValue(viewModel => viewModel.SelectedProcess)
+				.Where(option => option != null)
+				.Subscribe(process => EditProcessCommandAction(process));
 
 			// Save
-			_saveProcessCommand = ReactiveCommand.Create(() =>
-			{
-				var validationResult = _formDataValidator.Validate(FormData);
-
-				FormData.SetErrors(validationResult.Errors);
-
-				if (FormData.IsValid)
-				{
-					var entity = Mapper.Map<ProcessEntity>(FormData);
-
-					if (FormData.Id.Equals(Guid.Empty))
-					{
-						entity = _processesRepository.Add(entity);
-						_entities.Add(entity);
-					}
-					else
-					{
-						_processesRepository.Update(entity);
-						var currentEntity = _entities.FirstOrDefault(n => n.Id == entity.Id);
-						_entities.Remove(currentEntity);
-						_entities.Add(entity);
-					}
-
-					FormData = null;
-				}
-			});
+			_saveProcessCommand = ReactiveCommand.Create(() => SaveProcessAction());
 
 			// Cancel
-			_cancelFormCommand = ReactiveCommand.Create(() =>
-			{
-				SelectedProcess = null;
-				FormData = null;
-			});
+			_cancelFormCommand = ReactiveCommand.Create(() => CancelFormCommandAction());
 
 			// Delete
-			_deleteProcessCommand = ReactiveCommand.Create(() =>
-			{
-				var deleteId = FormData.Id;
-				_processesRepository.Delete(deleteId);
-				var currentEnttiy = _entities.Where(o => o.Id == deleteId).SingleOrDefault();
-				if (currentEnttiy != null)
-				{
-					_entities.Remove(currentEnttiy);
-				}
-				FormData = null;
-				IsPopupOpen = false;
-			});
+			_deleteProcessCommand = ReactiveCommand.Create(() => DeleteProcessCommandAction());
 
 			// Load Processess
-			_loadProcessesCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
-			{
-				var items = _processesRepository.GetAll();
-				return Task.FromResult(items);
-			}));
+			_loadProcessesCommand = ReactiveCommand.CreateFromTask(async () => await LoadProcessesCommandAction());
 			_loadProcessesCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingProcesses);
-			_loadProcessesCommand.Subscribe(options =>
-			{
-				_entities.Clear();
-				_entities.AddRange(options);
-			});
+			_loadProcessesCommand.Subscribe(entities => LoadProcessesCommandHandler(entities));
 		}
 
 		public string FilterText
@@ -185,12 +118,97 @@ namespace UI.Wpf.Processes
 		}
 
 		public IValidator<IProcessViewModel> FormDataValidator => _formDataValidator;
-		public IReactiveDerivedList<IProcessViewModel> Processes => _processes;
+		public IReactiveDerivedList<IProcessViewModel> Processes => _processesList;
 
 		public ReactiveCommand AddProcessCommand => _addProcessCommand;
 		public ReactiveCommand SaveProcessCommand => _saveProcessCommand;
 		public ReactiveCommand CancelFormCommand => _cancelFormCommand;
 		public ReactiveCommand DeleteProcessCommand => _deleteProcessCommand;
-		public ReactiveCommand<Unit, List<ProcessEntity>> LoadProcessesCommand => _loadProcessesCommand;
+		public ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadProcessesCommand => _loadProcessesCommand;
+
+		private bool FilterEntity(ProcessEntity entity)
+		{
+			var filterText = FilterText;
+
+			if (!string.IsNullOrEmpty(filterText))
+			{
+				var nameMatch = (entity?.Name?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
+				var processBasePathMatch = (entity?.ProcessBasePath.ToString()?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
+				var processExecutableNameMatch = (entity?.ProcessExecutableName?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
+				var processStartupArgsMatch = (entity?.ProcessStartupArgs?.ToLower() ?? string.Empty).Contains(filterText.ToLower());
+
+				return nameMatch || processBasePathMatch || processExecutableNameMatch || processStartupArgsMatch;
+			}
+
+			return true;
+		}
+
+		private void AddProcessCommandAction()
+		{
+			FormData = Mapper.Map<IProcessViewModel>(new ProcessEntity());
+		}
+
+		private void EditProcessCommandAction(IProcessViewModel process)
+		{
+			FormData = Mapper.Map<IProcessViewModel>(process);
+		}
+
+		private void SaveProcessAction()
+		{
+			var validationResult = _formDataValidator.Validate(FormData);
+
+			FormData.SetErrors(validationResult.Errors);
+
+			if (FormData.IsValid)
+			{
+				var entity = Mapper.Map<ProcessEntity>(FormData);
+
+				if (FormData.Id.Equals(Guid.Empty))
+				{
+					entity = _processesRepository.Add(entity);
+					_processesSource.Add(entity);
+				}
+				else
+				{
+					_processesRepository.Update(entity);
+					var currentEntity = _processesSource.FirstOrDefault(n => n.Id == entity.Id);
+					_processesSource.Remove(currentEntity);
+					_processesSource.Add(entity);
+				}
+
+				FormData = null;
+			}
+		}
+
+		private void CancelFormCommandAction()
+		{
+			SelectedProcess = null;
+			FormData = null;
+		}
+
+		private void DeleteProcessCommandAction()
+		{
+			var deleteId = FormData.Id;
+			_processesRepository.Delete(deleteId);
+			var currentEnttiy = _processesSource.Where(o => o.Id == deleteId).SingleOrDefault();
+			if (currentEnttiy != null)
+			{
+				_processesSource.Remove(currentEnttiy);
+			}
+			FormData = null;
+			IsPopupOpen = false;
+		}
+
+		private Task<IEnumerable<ProcessEntity>> LoadProcessesCommandAction() => Task.Run(() =>
+		{
+			var items = _processesRepository.GetAll();
+			return Task.FromResult(items);
+		});
+
+		private void LoadProcessesCommandHandler(IEnumerable<ProcessEntity> entities)
+		{
+			_processesSource.Clear();
+			_processesSource.AddRange(entities);
+		}
 	}
 }

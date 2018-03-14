@@ -8,9 +8,6 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System.Windows.Interop;
-using UI.Wpf.Properties;
-using WinApi.User32;
 
 namespace UI.Wpf.Processes
 {
@@ -19,8 +16,8 @@ namespace UI.Wpf.Processes
 	{
 		bool IsLoadingConsoles { get; }
 		IReactiveDerivedList<IProcessViewModel> Options { get; }
-		ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand { get; }
-		ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand { get; }
+		ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadOptionsCommand { get; }
+		ReactiveCommand<IProcessViewModel, IInstanceViewModel> CreateProcessInstanceCommand { get; }
 	}
 
 	//
@@ -31,8 +28,8 @@ namespace UI.Wpf.Processes
 		private readonly IProcessInstanceFactory _consoleProcessFactory;
 		private readonly IReactiveList<ProcessEntity> _processEntitiesSource;
 		private readonly IReactiveDerivedList<IProcessViewModel> _consoleOptions;
-		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _createConsoleInstanceCommandFactory;
-		private readonly ReactiveCommand<Unit, List<ProcessEntity>> _loadOptionsCommand;
+		private readonly Func<ReactiveCommand<IProcessViewModel, IInstanceViewModel>> _createConsoleInstanceCommandFactory;
+		private readonly ReactiveCommand<Unit, IEnumerable<ProcessEntity>> _loadOptionsCommand;
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
 		private bool _isLoadingConsoles;
 
@@ -46,101 +43,24 @@ namespace UI.Wpf.Processes
 			_consoleProcessFactory = consoleProcessFactory ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
 			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
 
-			//
+			// Lists
 			_processEntitiesSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
-
-			//
 			_consoleOptions = _processEntitiesSource.CreateDerivedCollection(
 				selector: process => Mapper.Map<IProcessViewModel>(process)
 			);
 
-			/*
-			 * Instances (Open / Close Windows)
-			 */
-			_appState.GetAllProcessInstances().ItemsAdded.Subscribe(addedInstance =>
-			{
-				var mainHandle = new WindowInteropHelper(System.Windows.Application.Current.MainWindow).Handle;
-
-				Win32Api.RemoveFromTaskbar(addedInstance.ProcessMainWindowHandle);
-				Win32Api.TakeOwnership(addedInstance.ProcessMainWindowHandle, mainHandle);
-				User32Methods.SendMessage(addedInstance.ProcessMainWindowHandle, 0x80, new IntPtr(0), Resources.dTermIcon.Handle);
-				User32Methods.SendMessage(addedInstance.ProcessMainWindowHandle, 0x80, new IntPtr(1), Resources.dTermIcon.Handle);
-			});
-
-			/*
-			 * Load Processess
-			 */
-			_loadOptionsCommand = ReactiveCommand.CreateFromTask(async () => await Task.Run(() =>
-			{
-				var items = _processesRepository.GetAll();
-
-				return Task.FromResult(items);
-			}));
-
+			// Load Processess
+			_loadOptionsCommand = ReactiveCommand.CreateFromTask(async () => await LoadOptionsCommandAction());
 			_loadOptionsCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingConsoles);
+			_loadOptionsCommand.Subscribe(entities => LoadOptionsCommandHandler(entities));
 
-			_loadOptionsCommand.Subscribe(options =>
-			{
-				_processEntitiesSource.Clear();
-				_processEntitiesSource.AddRange(options);
-			});
-
-			/*
-			 * Create Instances
-			 */
+			// Create Instances
 			_createConsoleInstanceCommandFactory = () =>
 			{
-				var commandInstance = ReactiveCommand.CreateFromTask<IProcessViewModel, IProcessInstanceViewModel>(async (option) => await Task.Run(() =>
-				{
-					var instance = default(IProcessInstanceViewModel);
-
-					var process = _consoleProcessFactory.Create(option);
-
-					if (process.Start())
-					{
-						instance = Mapper.Map<IProcessInstanceViewModel>(process);
-
-						instance = (IProcessInstanceViewModel)Mapper.Map(
-							option,
-							instance,
-							typeof(IProcessViewModel),
-							typeof(IProcessInstanceViewModel)
-						);
-					}
-
-					if (instance == null)
-					{
-						process.Stop();
-						process.Dispose();
-					}
-
-					return Task.FromResult(instance);
-				}));
-
-				commandInstance.ThrownExceptions.Subscribe(@exception =>
-				{
-					// ToDo: Show error message
-				});
-
-				commandInstance.Subscribe(instance =>
-				{
-					if (instance == null)
-					{
-						_snackbarMessageQueue.Enqueue("The process failed to start. Please try again.");
-						return;
-					}
-
-					if (!Win32Api.IsConsoleProcess(instance.ProcessMainWindowHandle))
-					{
-						_snackbarMessageQueue.Enqueue("The process is not a valid console application.");
-						instance.TerminateProcess();
-						return;
-					}
-
-					_appState.AddProcessInstance(instance);
-				});
-
-				return commandInstance;
+				var command = ReactiveCommand.CreateFromTask<IProcessViewModel, IInstanceViewModel>(async (option) => await CreateConsoleInstanceCommandAction(option));
+				command.ThrownExceptions.Subscribe(@exception => CreateConsoleInstanceCommandError(@exception));
+				command.Subscribe(instance => CreateConsoleInstanceCommandHandler(instance));
+				return command;
 			};
 		}
 
@@ -152,8 +72,66 @@ namespace UI.Wpf.Processes
 
 		public IReactiveDerivedList<IProcessViewModel> Options => _consoleOptions;
 
-		public ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> CreateProcessInstanceCommand => _createConsoleInstanceCommandFactory();
+		public ReactiveCommand<IProcessViewModel, IInstanceViewModel> CreateProcessInstanceCommand => _createConsoleInstanceCommandFactory();
 
-		public ReactiveCommand<Unit, List<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
+		public ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
+
+		private Task<IEnumerable<ProcessEntity>> LoadOptionsCommandAction() => Task.Run(() =>
+		{
+			var items = _processesRepository.GetAll();
+			return Task.FromResult(items);
+		});
+
+		private void LoadOptionsCommandHandler(IEnumerable<ProcessEntity> options)
+		{
+			_processEntitiesSource.Clear();
+			_processEntitiesSource.AddRange(options);
+		}
+
+		private Task<IInstanceViewModel> CreateConsoleInstanceCommandAction(IProcessViewModel option) => Task.Run(() =>
+		{
+			var instance = default(IInstanceViewModel);
+			var process = _consoleProcessFactory.Create(option);
+			if (process.Start())
+			{
+				instance = Mapper.Map<IInstanceViewModel>(process);
+				instance = (IInstanceViewModel)Mapper.Map(
+					option,
+					instance,
+					typeof(IProcessViewModel),
+					typeof(IInstanceViewModel)
+				);
+			}
+			if (instance == null)
+			{
+				process.Stop();
+				process.Dispose();
+			}
+			return Task.FromResult(instance);
+		});
+
+		private void CreateConsoleInstanceCommandError(Exception exception)
+		{
+			// ToDo: Log exception
+			_snackbarMessageQueue.Enqueue("Error creating instance. Please try again.");
+		}
+
+		private void CreateConsoleInstanceCommandHandler(IInstanceViewModel instance)
+		{
+			if (instance == null)
+			{
+				_snackbarMessageQueue.Enqueue("The process failed to start. Please try again.");
+				return;
+			}
+
+			if (!Win32Api.IsConsoleClass(instance.ProcessMainWindowHandle))
+			{
+				_snackbarMessageQueue.Enqueue("The process is not a valid console application.");
+				instance.TerminateProcess();
+				return;
+			}
+
+			_appState.AddProcessInstance(instance);
+		}
 	}
 }

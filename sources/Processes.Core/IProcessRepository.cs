@@ -7,7 +7,7 @@ namespace Processes.Core
 	{
 		ProcessEntity Add(ProcessEntity entity);
 		void Delete(Guid entityId);
-		List<ProcessEntity> GetAll();
+		IEnumerable<ProcessEntity> GetAll();
 		void Update(ProcessEntity entity);
 	}
 }

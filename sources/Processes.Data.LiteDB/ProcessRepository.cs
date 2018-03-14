@@ -46,7 +46,7 @@ namespace Processes.Data.LiteDB
 			}
 		}
 
-		public List<ProcessEntity> GetAll()
+		public IEnumerable<ProcessEntity> GetAll()
 		{
 			using (var database = new LiteDatabase(_connectionString))
 			{

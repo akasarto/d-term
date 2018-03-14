@@ -54,9 +54,9 @@ namespace UI.Wpf.Mappings
 
 			CreateMap<IProcessViewModel, ProcessEntity>();
 
-			CreateMap<IProcess, IProcessInstanceViewModel>().ConstructUsing(source => new ProcessInstanceViewModel(source));
+			CreateMap<IProcess, IInstanceViewModel>().ConstructUsing(source => new InstanceViewModel(source));
 
-			CreateMap<IProcessViewModel, IProcessInstanceViewModel>();
+			CreateMap<IProcessViewModel, IInstanceViewModel>();
 		}
 	}
 }
