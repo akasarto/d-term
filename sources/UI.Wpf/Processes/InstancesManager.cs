@@ -68,7 +68,9 @@ namespace UI.Wpf.Processes
 		{
 			var iconHandle = Resources.dTermIcon.Handle;
 			var instanceHandle = instance.ProcessMainWindowHandle;
+			var isntanceWndTitle = $"[{instance.ProcessId}] {instance.Name}";
 
+			SetWindowTitle(instance);
 			Win32Api.HideFromTaskbar(instanceHandle);
 			Win32Api.MakeLayeredWindow(instanceHandle);
 			Win32Api.SetProcessWindowIcon(instanceHandle, iconHandle);
@@ -87,6 +89,13 @@ namespace UI.Wpf.Processes
 			Win32Api.RemoveEventsHook(hookData.hookHandle);
 		}
 
+		private void SetWindowTitle(IInstanceViewModel instance)
+		{
+			var wndHandle = instance.ProcessMainWindowHandle;
+			var windowTitle = $"[{instance.ProcessId}] {instance.Name}";
+			Win32Api.SetProcessWindowTitle(wndHandle, windowTitle);
+		}
+
 		private void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
 		{
 			if (idObject != 0 || idChild != 0)
@@ -94,21 +103,36 @@ namespace UI.Wpf.Processes
 				return;
 			}
 
+			var instance = _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == hwnd);
+
+			if (instance == null)
+			{
+				return;
+			}
+
 			switch (eventType)
 			{
-				case 0x0016: //EVENT_SYSTEM_MINIMIZESTART
-					var instance = _instancesSource.Where(i => i.ProcessMainWindowHandle == hwnd).SingleOrDefault();
-					if (instance != null)
+				// EVENT_SYSTEM_MINIMIZESTART
+				case 0x0016:
 					{
 						instance.IsMinimized = true;
-						User32Methods.ShowWindow(instance.ProcessMainWindowHandle, ShowWindowCommands.SW_HIDE);
+						User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
+					}
+					break;
+
+				// EVENT_OBJECT_NAMECHANGE
+				case 0x800C:
+					{
+						SetWindowTitle(instance);
+					}
+					break;
+
+				// EVENT_SYSTEM_FOREGROUND
+				case 0x0003:
+					{
 					}
 					break;
 			}
-
-			//if (eventType == EVENT_OBJECT_NAMECHANGE) Console.WriteLine("Text of hwnd changed {0:x8}", hwnd.ToInt32());
-			//if (eventType == EVENT_SYSTEM_MINIMIZESTART) Console.WriteLine("Minimization detected for {0:x8}", hwnd.ToInt32());
-			//if (eventType == EVENT_SYSTEM_FOREGROUND) Console.WriteLine("Foreground change detected for {0:x8}", hwnd.ToInt32());
 		}
 	}
 }

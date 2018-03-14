@@ -48,7 +48,8 @@ namespace UI.Wpf.Processes
 				{
 					UseShellExecute = true,
 					WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-					Arguments = consoleOptionViewModel.ProcessStartupArgs
+					Arguments = consoleOptionViewModel.ProcessStartupArgs,
+					Verb = "runas"
 				};
 
 				return new SystemProcess(processStartInfo, _processTracker);

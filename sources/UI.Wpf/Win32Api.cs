@@ -46,6 +46,23 @@ namespace UI.Wpf
 			}
 		}
 
+		public static string GetWindowTitle(IntPtr hWnd)
+		{
+			int length = User32Methods.GetWindowTextLength(hWnd);
+			StringBuilder stringBuilder = new StringBuilder(length + 1);
+			User32Methods.GetWindowText(hWnd, stringBuilder, stringBuilder.Capacity);
+			return stringBuilder.ToString();
+		}
+
+		internal static void SetProcessWindowTitle(IntPtr targetWindowHandle, string newTitle)
+		{
+			var currentTitle = GetWindowTitle(targetWindowHandle);
+			if (!currentTitle.ToLower().Equals(newTitle.ToLower()))
+			{
+				User32Methods.SetWindowText(targetWindowHandle, newTitle);
+			}
+		}
+
 		internal static void SetProcessWindowIcon(IntPtr targetWindowHandle, IntPtr newIconHandle)
 		{
 			User32Methods.SendMessage(targetWindowHandle, 0x80, new IntPtr(0), newIconHandle);
