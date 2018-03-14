@@ -98,8 +98,6 @@
 
 		</ItemsControl>
 
-		<ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" ToolTip="Run as administrator" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0 0 75 0" />
-
 	</Grid>
 
 </UserControl>

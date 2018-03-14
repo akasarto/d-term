@@ -36,16 +36,47 @@
 
 		<reactiveui:ViewModelViewHost ViewModel="{Binding Processes.TransparencyManagerPanel}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 25 95" />
 
-		<Grid Margin="15 0 15 15" VerticalAlignment="Bottom">
+		<materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
-			<Rectangle Fill="Black" Height="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+		<Grid VerticalAlignment="Bottom">
 
-			<Border Margin="25 15" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="30" />
+			</Grid.RowDefinitions>
+			
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<Rectangle
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Margin="15 0"
+				Fill="Black"
+				Height="1"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Stretch" />
+
+			<ToggleButton
+				Grid.Row="1"
+				Grid.Column="0"
+				Margin="0 -3.5 0 0"
+				VerticalAlignment="Top"
+				HorizontalAlignment="Right"
+				Style="{StaticResource MaterialDesignSwitchToggleButton}"
+				ToolTipService.HorizontalOffset="-50"
+				ToolTipService.VerticalOffset="-35"
+				ToolTipService.Placement="Center"
+				ToolTip="Run as administrator" />
+
+			<Border Grid.Row="0" Grid.Column="1" Margin="0 0 45 0" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 
 				<Grid Margin="15 0 15 0">
 
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
@@ -78,8 +109,6 @@
 			</Border>
 
 		</Grid>
-
-		<materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 3.5" />
 
 	</Grid>
 
