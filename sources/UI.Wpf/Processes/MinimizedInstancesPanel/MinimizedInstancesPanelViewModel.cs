@@ -12,16 +12,16 @@ namespace UI.Wpf.Processes
 	//
 	public class MinimizedInstancesPanelViewModel : IMinimizedInstancesPanelViewModel
 	{
-		private readonly IAppState _appState;
+		private readonly IInstancesManager _instancesManager;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public MinimizedInstancesPanelViewModel(IAppState appState = null)
+		public MinimizedInstancesPanelViewModel(IInstancesManager instancesManager = null)
 		{
-			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
+			_instancesManager = instancesManager ?? Locator.CurrentMutable.GetService<IInstancesManager>();
 		}
 
-		public IReactiveDerivedList<IInstanceViewModel> Instances => _appState.GetAllProcessInstances();
+		public IReactiveDerivedList<IInstanceViewModel> Instances => _instancesManager.GetAllInstances();
 	}
 }

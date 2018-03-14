@@ -46,29 +46,27 @@ namespace UI.Wpf
 			_container.Register<IProcessRepository>(() => new ProcessRepository(dbConnectionString));
 
 			//
-			var interopHelper = new WindowInteropHelper(Application.Current.MainWindow);
-
-			_container.Register<IInstanceInteropManager>(() => new InstanceInteropManager(interopHelper.Handle));
-			_container.Register<IProcessesController>(() => new ProcessesController());
-			_container.Register<IProcessInstanceFactory>(() => new SystemProcessFactory());
+			_container.Register<IConfigsViewModel>(() => new ConfigsViewModel());
 			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
-			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
+			_container.Register<IProcessesController>(() => new ProcessesController());
 			_container.Register<IConsolesTabViewModel>(() => new ConsolesTabViewModel());
+			_container.Register<IProcessInstanceFactory>(() => new SystemProcessFactory());
+			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
 			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessViewModelValidator());
 			_container.Register<IMinimizedInstancesPanelViewModel>(() => new MinimizedInstancesPanelViewModel());
 			_container.Register<ITransparencyManagerPanelViewModel>(() => new TransparencyManagerPanelViewModel());
 
 			//
-			_container.Register<IConfigsViewModel>(() => new ConfigsViewModel());
-
-			//
 			_container.Register<IShellViewModel>(() => new ShellViewModel());
 
 			//
+			_container.RegisterLazySingleton<IInstancesManager>(() =>
+			{
+				var mainView = Application.Current.MainWindow;
+				var interopHelper = new WindowInteropHelper(mainView);
+				return new InstancesManager(interopHelper.Handle);
+			});
 			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
-
-			//
-			_container.RegisterLazySingleton<IAppState>(() => new AppState());
 			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(
 				TimeSpan.FromSeconds(5))
 			);

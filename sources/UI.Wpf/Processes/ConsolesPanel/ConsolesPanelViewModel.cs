@@ -17,18 +17,18 @@ namespace UI.Wpf.Processes
 		bool IsLoadingConsoles { get; }
 		IReactiveDerivedList<IProcessViewModel> Options { get; }
 		ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadOptionsCommand { get; }
-		ReactiveCommand<IProcessViewModel, IInstanceViewModel> CreateProcessInstanceCommand { get; }
+		ReactiveCommand<IProcessViewModel, IInstanceViewModel> StartConsoleProcessCommand { get; }
 	}
 
 	//
 	public class ConsolesPanelViewModel : ReactiveObject, IConsolesPanelViewModel
 	{
-		private readonly IAppState _appState;
+		private readonly IInstancesManager _instancesManager;
 		private readonly IProcessRepository _processesRepository;
 		private readonly IProcessInstanceFactory _consoleProcessFactory;
 		private readonly IReactiveList<ProcessEntity> _processEntitiesSource;
 		private readonly IReactiveDerivedList<IProcessViewModel> _consoleOptions;
-		private readonly Func<ReactiveCommand<IProcessViewModel, IInstanceViewModel>> _createConsoleInstanceCommandFactory;
+		private readonly Func<ReactiveCommand<IProcessViewModel, IInstanceViewModel>> _startConsoleProcessCommandFactory;
 		private readonly ReactiveCommand<Unit, IEnumerable<ProcessEntity>> _loadOptionsCommand;
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
 		private bool _isLoadingConsoles;
@@ -36,9 +36,13 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesPanelViewModel(IAppState appState = null, IProcessRepository processesRepository = null, IProcessInstanceFactory consoleProcessFactory = null, ISnackbarMessageQueue snackbarMessageQueue = null)
+		public ConsolesPanelViewModel(
+			IInstancesManager instancesManager = null,
+			IProcessRepository processesRepository = null,
+			IProcessInstanceFactory consoleProcessFactory = null,
+			ISnackbarMessageQueue snackbarMessageQueue = null)
 		{
-			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
+			_instancesManager = instancesManager ?? Locator.CurrentMutable.GetService<IInstancesManager>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
 			_consoleProcessFactory = consoleProcessFactory ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
 			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
@@ -55,11 +59,11 @@ namespace UI.Wpf.Processes
 			_loadOptionsCommand.Subscribe(entities => LoadOptionsCommandHandler(entities));
 
 			// Create Instances
-			_createConsoleInstanceCommandFactory = () =>
+			_startConsoleProcessCommandFactory = () =>
 			{
-				var command = ReactiveCommand.CreateFromTask<IProcessViewModel, IInstanceViewModel>(async (option) => await CreateConsoleInstanceCommandAction(option));
-				command.ThrownExceptions.Subscribe(@exception => CreateConsoleInstanceCommandError(@exception));
-				command.Subscribe(instance => CreateConsoleInstanceCommandHandler(instance));
+				var command = ReactiveCommand.CreateFromTask<IProcessViewModel, IInstanceViewModel>(async (option) => await StartConsoleProcessCommandAction(option));
+				command.ThrownExceptions.Subscribe(@exception => StartConsoleProcessCommandError(@exception));
+				command.Subscribe(instance => StartConsoleProcessCommandHandler(instance));
 				return command;
 			};
 		}
@@ -72,7 +76,7 @@ namespace UI.Wpf.Processes
 
 		public IReactiveDerivedList<IProcessViewModel> Options => _consoleOptions;
 
-		public ReactiveCommand<IProcessViewModel, IInstanceViewModel> CreateProcessInstanceCommand => _createConsoleInstanceCommandFactory();
+		public ReactiveCommand<IProcessViewModel, IInstanceViewModel> StartConsoleProcessCommand => _startConsoleProcessCommandFactory();
 
 		public ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
 
@@ -88,7 +92,7 @@ namespace UI.Wpf.Processes
 			_processEntitiesSource.AddRange(options);
 		}
 
-		private Task<IInstanceViewModel> CreateConsoleInstanceCommandAction(IProcessViewModel option) => Task.Run(() =>
+		private Task<IInstanceViewModel> StartConsoleProcessCommandAction(IProcessViewModel option) => Task.Run(() =>
 		{
 			var instance = default(IInstanceViewModel);
 			var process = _consoleProcessFactory.Create(option);
@@ -110,13 +114,13 @@ namespace UI.Wpf.Processes
 			return Task.FromResult(instance);
 		});
 
-		private void CreateConsoleInstanceCommandError(Exception exception)
+		private void StartConsoleProcessCommandError(Exception exception)
 		{
 			// ToDo: Log exception
 			_snackbarMessageQueue.Enqueue("Error creating instance. Please try again.");
 		}
 
-		private void CreateConsoleInstanceCommandHandler(IInstanceViewModel instance)
+		private void StartConsoleProcessCommandHandler(IInstanceViewModel instance)
 		{
 			if (instance == null)
 			{
@@ -131,7 +135,7 @@ namespace UI.Wpf.Processes
 				return;
 			}
 
-			_appState.AddProcessInstance(instance);
+			_instancesManager.Track(instance);
 		}
 	}
 }

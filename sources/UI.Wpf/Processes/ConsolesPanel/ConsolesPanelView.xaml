@@ -71,7 +71,7 @@
 
 					<!---->
 					<Button
-						Command="{Binding DataContext.CreateProcessInstanceCommand, ElementName=processesPanelControl}"
+						Command="{Binding DataContext.StartConsoleProcessCommand, ElementName=processesPanelControl}"
 						CommandParameter="{Binding}"
 						Focusable="False"
 						IsEnabled="{Binding IsSupported}"

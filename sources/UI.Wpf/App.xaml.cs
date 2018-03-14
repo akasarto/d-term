@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using ReactiveUI;
 using Splat;
+using System;
 using System.Windows;
 using System.Windows.Threading;
 using UI.Wpf.Mappings;
@@ -24,11 +26,16 @@ namespace UI.Wpf
 			});
 
 			//
-			Startup += (object sender, StartupEventArgs args) =>
+			Startup += (object sender, StartupEventArgs startupEventArgs) =>
 			{
-				var shellViewModel = container.GetService<IShellViewModel>();
+				var shellView = container.GetService<IViewFor<IShellViewModel>>();
 
-				MainWindow = new ShellView(shellViewModel);
+				MainWindow = shellView as Window;
+
+				MainWindow.Events().Loaded.Subscribe(loadedArgs =>
+				{
+					shellView.ViewModel = container.GetService<IShellViewModel>();
+				});
 
 				MainWindow.Show();
 			};

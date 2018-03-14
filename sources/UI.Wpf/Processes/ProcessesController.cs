@@ -18,6 +18,7 @@ namespace UI.Wpf.Processes
 	//
 	public class ProcessesController : IProcessesController
 	{
+		private readonly IInstancesManager _instancesManager;
 		private readonly IConsolesPanelViewModel _consolesPanelViewModel;
 		private readonly IMinimizedInstancesPanelViewModel _minimizedInstancesPanel;
 		private readonly ITransparencyManagerPanelViewModel _transparencyManagerPanelViewModel;
@@ -27,7 +28,10 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ProcessesController(IConsolesPanelViewModel consolesPanelViewModel = null, IMinimizedInstancesPanelViewModel minimizedInstancesPanel = null, ITransparencyManagerPanelViewModel transparencyManagerPanelViewModel = null)
+		public ProcessesController(
+			IConsolesPanelViewModel consolesPanelViewModel = null,
+			IMinimizedInstancesPanelViewModel minimizedInstancesPanel = null,
+			ITransparencyManagerPanelViewModel transparencyManagerPanelViewModel = null)
 		{
 			_consolesPanelViewModel = consolesPanelViewModel ?? Locator.CurrentMutable.GetService<IConsolesPanelViewModel>();
 			_minimizedInstancesPanel = minimizedInstancesPanel ?? Locator.CurrentMutable.GetService<IMinimizedInstancesPanelViewModel>();

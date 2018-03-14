@@ -1,24 +1,24 @@
 ﻿using ReactiveUI;
+using System;
 using System.Reactive;
 using System.Windows;
 using UI.Wpf.Processes;
 
 namespace UI.Wpf.Shell
 {
-	public partial class ShellView : IActivatable
+	public partial class ShellView : IViewFor<IShellViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ShellView(IShellViewModel shellViewModel)
+		public ShellView()
 		{
 			InitializeComponent();
 
-			DataContext = shellViewModel;
-
 			this.WhenActivated(activator =>
 			{
-				activator(shellViewModel.Processes.OpenConfigsInteraction.RegisterHandler(context =>
+				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
+				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes).Subscribe(processes => processes.OpenConfigsInteraction.RegisterHandler(context =>
 				{
 					var settingsView = new ConfigsView(context.Input)
 					{
@@ -28,8 +28,22 @@ namespace UI.Wpf.Shell
 					settingsView.ShowDialog();
 
 					context.SetOutput(Unit.Default);
-				}));
+				})));
 			});
+		}
+
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IShellViewModel), typeof(ShellView), new PropertyMetadata(null));
+
+		public IShellViewModel ViewModel
+		{
+			get { return (IShellViewModel)GetValue(ViewModelProperty); }
+			set { SetValue(ViewModelProperty, value); }
+		}
+
+		object IViewFor.ViewModel
+		{
+			get { return ViewModel; }
+			set { ViewModel = (IShellViewModel)value; }
 		}
 	}
 }
