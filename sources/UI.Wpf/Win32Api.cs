@@ -7,7 +7,7 @@ using WinApi.User32;
 namespace UI.Wpf
 {
 	[StructLayout(LayoutKind.Explicit)]
-	public struct Win32Param
+	internal struct Win32Param
 	{
 		[FieldOffset(0)]
 		public uint BaseValue;
@@ -18,6 +18,8 @@ namespace UI.Wpf
 		[FieldOffset(0)]
 		public ushort LOWord;
 	}
+
+	internal delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
 
 	internal static class Win32Api
 	{
@@ -44,42 +46,42 @@ namespace UI.Wpf
 			}
 		}
 
-		public static void SetProcessWindowIcon(IntPtr targetWindoHandle, IntPtr newIconHandle)
+		internal static void SetProcessWindowIcon(IntPtr targetWindowHandle, IntPtr newIconHandle)
 		{
-			User32Methods.SendMessage(targetWindoHandle, 0x80, new IntPtr(0), newIconHandle);
-			User32Methods.SendMessage(targetWindoHandle, 0x80, new IntPtr(1), newIconHandle);
+			User32Methods.SendMessage(targetWindowHandle, 0x80, new IntPtr(0), newIconHandle);
+			User32Methods.SendMessage(targetWindowHandle, 0x80, new IntPtr(1), newIconHandle);
 		}
 
-		public static void SetProcessWindowOwner(IntPtr targetWindoHandle, IntPtr parentWindowHandle)
+		internal static void SetProcessWindowOwner(IntPtr targetWindoHandle, IntPtr parentWindowHandle)
 		{
 			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWLP_HWNDPARENT, parentWindowHandle);
 		}
 
-		public static void RemoveFromTaskbar(IntPtr targetWindoHandle)
+		internal static void HideFromTaskbar(IntPtr targetWindowHandle)
 		{
-			var newStyle = (WindowExStyles)User32Helpers.GetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_EXSTYLE);
+			var newStyle = (WindowExStyles)User32Helpers.GetWindowLongPtr(targetWindowHandle, WindowLongFlags.GWL_EXSTYLE);
 
 			newStyle &= ~WindowExStyles.WS_EX_APPWINDOW;
 
-			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_EXSTYLE, new IntPtr((long)newStyle));
+			User32Helpers.SetWindowLongPtr(targetWindowHandle, WindowLongFlags.GWL_EXSTYLE, new IntPtr((long)newStyle));
 		}
 
-		public static void MakeToolWindow(IntPtr targetWindoHandle)
+		internal static void MakeToolWindow(IntPtr targetWindowHandle)
 		{
-			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_STYLE);
+			var newStyle = (WindowStyles)User32Helpers.GetWindowLongPtr(targetWindowHandle, WindowLongFlags.GWL_STYLE);
 
 			newStyle &= ~WindowStyles.WS_MAXIMIZEBOX;
 			newStyle &= ~WindowStyles.WS_MINIMIZEBOX;
 
-			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
+			User32Helpers.SetWindowLongPtr(targetWindowHandle, WindowLongFlags.GWL_STYLE, new IntPtr((long)newStyle));
 		}
 
-		public static string GetWindowClassName(IntPtr hWnd)
+		internal static string GetWindowClassName(IntPtr targetWindowHandle)
 		{
 			int outLength;
 			var stringBuilder = new StringBuilder(256);
 
-			outLength = GetClassName(hWnd, stringBuilder, stringBuilder.Capacity);
+			outLength = GetClassName(targetWindowHandle, stringBuilder, stringBuilder.Capacity);
 
 			if (outLength != 0)
 			{
@@ -89,7 +91,35 @@ namespace UI.Wpf
 			return string.Empty;
 		}
 
-		public static IntPtr GetProcessMainWindowHandle(Process process)
+		internal static IntPtr AddMinimizeEventHook(IntPtr instanceHandle, WinEventDelegate winEventDelegate)
+		{
+			// EVENT_OBJECT_NAMECHANGE => 0x0016
+			return SetWinEventHook(0x0016, 0x0016, IntPtr.Zero, winEventDelegate, 0, 0, 0);
+		}
+
+		internal static void RemoveHook(IntPtr hookHandle)
+		{
+			UnhookWinEvent(hookHandle);
+		}
+
+		internal static void MakeLayeredWindow(IntPtr targetWindowHandle)
+		{
+			User32Helpers.SetWindowLongPtr(
+				targetWindowHandle,
+				WindowLongFlags.GWL_EXSTYLE,
+				new IntPtr(
+					(int)User32Helpers.GetWindowLongPtr(targetWindowHandle, WindowLongFlags.GWL_EXSTYLE)
+					| (int)WindowExStyles.WS_EX_LAYERED
+				)
+			);
+		}
+
+		internal static void SetTransparency(IntPtr targetWindowHandle, byte opacityLevel)
+		{
+			User32Methods.SetLayeredWindowAttributes(targetWindowHandle, 0, opacityLevel, LayeredWindowAttributeFlag.LWA_ALPHA);
+		}
+
+		internal static IntPtr GetProcessMainWindowHandle(Process process)
 		{
 			uint threadId = 0;
 			uint processId = 0;
@@ -109,6 +139,12 @@ namespace UI.Wpf
 
 			return IntPtr.Zero;
 		}
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+
+		[DllImport("user32.dll")]
+		private static extern bool UnhookWinEvent(IntPtr hWinEventHook);
 
 		[return: MarshalAs(UnmanagedType.Bool)]
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]

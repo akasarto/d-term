@@ -18,7 +18,6 @@ namespace UI.Wpf.Processes
 	//
 	public class ProcessesController : IProcessesController
 	{
-		private readonly IInstancesManager _instancesManager;
 		private readonly IConsolesPanelViewModel _consolesPanelViewModel;
 		private readonly IMinimizedInstancesPanelViewModel _minimizedInstancesPanel;
 		private readonly ITransparencyManagerPanelViewModel _transparencyManagerPanelViewModel;

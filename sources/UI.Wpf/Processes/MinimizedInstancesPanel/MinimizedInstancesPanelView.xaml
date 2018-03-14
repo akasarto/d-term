@@ -9,6 +9,7 @@
 	mc:Ignorable="d"
 	d:DesignWidth="800"
 	d:DesignHeight="450"
+	x:Name="minimizedInstancesPanelControl"
 >
 
 	<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding Instances}">
@@ -19,7 +20,13 @@
 		</ItemsControl.ItemsPanel>
 		<ItemsControl.ItemTemplate>
 			<DataTemplate>
-				<materialDesign:Chip Content="{Binding Name}" IconBackground="{DynamicResource PrimaryHueDarkBrush}" IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}" Margin="0 0 15 0">
+				<materialDesign:Chip
+					Margin="0 0 15 0"
+					Content="{Binding Name}"
+					Command="{Binding DataContext.RestoreInstanceWindowCommand, ElementName=minimizedInstancesPanelControl}"
+					CommandParameter="{Binding}"
+					IconBackground="{DynamicResource PrimaryHueDarkBrush}"
+					IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
 					<materialDesign:Chip.Icon>
 						<materialDesign:PackIcon>
 							<materialDesign:PackIcon.Template>
