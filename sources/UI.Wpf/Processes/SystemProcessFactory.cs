@@ -11,7 +11,7 @@ namespace UI.Wpf.Processes
 	public interface IProcessInstanceFactory
 	{
 		bool CanCreate(ProcessBasePath processBasePath, string processExecutableName);
-		IProcess Create(IProcessViewModel processViewModel);
+		IProcess Create(IProcessViewModel processViewModel, bool runAsAdmin = false);
 	}
 
 	//
@@ -36,7 +36,7 @@ namespace UI.Wpf.Processes
 			return !string.IsNullOrWhiteSpace(path) && new FileInfo(path).Exists;
 		}
 
-		public IProcess Create(IProcessViewModel consoleOptionViewModel)
+		public IProcess Create(IProcessViewModel consoleOptionViewModel, bool runAsAdmin = false)
 		{
 			consoleOptionViewModel = consoleOptionViewModel ?? throw new ArgumentNullException(nameof(consoleOptionViewModel), nameof(SystemProcessFactory));
 
@@ -49,7 +49,7 @@ namespace UI.Wpf.Processes
 					UseShellExecute = true,
 					WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
 					Arguments = consoleOptionViewModel.ProcessStartupArgs,
-					Verb = "runas"
+					Verb = runAsAdmin ? "runas" : string.Empty
 				};
 
 				return new SystemProcess(processStartInfo, _processTracker);

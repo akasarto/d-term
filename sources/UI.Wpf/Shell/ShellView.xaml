@@ -65,11 +65,12 @@
 				Margin="0 -3.5 0 0"
 				VerticalAlignment="Top"
 				HorizontalAlignment="Right"
+				IsChecked="{Binding Processes.ConsolesPanel.StartProcessAsAdmin}"
 				Style="{StaticResource MaterialDesignSwitchToggleButton}"
 				ToolTipService.HorizontalOffset="-50"
 				ToolTipService.VerticalOffset="-35"
 				ToolTipService.Placement="Center"
-				ToolTip="Run as administrator" />
+				ToolTip="Run as Administrator" />
 
 			<Border Grid.Row="0" Grid.Column="1" Margin="0 0 45 0" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 

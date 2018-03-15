@@ -15,6 +15,7 @@ namespace UI.Wpf.Processes
 	public interface IConsolesPanelViewModel
 	{
 		bool IsLoadingConsoles { get; }
+		bool StartProcessAsAdmin { get; }
 		IReactiveDerivedList<IProcessViewModel> Options { get; }
 		ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadOptionsCommand { get; }
 		ReactiveCommand<IProcessViewModel, IInstanceViewModel> StartConsoleProcessCommand { get; }
@@ -31,6 +32,7 @@ namespace UI.Wpf.Processes
 		private readonly Func<ReactiveCommand<IProcessViewModel, IInstanceViewModel>> _startConsoleProcessCommandFactory;
 		private readonly ReactiveCommand<Unit, IEnumerable<ProcessEntity>> _loadOptionsCommand;
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
+		private bool _startProcessAsAdmin;
 		private bool _isLoadingConsoles;
 
 		/// <summary>
@@ -68,6 +70,12 @@ namespace UI.Wpf.Processes
 			};
 		}
 
+		public bool StartProcessAsAdmin
+		{
+			get => _startProcessAsAdmin;
+			set => this.RaiseAndSetIfChanged(ref _startProcessAsAdmin, value);
+		}
+
 		public bool IsLoadingConsoles
 		{
 			get => _isLoadingConsoles;
@@ -95,7 +103,7 @@ namespace UI.Wpf.Processes
 		private Task<IInstanceViewModel> StartConsoleProcessCommandAction(IProcessViewModel option) => Task.Run(() =>
 		{
 			var instance = default(IInstanceViewModel);
-			var process = _consoleProcessFactory.Create(option);
+			var process = _consoleProcessFactory.Create(option, _startProcessAsAdmin);
 			if (process.Start())
 			{
 				instance = Mapper.Map<IInstanceViewModel>(process);
