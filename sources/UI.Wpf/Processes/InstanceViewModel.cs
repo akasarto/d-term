@@ -60,6 +60,7 @@ namespace UI.Wpf.Processes
 
 		public int ProcessId => _process.Id;
 
+		//public IntPtr ProcessMainWindowHandle => _process.MainWindowHandle;
 		public IntPtr ProcessMainWindowHandle => Win32Api.GetProcessWindow(ProcessId);
 
 		public IObservable<EventPattern<EventArgs>> ProcessTerminated => _terminated;

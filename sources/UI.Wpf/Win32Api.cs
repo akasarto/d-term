@@ -156,13 +156,24 @@ namespace UI.Wpf
 				ownerPid = 0;
 				windowHandle = FindWindowEx(IntPtr.Zero, windowHandle, null, null);
 				threadId = GetWindowThreadProcessId(windowHandle, out ownerPid);
-				if (ownerPid == processId && User32Methods.IsWindow(windowHandle))
+				if (ownerPid == processId && IsMainWindow(windowHandle))
 				{
 					return windowHandle;
 				}
 			} while (!windowHandle.Equals(IntPtr.Zero));
 
 			return IntPtr.Zero;
+		}
+
+		private static bool IsMainWindow(IntPtr windowHandle)
+		{
+			var style = (WindowStyles)User32Helpers.GetWindowLongPtr(windowHandle, WindowLongFlags.GWL_STYLE);
+
+			var isMinimized = (style & WindowStyles.WS_MINIMIZE) == WindowStyles.WS_MINIMIZE;
+
+			return
+				User32Methods.IsWindow(windowHandle)
+				&& (User32Methods.IsWindowVisible(windowHandle) || isMinimized);
 		}
 
 		[DllImport("user32.dll")]
