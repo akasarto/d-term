@@ -136,12 +136,12 @@ namespace UI.Wpf.Processes
 				return;
 			}
 
-			if (!Win32Api.IsConsoleClass(instance.ProcessMainWindowHandle))
-			{
-				_snackbarMessageQueue.Enqueue("The process is not a valid console application.");
-				instance.TerminateProcess();
-				return;
-			}
+			//if (!Win32Api.IsConsoleClass(instance.ProcessMainWindowHandle))
+			//{
+			//	_snackbarMessageQueue.Enqueue("The process is not a valid console application.");
+			//	instance.TerminateProcess();
+			//	return;
+			//}
 
 			_instancesManager.Track(instance);
 		}

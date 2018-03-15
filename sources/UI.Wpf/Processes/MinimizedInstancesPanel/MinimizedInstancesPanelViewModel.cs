@@ -36,6 +36,7 @@ namespace UI.Wpf.Processes
 		private void RestoreInstanceWindowCommandAction(IInstanceViewModel instance)
 		{
 			instance.IsMinimized = false;
+			User32Methods.ShowWindow(instance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);
 			User32Methods.ShowWindow(instance.ProcessMainWindowHandle, ShowWindowCommands.SW_RESTORE);
 		}
 	}

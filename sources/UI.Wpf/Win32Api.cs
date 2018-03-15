@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using WinApi.User32;
@@ -46,7 +46,12 @@ namespace UI.Wpf
 			}
 		}
 
-		public static string GetWindowTitle(IntPtr hWnd)
+		internal static bool IsOwnedWindow(IntPtr windowHandle)
+		{
+			return User32Helpers.GetWindow(windowHandle, GetWindowFlag.GW_OWNER) != IntPtr.Zero;
+		}
+
+		internal static string GetWindowTitle(IntPtr hWnd)
 		{
 			int length = User32Methods.GetWindowTextLength(hWnd);
 			StringBuilder stringBuilder = new StringBuilder(length + 1);
@@ -54,27 +59,23 @@ namespace UI.Wpf
 			return stringBuilder.ToString();
 		}
 
-		internal static void SetProcessWindowTitle(IntPtr targetWindowHandle, string newTitle)
+		internal static void SetWindowTitle(IntPtr targetWindowHandle, string newTitle)
 		{
-			var currentTitle = GetWindowTitle(targetWindowHandle);
-			if (!currentTitle.ToLower().Equals(newTitle.ToLower()))
-			{
-				User32Methods.SetWindowText(targetWindowHandle, newTitle);
-			}
+			User32Methods.SetWindowText(targetWindowHandle, newTitle);
 		}
 
-		internal static void SetProcessWindowIcon(IntPtr targetWindowHandle, IntPtr newIconHandle)
+		internal static void SetWindowIcons(IntPtr targetWindowHandle, IntPtr newIconHandle)
 		{
 			User32Methods.SendMessage(targetWindowHandle, 0x80, new IntPtr(0), newIconHandle);
 			User32Methods.SendMessage(targetWindowHandle, 0x80, new IntPtr(1), newIconHandle);
 		}
 
-		internal static void SetProcessWindowOwner(IntPtr targetWindoHandle, IntPtr parentWindowHandle)
+		internal static void SetWindowOwner(IntPtr targetWindoHandle, IntPtr parentWindowHandle)
 		{
 			User32Helpers.SetWindowLongPtr(targetWindoHandle, WindowLongFlags.GWLP_HWNDPARENT, parentWindowHandle);
 		}
 
-		internal static void HideFromTaskbar(IntPtr targetWindowHandle)
+		internal static void RemoveWindowFromTaskbar(IntPtr targetWindowHandle)
 		{
 			var newStyle = (WindowExStyles)User32Helpers.GetWindowLongPtr(targetWindowHandle, WindowLongFlags.GWL_EXSTYLE);
 
@@ -108,13 +109,21 @@ namespace UI.Wpf
 			return string.Empty;
 		}
 
-		internal static IntPtr AddEventsHook(IntPtr instanceHandle, WinEventDelegate winEventDelegate)
+		internal static IEnumerable<IntPtr> AddEventsHook(uint[] winEvents, WinEventDelegate winEventsDelegate)
 		{
-			// EVENT_MIN [0x00000001] / EVENT_MAX [0x7FFFFFFF]
-			return SetWinEventHook(0x00000001, 0x7FFFFFFF, IntPtr.Zero, winEventDelegate, 0, 0, 0);
+			var handles = new List<IntPtr>();
+
+			foreach (var @event in winEvents)
+			{
+				var hookHandle = SetWinEventHook(@event, @event, IntPtr.Zero, winEventsDelegate, 0, 0, 0);
+
+				handles.Add(hookHandle);
+			}
+
+			return handles;
 		}
 
-		internal static void RemoveEventsHook(IntPtr hookHandle)
+		internal static void RemoveEventHook(IntPtr hookHandle)
 		{
 			UnhookWinEvent(hookHandle);
 		}
@@ -136,19 +145,18 @@ namespace UI.Wpf
 			User32Methods.SetLayeredWindowAttributes(targetWindowHandle, 0, opacityLevel, LayeredWindowAttributeFlag.LWA_ALPHA);
 		}
 
-		internal static IntPtr GetProcessMainWindowHandle(Process process)
+		internal static IntPtr GetProcessWindow(int processId)
 		{
 			uint threadId = 0;
-			uint processId = 0;
+			uint ownerPid = 0;
 			IntPtr windowHandle = IntPtr.Zero;
 
 			do
 			{
-				processId = 0;
-				process.Refresh();
+				ownerPid = 0;
 				windowHandle = FindWindowEx(IntPtr.Zero, windowHandle, null, null);
-				threadId = GetWindowThreadProcessId(windowHandle, out processId);
-				if (processId == process.Id)
+				threadId = GetWindowThreadProcessId(windowHandle, out ownerPid);
+				if (ownerPid == processId && User32Methods.IsWindow(windowHandle))
 				{
 					return windowHandle;
 				}
@@ -175,8 +183,5 @@ namespace UI.Wpf
 
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
-
-		[DllImport("user32.dll")]
-		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
 	}
 }

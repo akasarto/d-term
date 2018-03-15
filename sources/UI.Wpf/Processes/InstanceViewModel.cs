@@ -24,9 +24,9 @@ namespace UI.Wpf.Processes
 		private readonly IProcess _process;
 		private readonly IObservable<EventPattern<EventArgs>> _terminated;
 
+		private bool _isMinimized;
 		private string _name;
 		private string _picturePath;
-		private bool _isMinimized;
 
 		/// <summary>
 		/// Constructor method.
@@ -38,6 +38,12 @@ namespace UI.Wpf.Processes
 			_terminated = Observable.FromEventPattern<EventHandler, EventArgs>(
 				handler => _process.Exited += handler,
 				handler => _process.Exited -= handler);
+		}
+
+		public bool IsMinimized
+		{
+			get => _isMinimized;
+			set => this.RaiseAndSetIfChanged(ref _isMinimized, value);
 		}
 
 		public string Name
@@ -52,15 +58,9 @@ namespace UI.Wpf.Processes
 			set => this.RaiseAndSetIfChanged(ref _picturePath, value);
 		}
 
-		public bool IsMinimized
-		{
-			get => _isMinimized;
-			set => this.RaiseAndSetIfChanged(ref _isMinimized, value);
-		}
-
 		public int ProcessId => _process.Id;
 
-		public IntPtr ProcessMainWindowHandle => _process.MainWindowHandle;
+		public IntPtr ProcessMainWindowHandle => Win32Api.GetProcessWindow(ProcessId);
 
 		public IObservable<EventPattern<EventArgs>> ProcessTerminated => _terminated;
 

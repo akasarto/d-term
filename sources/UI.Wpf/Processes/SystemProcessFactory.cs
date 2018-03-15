@@ -17,15 +17,13 @@ namespace UI.Wpf.Processes
 	//
 	public class SystemProcessFactory : IProcessInstanceFactory
 	{
-		private readonly IProcessTracker _processTracker;
 		private readonly IProcessPathBuilder _processPathBuilder;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public SystemProcessFactory(IProcessTracker processTracker = null, IProcessPathBuilder processPathBuilder = null)
+		public SystemProcessFactory(IProcessPathBuilder processPathBuilder = null)
 		{
-			_processTracker = processTracker ?? Locator.CurrentMutable.GetService<IProcessTracker>();
 			_processPathBuilder = processPathBuilder ?? Locator.CurrentMutable.GetService<IProcessPathBuilder>();
 		}
 
@@ -52,7 +50,7 @@ namespace UI.Wpf.Processes
 					Verb = runAsAdmin ? "runas" : string.Empty
 				};
 
-				return new SystemProcess(processStartInfo, _processTracker);
+				return new SystemProcess(processStartInfo);
 			}
 
 			return null;

@@ -1,8 +1,11 @@
-﻿using ReactiveUI;
+﻿using Processes.Core;
+using ReactiveUI;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Text.RegularExpressions;
 using UI.Wpf.Properties;
 using WinApi.User32;
 
@@ -17,20 +20,35 @@ namespace UI.Wpf.Processes
 
 	public class InstancesManager : ReactiveObject, IInstancesManager
 	{
+		private const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
+		private const uint EVENT_OBJECT_NAMECHANGE = 0x800C;
+		private const uint EVENT_SYSTEM_MINIMIZESTART = 0x0016;
+
+		private readonly uint[] _winEvents = new uint[]
+		{
+			EVENT_SYSTEM_FOREGROUND,
+			EVENT_OBJECT_NAMECHANGE,
+			EVENT_SYSTEM_MINIMIZESTART
+		};
+
 		private readonly IntPtr _shellViewHandle;
+		private readonly WinEventDelegate _eventsHandler;
+		private readonly IEnumerable<IntPtr> _eventHookHandles;
 		private readonly IReactiveList<IInstanceViewModel> _instancesSource;
 		private readonly IReactiveDerivedList<IInstanceViewModel> _allInstancesList;
 		private readonly IReactiveDerivedList<IInstanceViewModel> _minimizedInstancesList;
-
-		private Dictionary<int, (WinEventDelegate hookDelegate, IntPtr hookHandle)> _processHooksTracker;
+		private readonly IProcessTracker _processTracker;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public InstancesManager(IntPtr shellViewHandle)
+		public InstancesManager(IntPtr shellViewHandle, IProcessTracker processTracker = null)
 		{
 			_shellViewHandle = shellViewHandle;
-			_processHooksTracker = new Dictionary<int, (WinEventDelegate hookDelegate, IntPtr hookHandle)>();
+			_processTracker = processTracker ?? Locator.CurrentMutable.GetService<IProcessTracker>();
+
+			_eventsHandler = new WinEventDelegate(WinEventsHandler);
+			_eventHookHandles = Win32Api.AddEventsHook(_winEvents, _eventsHandler);
 
 			_instancesSource = new ReactiveList<IInstanceViewModel>()
 			{
@@ -38,7 +56,6 @@ namespace UI.Wpf.Processes
 			};
 
 			_instancesSource.ItemsAdded.Subscribe(instance => Integrate(instance));
-			_instancesSource.ItemsRemoved.Subscribe(instance => Release(instance));
 
 			_allInstancesList = _instancesSource.CreateDerivedCollection(
 				selector: instance => instance
@@ -48,6 +65,19 @@ namespace UI.Wpf.Processes
 				filter: instance => instance.IsMinimized,
 				selector: instance => instance
 			);
+		}
+
+		/// <summary>
+		/// Destructor method.
+		/// </summary>
+		~InstancesManager()
+		{
+			_processTracker.KillAll();
+
+			foreach (var handle in _eventHookHandles)
+			{
+				Win32Api.RemoveEventHook(handle);
+			}
 		}
 
 		public IReactiveDerivedList<IInstanceViewModel> GetAllInstances() => _allInstancesList;
@@ -61,75 +91,83 @@ namespace UI.Wpf.Processes
 				_instancesSource.Remove(instance);
 			});
 
+			_processTracker.Track(instance.ProcessId);
+
 			_instancesSource.Add(instance);
 		}
 
 		private void Integrate(IInstanceViewModel instance)
 		{
-			var iconHandle = Resources.dTermIcon.Handle;
-			var instanceHandle = instance.ProcessMainWindowHandle;
-			var isntanceWndTitle = $"[{instance.ProcessId}] {instance.Name}";
-
+			var handle = instance.ProcessMainWindowHandle;
+			TakeWindowOwnership(handle);
 			SetWindowTitle(instance);
-			Win32Api.HideFromTaskbar(instanceHandle);
-			Win32Api.MakeLayeredWindow(instanceHandle);
-			Win32Api.SetProcessWindowIcon(instanceHandle, iconHandle);
-			Win32Api.SetProcessWindowOwner(instanceHandle, _shellViewHandle);
-
-			var hookProc = new WinEventDelegate(WinEventProc);
-			var hookHandle = Win32Api.AddEventsHook(instanceHandle, hookProc);
-
-			_processHooksTracker.Add(instance.ProcessId, (hookProc, hookHandle));
 		}
 
-		public void Release(IInstanceViewModel instance)
+		private void TakeWindowOwnership(IntPtr windowHandle)
 		{
-			var hookData = _processHooksTracker[instance.ProcessId];
-			_processHooksTracker.Remove(instance.ProcessId);
-			Win32Api.RemoveEventsHook(hookData.hookHandle);
+			var iconHandle = Resources.dTermIcon.Handle;
+
+			Win32Api.SetWindowOwner(windowHandle, _shellViewHandle);
+			Win32Api.SetWindowIcons(windowHandle, iconHandle);
+			Win32Api.RemoveWindowFromTaskbar(windowHandle);
+			Win32Api.MakeLayeredWindow(windowHandle);
 		}
 
 		private void SetWindowTitle(IInstanceViewModel instance)
 		{
-			var wndHandle = instance.ProcessMainWindowHandle;
-			var windowTitle = $"[{instance.ProcessId}] {instance.Name}";
-			Win32Api.SetProcessWindowTitle(wndHandle, windowTitle);
+			var handle = instance.ProcessMainWindowHandle;
+
+			var wndTitle = Win32Api.GetWindowTitle(handle);
+			var cleanTitle = Regex.Replace(wndTitle, @"(\[.*\]\s+)", string.Empty);
+			var newTitle = $"[PID: {instance.ProcessId}] {cleanTitle}";
+
+			if (!wndTitle.ToLower().Equals(newTitle.ToLower()))
+			{
+				User32Methods.SetWindowText(handle, newTitle);
+			}
 		}
 
-		private void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+		private IInstanceViewModel GetCurrentEventInstance(IntPtr windowHandle)
 		{
-			if (idObject != 0 || idChild != 0)
-			{
-				return;
-			}
+			return _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == windowHandle);
+		}
 
-			var instance = _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == hwnd);
-
-			if (instance == null)
+		private void WinEventsHandler(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+		{
+			if (idObject != 0 || idChild != 0 || !_winEvents.Contains(eventType))
 			{
 				return;
 			}
 
 			switch (eventType)
 			{
-				// EVENT_SYSTEM_MINIMIZESTART
-				case 0x0016:
+				//case EVENT_SYSTEM_FOREGROUND:
+				//	{
+				//		if (!Win32Api.IsOwnedWindow(hwnd))
+				//		{
+				//			TakeWindowOwnership(hwnd);
+				//		}
+				//	}
+				//	break;
+
+				case EVENT_OBJECT_NAMECHANGE:
 					{
-						instance.IsMinimized = true;
-						User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
+						var instance = _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == hwnd);
+						if (instance != null)
+						{
+							SetWindowTitle(instance);
+						}
 					}
 					break;
 
-				// EVENT_OBJECT_NAMECHANGE
-				case 0x800C:
+				case EVENT_SYSTEM_MINIMIZESTART:
 					{
-						SetWindowTitle(instance);
-					}
-					break;
-
-				// EVENT_SYSTEM_FOREGROUND
-				case 0x0003:
-					{
+						var instance = _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == hwnd);
+						if (instance != null)
+						{
+							instance.IsMinimized = true;
+							User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
+						}
 					}
 					break;
 			}

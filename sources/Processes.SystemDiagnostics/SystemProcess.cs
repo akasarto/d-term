@@ -7,18 +7,15 @@ namespace Processes.SystemDiagnostics
 	public class SystemProcess : IProcess
 	{
 		private readonly Process _process;
-		private readonly IProcessTracker _processTracker;
-		private bool _isStarted;
 
 		public event EventHandler Exited;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public SystemProcess(ProcessStartInfo processStartInfo, IProcessTracker processTracker)
+		public SystemProcess(ProcessStartInfo processStartInfo)
 		{
 			processStartInfo = processStartInfo ?? throw new ArgumentNullException(nameof(processStartInfo), nameof(SystemProcess));
-			_processTracker = processTracker ?? throw new ArgumentNullException(nameof(processTracker), nameof(SystemProcess));
 
 			_process = new Process()
 			{
@@ -31,15 +28,8 @@ namespace Processes.SystemDiagnostics
 
 		public int Id => _process.Id;
 
-		public IntPtr MainWindowHandle { get; private set; }
-
 		public bool Start(int startupTimeoutInSeconds = 3)
 		{
-			if (_isStarted)
-			{
-				throw new ArgumentException(nameof(SystemProcess), "The process is already started.");
-			}
-
 			var processStopwatch = Stopwatch.StartNew();
 			var processTimeoutMiliseconds = startupTimeoutInSeconds * 1000;
 
@@ -51,14 +41,8 @@ namespace Processes.SystemDiagnostics
 				{
 					_process.Refresh();
 
-					var mainWindowHandle = _process.MainWindowHandle;
-
-					if (mainWindowHandle != IntPtr.Zero)
+					if (_process.MainWindowHandle != IntPtr.Zero)
 					{
-						MainWindowHandle = mainWindowHandle;
-						_processTracker.Track(_process.Id);
-						_isStarted = true;
-
 						return true;
 					}
 				}

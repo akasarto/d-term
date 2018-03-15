@@ -7,7 +7,6 @@ namespace Processes.Core
 		event EventHandler Exited;
 
 		int Id { get; }
-		IntPtr MainWindowHandle { get; }
 		bool Start(int startupTimeoutInSeconds = 3);
 		void Stop();
 	}
