@@ -233,11 +233,11 @@
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
     <Compile Include="AppState.cs" />
-    <Compile Include="Processes\ConsolesInteropAgent.cs" />
-    <Compile Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelView.xaml.cs">
+    <Compile Include="Processes\Consoles\ConsolesInteropAgent.cs" />
+    <Compile Include="Processes\MinimizedInstances\MinimizedInstancesPanelView.xaml.cs">
       <DependentUpon>MinimizedInstancesPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelViewModel.cs" />
+    <Compile Include="Processes\MinimizedInstances\MinimizedInstancesPanelViewModel.cs" />
     <Compile Include="Processes\ProcessesController.cs" />
     <Compile Include="Processes\ProcessInstanceViewModel.cs" />
     <Compile Include="Processes\Configs\ProcessFormView.xaml.cs">
@@ -255,10 +255,10 @@
     <Compile Include="Processes\Configs\ConsolesTabView.xaml.cs">
       <DependentUpon>ConsolesTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\ConsolesPanel\ConsolesPanelView.xaml.cs">
+    <Compile Include="Processes\Consoles\ConsolesPanelView.xaml.cs">
       <DependentUpon>ConsolesPanelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Processes\ConsolesPanel\ConsolesPanelViewModel.cs" />
+    <Compile Include="Processes\Consoles\ConsolesPanelViewModel.cs" />
     <Compile Include="Processes\Configs\ConsolesTabViewModel.cs" />
     <Compile Include="Mappings\MapperProfileConsoles.cs" />
     <Compile Include="Shared\IsValidGeometryConverter.cs" />
@@ -271,7 +271,7 @@
       <DependentUpon>ConfigsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\Configs\ConfigsViewModel.cs" />
-    <Page Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelView.xaml">
+    <Page Include="Processes\MinimizedInstances\MinimizedInstancesPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -287,7 +287,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\ConsolesPanel\ConsolesPanelView.xaml">
+    <Page Include="Processes\Consoles\ConsolesPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -360,7 +360,9 @@
   <ItemGroup>
     <Resource Include="Shared\.info.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Processes\UtilitiesPutty\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

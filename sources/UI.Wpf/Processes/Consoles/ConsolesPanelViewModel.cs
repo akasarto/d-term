@@ -28,6 +28,7 @@ namespace UI.Wpf.Processes
 		private readonly IProcessFactory _processFactory;
 		private readonly IProcessesTracker _processesTracker;
 		private readonly IProcessRepository _processesRepository;
+		private readonly IConsolesInteropAgent _consolesInteropAgent;
 		private readonly IReactiveList<ProcessEntity> _processEntitiesSource;
 		private readonly IReactiveDerivedList<IProcessViewModel> _consoleOptions;
 		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _startConsoleProcessCommandFactory;
@@ -44,12 +45,14 @@ namespace UI.Wpf.Processes
 			IProcessFactory processFactory = null,
 			IProcessesTracker processesTracker = null,
 			IProcessRepository processesRepository = null,
+			IConsolesInteropAgent consolesInteropAgent = null,
 			ISnackbarMessageQueue snackbarMessageQueue = null)
 		{
 			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
-			_processesTracker = processesTracker ?? Locator.CurrentMutable.GetService<IProcessesTracker>();
 			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
+			_processesTracker = processesTracker ?? Locator.CurrentMutable.GetService<IProcessesTracker>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
+			_consolesInteropAgent = consolesInteropAgent ?? Locator.CurrentMutable.GetService<IConsolesInteropAgent>();
 			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
 
 			// Lists
@@ -141,13 +144,12 @@ namespace UI.Wpf.Processes
 				return;
 			}
 
-#warning review
-			//if (!Win32Api.IsConsoleClass(instance.ProcessMainWindowHandle))
-			//{
-			//	_snackbarMessageQueue.Enqueue("The process is not a valid console application.");
-			//	instance.TerminateProcess();
-			//	return;
-			//}
+			if (!Win32Api.IsConsoleClass(instance.ProcessMainWindowHandle))
+			{
+				_snackbarMessageQueue.Enqueue("The process is not a valid console application.");
+				instance.KillProcess();
+				return;
+			}
 
 			_appState.AddProcessInstance(instance);
 		}
