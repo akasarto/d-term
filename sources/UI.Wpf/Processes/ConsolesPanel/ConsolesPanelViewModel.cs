@@ -116,7 +116,7 @@ namespace UI.Wpf.Processes
 			}
 			if (instance == null)
 			{
-				process.Stop();
+				process.Kill();
 				process.Dispose();
 			}
 			return Task.FromResult(instance);

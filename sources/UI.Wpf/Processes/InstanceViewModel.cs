@@ -66,7 +66,7 @@ namespace UI.Wpf.Processes
 
 		public void TerminateProcess()
 		{
-			_process.Stop();
+			_process.Kill();
 		}
 	}
 }

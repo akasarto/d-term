@@ -8,6 +8,6 @@ namespace Processes.Core
 
 		int Id { get; }
 		bool Start(int startupTimeoutInSeconds = 3);
-		void Stop();
+		void Kill();
 	}
 }
