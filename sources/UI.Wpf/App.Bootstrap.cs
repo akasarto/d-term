@@ -50,7 +50,7 @@ namespace UI.Wpf
 			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
 			_container.Register<IProcessesController>(() => new ProcessesController());
 			_container.Register<IConsolesTabViewModel>(() => new ConsolesTabViewModel());
-			_container.Register<IProcessInstanceFactory>(() => new SystemProcessFactory());
+			_container.Register<IProcessFactory>(() => new ProcessFactory());
 			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
 			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessViewModelValidator());
 			_container.Register<IMinimizedInstancesPanelViewModel>(() => new MinimizedInstancesPanelViewModel());

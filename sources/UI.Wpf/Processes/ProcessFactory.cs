@@ -8,21 +8,21 @@ using System.IO;
 namespace UI.Wpf.Processes
 {
 	//
-	public interface IProcessInstanceFactory
+	public interface IProcessFactory
 	{
 		bool CanCreate(ProcessBasePath processBasePath, string processExecutableName);
-		IProcess Create(IProcessViewModel processViewModel, bool runAsAdmin = false);
+		IProcess Create(IProcessViewModel processViewModel, bool startAsAdmin = false);
 	}
 
 	//
-	public class SystemProcessFactory : IProcessInstanceFactory
+	public class ProcessFactory : IProcessFactory
 	{
 		private readonly IProcessPathBuilder _processPathBuilder;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public SystemProcessFactory(IProcessPathBuilder processPathBuilder = null)
+		public ProcessFactory(IProcessPathBuilder processPathBuilder = null)
 		{
 			_processPathBuilder = processPathBuilder ?? Locator.CurrentMutable.GetService<IProcessPathBuilder>();
 		}
@@ -34,9 +34,9 @@ namespace UI.Wpf.Processes
 			return !string.IsNullOrWhiteSpace(path) && new FileInfo(path).Exists;
 		}
 
-		public IProcess Create(IProcessViewModel consoleOptionViewModel, bool runAsAdmin = false)
+		public IProcess Create(IProcessViewModel consoleOptionViewModel, bool startAsAdmin = false)
 		{
-			consoleOptionViewModel = consoleOptionViewModel ?? throw new ArgumentNullException(nameof(consoleOptionViewModel), nameof(SystemProcessFactory));
+			consoleOptionViewModel = consoleOptionViewModel ?? throw new ArgumentNullException(nameof(consoleOptionViewModel), nameof(ProcessFactory));
 
 			if (CanCreate(consoleOptionViewModel.ProcessBasePath, consoleOptionViewModel.ProcessExecutableName))
 			{
@@ -47,7 +47,7 @@ namespace UI.Wpf.Processes
 					UseShellExecute = true,
 					WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
 					Arguments = consoleOptionViewModel.ProcessStartupArgs,
-					Verb = runAsAdmin ? "runas" : string.Empty
+					Verb = startAsAdmin ? "runas" : string.Empty
 				};
 
 				return new SystemProcess(processStartInfo);

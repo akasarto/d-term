@@ -10,8 +10,9 @@ namespace UI.Wpf.Processes
 	public interface IInstanceViewModel
 	{
 		string Name { get; set; }
-		string PicturePath { get; set; }
+		bool IsElevated { get; set; }
 		bool IsMinimized { get; set; }
+		string PicturePath { get; set; }
 		int ProcessId { get; }
 		IntPtr ProcessMainWindowHandle { get; }
 		IObservable<EventPattern<EventArgs>> ProcessTerminated { get; }
@@ -24,8 +25,9 @@ namespace UI.Wpf.Processes
 		private readonly IProcess _process;
 		private readonly IObservable<EventPattern<EventArgs>> _terminated;
 
-		private bool _isMinimized;
 		private string _name;
+		private bool _isElevated;
+		private bool _isMinimized;
 		private string _picturePath;
 
 		/// <summary>
@@ -40,16 +42,22 @@ namespace UI.Wpf.Processes
 				handler => _process.Exited -= handler);
 		}
 
-		public bool IsMinimized
-		{
-			get => _isMinimized;
-			set => this.RaiseAndSetIfChanged(ref _isMinimized, value);
-		}
-
 		public string Name
 		{
 			get => _name;
 			set => this.RaiseAndSetIfChanged(ref _name, value);
+		}
+
+		public bool IsElevated
+		{
+			get => _isElevated;
+			set => this.RaiseAndSetIfChanged(ref _isElevated, value);
+		}
+
+		public bool IsMinimized
+		{
+			get => _isMinimized;
+			set => this.RaiseAndSetIfChanged(ref _isMinimized, value);
 		}
 
 		public string PicturePath

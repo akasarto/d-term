@@ -148,7 +148,7 @@
 				ToolTipService.VerticalOffset="-95"
 				ToolTipService.ShowDuration="15000"
 				ToolTipService.HasDropShadow="True"
-				ToolTip="Elevated instances will not be tracked by the unelevated application."
+				ToolTip="Elevated instances will not be attached to the unelevated main app."
 				x:Name="runAsAdminWarningInfo"
 				Visibility="Collapsed" />
 

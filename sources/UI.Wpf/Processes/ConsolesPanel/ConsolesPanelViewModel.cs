@@ -26,13 +26,13 @@ namespace UI.Wpf.Processes
 	{
 		private readonly IInstancesManager _instancesManager;
 		private readonly IProcessRepository _processesRepository;
-		private readonly IProcessInstanceFactory _consoleProcessFactory;
+		private readonly IProcessFactory _processFactory;
 		private readonly IReactiveList<ProcessEntity> _processEntitiesSource;
 		private readonly IReactiveDerivedList<IProcessViewModel> _consoleOptions;
 		private readonly Func<ReactiveCommand<IProcessViewModel, IInstanceViewModel>> _startConsoleProcessCommandFactory;
 		private readonly ReactiveCommand<Unit, IEnumerable<ProcessEntity>> _loadOptionsCommand;
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
-		private bool _startProcessAsAdmin;
+		private bool _startAsAdmin;
 		private bool _isLoadingConsoles;
 
 		/// <summary>
@@ -41,12 +41,12 @@ namespace UI.Wpf.Processes
 		public ConsolesPanelViewModel(
 			IInstancesManager instancesManager = null,
 			IProcessRepository processesRepository = null,
-			IProcessInstanceFactory consoleProcessFactory = null,
+			IProcessFactory consoleProcessFactory = null,
 			ISnackbarMessageQueue snackbarMessageQueue = null)
 		{
 			_instancesManager = instancesManager ?? Locator.CurrentMutable.GetService<IInstancesManager>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
-			_consoleProcessFactory = consoleProcessFactory ?? Locator.CurrentMutable.GetService<IProcessInstanceFactory>();
+			_processFactory = consoleProcessFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
 			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
 
 			// Lists
@@ -72,8 +72,8 @@ namespace UI.Wpf.Processes
 
 		public bool StartProcessAsAdmin
 		{
-			get => _startProcessAsAdmin;
-			set => this.RaiseAndSetIfChanged(ref _startProcessAsAdmin, value);
+			get => _startAsAdmin;
+			set => this.RaiseAndSetIfChanged(ref _startAsAdmin, value);
 		}
 
 		public bool IsLoadingConsoles
@@ -103,22 +103,24 @@ namespace UI.Wpf.Processes
 		private Task<IInstanceViewModel> StartConsoleProcessCommandAction(IProcessViewModel option) => Task.Run(() =>
 		{
 			var instance = default(IInstanceViewModel);
-			var process = _consoleProcessFactory.Create(option, _startProcessAsAdmin);
+			var process = _processFactory.Create(option, _startAsAdmin);
+
 			if (process.Start())
 			{
-				instance = Mapper.Map<IInstanceViewModel>(process);
-				instance = (IInstanceViewModel)Mapper.Map(
-					option,
-					instance,
-					typeof(IProcessViewModel),
-					typeof(IInstanceViewModel)
-				);
+				instance = Mapper.Map<IProcess, IInstanceViewModel>(process, context => context.AfterMap((source, target) =>
+				{
+					// Merge new object with option metadata.
+					target = Mapper.Map(option, target);
+					target.IsElevated = _startAsAdmin;
+				}));
 			}
+
 			if (instance == null)
 			{
 				process.Kill();
 				process.Dispose();
 			}
+
 			return Task.FromResult(instance);
 		});
 

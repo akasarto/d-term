@@ -244,7 +244,7 @@
       <DependentUpon>ProcessFormView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\ProcessViewModelValidator.cs" />
-    <Compile Include="Processes\SystemProcessFactory.cs" />
+    <Compile Include="Processes\ProcessFactory.cs" />
     <Compile Include="Processes\TransparencyManager\TransparencyManagerPanelViewModel.cs" />
     <Compile Include="Processes\TransparencyManager\TransparencyManagerPanelView.xaml.cs">
       <DependentUpon>TransparencyManagerPanelView.xaml</DependentUpon>

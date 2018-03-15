@@ -35,8 +35,8 @@ namespace UI.Wpf.Processes
 		private readonly WinEventDelegate _eventsHandler;
 		private readonly IEnumerable<IntPtr> _eventHookHandles;
 		private readonly IReactiveList<IInstanceViewModel> _instancesSource;
-		private readonly IReactiveDerivedList<IInstanceViewModel> _allInstancesList;
-		private readonly IReactiveDerivedList<IInstanceViewModel> _minimizedInstancesList;
+		private readonly IReactiveDerivedList<IInstanceViewModel> _integratedInstances;
+		private readonly IReactiveDerivedList<IInstanceViewModel> _minimizedIntegratedInstances;
 		private readonly IProcessTracker _processTracker;
 
 		/// <summary>
@@ -55,16 +55,17 @@ namespace UI.Wpf.Processes
 				ChangeTrackingEnabled = true
 			};
 
-			_instancesSource.ItemsAdded.Subscribe(instance => Integrate(instance));
-
-			_allInstancesList = _instancesSource.CreateDerivedCollection(
+			_integratedInstances = _instancesSource.CreateDerivedCollection(
+				filter: instance => !instance.IsElevated,
 				selector: instance => instance
 			);
 
-			_minimizedInstancesList = _instancesSource.CreateDerivedCollection(
-				filter: instance => instance.IsMinimized,
+			_minimizedIntegratedInstances = _instancesSource.CreateDerivedCollection(
+				filter: instance => !instance.IsElevated && instance.IsMinimized,
 				selector: instance => instance
 			);
+
+			_integratedInstances.ItemsAdded.Subscribe(instance => Integrate(instance));
 		}
 
 		/// <summary>
@@ -80,9 +81,9 @@ namespace UI.Wpf.Processes
 			}
 		}
 
-		public IReactiveDerivedList<IInstanceViewModel> GetAllInstances() => _allInstancesList;
+		public IReactiveDerivedList<IInstanceViewModel> GetAllInstances() => _integratedInstances;
 
-		public IReactiveDerivedList<IInstanceViewModel> GetMinimizedInstances() => _minimizedInstancesList;
+		public IReactiveDerivedList<IInstanceViewModel> GetMinimizedInstances() => _minimizedIntegratedInstances;
 
 		public void Track(IInstanceViewModel instance)
 		{
