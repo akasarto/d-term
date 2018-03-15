@@ -127,47 +127,43 @@ namespace UI.Wpf.Processes
 			}
 		}
 
-		private IInstanceViewModel GetCurrentEventInstance(IntPtr windowHandle)
+		private bool GetCurrentEventInstance(IntPtr windowHandle, out IInstanceViewModel instance)
 		{
-			return _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == windowHandle);
+			instance = _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == windowHandle);
+
+			return instance != null;
 		}
 
 		private void WinEventsHandler(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
 		{
-			if (idObject != 0 || idChild != 0 || !_winEvents.Contains(eventType))
+			IInstanceViewModel instance;
+
+			if (idObject != 0 || idChild != 0 || !_winEvents.Contains(eventType) || !GetCurrentEventInstance(hwnd, out instance))
 			{
 				return;
 			}
 
 			switch (eventType)
 			{
-				//case EVENT_SYSTEM_FOREGROUND:
-				//	{
-				//		if (!Win32Api.IsOwnedWindow(hwnd))
-				//		{
-				//			TakeWindowOwnership(hwnd);
-				//		}
-				//	}
-				//	break;
+				case EVENT_SYSTEM_FOREGROUND:
+					{
+						if (!Win32Api.IsOwnedWindow(hwnd))
+						{
+							TakeWindowOwnership(hwnd);
+						}
+					}
+					break;
 
 				case EVENT_OBJECT_NAMECHANGE:
 					{
-						var instance = _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == hwnd);
-						if (instance != null)
-						{
-							SetWindowTitle(instance);
-						}
+						SetWindowTitle(instance);
 					}
 					break;
 
 				case EVENT_SYSTEM_MINIMIZESTART:
 					{
-						var instance = _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == hwnd);
-						if (instance != null)
-						{
-							instance.IsMinimized = true;
-							User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
-						}
+						instance.IsMinimized = true;
+						User32Methods.ShowWindow(hwnd, ShowWindowCommands.SW_HIDE);
 					}
 					break;
 			}
