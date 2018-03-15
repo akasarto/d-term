@@ -18,17 +18,32 @@ namespace UI.Wpf.Shell
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
-				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes).Subscribe(processes => processes.OpenConfigsInteraction.RegisterHandler(context =>
+
+				activator(this.WhenAnyValue(@this => @this.ViewModel.AppContext).Subscribe(context =>
 				{
-					var settingsView = new ConfigsView(context.Input)
+					adminContextIcon.Visibility = context.IsAdmin ? Visibility.Visible : Visibility.Collapsed;
+					runAsAdminToggleButton.Visibility = context.IsAdmin ? Visibility.Collapsed : Visibility.Visible;
+				}));
+
+				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes.ConsolesPanel.StartProcessAsAdmin).Subscribe(startingAsAdmin =>
+				{
+					runAsAdminWarningInfo.Visibility = startingAsAdmin ? Visibility.Visible : Visibility.Collapsed;
+				}));
+
+				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes).Subscribe(processes =>
+				{
+					processes.OpenConfigsInteraction.RegisterHandler(context =>
 					{
-						Owner = Application.Current.MainWindow
-					};
+						var settingsView = new ConfigsView(context.Input)
+						{
+							Owner = Application.Current.MainWindow
+						};
 
-					settingsView.ShowDialog();
+						settingsView.ShowDialog();
 
-					context.SetOutput(Unit.Default);
-				})));
+						context.SetOutput(Unit.Default);
+					});
+				}));
 			});
 		}
 

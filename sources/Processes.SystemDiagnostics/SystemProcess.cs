@@ -39,19 +39,5 @@ namespace Processes.SystemDiagnostics
 
 			return false;
 		}
-
-#warning review
-		//public new IntPtr MainWindowHandle
-		//{
-		//	get
-		//	{
-		//		Refresh();
-		//		if (HasExited)
-		//		{
-		//			return IntPtr.Zero;
-		//		}
-		//		return base.MainWindowHandle;
-		//	}
-		//}
 	}
 }

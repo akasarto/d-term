@@ -44,7 +44,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="30" />
 			</Grid.RowDefinitions>
-			
+
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
@@ -59,6 +59,24 @@
 				VerticalAlignment="Center"
 				HorizontalAlignment="Stretch" />
 
+			<materialDesign:PackIcon
+				Width="32"
+				Height="32"
+				Grid.Row="1"
+				Grid.Column="0"
+				Kind="HumanGreeting"
+				Margin="0 -12.5 0 0"
+				VerticalAlignment="Top"
+				Foreground="{StaticResource PrimaryHueLightBrush}"
+				Background="Transparent"
+				HorizontalAlignment="Right"
+				ToolTipService.HorizontalOffset="-65"
+				ToolTipService.VerticalOffset="-35"
+				ToolTipService.Placement="Center"
+				ToolTip="Running as Administrator"
+				x:Name="adminContextIcon"
+				Visibility="Collapsed"/>
+
 			<ToggleButton
 				Grid.Row="1"
 				Grid.Column="0"
@@ -70,7 +88,13 @@
 				ToolTipService.HorizontalOffset="-50"
 				ToolTipService.VerticalOffset="-35"
 				ToolTipService.Placement="Center"
-				ToolTip="Run as Administrator" />
+				ToolTip="Run as Administrator"
+				x:Name="runAsAdminToggleButton"
+				Visibility="Collapsed">
+				<materialDesign:ToggleButtonAssist.OnContent>
+					<materialDesign:PackIcon Kind="OpenInNew" Margin=".75 0 0 1.5" />
+				</materialDesign:ToggleButtonAssist.OnContent>
+			</ToggleButton>
 
 			<Border Grid.Row="0" Grid.Column="1" Margin="0 0 45 0" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource MaterialDesignPaper}">
 
@@ -108,6 +132,25 @@
 				</Grid>
 
 			</Border>
+
+			<materialDesign:PackIcon
+				Grid.Column="1"
+				Grid.RowSpan="2"
+				Grid.Row="0"
+				Kind="Alert"
+				Width="24"
+				Height="24"
+				HorizontalAlignment="Right"
+				VerticalAlignment="Bottom"
+				Margin="0 0 21.5 15"
+				ToolTipService.Placement="Left"
+				ToolTipService.HorizontalOffset="-25"
+				ToolTipService.VerticalOffset="-95"
+				ToolTipService.ShowDuration="15000"
+				ToolTipService.HasDropShadow="True"
+				ToolTip="Elevated instances will not be tracked by the unelevated application."
+				x:Name="runAsAdminWarningInfo"
+				Visibility="Collapsed" />
 
 		</Grid>
 

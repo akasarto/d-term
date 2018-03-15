@@ -78,7 +78,6 @@ namespace UI.Wpf
 		internal static void RemoveWindowFromTaskbar(IntPtr targetWindowHandle)
 		{
 			var newStyle = (WindowExStyles)User32Helpers.GetWindowLongPtr(targetWindowHandle, WindowLongFlags.GWL_EXSTYLE);
-
 			newStyle &= ~WindowExStyles.WS_EX_APPWINDOW;
 
 			User32Helpers.SetWindowLongPtr(targetWindowHandle, WindowLongFlags.GWL_EXSTYLE, new IntPtr((long)newStyle));

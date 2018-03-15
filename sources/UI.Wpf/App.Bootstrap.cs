@@ -60,6 +60,7 @@ namespace UI.Wpf
 			_container.Register<IShellViewModel>(() => new ShellViewModel());
 
 			//
+			_container.RegisterLazySingleton<IAppContext>(() => new AppContext());
 			_container.RegisterLazySingleton<IInstancesManager>(() =>
 			{
 				var mainView = Application.Current.MainWindow;

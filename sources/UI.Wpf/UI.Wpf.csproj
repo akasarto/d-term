@@ -232,6 +232,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
+    <Compile Include="AppContext.cs" />
     <Compile Include="Processes\InstancesManager.cs" />
     <Compile Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelView.xaml.cs">
       <DependentUpon>MinimizedInstancesPanelView.xaml</DependentUpon>
