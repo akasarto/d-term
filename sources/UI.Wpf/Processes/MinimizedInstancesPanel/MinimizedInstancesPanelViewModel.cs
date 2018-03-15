@@ -8,32 +8,38 @@ namespace UI.Wpf.Processes
 	//
 	public interface IMinimizedInstancesPanelViewModel
 	{
-		IReactiveDerivedList<IInstanceViewModel> Instances { get; }
-		ReactiveCommand<IInstanceViewModel, Unit> RestoreInstanceWindowCommand { get; }
+		IReactiveDerivedList<IProcessInstanceViewModel> MinimizedInstances { get; }
+		ReactiveCommand<IProcessInstanceViewModel, Unit> RestoreInstanceWindowCommand { get; }
 	}
 
 	//
 	public class MinimizedInstancesPanelViewModel : IMinimizedInstancesPanelViewModel
 	{
-		private readonly IInstancesManager _instancesManager;
-		private readonly ReactiveCommand<IInstanceViewModel, Unit> _restoreInstanceWindowCommand;
+		private readonly IAppState _appState;
+		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _minimizedIntegratedInstances;
+		private readonly ReactiveCommand<IProcessInstanceViewModel, Unit> _restoreInstanceWindowCommand;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public MinimizedInstancesPanelViewModel(IInstancesManager instancesManager = null)
+		public MinimizedInstancesPanelViewModel(IAppState appState = null)
 		{
-			_instancesManager = instancesManager ?? Locator.CurrentMutable.GetService<IInstancesManager>();
+			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
+
+			_minimizedIntegratedInstances = _appState.GetProcessInstances().CreateDerivedCollection(
+				filter: instance => !instance.IsElevated && instance.IsMinimized,
+				selector: instance => instance
+			);
 
 			// Restore window
-			_restoreInstanceWindowCommand = ReactiveCommand.Create<IInstanceViewModel>(instance => RestoreInstanceWindowCommandAction(instance));
+			_restoreInstanceWindowCommand = ReactiveCommand.Create<IProcessInstanceViewModel>(instance => RestoreInstanceWindowCommandAction(instance));
 		}
 
-		public IReactiveDerivedList<IInstanceViewModel> Instances => _instancesManager.GetMinimizedInstances();
+		public IReactiveDerivedList<IProcessInstanceViewModel> MinimizedInstances => _minimizedIntegratedInstances;
 
-		public ReactiveCommand<IInstanceViewModel, Unit> RestoreInstanceWindowCommand => _restoreInstanceWindowCommand;
+		public ReactiveCommand<IProcessInstanceViewModel, Unit> RestoreInstanceWindowCommand => _restoreInstanceWindowCommand;
 
-		private void RestoreInstanceWindowCommandAction(IInstanceViewModel instance)
+		private void RestoreInstanceWindowCommandAction(IProcessInstanceViewModel instance)
 		{
 			instance.IsMinimized = false;
 			User32Methods.ShowWindow(instance.ProcessMainWindowHandle, ShowWindowCommands.SW_SHOW);

@@ -41,16 +41,16 @@ namespace UI.Wpf
 			_container.Register(() => new MapperProfileConsoles());
 
 			//
-			_container.Register<IProcessTracker>(() => new ProcessTracker());
+			_container.Register<IProcessesTracker>(() => new ProcessesTracker());
 			_container.Register<IProcessPathBuilder>(() => new ProcessPathBuilder());
 			_container.Register<IProcessRepository>(() => new ProcessRepository(dbConnectionString));
 
 			//
+			_container.Register<IProcessFactory>(() => new ProcessFactory());
 			_container.Register<IConfigsViewModel>(() => new ConfigsViewModel());
 			_container.Register<IProcessViewModel>(() => new ProcessViewModel());
 			_container.Register<IProcessesController>(() => new ProcessesController());
 			_container.Register<IConsolesTabViewModel>(() => new ConsolesTabViewModel());
-			_container.Register<IProcessFactory>(() => new ProcessFactory());
 			_container.Register<IConsolesPanelViewModel>(() => new ConsolesPanelViewModel());
 			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessViewModelValidator());
 			_container.Register<IMinimizedInstancesPanelViewModel>(() => new MinimizedInstancesPanelViewModel());
@@ -60,17 +60,19 @@ namespace UI.Wpf
 			_container.Register<IShellViewModel>(() => new ShellViewModel());
 
 			//
-			_container.RegisterLazySingleton<IAppContext>(() => new AppContext());
-			_container.RegisterLazySingleton<IInstancesManager>(() =>
+			_container.RegisterLazySingleton<IAppState>(() =>
 			{
 				var mainView = Application.Current.MainWindow;
 				var interopHelper = new WindowInteropHelper(mainView);
-				return new InstancesManager(interopHelper.Handle);
+				return new AppState(interopHelper.Handle);
 			});
-			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
+			_container.RegisterLazySingleton<IConsolesInteropAgent>(() => new ConsolesInteropAgent());
 			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(
 				TimeSpan.FromSeconds(5))
 			);
+
+			//
+			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
 		}
 	}
 }

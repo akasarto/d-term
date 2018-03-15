@@ -11,14 +11,11 @@ using WinApi.User32;
 
 namespace UI.Wpf.Processes
 {
-	public interface IInstancesManager
+	public interface IConsolesInteropAgent
 	{
-		IReactiveDerivedList<IInstanceViewModel> GetAllInstances();
-		IReactiveDerivedList<IInstanceViewModel> GetMinimizedInstances();
-		void Track(IInstanceViewModel instance);
 	}
 
-	public class InstancesManager : ReactiveObject, IInstancesManager
+	public class ConsolesInteropAgent : ReactiveObject, IConsolesInteropAgent
 	{
 		private const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
 		private const uint EVENT_OBJECT_NAMECHANGE = 0x800C;
@@ -31,37 +28,23 @@ namespace UI.Wpf.Processes
 			EVENT_SYSTEM_MINIMIZESTART
 		};
 
-		private readonly IntPtr _shellViewHandle;
-		private readonly WinEventDelegate _eventsHandler;
-		private readonly IEnumerable<IntPtr> _eventHookHandles;
-		private readonly IReactiveList<IInstanceViewModel> _instancesSource;
-		private readonly IReactiveDerivedList<IInstanceViewModel> _integratedInstances;
-		private readonly IReactiveDerivedList<IInstanceViewModel> _minimizedIntegratedInstances;
-		private readonly IProcessTracker _processTracker;
+		private readonly IAppState _appState;
+		private readonly WinEventDelegate _winEventDelegate;
+		private readonly IEnumerable<IntPtr> _eventHookHandlers;
+		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _integratedInstances;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public InstancesManager(IntPtr shellViewHandle, IProcessTracker processTracker = null)
+		public ConsolesInteropAgent(IAppState appState = null)
 		{
-			_shellViewHandle = shellViewHandle;
-			_processTracker = processTracker ?? Locator.CurrentMutable.GetService<IProcessTracker>();
+			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
 
-			_eventsHandler = new WinEventDelegate(WinEventsHandler);
-			_eventHookHandles = Win32Api.AddEventsHook(_winEvents, _eventsHandler);
+			_winEventDelegate = new WinEventDelegate(WinEventsHandler);
+			_eventHookHandlers = Win32Api.AddEventsHook(_winEvents, _winEventDelegate);
 
-			_instancesSource = new ReactiveList<IInstanceViewModel>()
-			{
-				ChangeTrackingEnabled = true
-			};
-
-			_integratedInstances = _instancesSource.CreateDerivedCollection(
+			_integratedInstances = _appState.GetProcessInstances().CreateDerivedCollection(
 				filter: instance => !instance.IsElevated,
-				selector: instance => instance
-			);
-
-			_minimizedIntegratedInstances = _instancesSource.CreateDerivedCollection(
-				filter: instance => !instance.IsElevated && instance.IsMinimized,
 				selector: instance => instance
 			);
 
@@ -71,33 +54,15 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Destructor method.
 		/// </summary>
-		~InstancesManager()
+		~ConsolesInteropAgent()
 		{
-			_processTracker.KillAll();
-
-			foreach (var handle in _eventHookHandles)
+			foreach (var handle in _eventHookHandlers)
 			{
 				Win32Api.RemoveEventHook(handle);
 			}
 		}
 
-		public IReactiveDerivedList<IInstanceViewModel> GetAllInstances() => _integratedInstances;
-
-		public IReactiveDerivedList<IInstanceViewModel> GetMinimizedInstances() => _minimizedIntegratedInstances;
-
-		public void Track(IInstanceViewModel instance)
-		{
-			var subscription = instance.ProcessTerminated.ObserveOnDispatcher().Subscribe(@event =>
-			{
-				_instancesSource.Remove(instance);
-			});
-
-			_processTracker.Track(instance.ProcessId);
-
-			_instancesSource.Add(instance);
-		}
-
-		private void Integrate(IInstanceViewModel instance)
+		private void Integrate(IProcessInstanceViewModel instance)
 		{
 			var handle = instance.ProcessMainWindowHandle;
 			TakeWindowOwnership(handle);
@@ -107,14 +72,15 @@ namespace UI.Wpf.Processes
 		private void TakeWindowOwnership(IntPtr windowHandle)
 		{
 			var iconHandle = Resources.dTermIcon.Handle;
+			var shellViewHandle = _appState.GetShellViewHandle();
 
-			Win32Api.SetWindowOwner(windowHandle, _shellViewHandle);
+			Win32Api.SetWindowOwner(windowHandle, shellViewHandle);
 			Win32Api.SetWindowIcons(windowHandle, iconHandle);
 			Win32Api.RemoveWindowFromTaskbar(windowHandle);
 			Win32Api.MakeLayeredWindow(windowHandle);
 		}
 
-		private void SetWindowTitle(IInstanceViewModel instance)
+		private void SetWindowTitle(IProcessInstanceViewModel instance)
 		{
 			var handle = instance.ProcessMainWindowHandle;
 
@@ -128,16 +94,16 @@ namespace UI.Wpf.Processes
 			}
 		}
 
-		private bool GetCurrentEventInstance(IntPtr windowHandle, out IInstanceViewModel instance)
+		private bool GetCurrentEventInstance(IntPtr windowHandle, out IProcessInstanceViewModel instance)
 		{
-			instance = _instancesSource.SingleOrDefault(i => i.ProcessMainWindowHandle == windowHandle);
+			instance = _integratedInstances.SingleOrDefault(i => i.ProcessMainWindowHandle == windowHandle);
 
 			return instance != null;
 		}
 
 		private void WinEventsHandler(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
 		{
-			IInstanceViewModel instance;
+			IProcessInstanceViewModel instance;
 
 			if (idObject != 0 || idChild != 0 || !_winEvents.Contains(eventType) || !GetCurrentEventInstance(hwnd, out instance))
 			{

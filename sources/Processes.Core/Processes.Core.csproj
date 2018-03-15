@@ -63,7 +63,7 @@
     <Compile Include="IProcessRepository.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="IProcessPathBuilder.cs" />
-    <Compile Include="IProcessTracker.cs" />
+    <Compile Include="IProcessesTracker.cs" />
     <Compile Include="ProcessBasePath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

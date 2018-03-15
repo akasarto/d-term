@@ -19,10 +19,10 @@ namespace UI.Wpf.Shell
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 
-				activator(this.WhenAnyValue(@this => @this.ViewModel.AppContext).Subscribe(context =>
+				activator(this.WhenAnyValue(@this => @this.ViewModel.AppState).Subscribe(state =>
 				{
-					adminContextIcon.Visibility = context.IsAdmin ? Visibility.Visible : Visibility.Collapsed;
-					runAsAdminToggleButton.Visibility = context.IsAdmin ? Visibility.Collapsed : Visibility.Visible;
+					adminContextIcon.Visibility = state.HasAdministrationPrivileges() ? Visibility.Visible : Visibility.Collapsed;
+					runAsAdminToggleButton.Visibility = state.HasAdministrationPrivileges() ? Visibility.Collapsed : Visibility.Visible;
 				}));
 
 				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes.ConsolesPanel.StartProcessAsAdmin).Subscribe(startingAsAdmin =>

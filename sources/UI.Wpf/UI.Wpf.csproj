@@ -232,14 +232,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
-    <Compile Include="AppContext.cs" />
-    <Compile Include="Processes\InstancesManager.cs" />
+    <Compile Include="AppState.cs" />
+    <Compile Include="Processes\ConsolesInteropAgent.cs" />
     <Compile Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelView.xaml.cs">
       <DependentUpon>MinimizedInstancesPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\MinimizedInstancesPanel\MinimizedInstancesPanelViewModel.cs" />
     <Compile Include="Processes\ProcessesController.cs" />
-    <Compile Include="Processes\InstanceViewModel.cs" />
+    <Compile Include="Processes\ProcessInstanceViewModel.cs" />
     <Compile Include="Processes\Configs\ProcessFormView.xaml.cs">
       <DependentUpon>ProcessFormView.xaml</DependentUpon>
     </Compile>

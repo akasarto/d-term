@@ -12,7 +12,7 @@
 	x:Name="minimizedInstancesPanelControl"
 >
 
-	<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding Instances}">
+	<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding MinimizedInstances}">
 		<ItemsControl.ItemsPanel>
 			<ItemsPanelTemplate>
 				<StackPanel Orientation="Horizontal" />

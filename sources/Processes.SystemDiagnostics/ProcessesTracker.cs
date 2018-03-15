@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Processes.SystemDiagnostics
 {
-	public class ProcessTracker : IProcessTracker
+	public class ProcessesTracker : IProcessesTracker
 	{
 		private List<int> _processIds = new List<int>();
 

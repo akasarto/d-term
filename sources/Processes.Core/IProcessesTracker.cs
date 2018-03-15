@@ -1,6 +1,6 @@
 ﻿namespace Processes.Core
 {
-	public interface IProcessTracker
+	public interface IProcessesTracker
 	{
 		void KillAll();
 		void Track(int processId);
