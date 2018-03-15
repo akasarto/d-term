@@ -29,6 +29,7 @@ namespace UI.Wpf.Processes
 		};
 
 		private readonly IAppState _appState;
+		private readonly List<IntPtr> _wndHandles;
 		private readonly WinEventDelegate _winEventDelegate;
 		private readonly IEnumerable<IntPtr> _eventHookHandlers;
 		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _integratedInstances;
@@ -40,6 +41,7 @@ namespace UI.Wpf.Processes
 		{
 			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
 
+			_wndHandles = new List<IntPtr>();
 			_winEventDelegate = new WinEventDelegate(WinEventsHandler);
 			_eventHookHandlers = Win32Api.AddEventsHook(_winEvents, _winEventDelegate);
 
@@ -49,6 +51,14 @@ namespace UI.Wpf.Processes
 			);
 
 			_integratedInstances.ItemsAdded.Subscribe(instance => Integrate(instance));
+
+			this.WhenAnyValue(@this => @this._appState.AlphaLevel).Subscribe(alphaLevel =>
+			{
+				foreach (var handle in _wndHandles)
+				{
+					SetWindowAplhaLevel(handle);
+				}
+			});
 		}
 
 		/// <summary>
@@ -65,8 +75,10 @@ namespace UI.Wpf.Processes
 		private void Integrate(IProcessInstanceViewModel instance)
 		{
 			var handle = instance.ProcessMainWindowHandle;
+			SetWindowAplhaLevel(handle);
 			TakeWindowOwnership(handle);
 			SetWindowTitle(instance);
+			_wndHandles.Add(handle);
 		}
 
 		private void TakeWindowOwnership(IntPtr windowHandle)
@@ -92,6 +104,11 @@ namespace UI.Wpf.Processes
 			{
 				User32Methods.SetWindowText(handle, newTitle);
 			}
+		}
+
+		private void SetWindowAplhaLevel(IntPtr windowHandle)
+		{
+			Win32Api.SetTransparency(windowHandle, _appState.AlphaLevel);
 		}
 
 		private bool GetCurrentEventInstance(IntPtr windowHandle, out IProcessInstanceViewModel instance)

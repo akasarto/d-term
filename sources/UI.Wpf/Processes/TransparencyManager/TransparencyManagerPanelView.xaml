@@ -11,6 +11,7 @@
 >
 
 	<Slider
+		Value="{Binding AlphaLevel}"
 		ToolTip="Transparency"
 		ToolTipService.Placement="Center"
 		ToolTipService.HorizontalOffset="-65"
