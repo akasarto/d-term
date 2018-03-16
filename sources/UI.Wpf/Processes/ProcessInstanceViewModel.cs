@@ -12,6 +12,7 @@ namespace UI.Wpf.Processes
 		string Name { get; set; }
 		bool IsElevated { get; set; }
 		bool IsMinimized { get; set; }
+		string MinimizedTooltip { get; }
 		string PicturePath { get; set; }
 		int ProcessId { get; }
 		IntPtr ProcessMainWindowHandle { get; }
@@ -71,6 +72,8 @@ namespace UI.Wpf.Processes
 		public IntPtr ProcessMainWindowHandle => Win32Api.GetProcessWindow(ProcessId);
 
 		public IObservable<EventPattern<EventArgs>> ProcessTerminated => _terminated;
+
+		public string MinimizedTooltip => Win32Api.GetWindowTitleClean(ProcessMainWindowHandle);
 
 		public void KillProcess() => _process.Kill();
 	}

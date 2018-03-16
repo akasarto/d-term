@@ -80,14 +80,12 @@ namespace UI.Wpf.Processes
 		private void SetWindowTitle(IProcessInstanceViewModel instance)
 		{
 			var handle = instance.ProcessMainWindowHandle;
-
 			var wndTitle = Win32Api.GetWindowTitle(handle);
-			var cleanTitle = Regex.Replace(wndTitle, @"(\[.*\]\s+)", string.Empty);
-			var newTitle = $"[PID: {instance.ProcessId}] {cleanTitle}";
-
-			if (!wndTitle.ToLower().Equals(newTitle.ToLower()))
+			var cleanTitle = Win32Api.GetWindowTitleClean(handle);
+			var newWndTitle = $"[PID: {instance.ProcessId}] {cleanTitle}";
+			if (!wndTitle.ToLower().Equals(newWndTitle.ToLower()))
 			{
-				User32Methods.SetWindowText(handle, newTitle);
+				User32Methods.SetWindowText(handle, newWndTitle);
 			}
 		}
 

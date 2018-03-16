@@ -33,12 +33,6 @@
 		<Path Style="{StaticResource logoVisualStyle}" />
 
 		<reactiveui:ViewModelViewHost
-			Margin="15 0 7.5 12.5"
-			ViewModel="{Binding Processes.MinimizedInstancesPanel}"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Bottom" />
-
-		<reactiveui:ViewModelViewHost
 			Margin="0 0 25 95"
 			ViewModel="{Binding Processes.TransparencyManagerPanel}"
 			HorizontalAlignment="Right"
@@ -161,6 +155,24 @@
 				Visibility="Collapsed" />
 
 		</Grid>
+
+		<Rectangle
+			Height="5"
+			Width="135"
+			VerticalAlignment="Bottom"
+			HorizontalAlignment="Left"
+			Grid.Column="1"
+			Margin="25 0 0 55"
+			Fill="{StaticResource MaterialDesignPaper}"
+			SnapsToDevicePixels="True" />
+
+		<Path Style="{DynamicResource logoBottomStyle}" />
+
+		<reactiveui:ViewModelViewHost
+			Margin="135 0 7.5 12.5"
+			ViewModel="{Binding Processes.MinimizedInstancesPanel}"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Bottom" />
 
 	</Grid>
 

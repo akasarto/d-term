@@ -154,10 +154,21 @@
 				<Setter Property="Fill" Value="Black" />
 				<Setter Property="Height" Value="275" />
 				<Setter Property="HorizontalAlignment" Value="Center" />
-				<Setter Property="Opacity" Value=".025" />
+				<Setter Property="Opacity" Value=".0075" />
 				<Setter Property="Stretch" Value="Uniform" />
 				<Setter Property="VerticalAlignment" Value="Center" />
 				<Setter Property="Width" Value="275" />
+			</Style>
+
+			<Style x:Key="logoBottomStyle" TargetType="Path">
+				<Setter Property="Width" Value="135" />
+				<Setter Property="Height" Value="135" />
+				<Setter Property="Fill" Value="Black" />
+				<Setter Property="Stretch" Value="Uniform" />
+				<Setter Property="Margin" Value="35 0 0 15" />
+				<Setter Property="VerticalAlignment" Value="Bottom" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<Setter Property="Data" Value="{StaticResource dTermGeometry}" />
 			</Style>
 
 		</ResourceDictionary>

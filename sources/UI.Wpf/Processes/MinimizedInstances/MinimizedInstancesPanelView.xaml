@@ -22,11 +22,16 @@
 			<DataTemplate>
 				<materialDesign:Chip
 					Margin="0 0 15 0"
-					Content="{Binding Name}"
 					Command="{Binding DataContext.RestoreInstanceWindowCommand, ElementName=minimizedInstancesPanelControl}"
 					CommandParameter="{Binding}"
 					IconBackground="{DynamicResource PrimaryHueDarkBrush}"
-					IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+					IconForeground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+					ToolTipService.VerticalOffset="-7.5"
+					ToolTipService.Placement="Top"
+					ToolTip="{Binding MinimizedTooltip}">
+					<materialDesign:Chip.Content>
+						<TextBlock Text="{Binding ProcessId, StringFormat={}PID: {0}}" />
+					</materialDesign:Chip.Content>
 					<materialDesign:Chip.Icon>
 						<materialDesign:PackIcon>
 							<materialDesign:PackIcon.Template>

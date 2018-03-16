@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using WinApi.User32;
 
 namespace UI.Wpf
@@ -57,6 +58,12 @@ namespace UI.Wpf
 			StringBuilder stringBuilder = new StringBuilder(length + 1);
 			User32Methods.GetWindowText(hWnd, stringBuilder, stringBuilder.Capacity);
 			return stringBuilder.ToString();
+		}
+
+		internal static string GetWindowTitleClean(IntPtr windowHandle)
+		{
+			var wndTitle = GetWindowTitle(windowHandle);
+			return Regex.Replace(wndTitle, @"(\[.*\]\s+)", string.Empty);
 		}
 
 		internal static void SetWindowTitle(IntPtr targetWindowHandle, string newTitle)
