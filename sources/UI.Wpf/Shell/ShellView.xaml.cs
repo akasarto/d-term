@@ -44,6 +44,16 @@ namespace UI.Wpf.Shell
 						context.SetOutput(Unit.Default);
 					});
 				}));
+
+				activator(minimizedInstancesScrollViewer.Events().PreviewMouseWheel.Subscribe(args =>
+				{
+					if (args.Delta > 0)
+						minimizedInstancesScrollViewer.LineLeft();
+					else
+						minimizedInstancesScrollViewer.LineRight();
+
+					args.Handled = true;
+				}));
 			});
 		}
 

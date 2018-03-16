@@ -19,12 +19,14 @@ namespace UI.Wpf.Processes
 		private const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
 		private const uint EVENT_OBJECT_NAMECHANGE = 0x800C;
 		private const uint EVENT_SYSTEM_MINIMIZESTART = 0x0016;
+		private const uint EVENT_SYSTEM_MINIMIZEEND = 0x0017;
 
 		private readonly uint[] _winEvents = new uint[]
 		{
-			EVENT_SYSTEM_FOREGROUND,
+			//EVENT_SYSTEM_FOREGROUND,
 			EVENT_OBJECT_NAMECHANGE,
-			EVENT_SYSTEM_MINIMIZESTART
+			EVENT_SYSTEM_MINIMIZESTART,
+			EVENT_SYSTEM_MINIMIZEEND
 		};
 
 		private readonly IAppState _appState;
@@ -63,30 +65,32 @@ namespace UI.Wpf.Processes
 		{
 			var handle = instance.ProcessMainWindowHandle;
 			TakeWindowOwnership(handle);
-			SetWindowTitle(instance);
+			SetWindowTitleBar(instance);
 		}
 
 		private void TakeWindowOwnership(IntPtr windowHandle)
 		{
-			var iconHandle = Resources.dTermIcon.Handle;
 			var shellViewHandle = _appState.GetShellViewHandle();
 
 			Win32Api.SetWindowOwner(windowHandle, shellViewHandle);
-			Win32Api.SetWindowIcons(windowHandle, iconHandle);
 			Win32Api.RemoveWindowFromTaskbar(windowHandle);
 			Win32Api.MakeLayeredWindow(windowHandle);
 		}
 
-		private void SetWindowTitle(IProcessInstanceViewModel instance)
+		private void SetWindowTitleBar(IProcessInstanceViewModel instance)
 		{
+			var icon = Resources.dTermIcon.Handle;
 			var handle = instance.ProcessMainWindowHandle;
 			var wndTitle = Win32Api.GetWindowTitle(handle);
 			var cleanTitle = Win32Api.GetWindowTitleClean(handle);
 			var newWndTitle = $"[PID: {instance.ProcessId}] {cleanTitle}";
+
 			if (!wndTitle.ToLower().Equals(newWndTitle.ToLower()))
 			{
 				User32Methods.SetWindowText(handle, newWndTitle);
 			}
+
+			Win32Api.SetWindowIcons(handle, icon);
 		}
 
 		private bool GetCurrentEventInstance(IntPtr windowHandle, out IProcessInstanceViewModel instance)
@@ -117,8 +121,9 @@ namespace UI.Wpf.Processes
 				//	break;
 
 				case EVENT_OBJECT_NAMECHANGE:
+				case EVENT_SYSTEM_MINIMIZEEND:
 					{
-						SetWindowTitle(instance);
+						SetWindowTitleBar(instance);
 					}
 					break;
 

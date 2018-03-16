@@ -154,6 +154,21 @@
 				x:Name="runAsAdminWarningInfo"
 				Visibility="Collapsed" />
 
+			<ScrollViewer
+				Grid.Row="0"
+				Grid.RowSpan="2"
+				Grid.Column="0"
+				VerticalAlignment="Bottom"
+				VerticalScrollBarVisibility="Disabled"
+				HorizontalScrollBarVisibility="Hidden"
+				Margin="135 0 115 12.5"
+				x:Name="minimizedInstancesScrollViewer">
+				<reactiveui:ViewModelViewHost
+					ViewModel="{Binding Processes.MinimizedInstancesPanel}"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center" />
+			</ScrollViewer>
+
 		</Grid>
 
 		<Rectangle
@@ -167,12 +182,6 @@
 			SnapsToDevicePixels="True" />
 
 		<Path Style="{DynamicResource logoBottomStyle}" />
-
-		<reactiveui:ViewModelViewHost
-			Margin="135 0 7.5 12.5"
-			ViewModel="{Binding Processes.MinimizedInstancesPanel}"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Bottom" />
 
 	</Grid>
 
