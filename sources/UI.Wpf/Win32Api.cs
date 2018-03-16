@@ -139,9 +139,9 @@ namespace UI.Wpf
 			);
 		}
 
-		internal static void SetTransparency(IntPtr targetWindowHandle, byte opacityLevel)
+		internal static void SetTransparency(IntPtr targetWindowHandle, byte alphaLevel)
 		{
-			User32Methods.SetLayeredWindowAttributes(targetWindowHandle, 0, opacityLevel, LayeredWindowAttributeFlag.LWA_ALPHA);
+			User32Methods.SetLayeredWindowAttributes(targetWindowHandle, 0, alphaLevel, LayeredWindowAttributeFlag.LWA_ALPHA);
 		}
 
 		internal static IntPtr GetProcessWindow(int processId)

@@ -21,8 +21,8 @@ namespace UI.Wpf.Shell
 
 				activator(this.WhenAnyValue(@this => @this.ViewModel.AppState).Subscribe(state =>
 				{
-					adminContextIcon.Visibility = state.HasAdministrationPrivileges ? Visibility.Visible : Visibility.Collapsed;
-					runAsAdminToggleButton.Visibility = state.HasAdministrationPrivileges ? Visibility.Collapsed : Visibility.Visible;
+					adminContextIcon.Visibility = state.HasAdminPrivileges() ? Visibility.Visible : Visibility.Collapsed;
+					runAsAdminToggleButton.Visibility = state.HasAdminPrivileges() ? Visibility.Collapsed : Visibility.Visible;
 				}));
 
 				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes.ConsolesPanel.StartProcessAsAdmin).Subscribe(startingAsAdmin =>

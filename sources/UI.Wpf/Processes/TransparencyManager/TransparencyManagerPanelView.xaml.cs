@@ -1,11 +1,12 @@
 ﻿using ReactiveUI;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace UI.Wpf.Processes
 {
 	public partial class TransparencyManagerPanelView : UserControl, IViewFor<ITransparencyManagerPanelViewModel>
-    {
+	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
