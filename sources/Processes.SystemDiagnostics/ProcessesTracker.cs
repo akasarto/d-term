@@ -9,6 +9,11 @@ namespace Processes.SystemDiagnostics
 	{
 		private List<int> _processIds = new List<int>();
 
+		public void Dispose()
+		{
+			KillAll();
+		}
+
 		public void KillAll()
 		{
 			if (_processIds.Count <= 0)

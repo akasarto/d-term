@@ -30,9 +30,6 @@ namespace UI.Wpf
 			_container = Locator.CurrentMutable;
 		}
 
-		/// <summary>
-		/// Constructor method.
-		/// </summary>
 		public static void Initialize()
 		{
 			var dbConnectionString = @"dTerm.db";
@@ -41,8 +38,6 @@ namespace UI.Wpf
 			_container.Register(() => new MapperProfileConsoles());
 
 			//
-			_container.Register<IProcessesTracker>(() => new ProcessesTracker());
-			_container.Register<IProcessPathBuilder>(() => new ProcessPathBuilder());
 			_container.Register<IProcessRepository>(() => new ProcessRepository(dbConnectionString));
 
 			//
@@ -70,6 +65,8 @@ namespace UI.Wpf
 			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(
 				TimeSpan.FromSeconds(5))
 			);
+			_container.RegisterLazySingleton<IProcessPathBuilder>(() => new ProcessPathBuilder());
+			_container.RegisterLazySingleton<IProcessesTracker>(() => new ProcessesTracker());
 
 			//
 			_container.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());

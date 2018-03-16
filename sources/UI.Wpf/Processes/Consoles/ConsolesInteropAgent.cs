@@ -10,7 +10,7 @@ using WinApi.User32;
 
 namespace UI.Wpf.Processes
 {
-	public interface IConsolesInteropAgent
+	public interface IConsolesInteropAgent : IDisposable
 	{
 	}
 
@@ -51,10 +51,7 @@ namespace UI.Wpf.Processes
 			_integratedInstances.ItemsAdded.Subscribe(instance => Integrate(instance));
 		}
 
-		/// <summary>
-		/// Destructor method.
-		/// </summary>
-		~ConsolesInteropAgent()
+		public void Dispose()
 		{
 			foreach (var handle in _eventHookHandlers)
 			{
@@ -112,14 +109,14 @@ namespace UI.Wpf.Processes
 
 			switch (eventType)
 			{
-				case EVENT_SYSTEM_FOREGROUND:
-					{
-						if (!Win32Api.IsOwnedWindow(hwnd))
-						{
-							TakeWindowOwnership(hwnd);
-						}
-					}
-					break;
+				//case EVENT_SYSTEM_FOREGROUND:
+				//	{
+				//		if (!Win32Api.IsOwnedWindow(hwnd))
+				//		{
+				//			TakeWindowOwnership(hwnd);
+				//		}
+				//	}
+				//	break;
 
 				case EVENT_OBJECT_NAMECHANGE:
 					{
