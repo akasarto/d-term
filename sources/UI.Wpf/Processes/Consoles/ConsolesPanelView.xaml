@@ -10,12 +10,12 @@
 	mc:Ignorable="d"
 	d:DesignWidth="375"
 	d:DesignHeight="215"
-	x:Name="processesPanelControl"
+	x:Name="consolesPanelControl"
 >
 
 	<UserControl.Resources>
 
-		<CollectionViewSource x:Key="processesItemsSource" Source="{Binding Options}">
+		<CollectionViewSource x:Key="consoleItemsSource" Source="{Binding Consoles}">
 			<CollectionViewSource.SortDescriptions>
 				<wndbase:SortDescription PropertyName="OrderIndex" />
 			</CollectionViewSource.SortDescriptions>
@@ -46,12 +46,12 @@
 			</ProgressBar.Style>
 		</ProgressBar>
 
-		<ItemsControl ItemsSource="{Binding Source={StaticResource processesItemsSource}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<ItemsControl ItemsSource="{Binding Source={StaticResource consoleItemsSource}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<ItemsControl.Style>
 				<Style TargetType="ItemsControl">
 					<Setter Property="Visibility" Value="Collapsed" />
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding DataContext.IsLoadingConsoles, ElementName=processesPanelControl}" Value="False">
+						<DataTrigger Binding="{Binding DataContext.IsLoadingConsoles, ElementName=consolesPanelControl}" Value="False">
 							<Setter Property="Visibility" Value="Visible" />
 						</DataTrigger>
 					</Style.Triggers>
@@ -76,7 +76,7 @@
 						</Path>
 						<Button
 							Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-							Command="{Binding DataContext.StartConsoleProcessCommand, ElementName=processesPanelControl}"
+							Command="{Binding DataContext.StartConsoleProcessCommand, ElementName=consolesPanelControl}"
 							IsEnabled="{Binding IsSupported}"
 							CommandParameter="{Binding}"
 							Focusable="False"

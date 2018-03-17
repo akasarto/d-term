@@ -63,7 +63,7 @@ namespace UI.Wpf.Processes
 
 			_openConfigsInteraction.Handle(_configsViewModel).Subscribe(result =>
 			{
-				_consolesPanelViewModel.LoadOptionsCommand.Execute().Subscribe();
+				_consolesPanelViewModel.LoadConsolesCommand.Execute().Subscribe();
 			});
 		}
 	}

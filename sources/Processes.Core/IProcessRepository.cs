@@ -8,6 +8,8 @@ namespace Processes.Core
 		ProcessEntity Add(ProcessEntity entity);
 		void Delete(Guid entityId);
 		IEnumerable<ProcessEntity> GetAll();
+		IEnumerable<ProcessEntity> GetAllConsoles();
+		IEnumerable<ProcessEntity> GetAllUtilities();
 		void Update(ProcessEntity entity);
 	}
 }

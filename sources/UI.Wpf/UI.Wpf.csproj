@@ -398,8 +398,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Processes\Utilities\UtilitiesPanelView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Processes\StyleDictionary.xaml">
       <SubType>Designer</SubType>

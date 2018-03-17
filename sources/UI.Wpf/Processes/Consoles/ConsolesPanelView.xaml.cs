@@ -18,7 +18,7 @@ namespace UI.Wpf.Processes
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
-				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptionsCommand).SelectMany(x => x.Execute()).Subscribe());
+				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadConsolesCommand).SelectMany(x => x.Execute()).Subscribe());
 				activator(this.WhenAnyValue(@this => @this.ViewModel.AppState).Subscribe(state =>
 				{
 					adminContextIcon.Visibility = state.HasAdminPrivileges() ? Visibility.Visible : Visibility.Collapsed;

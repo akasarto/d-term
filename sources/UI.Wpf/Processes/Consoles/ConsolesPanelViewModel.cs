@@ -18,8 +18,8 @@ namespace UI.Wpf.Processes
 		IAppState AppState { get; }
 		bool IsLoadingConsoles { get; }
 		bool StartProcessAsAdmin { get; }
-		IReactiveDerivedList<IProcessViewModel> Options { get; }
-		ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadOptionsCommand { get; }
+		IReactiveDerivedList<IProcessViewModel> Consoles { get; }
+		ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadConsolesCommand { get; }
 		ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> StartConsoleProcessCommand { get; }
 	}
 
@@ -31,10 +31,10 @@ namespace UI.Wpf.Processes
 		private readonly IProcessesTracker _processesTracker;
 		private readonly IProcessRepository _processesRepository;
 		private readonly IProcessesInteropAgent _consolesInteropAgent;
-		private readonly IReactiveList<ProcessEntity> _processEntitiesSource;
-		private readonly IReactiveDerivedList<IProcessViewModel> _consoleOptions;
+		private readonly IReactiveList<ProcessEntity> _consoleProcessEntities;
+		private readonly IReactiveDerivedList<IProcessViewModel> _consolesList;
 		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _startConsoleProcessCommandFactory;
-		private readonly ReactiveCommand<Unit, IEnumerable<ProcessEntity>> _loadOptionsCommand;
+		private readonly ReactiveCommand<Unit, IEnumerable<ProcessEntity>> _loadConsolesCommand;
 		private readonly ISnackbarMessageQueue _snackbarMessageQueue;
 		private bool _isLoadingConsoles;
 		private bool _startAsAdmin;
@@ -58,15 +58,15 @@ namespace UI.Wpf.Processes
 			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
 
 			// Lists
-			_processEntitiesSource = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
-			_consoleOptions = _processEntitiesSource.CreateDerivedCollection(
+			_consoleProcessEntities = new ReactiveList<ProcessEntity>() { ChangeTrackingEnabled = false };
+			_consolesList = _consoleProcessEntities.CreateDerivedCollection(
 				selector: process => Mapper.Map<IProcessViewModel>(process)
 			);
 
 			// Load Processess
-			_loadOptionsCommand = ReactiveCommand.CreateFromTask(async () => await LoadOptionsCommandAction());
-			_loadOptionsCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingConsoles);
-			_loadOptionsCommand.Subscribe(entities => LoadOptionsCommandHandler(entities));
+			_loadConsolesCommand = ReactiveCommand.CreateFromTask(async () => await LoadConsolesCommandAction());
+			_loadConsolesCommand.IsExecuting.BindTo(this, @this => @this.IsLoadingConsoles);
+			_loadConsolesCommand.Subscribe(entities => LoadConsolesCommandHandler(entities));
 
 			// Create Instances
 			_startConsoleProcessCommandFactory = () =>
@@ -92,43 +92,43 @@ namespace UI.Wpf.Processes
 
 		public IAppState AppState => _appState;
 
-		public IReactiveDerivedList<IProcessViewModel> Options => _consoleOptions;
+		public IReactiveDerivedList<IProcessViewModel> Consoles => _consolesList;
 
 		public ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel> StartConsoleProcessCommand => _startConsoleProcessCommandFactory();
 
-		public ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadOptionsCommand => _loadOptionsCommand;
+		public ReactiveCommand<Unit, IEnumerable<ProcessEntity>> LoadConsolesCommand => _loadConsolesCommand;
 
-		private Task<IEnumerable<ProcessEntity>> LoadOptionsCommandAction() => Task.Run(() =>
+		private Task<IEnumerable<ProcessEntity>> LoadConsolesCommandAction() => Task.Run(() =>
 		{
-			var items = _processesRepository.GetAll();
+			var items = _processesRepository.GetAllConsoles();
 			return Task.FromResult(items);
 		});
 
-		private void LoadOptionsCommandHandler(IEnumerable<ProcessEntity> options)
+		private void LoadConsolesCommandHandler(IEnumerable<ProcessEntity> options)
 		{
-			_processEntitiesSource.Clear();
-			_processEntitiesSource.AddRange(options);
+			_consoleProcessEntities.Clear();
+			_consoleProcessEntities.AddRange(options);
 		}
 
-		private Task<IProcessInstanceViewModel> StartConsoleProcessCommandAction(IProcessViewModel option) => Task.Run(() =>
+		private Task<IProcessInstanceViewModel> StartConsoleProcessCommandAction(IProcessViewModel processViewModel) => Task.Run(() =>
 		{
 			var instance = default(IProcessInstanceViewModel);
-			var process = _processFactory.Create(option, _startAsAdmin);
+			var processInstance = _processFactory.Create(processViewModel, _startAsAdmin);
 
-			if (process.Start())
+			if (processInstance.Start())
 			{
-				instance = Mapper.Map<IProcess, IProcessInstanceViewModel>(process, context => context.AfterMap((source, target) =>
+				instance = Mapper.Map<IProcess, IProcessInstanceViewModel>(processInstance, context => context.AfterMap((source, target) =>
 				{
-					target = Mapper.Map(option, target);
+					target = Mapper.Map(processViewModel, target);
 					target.IsElevated = _startAsAdmin;
 				}));
 
-				_processesTracker.Track(process.Id);
+				_processesTracker.Track(processInstance.Id);
 
 				return Task.FromResult(instance);
 			}
 
-			process.Kill();
+			processInstance.Kill();
 
 			return Task.FromResult<IProcessInstanceViewModel>(null);
 		});

@@ -250,4 +250,7 @@
   <data name="ProcessTypeHint" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="InvalidUtilityProcess" xml:space="preserve">
+    <value>The process is not a valid utility application.</value>
+  </data>
 </root>

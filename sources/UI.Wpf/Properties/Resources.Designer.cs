@@ -260,6 +260,15 @@ namespace UI.Wpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The process is not a valid utility application..
+        /// </summary>
+        public static string InvalidUtilityProcess {
+            get {
+                return ResourceManager.GetString("InvalidUtilityProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading consoles....
         /// </summary>
         public static string LoadingConsolesTooltip {

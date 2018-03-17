@@ -52,8 +52,18 @@ namespace Processes.Data.LiteDB
 			{
 				var notes = database.GetCollection<ProcessEntity>(_processesCollection);
 
-				return notes.FindAll().ToList();
+				return notes.FindAll();
 			}
+		}
+
+		public IEnumerable<ProcessEntity> GetAllConsoles()
+		{
+			return GetAll().Where(e => e.Type == ProcessType.Console).ToList();
+		}
+
+		public IEnumerable<ProcessEntity> GetAllUtilities()
+		{
+			return GetAll().Where(e => e.Type == ProcessType.Utility).ToList();
 		}
 
 		public void Update(ProcessEntity entity)

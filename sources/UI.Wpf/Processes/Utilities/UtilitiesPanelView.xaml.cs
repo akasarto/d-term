@@ -1,4 +1,6 @@
 ﻿using ReactiveUI;
+using System;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,6 +18,7 @@ namespace UI.Wpf.Processes
 			this.WhenActivated(activator =>
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
+				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadUtilitiesCommand).SelectMany(x => x.Execute()).Subscribe());
 			});
 		}
 
