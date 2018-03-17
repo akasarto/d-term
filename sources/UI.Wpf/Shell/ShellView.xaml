@@ -84,7 +84,7 @@
 						Width="1"
 						VerticalAlignment="Stretch"
 						Grid.Column="1"
-						Margin="0 17.5 15 17.5"
+						Margin="0 25 15 25"
 						SnapsToDevicePixels="True" />
 
 					<Button
