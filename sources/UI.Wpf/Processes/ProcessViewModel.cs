@@ -60,7 +60,7 @@ namespace UI.Wpf.Processes
 			set => this.RaiseAndSetIfChanged(ref _isSupported, value);
 		}
 
-		public string IsSupportedDescription => _isSupported ? "Supported" : "Not Supported";
+		public string IsSupportedDescription => _isSupported ? Resources.Supported : Resources.NotSupported;
 
 		public string Name
 		{

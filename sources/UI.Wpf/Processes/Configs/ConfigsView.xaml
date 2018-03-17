@@ -7,6 +7,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:properties="clr-namespace:UI.Wpf.Properties"
 	mc:Ignorable="d"
 	MinWidth="800"
 	MinHeight="600"
@@ -16,13 +17,13 @@
 	IsMinButtonEnabled="False"
 	WindowTransitionsEnabled="False"
 	WindowStartupLocation="CenterOwner"
-	Title="General Settings"
+	Title="{x:Static properties:Resources.ProcessConfigurations}"
 >
 	<Grid UseLayoutRounding="True">
 
 		<dragablz:TabablzControl BorderThickness="0" SelectedIndex="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-			<TabItem Header="CONSOLES">
+			<TabItem Header="{x:Static properties:Resources.ConsoleTabTitle}">
 				<reactiveui:ViewModelViewHost HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ViewModel="{Binding ConsolesManagerViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 			</TabItem>
 

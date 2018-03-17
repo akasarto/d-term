@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using UI.Wpf.Properties;
 
 namespace UI.Wpf.Processes
 {
@@ -136,20 +137,20 @@ namespace UI.Wpf.Processes
 		private void StartConsoleProcessCommandError(Exception exception)
 		{
 			// ToDo: Log exception
-			_snackbarMessageQueue.Enqueue("Error creating instance. Please try again.");
+			_snackbarMessageQueue.Enqueue(Resources.ErrorCreatingInstance);
 		}
 
 		private void StartConsoleProcessCommandHandler(IProcessInstanceViewModel instance)
 		{
 			if (instance == null)
 			{
-				_snackbarMessageQueue.Enqueue("The process failed to start. Please try again.");
+				_snackbarMessageQueue.Enqueue(Resources.ProcessStartFailure);
 				return;
 			}
 
 			if (!Win32Api.IsConsoleClass(instance.ProcessMainWindowHandle))
 			{
-				_snackbarMessageQueue.Enqueue("The process is not a valid console application.");
+				_snackbarMessageQueue.Enqueue(Resources.InvalidConsoleProcess);
 				instance.KillProcess();
 				return;
 			}

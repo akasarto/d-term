@@ -4,7 +4,6 @@ using ReactiveUI;
 using Splat;
 using System;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;

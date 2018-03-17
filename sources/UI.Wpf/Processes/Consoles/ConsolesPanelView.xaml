@@ -6,6 +6,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wndbase="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+	xmlns:properties="clr-namespace:UI.Wpf.Properties"
 	mc:Ignorable="d"
 	d:DesignWidth="375"
 	d:DesignHeight="215"
@@ -30,7 +31,7 @@
 		<ProgressBar
 			IsIndeterminate="True"
 			Margin="0 0 15 0"
-			ToolTip="Loading consoles..."
+			ToolTip="{x:Static properties:Resources.LoadingConsolesTooltip}"
 			Value="35"
 			VerticalAlignment="Center">
 			<ProgressBar.Style>
@@ -122,7 +123,7 @@
 				ToolTipService.HorizontalOffset="-65"
 				ToolTipService.VerticalOffset="-35"
 				ToolTipService.Placement="Center"
-				ToolTip="Running as Administrator"
+				ToolTip="{x:Static properties:Resources.RunningAsAdminTooltip}"
 				x:Name="adminContextIcon"
 				Visibility="Collapsed"/>
 			<ToggleButton
@@ -133,7 +134,7 @@
 				ToolTipService.HorizontalOffset="-50"
 				ToolTipService.VerticalOffset="-35"
 				ToolTipService.Placement="Center"
-				ToolTip="Run as Administrator"
+				ToolTip="{x:Static properties:Resources.RunAsAdminTooltip}"
 				x:Name="runAsAdminToggleButton"
 				Visibility="Visible">
 				<materialDesign:ToggleButtonAssist.OnContent>

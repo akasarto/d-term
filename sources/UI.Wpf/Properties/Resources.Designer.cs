@@ -61,11 +61,101 @@ namespace UI.Wpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Console.
+        /// </summary>
+        public static string AddConsole {
+            get {
+                return ResourceManager.GetString("AddConsole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to dTerm.
         /// </summary>
         public static string AppTitle {
             get {
                 return ResourceManager.GetString("AppTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        public static string AreYouSure {
+            get {
+                return ResourceManager.GetString("AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base Path.
+        /// </summary>
+        public static string BasePath {
+            get {
+                return ResourceManager.GetString("BasePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Base Path Type.
+        /// </summary>
+        public static string BasePathType {
+            get {
+                return ResourceManager.GetString("BasePathType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to cancel.
+        /// </summary>
+        public static string CancelLowerCase {
+            get {
+                return ResourceManager.GetString("CancelLowerCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This console will be permanently deleted..
+        /// </summary>
+        public static string ConsoleDeletionMessage {
+            get {
+                return ResourceManager.GetString("ConsoleDeletionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CONSOLES.
+        /// </summary>
+        public static string ConsoleTabTitle {
+            get {
+                return ResourceManager.GetString("ConsoleTabTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delete.
+        /// </summary>
+        public static string DeleteLowerCase {
+            get {
+                return ResourceManager.GetString("DeleteLowerCase", resourceCulture);
             }
         }
         
@@ -80,11 +170,263 @@ namespace UI.Wpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Console.
+        /// </summary>
+        public static string EditConsole {
+            get {
+                return ResourceManager.GetString("EditConsole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elevated instances will not be attached to the unelevated main app..
+        /// </summary>
+        public static string ElevatedInfoMessage {
+            get {
+                return ResourceManager.GetString("ElevatedInfoMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No console options found..
+        /// </summary>
+        public static string EmptyConsolesListMessage {
+            get {
+                return ResourceManager.GetString("EmptyConsolesListMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating instance. Please try again..
+        /// </summary>
+        public static string ErrorCreatingInstance {
+            get {
+                return ResourceManager.GetString("ErrorCreatingInstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Executable Filename.
+        /// </summary>
+        public static string ExecutableFilename {
+            get {
+                return ResourceManager.GetString("ExecutableFilename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For types other than &apos;physical path&apos;, use relative values.   Eg..
+        /// </summary>
+        public static string ExecutableFilenameInfo1 {
+            get {
+                return ResourceManager.GetString("ExecutableFilenameInfo1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /git/bin/sh.exe.
+        /// </summary>
+        public static string ExecutableFilenameInfo2 {
+            get {
+                return ResourceManager.GetString("ExecutableFilenameInfo2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Executable Startup Args.
+        /// </summary>
+        public static string ExecutableStartupArgs {
+            get {
+                return ResourceManager.GetString("ExecutableStartupArgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Icon Data.
+        /// </summary>
+        public static string IconData {
+            get {
+                return ResourceManager.GetString("IconData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The icon should be a single svg path.
+        /// </summary>
+        public static string IconInfo1 {
+            get {
+                return ResourceManager.GetString("IconInfo1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to data..
+        /// </summary>
+        public static string IconInfo2 {
+            get {
+                return ResourceManager.GetString("IconInfo2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The process is not a valid console application..
+        /// </summary>
+        public static string InvalidConsoleProcess {
+            get {
+                return ResourceManager.GetString("InvalidConsoleProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading consoles....
+        /// </summary>
+        public static string LoadingConsoleOptionsTooltip {
+            get {
+                return ResourceManager.GetString("LoadingConsoleOptionsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading consoles....
+        /// </summary>
+        public static string LoadingConsolesTooltip {
+            get {
+                return ResourceManager.GetString("LoadingConsolesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Supported.
+        /// </summary>
+        public static string NotSupported {
+            get {
+                return ResourceManager.GetString("NotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options List.
+        /// </summary>
+        public static string OptionsList {
+            get {
+                return ResourceManager.GetString("OptionsList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Process Configurations.
+        /// </summary>
+        public static string ProcessConfigurations {
+            get {
+                return ResourceManager.GetString("ProcessConfigurations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L6.04,7.5L12,10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V9.21L13,12.58V19.29L19,15.91Z.
         /// </summary>
         public static string ProcessPicturePathDefault {
             get {
                 return ResourceManager.GetString("ProcessPicturePathDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The process failed to start. Please try again..
+        /// </summary>
+        public static string ProcessStartFailure {
+            get {
+                return ResourceManager.GetString("ProcessStartFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run as Administrator.
+        /// </summary>
+        public static string RunAsAdminTooltip {
+            get {
+                return ResourceManager.GetString("RunAsAdminTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Running as Administrator.
+        /// </summary>
+        public static string RunningAsAdminTooltip {
+            get {
+                return ResourceManager.GetString("RunningAsAdminTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search consoles....
+        /// </summary>
+        public static string SearchConsolesHint {
+            get {
+                return ResourceManager.GetString("SearchConsolesHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to See sample..
+        /// </summary>
+        public static string SeeSample {
+            get {
+                return ResourceManager.GetString("SeeSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Startup Args.
+        /// </summary>
+        public static string StartupArgs {
+            get {
+                return ResourceManager.GetString("StartupArgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supported.
+        /// </summary>
+        public static string Supported {
+            get {
+                return ResourceManager.GetString("Supported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transparency.
+        /// </summary>
+        public static string Transparency {
+            get {
+                return ResourceManager.GetString("Transparency", resourceCulture);
             }
         }
     }

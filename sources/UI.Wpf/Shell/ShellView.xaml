@@ -7,7 +7,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-	xmlns:resources="clr-namespace:UI.Wpf.Properties"
+	xmlns:properties="clr-namespace:UI.Wpf.Properties"
 	TextElement.FontSize="14"
 	TextElement.FontWeight="Medium"
 	TextOptions.TextFormattingMode="Ideal"
@@ -22,7 +22,7 @@
 	d:DesignWidth="1280"
 	d:DesignHeight="800"
 	mc:Ignorable="d"
-	Title="{x:Static resources:Resources.AppTitle}"
+	Title="{x:Static properties:Resources.AppTitle}"
 	MinWidth="1280"
 	MinHeight="800"
 	x:Name="shellView"
@@ -54,10 +54,10 @@
 			</Grid.ColumnDefinitions>
 
 			<ScrollViewer
+				Margin="135 0 75 10"
 				VerticalAlignment="Bottom"
 				VerticalScrollBarVisibility="Disabled"
 				HorizontalScrollBarVisibility="Hidden"
-				Margin="135 0 75 10"
 				x:Name="minimizedInstancesScrollViewer">
 				<reactiveui:ViewModelViewHost
 					ViewModel="{Binding Processes.MinimizedInstancesPanel}"
@@ -65,7 +65,11 @@
 					VerticalAlignment="Center" />
 			</ScrollViewer>
 
-			<Border Grid.Column="1" Margin="0 0 45 20" HorizontalAlignment="Right" Background="{DynamicResource MaterialDesignPaper}">
+			<Border
+				Grid.Column="1"
+				Margin="0 0 45 20"
+				HorizontalAlignment="Right"
+				Background="{DynamicResource MaterialDesignPaper}">
 
 				<Grid Margin="15 0 15 0">
 
@@ -88,10 +92,10 @@
 						SnapsToDevicePixels="True" />
 
 					<Button
-						Command="{Binding Processes.OpenConfigsCommand}"
 						Grid.Column="2"
+						Command="{Binding Processes.OpenConfigsCommand}"
 						Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
-						ToolTip="General Settings"
+						ToolTip="{x:Static properties:Resources.ProcessConfigurations}"
 						ToolTipService.Placement="Center"
 						ToolTipService.HorizontalOffset="-27.5"
 						ToolTipService.VerticalOffset="-55">
@@ -116,7 +120,7 @@
 			ToolTipService.VerticalOffset="-95"
 			ToolTipService.ShowDuration="15000"
 			ToolTipService.HasDropShadow="True"
-			ToolTip="Elevated instances will not be attached to the unelevated main app."
+			ToolTip="{x:Static properties:Resources.ElevatedInfoMessage}"
 			x:Name="runAsAdminWarningInfo"
 			Visibility="Collapsed" />
 

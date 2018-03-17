@@ -5,6 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:properties="clr-namespace:UI.Wpf.Properties"
 	xmlns:shared="clr-namespace:UI.Wpf"
 	mc:Ignorable="d" 
 	d:DesignHeight="700"
@@ -61,7 +62,7 @@
 				<TextBox
 					Margin="0 0 0 15"
 					VerticalAlignment="Center"
-					materialDesign:HintAssist.Hint="Name"
+					materialDesign:HintAssist.Hint="{x:Static properties:Resources.Name}"
 					Style="{StaticResource MaterialDesignFloatingHintTextBox}"
 					Text="{Binding FormData.Name, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
@@ -70,14 +71,16 @@
 					<TextBox
 						TextWrapping="Wrap"
 						AcceptsReturn="True"
-						materialDesign:HintAssist.Hint="Icon Data"
+						materialDesign:HintAssist.Hint="{x:Static properties:Resources.IconData}"
 						Style="{StaticResource MaterialDesignFloatingHintTextBox}"
 						Text="{Binding FormData.PicturePath, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
 					<TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
-						<Run Text="The icon should be a single svg path" />
-						<Run FontWeight="Bold" Text="data." />
-						<Hyperlink NavigateUri="https://github.com/ButchersBoy/MaterialDesignInXamlToolkit/wiki/Using-icons" Foreground="{StaticResource PrimaryHueLightBrush}" x:Name="iconSampleLink">See sample.</Hyperlink>
+						<Run Text="{x:Static properties:Resources.IconInfo1}" />
+						<Run FontWeight="Bold" Text="{x:Static properties:Resources.IconInfo2}" />
+						<Hyperlink NavigateUri="https://github.com/ButchersBoy/MaterialDesignInXamlToolkit/wiki/Using-icons" Foreground="{StaticResource PrimaryHueLightBrush}" x:Name="iconSampleLink">
+							<TextBlock Text="{x:Static properties:Resources.SeeSample}" />
+						</Hyperlink>
 					</TextBlock>
 
 				</StackPanel>
@@ -86,7 +89,7 @@
 					Margin="0 15 0 15"
 					SelectedValuePath="Value"
 					DisplayMemberPath="Description"
-					materialDesign:HintAssist.Hint="Base Path Type"
+					materialDesign:HintAssist.Hint="{x:Static properties:Resources.BasePathType}"
 					SelectedValue="{Binding FormData.ProcessBasePath}"
 					ItemsSource="{Binding FormData.ProcessBasePathCollection}"
 					Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
@@ -95,13 +98,13 @@
 
 					<TextBox
 						VerticalAlignment="Center"
-						materialDesign:HintAssist.Hint="Executable Filename"
+						materialDesign:HintAssist.Hint="{x:Static properties:Resources.ExecutableFilename}"
 						Style="{StaticResource MaterialDesignFloatingHintTextBox}"
 						Text="{Binding FormData.ProcessExecutableName, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 
 					<TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
-						<Run Text="For types other than 'physical path', use relative values.   Eg. " />
-						<Run FontStyle="Italic" Text="/git/bin/sh.exe" />
+						<Run Text="{x:Static properties:Resources.ExecutableFilenameInfo1}" />
+						<Run FontStyle="Italic" Text="{x:Static properties:Resources.ExecutableFilenameInfo2}" />
 					</TextBlock>
 
 				</StackPanel>
@@ -109,7 +112,7 @@
 				<TextBox
 					Margin="0 15 0 75"
 					VerticalAlignment="Center"
-					materialDesign:HintAssist.Hint="Executable Startup Args"
+					materialDesign:HintAssist.Hint="{x:Static properties:Resources.ExecutableStartupArgs}"
 					Style="{StaticResource MaterialDesignFloatingHintTextBox}"
 					Text="{Binding FormData.ProcessStartupArgs, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
 

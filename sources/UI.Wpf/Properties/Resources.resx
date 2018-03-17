@@ -127,4 +127,118 @@
   <data name="ProcessPicturePathDefault" xml:space="preserve">
     <value>M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L6.04,7.5L12,10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V9.21L13,12.58V19.29L19,15.91Z</value>
   </data>
+  <data name="AddConsole" xml:space="preserve">
+    <value>Add Console</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="BasePath" xml:space="preserve">
+    <value>Base Path</value>
+  </data>
+  <data name="BasePathType" xml:space="preserve">
+    <value>Base Path Type</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CancelLowerCase" xml:space="preserve">
+    <value>cancel</value>
+  </data>
+  <data name="ConsoleDeletionMessage" xml:space="preserve">
+    <value>This console will be permanently deleted.</value>
+  </data>
+  <data name="ConsoleTabTitle" xml:space="preserve">
+    <value>CONSOLES</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteLowerCase" xml:space="preserve">
+    <value>delete</value>
+  </data>
+  <data name="EditConsole" xml:space="preserve">
+    <value>Edit Console</value>
+  </data>
+  <data name="ElevatedInfoMessage" xml:space="preserve">
+    <value>Elevated instances will not be attached to the unelevated main app.</value>
+  </data>
+  <data name="EmptyConsolesListMessage" xml:space="preserve">
+    <value>No console options found.</value>
+  </data>
+  <data name="ErrorCreatingInstance" xml:space="preserve">
+    <value>Error creating instance. Please try again.</value>
+  </data>
+  <data name="ExecutableFilename" xml:space="preserve">
+    <value>Executable Filename</value>
+  </data>
+  <data name="ExecutableFilenameInfo1" xml:space="preserve">
+    <value>For types other than 'physical path', use relative values.   Eg.</value>
+  </data>
+  <data name="ExecutableFilenameInfo2" xml:space="preserve">
+    <value>/git/bin/sh.exe</value>
+  </data>
+  <data name="ExecutableStartupArgs" xml:space="preserve">
+    <value>Executable Startup Args</value>
+  </data>
+  <data name="IconData" xml:space="preserve">
+    <value>Icon Data</value>
+  </data>
+  <data name="IconInfo1" xml:space="preserve">
+    <value>The icon should be a single svg path</value>
+  </data>
+  <data name="IconInfo2" xml:space="preserve">
+    <value>data.</value>
+  </data>
+  <data name="InvalidConsoleProcess" xml:space="preserve">
+    <value>The process is not a valid console application.</value>
+  </data>
+  <data name="LoadingConsoleOptionsTooltip" xml:space="preserve">
+    <value>Loading consoles...</value>
+  </data>
+  <data name="LoadingConsolesTooltip" xml:space="preserve">
+    <value>Loading consoles...</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NotSupported" xml:space="preserve">
+    <value>Not Supported</value>
+  </data>
+  <data name="OptionsList" xml:space="preserve">
+    <value>Options List</value>
+  </data>
+  <data name="ProcessConfigurations" xml:space="preserve">
+    <value>Process Configurations</value>
+  </data>
+  <data name="ProcessStartFailure" xml:space="preserve">
+    <value>The process failed to start. Please try again.</value>
+  </data>
+  <data name="RunAsAdminTooltip" xml:space="preserve">
+    <value>Run as Administrator</value>
+  </data>
+  <data name="RunningAsAdminTooltip" xml:space="preserve">
+    <value>Running as Administrator</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SearchConsolesHint" xml:space="preserve">
+    <value>Search consoles...</value>
+  </data>
+  <data name="SeeSample" xml:space="preserve">
+    <value>See sample.</value>
+  </data>
+  <data name="StartupArgs" xml:space="preserve">
+    <value>Startup Args</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Supported" xml:space="preserve">
+    <value>Supported</value>
+  </data>
+  <data name="Transparency" xml:space="preserve">
+    <value>Transparency</value>
+  </data>
 </root>

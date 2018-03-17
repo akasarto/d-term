@@ -31,7 +31,7 @@ namespace UI.Wpf.Processes
 					deleteButton.Visibility = data?.Id != Guid.Empty ? Visibility.Visible : Visibility.Collapsed;
 
 					contextIcon.Kind = data == null ? PackIconKind.FormatListBulleted : data.Id == Guid.Empty ? PackIconKind.Plus : PackIconKind.Pencil;
-					contextLabel.Text = data == null ? "Options List" : data.Id == Guid.Empty ? "Add Console" : "Edit Console";
+					contextLabel.Text = data == null ? Properties.Resources.OptionsList : data.Id == Guid.Empty ? Properties.Resources.AddConsole : Properties.Resources.EditConsole;
 
 					listActions.Visibility = data == null ? Visibility.Visible : Visibility.Collapsed;
 					formActions.Visibility = data == null ? Visibility.Collapsed : Visibility.Visible;
