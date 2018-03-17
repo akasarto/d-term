@@ -4,16 +4,19 @@ namespace Processes.Core
 {
 	public enum ProcessBasePath : byte
 	{
+		[Display(Name = "Application")]
+		App = 0,
+
 		[Display(Name = "Physical Path")]
-		Physical = 0,
+		Physical = 1,
 
 		[Display(Name = "Program Files Folder")]
-		ProgramFilesFolder = 1,
+		ProgramFilesFolder = 2,
 
 		[Display(Name = "System32 Folder")]
-		System32Folder = 2,
+		System32Folder = 3,
 
 		[Display(Name = "System Path VARS Folder")]
-		SystemPathVar = 3
+		SystemPathVar = 4
 	}
 }

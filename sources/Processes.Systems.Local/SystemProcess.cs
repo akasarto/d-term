@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Processes.SystemDiagnostics
+namespace Processes.Systems.Local
 {
 	public class SystemProcess : Process, IProcess
 	{

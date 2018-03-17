@@ -7,8 +7,8 @@
     <ProjectGuid>{8F1970BD-7CDC-47BE-8DC7-27A1CBC25D46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Processes.SystemDiagnostics</RootNamespace>
-    <AssemblyName>Processes.SystemDiagnostics</AssemblyName>
+    <RootNamespace>Processes.Systems.Local</RootNamespace>
+    <AssemblyName>Processes.Systems.Local</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -64,7 +64,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SystemProcess.cs" />
+    <Compile Include="SystemProcess.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ProcessPathBuilder.cs" />
     <Compile Include="ProcessesTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

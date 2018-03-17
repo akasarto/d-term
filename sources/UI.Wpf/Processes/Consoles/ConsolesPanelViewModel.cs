@@ -30,7 +30,7 @@ namespace UI.Wpf.Processes
 		private readonly IProcessFactory _processFactory;
 		private readonly IProcessesTracker _processesTracker;
 		private readonly IProcessRepository _processesRepository;
-		private readonly IConsolesInteropAgent _consolesInteropAgent;
+		private readonly IProcessesInteropAgent _consolesInteropAgent;
 		private readonly IReactiveList<ProcessEntity> _processEntitiesSource;
 		private readonly IReactiveDerivedList<IProcessViewModel> _consoleOptions;
 		private readonly Func<ReactiveCommand<IProcessViewModel, IProcessInstanceViewModel>> _startConsoleProcessCommandFactory;
@@ -47,14 +47,14 @@ namespace UI.Wpf.Processes
 			IProcessFactory processFactory = null,
 			IProcessesTracker processesTracker = null,
 			IProcessRepository processesRepository = null,
-			IConsolesInteropAgent consolesInteropAgent = null,
+			IProcessesInteropAgent consolesInteropAgent = null,
 			ISnackbarMessageQueue snackbarMessageQueue = null)
 		{
 			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
 			_processFactory = processFactory ?? Locator.CurrentMutable.GetService<IProcessFactory>();
 			_processesTracker = processesTracker ?? Locator.CurrentMutable.GetService<IProcessesTracker>();
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
-			_consolesInteropAgent = consolesInteropAgent ?? Locator.CurrentMutable.GetService<IConsolesInteropAgent>();
+			_consolesInteropAgent = consolesInteropAgent ?? Locator.CurrentMutable.GetService<IProcessesInteropAgent>();
 			_snackbarMessageQueue = snackbarMessageQueue ?? Locator.CurrentMutable.GetService<ISnackbarMessageQueue>();
 
 			// Lists
@@ -119,7 +119,6 @@ namespace UI.Wpf.Processes
 			{
 				instance = Mapper.Map<IProcess, IProcessInstanceViewModel>(process, context => context.AfterMap((source, target) =>
 				{
-					// Merge new object with option metadata.
 					target = Mapper.Map(option, target);
 					target.IsElevated = _startAsAdmin;
 				}));

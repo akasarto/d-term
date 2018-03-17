@@ -9,6 +9,7 @@ namespace UI.Wpf.Processes
 	public interface IProcessesController
 	{
 		IConsolesPanelViewModel ConsolesPanel { get; }
+		IUtilitiesPanelViewModel UtilitiesPanel { get; }
 		IMinimizedInstancesPanelViewModel MinimizedInstancesPanel { get; }
 		ITransparencyManagerPanelViewModel TransparencyManagerPanel { get; }
 		Interaction<IConfigsViewModel, Unit> OpenConfigsInteraction { get; }
@@ -19,6 +20,7 @@ namespace UI.Wpf.Processes
 	public class ProcessesController : IProcessesController
 	{
 		private readonly IConsolesPanelViewModel _consolesPanelViewModel;
+		private readonly IUtilitiesPanelViewModel _utilitiesPanelViewModel;
 		private readonly IMinimizedInstancesPanelViewModel _minimizedInstancesPanel;
 		private readonly ITransparencyManagerPanelViewModel _transparencyManagerPanelViewModel;
 		private readonly Interaction<IConfigsViewModel, Unit> _openConfigsInteraction;
@@ -29,10 +31,12 @@ namespace UI.Wpf.Processes
 		/// </summary>
 		public ProcessesController(
 			IConsolesPanelViewModel consolesPanelViewModel = null,
+			IUtilitiesPanelViewModel utilitiesPanelViewModel = null,
 			IMinimizedInstancesPanelViewModel minimizedInstancesPanel = null,
 			ITransparencyManagerPanelViewModel transparencyManagerPanelViewModel = null)
 		{
 			_consolesPanelViewModel = consolesPanelViewModel ?? Locator.CurrentMutable.GetService<IConsolesPanelViewModel>();
+			_utilitiesPanelViewModel = utilitiesPanelViewModel ?? Locator.CurrentMutable.GetService<IUtilitiesPanelViewModel>();
 			_minimizedInstancesPanel = minimizedInstancesPanel ?? Locator.CurrentMutable.GetService<IMinimizedInstancesPanelViewModel>();
 			_transparencyManagerPanelViewModel = transparencyManagerPanelViewModel ?? Locator.CurrentMutable.GetService<ITransparencyManagerPanelViewModel>();
 
@@ -42,6 +46,8 @@ namespace UI.Wpf.Processes
 		}
 
 		public IConsolesPanelViewModel ConsolesPanel => _consolesPanelViewModel;
+
+		public IUtilitiesPanelViewModel UtilitiesPanel => _utilitiesPanelViewModel;
 
 		public IMinimizedInstancesPanelViewModel MinimizedInstancesPanel => _minimizedInstancesPanel;
 

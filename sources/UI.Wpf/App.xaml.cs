@@ -80,7 +80,7 @@ namespace UI.Wpf
 			//
 			Exit += (object sender, ExitEventArgs args) =>
 			{
-				Locator.CurrentMutable.GetService<IConsolesInteropAgent>()?.Dispose();
+				Locator.CurrentMutable.GetService<IProcessesInteropAgent>()?.Dispose();
 				Locator.CurrentMutable.GetService<IProcessesTracker>()?.Dispose();
 				container.Dispose();
 			};

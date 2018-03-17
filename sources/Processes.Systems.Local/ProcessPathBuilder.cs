@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Processes.SystemDiagnostics
+namespace Processes.Systems.Local
 {
 	public class ProcessPathBuilder : IProcessPathBuilder
 	{
@@ -10,6 +10,9 @@ namespace Processes.SystemDiagnostics
 		{
 			switch (basePath)
 			{
+				case ProcessBasePath.App:
+					return AppFilePath(executableName);
+
 				case ProcessBasePath.Physical:
 					return PhysicalFilePath(executableName);
 
@@ -37,7 +40,25 @@ namespace Processes.SystemDiagnostics
 			return fileName.Replace("/", "\\");
 		}
 
-		public string PhysicalFilePath(string rootedPhysicalFileName)
+		private string AppFilePath(string appFolderRelativeFileName)
+		{
+			var normalizedFilename = NormalizeFilename(
+				appFolderRelativeFileName
+			);
+
+			var appFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+			var physicalPath = Path.Combine(appFolder, normalizedFilename);
+
+			if (File.Exists(physicalPath))
+			{
+				return physicalPath;
+			}
+
+			return null;
+		}
+
+		private string PhysicalFilePath(string rootedPhysicalFileName)
 		{
 			var normalizedFilename = NormalizeFilename(
 				rootedPhysicalFileName
@@ -46,8 +67,7 @@ namespace Processes.SystemDiagnostics
 			return new FileInfo(normalizedFilename).FullName;
 		}
 
-
-		public string ProgramFilesFolderPath(string programFilesFolderRelativeFileName)
+		private string ProgramFilesFolderPath(string programFilesFolderRelativeFileName)
 		{
 			var normalizedFilename = NormalizeFilename(
 				programFilesFolderRelativeFileName
@@ -71,7 +91,7 @@ namespace Processes.SystemDiagnostics
 			return null;
 		}
 
-		public string System32FolderPath(string system32FolderRelativeFileName)
+		private string System32FolderPath(string system32FolderRelativeFileName)
 		{
 			var normalizedFilename = NormalizeFilename(
 				system32FolderRelativeFileName
@@ -96,7 +116,7 @@ namespace Processes.SystemDiagnostics
 			return null;
 		}
 
-		public string SystemPathVarPath(string environmentPathVarRelativeFileName)
+		private string SystemPathVarPath(string environmentPathVarRelativeFileName)
 		{
 			var normalizedFilename = NormalizeFilename(
 				environmentPathVarRelativeFileName

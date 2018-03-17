@@ -2,7 +2,7 @@
 using MaterialDesignThemes.Wpf;
 using Processes.Core;
 using Processes.Data.LiteDB;
-using Processes.SystemDiagnostics;
+using Processes.Systems.Local;
 using ReactiveUI;
 using Splat;
 using System;
@@ -50,6 +50,7 @@ namespace UI.Wpf
 			_container.Register<IValidator<IProcessViewModel>>(() => new ProcessViewModelValidator());
 			_container.Register<IMinimizedInstancesPanelViewModel>(() => new MinimizedInstancesPanelViewModel());
 			_container.Register<ITransparencyManagerPanelViewModel>(() => new TransparencyManagerPanelViewModel());
+			_container.Register<IUtilitiesPanelViewModel>(() => new UtilitiesPanelViewModel());
 
 			//
 			_container.Register<IShellViewModel>(() => new ShellViewModel());
@@ -61,7 +62,7 @@ namespace UI.Wpf
 				var interopHelper = new WindowInteropHelper(mainView);
 				return new AppState(interopHelper.Handle);
 			});
-			_container.RegisterLazySingleton<IConsolesInteropAgent>(() => new ConsolesInteropAgent());
+			_container.RegisterLazySingleton<IProcessesInteropAgent>(() => new ProcessesInteropAgent());
 			_container.RegisterLazySingleton<ISnackbarMessageQueue>(() => new SnackbarMessageQueue(
 				TimeSpan.FromSeconds(5))
 			);

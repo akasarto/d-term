@@ -343,7 +343,7 @@
     </ApplicationDefinition>
     <Compile Include="App.Bootstrap.cs" />
     <Compile Include="AppState.cs" />
-    <Compile Include="Processes\Consoles\ConsolesInteropAgent.cs" />
+    <Compile Include="Processes\ProcessesInteropAgent.cs" />
     <Compile Include="Processes\MinimizedInstances\MinimizedInstancesPanelView.xaml.cs">
       <DependentUpon>MinimizedInstancesPanelView.xaml</DependentUpon>
     </Compile>
@@ -355,6 +355,10 @@
     </Compile>
     <Compile Include="Processes\ProcessViewModelValidator.cs" />
     <Compile Include="Processes\ProcessFactory.cs" />
+    <Compile Include="Processes\Utilities\UtilitiesPanelView.xaml.cs">
+      <DependentUpon>UtilitiesPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Processes\Utilities\UtilitiesPanelViewModel.cs" />
     <Compile Include="Processes\TransparencyManager\TransparencyManagerPanelViewModel.cs" />
     <Compile Include="Processes\TransparencyManager\TransparencyManagerPanelView.xaml.cs">
       <DependentUpon>TransparencyManagerPanelView.xaml</DependentUpon>
@@ -390,6 +394,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Processes\Configs\ProcessFormView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Processes\Utilities\UtilitiesPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -460,10 +468,14 @@
       <Name>Processes.Data.LiteDB</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
-    <ProjectReference Include="..\Processes.SystemDiagnostics\Processes.SystemDiagnostics.csproj">
+    <ProjectReference Include="..\Processes.Systems.Local\Processes.Systems.Local.csproj">
       <Project>{8F1970BD-7CDC-47BE-8DC7-27A1CBC25D46}</Project>
-      <Name>Processes.SystemDiagnostics</Name>
+      <Name>Processes.Systems.Local</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
+    <ProjectReference Include="..\Processes.Utilities\Processes.Utilities.csproj">
+      <Project>{6993cdef-77b3-474b-b3cc-6a663c73f4cf}</Project>
+      <Name>Processes.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared.Kernel\Shared.Kernel.csproj">
       <Project>{dd8df004-9062-4358-9ea3-f9cfbc5d061f}</Project>
@@ -474,9 +486,7 @@
   <ItemGroup>
     <Resource Include="Shared\.info.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Processes\UtilitiesPutty\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.1\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

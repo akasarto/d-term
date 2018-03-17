@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Processes.SystemDiagnostics
+namespace Processes.Systems.Local
 {
 	public class ProcessesTracker : IProcessesTracker
 	{

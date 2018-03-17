@@ -99,7 +99,7 @@
 						ToolTipService.Placement="Center"
 						ToolTipService.HorizontalOffset="-27.5"
 						ToolTipService.VerticalOffset="-55">
-						<materialDesign:PackIcon Kind="Settings" Height="24" Width="24" />
+						<materialDesign:PackIcon Kind="Settings" Width="32" Height="32" Margin="0 .75 0 0" />
 					</Button>
 
 				</Grid>
@@ -124,11 +124,16 @@
 			x:Name="runAsAdminWarningInfo"
 			Visibility="Collapsed" />
 
-		<reactiveui:ViewModelViewHost
-			Margin="0 0 25 95"
-			ViewModel="{Binding Processes.TransparencyManagerPanel}"
-			HorizontalAlignment="Right"
-			VerticalAlignment="Bottom" />
+		<StackPanel Margin="0 0 25 95" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+
+			<reactiveui:ViewModelViewHost ViewModel="{Binding Processes.TransparencyManagerPanel}" HorizontalAlignment="Right" />
+
+			<reactiveui:ViewModelViewHost
+						Margin="0 15 0 0"
+						ViewModel="{Binding Processes.UtilitiesPanel}"
+						VerticalAlignment="Center" />
+
+		</StackPanel>
 
 		<materialDesign:Snackbar MessageQueue="{Binding SnackbarMessageQueue}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 

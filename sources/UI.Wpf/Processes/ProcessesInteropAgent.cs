@@ -9,11 +9,11 @@ using WinApi.User32;
 
 namespace UI.Wpf.Processes
 {
-	public interface IConsolesInteropAgent : IDisposable
+	public interface IProcessesInteropAgent : IDisposable
 	{
 	}
 
-	public class ConsolesInteropAgent : ReactiveObject, IConsolesInteropAgent
+	public class ProcessesInteropAgent : ReactiveObject, IProcessesInteropAgent
 	{
 		private const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
 		private const uint EVENT_OBJECT_NAMECHANGE = 0x800C;
@@ -22,7 +22,7 @@ namespace UI.Wpf.Processes
 
 		private readonly uint[] _winEvents = new uint[]
 		{
-			//EVENT_SYSTEM_FOREGROUND,
+			EVENT_SYSTEM_FOREGROUND,
 			EVENT_OBJECT_NAMECHANGE,
 			EVENT_SYSTEM_MINIMIZESTART,
 			EVENT_SYSTEM_MINIMIZEEND
@@ -36,7 +36,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesInteropAgent(IAppState appState = null)
+		public ProcessesInteropAgent(IAppState appState = null)
 		{
 			_appState = appState ?? Locator.CurrentMutable.GetService<IAppState>();
 
@@ -110,14 +110,14 @@ namespace UI.Wpf.Processes
 
 			switch (eventType)
 			{
-				//case EVENT_SYSTEM_FOREGROUND:
-				//	{
-				//		if (!Win32Api.IsOwnedWindow(hwnd))
-				//		{
-				//			TakeWindowOwnership(hwnd);
-				//		}
-				//	}
-				//	break;
+				case EVENT_SYSTEM_FOREGROUND:
+					{
+						if (!Win32Api.IsOwnedWindow(hwnd))
+						{
+							TakeWindowOwnership(hwnd);
+						}
+					}
+					break;
 
 				case EVENT_OBJECT_NAMECHANGE:
 				case EVENT_SYSTEM_MINIMIZEEND:

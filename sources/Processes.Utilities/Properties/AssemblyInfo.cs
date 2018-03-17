@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Processes.SystemDiagnostics")]
+[assembly: AssemblyTitle("Processes.Utilities")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Processes.SystemDiagnostics")]
+[assembly: AssemblyProduct("Processes.Utilities")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8f1970bd-7cdc-47be-8dc7-27a1cbc25d46")]
+[assembly: Guid("6993cdef-77b3-474b-b3cc-6a663c73f4cf")]
 
 // Version information for an assembly consists of the following four values:
 //
