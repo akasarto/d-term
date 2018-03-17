@@ -40,13 +40,23 @@ namespace UI.Wpf.Mappings
 				dest.IsSupported = _processFactory.CanCreate(source.ProcessBasePath, source.ProcessExecutableName);
 				dest.ProcessBasePathDescription = source.ProcessBasePath.Humanize();
 
+				dest.ProcessTypeCollection = new List<EnumViewModel<ProcessType>>();
 				dest.ProcessBasePathCollection = new List<EnumViewModel<ProcessBasePath>>();
+
+				Enum.GetValues(typeof(ProcessType)).Cast<ProcessType>().ToList().ForEach(type =>
+				{
+					dest.ProcessTypeCollection.Add(new EnumViewModel<ProcessType>()
+					{
+						Description = type == ProcessType.None ? string.Empty : type.Humanize(),
+						Value = type
+					});
+				});
 
 				Enum.GetValues(typeof(ProcessBasePath)).Cast<ProcessBasePath>().ToList().ForEach(basePath =>
 				{
 					dest.ProcessBasePathCollection.Add(new EnumViewModel<ProcessBasePath>()
 					{
-						Description = basePath.Humanize(),
+						Description = basePath == ProcessBasePath.None ? string.Empty : basePath.Humanize(),
 						Value = basePath
 					});
 				});

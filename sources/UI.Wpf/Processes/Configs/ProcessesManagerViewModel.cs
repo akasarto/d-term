@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace UI.Wpf.Processes
 {
 	//
-	public interface IConsolesTabViewModel
+	public interface IProcessesManagerViewModel
 	{
 		bool IsPopupOpen { get; }
 		string FilterText { get; set; }
@@ -30,7 +30,7 @@ namespace UI.Wpf.Processes
 	}
 
 	//
-	public class ConsolesTabViewModel : ReactiveObject, IConsolesTabViewModel
+	public class ProcessesManagerViewModel : ReactiveObject, IProcessesManagerViewModel
 	{
 		private readonly IProcessRepository _processesRepository;
 		private readonly IReactiveList<ProcessEntity> _processesSource;
@@ -51,7 +51,7 @@ namespace UI.Wpf.Processes
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesTabViewModel(IProcessRepository processesRepository = null, IValidator<IProcessViewModel> processViewModelaValidator = null)
+		public ProcessesManagerViewModel(IProcessRepository processesRepository = null, IValidator<IProcessViewModel> processViewModelaValidator = null)
 		{
 			_processesRepository = processesRepository ?? Locator.CurrentMutable.GetService<IProcessRepository>();
 			_formDataValidator = processViewModelaValidator ?? Locator.CurrentMutable.GetService<IValidator<IProcessViewModel>>();

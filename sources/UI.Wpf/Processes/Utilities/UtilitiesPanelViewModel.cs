@@ -4,7 +4,6 @@ using Processes.Core;
 using ReactiveUI;
 using Splat;
 using System;
-using System.Reactive;
 using System.Threading.Tasks;
 using UI.Wpf.Properties;
 

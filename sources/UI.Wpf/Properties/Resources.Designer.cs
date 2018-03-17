@@ -61,11 +61,11 @@ namespace UI.Wpf.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Console.
+        ///   Looks up a localized string similar to Add Process.
         /// </summary>
-        public static string AddConsole {
+        public static string AddProcess {
             get {
-                return ResourceManager.GetString("AddConsole", resourceCulture);
+                return ResourceManager.GetString("AddProcess", resourceCulture);
             }
         }
         
@@ -124,24 +124,6 @@ namespace UI.Wpf.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This console will be permanently deleted..
-        /// </summary>
-        public static string ConsoleDeletionMessage {
-            get {
-                return ResourceManager.GetString("ConsoleDeletionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to CONSOLES.
-        /// </summary>
-        public static string ConsoleTabTitle {
-            get {
-                return ResourceManager.GetString("ConsoleTabTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -172,9 +154,9 @@ namespace UI.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Edit Console.
         /// </summary>
-        public static string EditConsole {
+        public static string EditProcess {
             get {
-                return ResourceManager.GetString("EditConsole", resourceCulture);
+                return ResourceManager.GetString("EditProcess", resourceCulture);
             }
         }
         
@@ -188,11 +170,11 @@ namespace UI.Wpf.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No console options found..
+        ///   Looks up a localized string similar to No process options found..
         /// </summary>
-        public static string EmptyConsolesListMessage {
+        public static string EmptyProcessesListMessage {
             get {
-                return ResourceManager.GetString("EmptyConsolesListMessage", resourceCulture);
+                return ResourceManager.GetString("EmptyProcessesListMessage", resourceCulture);
             }
         }
         
@@ -280,18 +262,36 @@ namespace UI.Wpf.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Loading consoles....
         /// </summary>
-        public static string LoadingConsoleOptionsTooltip {
+        public static string LoadingConsolesTooltip {
             get {
-                return ResourceManager.GetString("LoadingConsoleOptionsTooltip", resourceCulture);
+                return ResourceManager.GetString("LoadingConsolesTooltip", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading consoles....
+        ///   Looks up a localized string similar to Loading processes....
         /// </summary>
-        public static string LoadingConsolesTooltip {
+        public static string LoadingProcessesTooltip {
             get {
-                return ResourceManager.GetString("LoadingConsolesTooltip", resourceCulture);
+                return ResourceManager.GetString("LoadingProcessesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading utilities....
+        /// </summary>
+        public static string LoadingUtilitiesTooltip {
+            get {
+                return ResourceManager.GetString("LoadingUtilitiesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Processes.
+        /// </summary>
+        public static string ManageProcesses {
+            get {
+                return ResourceManager.GetString("ManageProcesses", resourceCulture);
             }
         }
         
@@ -332,6 +332,15 @@ namespace UI.Wpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This process will be permanently deleted..
+        /// </summary>
+        public static string ProcessDeletionMessage {
+            get {
+                return ResourceManager.GetString("ProcessDeletionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L6.04,7.5L12,10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V9.21L13,12.58V19.29L19,15.91Z.
         /// </summary>
         public static string ProcessPicturePathDefault {
@@ -346,6 +355,24 @@ namespace UI.Wpf.Properties {
         public static string ProcessStartFailure {
             get {
                 return ResourceManager.GetString("ProcessStartFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Process Type.
+        /// </summary>
+        public static string ProcessType {
+            get {
+                return ResourceManager.GetString("ProcessType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string ProcessTypeHint {
+            get {
+                return ResourceManager.GetString("ProcessTypeHint", resourceCulture);
             }
         }
         
@@ -377,11 +404,11 @@ namespace UI.Wpf.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search consoles....
+        ///   Looks up a localized string similar to Search processes....
         /// </summary>
-        public static string SearchConsolesHint {
+        public static string SearchProcessesHint {
             get {
-                return ResourceManager.GetString("SearchConsolesHint", resourceCulture);
+                return ResourceManager.GetString("SearchProcessesHint", resourceCulture);
             }
         }
         

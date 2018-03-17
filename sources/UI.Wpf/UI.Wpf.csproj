@@ -366,14 +366,14 @@
     <Compile Include="Shared\ReactiveObjectWithValidation.cs" />
     <Compile Include="Shared\EnumViewModel.cs" />
     <Compile Include="Processes\ProcessViewModel.cs" />
-    <Compile Include="Processes\Configs\ConsolesTabView.xaml.cs">
-      <DependentUpon>ConsolesTabView.xaml</DependentUpon>
+    <Compile Include="Processes\Configs\ProcessesManagerView.xaml.cs">
+      <DependentUpon>ProcessesManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\Consoles\ConsolesPanelView.xaml.cs">
       <DependentUpon>ConsolesPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Processes\Consoles\ConsolesPanelViewModel.cs" />
-    <Compile Include="Processes\Configs\ConsolesTabViewModel.cs" />
+    <Compile Include="Processes\Configs\ProcessesManagerViewModel.cs" />
     <Compile Include="Mappings\MapperProfileConsoles.cs" />
     <Compile Include="Shared\IsValidGeometryConverter.cs" />
     <Compile Include="Shell\ShellViewModel.cs" />
@@ -389,7 +389,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Processes\Configs\ConsolesTabView.xaml">
+    <Page Include="Processes\Configs\ProcessesManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

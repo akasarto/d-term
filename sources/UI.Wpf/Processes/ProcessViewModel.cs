@@ -18,10 +18,12 @@ namespace UI.Wpf.Processes
 		int OrderIndex { get; set; }
 		string PicturePath { get; set; }
 		string PicturePathDefault { get; }
+		ProcessType Type { get; set; }
 		ProcessBasePath ProcessBasePath { get; set; }
 		string ProcessBasePathDescription { get; set; }
 		string ProcessExecutableName { get; set; }
 		string ProcessStartupArgs { get; set; }
+		ICollection<EnumViewModel<ProcessType>> ProcessTypeCollection { get; set; }
 		ICollection<EnumViewModel<ProcessBasePath>> ProcessBasePathCollection { get; set; }
 		void SetErrors(IEnumerable<ValidationFailure> validationFailures);
 	}
@@ -35,10 +37,12 @@ namespace UI.Wpf.Processes
 		private string _name;
 		private int _orderIndex;
 		private string _picturePath;
+		private ProcessType _processType;
 		private ProcessBasePath _processBasePath;
 		private string _processBasePathDescription;
 		private string _processExecutableName;
 		private string _processStartupArgs;
+		private ICollection<EnumViewModel<ProcessType>> _processTypeCollection;
 		private ICollection<EnumViewModel<ProcessBasePath>> _processBasePathCollection;
 
 		/// <summary>
@@ -61,6 +65,12 @@ namespace UI.Wpf.Processes
 		}
 
 		public string IsSupportedDescription => _isSupported ? Resources.Supported : Resources.NotSupported;
+
+		public ProcessType Type
+		{
+			get => _processType;
+			set => this.RaiseAndSetIfChanged(ref _processType, value);
+		}
 
 		public string Name
 		{
@@ -104,6 +114,12 @@ namespace UI.Wpf.Processes
 		{
 			get => _processStartupArgs;
 			set => this.RaiseAndSetIfChanged(ref _processStartupArgs, value);
+		}
+
+		public ICollection<EnumViewModel<ProcessType>> ProcessTypeCollection
+		{
+			get => _processTypeCollection;
+			set => this.RaiseAndSetIfChanged(ref _processTypeCollection, value);
 		}
 
 		public ICollection<EnumViewModel<ProcessBasePath>> ProcessBasePathCollection

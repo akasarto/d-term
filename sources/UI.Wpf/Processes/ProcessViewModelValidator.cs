@@ -14,10 +14,13 @@ namespace UI.Wpf.Processes
 			RuleFor(model => model.PicturePath).Must(BeValidGeometryPath);
 
 			//
+			RuleFor(model => model.Type).NotEmpty();
+
+			//
 			RuleFor(model => model.Name).NotEmpty();
 
 			//
-			RuleFor(model => model.ProcessBasePath).NotNull();
+			RuleFor(model => model.ProcessBasePath).NotEmpty();
 
 			//
 			RuleFor(model => model.ProcessExecutableName).NotEmpty();

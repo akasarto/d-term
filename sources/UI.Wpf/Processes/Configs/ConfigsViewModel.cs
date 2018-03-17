@@ -5,22 +5,22 @@ namespace UI.Wpf.Processes
 	//
 	public interface IConfigsViewModel
 	{
-		IConsolesTabViewModel ConsolesManagerViewModel { get; }
+		IProcessesManagerViewModel ProcessesManager { get; }
 	}
 
 	//
 	public class ConfigsViewModel : IConfigsViewModel
 	{
-		private readonly IConsolesTabViewModel _consolesManagerViewModel;
+		private readonly IProcessesManagerViewModel _processesManagerViewModel;
 
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConfigsViewModel(IConsolesTabViewModel consolesManagerViewModel = null)
+		public ConfigsViewModel(IProcessesManagerViewModel processesManagerViewModel = null)
 		{
-			_consolesManagerViewModel = consolesManagerViewModel ?? Locator.CurrentMutable.GetService<IConsolesTabViewModel>();
+			_processesManagerViewModel = processesManagerViewModel ?? Locator.CurrentMutable.GetService<IProcessesManagerViewModel>();
 		}
 
-		public IConsolesTabViewModel ConsolesManagerViewModel => _consolesManagerViewModel;
+		public IProcessesManagerViewModel ProcessesManager => _processesManagerViewModel;
 	}
 }

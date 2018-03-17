@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
 	xmlns:properties="clr-namespace:UI.Wpf.Properties"
 	mc:Ignorable="d"
@@ -13,21 +14,15 @@
 	MinHeight="600"
 	Width="800"
 	Height="600"
+	ShowTitleBar="False"
 	ShowInTaskbar="False"
 	IsMinButtonEnabled="False"
 	WindowTransitionsEnabled="False"
 	WindowStartupLocation="CenterOwner"
-	Title="{x:Static properties:Resources.ProcessConfigurations}"
 >
 	<Grid UseLayoutRounding="True">
 
-		<dragablz:TabablzControl BorderThickness="0" SelectedIndex="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-			<TabItem Header="{x:Static properties:Resources.ConsoleTabTitle}">
-				<reactiveui:ViewModelViewHost HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ViewModel="{Binding ConsolesManagerViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-			</TabItem>
-
-		</dragablz:TabablzControl>
+		<reactiveui:ViewModelViewHost Margin="5" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ViewModel="{Binding ProcessesManager}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
 	</Grid>
 

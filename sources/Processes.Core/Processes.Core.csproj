@@ -65,6 +65,7 @@
     <Compile Include="IProcessPathBuilder.cs" />
     <Compile Include="IProcessesTracker.cs" />
     <Compile Include="ProcessBasePath.cs" />
+    <Compile Include="ProcessType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

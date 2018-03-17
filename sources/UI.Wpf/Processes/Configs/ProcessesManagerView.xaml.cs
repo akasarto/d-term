@@ -7,12 +7,12 @@ using System.Windows.Controls;
 
 namespace UI.Wpf.Processes
 {
-	public partial class ConsolesTabView : UserControl, IViewFor<IConsolesTabViewModel>
+	public partial class ProcessesManagerView : UserControl, IViewFor<IProcessesManagerViewModel>
 	{
 		/// <summary>
 		/// Constructor method.
 		/// </summary>
-		public ConsolesTabView()
+		public ProcessesManagerView()
 		{
 			InitializeComponent();
 
@@ -31,7 +31,7 @@ namespace UI.Wpf.Processes
 					deleteButton.Visibility = data?.Id != Guid.Empty ? Visibility.Visible : Visibility.Collapsed;
 
 					contextIcon.Kind = data == null ? PackIconKind.FormatListBulleted : data.Id == Guid.Empty ? PackIconKind.Plus : PackIconKind.Pencil;
-					contextLabel.Text = data == null ? Properties.Resources.OptionsList : data.Id == Guid.Empty ? Properties.Resources.AddConsole : Properties.Resources.EditConsole;
+					contextLabel.Text = data == null ? Properties.Resources.OptionsList : data.Id == Guid.Empty ? Properties.Resources.AddProcess : Properties.Resources.EditProcess;
 
 					listActions.Visibility = data == null ? Visibility.Visible : Visibility.Collapsed;
 					formActions.Visibility = data == null ? Visibility.Collapsed : Visibility.Visible;
@@ -39,18 +39,18 @@ namespace UI.Wpf.Processes
 			});
 		}
 
-		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IConsolesTabViewModel), typeof(ConsolesTabView), new PropertyMetadata(null));
+		public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register("ViewModel", typeof(IProcessesManagerViewModel), typeof(ProcessesManagerView), new PropertyMetadata(null));
 
-		public IConsolesTabViewModel ViewModel
+		public IProcessesManagerViewModel ViewModel
 		{
-			get { return (IConsolesTabViewModel)GetValue(ViewModelProperty); }
+			get { return (IProcessesManagerViewModel)GetValue(ViewModelProperty); }
 			set { SetValue(ViewModelProperty, value); }
 		}
 
 		object IViewFor.ViewModel
 		{
 			get { return ViewModel; }
-			set { ViewModel = (IConsolesTabViewModel)value; }
+			set { ViewModel = (IProcessesManagerViewModel)value; }
 		}
 	}
 }
