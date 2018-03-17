@@ -14,6 +14,7 @@ namespace UI.Wpf.Processes
 	//
 	public interface IConsolesPanelViewModel
 	{
+		IAppState AppState { get; }
 		bool IsLoadingConsoles { get; }
 		bool StartProcessAsAdmin { get; }
 		IReactiveDerivedList<IProcessViewModel> Options { get; }
@@ -87,6 +88,8 @@ namespace UI.Wpf.Processes
 			get => _isLoadingConsoles;
 			set => this.RaiseAndSetIfChanged(ref _isLoadingConsoles, value);
 		}
+
+		public IAppState AppState => _appState;
 
 		public IReactiveDerivedList<IProcessViewModel> Options => _consoleOptions;
 

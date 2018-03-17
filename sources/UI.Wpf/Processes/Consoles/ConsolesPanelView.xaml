@@ -27,7 +27,6 @@
 
 	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-		<!-- Loading -->
 		<ProgressBar
 			IsIndeterminate="True"
 			Margin="0 0 15 0"
@@ -46,9 +45,7 @@
 			</ProgressBar.Style>
 		</ProgressBar>
 
-		<!-- Options List -->
 		<ItemsControl ItemsSource="{Binding Source={StaticResource processesItemsSource}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
 			<ItemsControl.Style>
 				<Style TargetType="ItemsControl">
 					<Setter Property="Visibility" Value="Collapsed" />
@@ -59,44 +56,91 @@
 					</Style.Triggers>
 				</Style>
 			</ItemsControl.Style>
-
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" />
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
-
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-
-					<Button
-						Command="{Binding DataContext.StartConsoleProcessCommand, ElementName=processesPanelControl}"
-						CommandParameter="{Binding}"
-						Focusable="False"
-						IsEnabled="{Binding IsSupported}"
-						IsTabStop="False"
-						Margin="0 0 15 0"
-						Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-						ToolTip="{Binding Name}"
-						ToolTipService.Placement="Center"
-						ToolTipService.VerticalOffset="-45"
-						ToolTipService.ShowOnDisabled="True"
-						VerticalAlignment="Center">
-
-						<materialDesign:PackIcon>
-							<materialDesign:PackIcon.Template>
-								<ControlTemplate>
-									<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding PicturePath}" />
-								</ControlTemplate>
-							</materialDesign:PackIcon.Template>
-						</materialDesign:PackIcon>
-
-					</Button>
-
+					<Grid>
+						<Path Stroke="LightGray" StrokeThickness="3" StrokeDashArray=".5">
+							<Path.Data>
+								<GeometryGroup >
+									<LineGeometry StartPoint="20,25" EndPoint="20,65" />
+									<LineGeometry StartPoint="20,65" EndPoint="10,75" />
+									<LineGeometry StartPoint="10,75" EndPoint="-43.5,75" />
+								</GeometryGroup>
+							</Path.Data>
+						</Path>
+						<Button
+							Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+							Command="{Binding DataContext.StartConsoleProcessCommand, ElementName=processesPanelControl}"
+							IsEnabled="{Binding IsSupported}"
+							CommandParameter="{Binding}"
+							Focusable="False"
+							IsTabStop="False"
+							Margin="0 0 15 0"
+							ToolTip="{Binding Name}"
+							ToolTipService.Placement="Center"
+							ToolTipService.VerticalOffset="-45"
+							ToolTipService.ShowOnDisabled="True"
+							VerticalAlignment="Center">
+							<materialDesign:PackIcon>
+								<materialDesign:PackIcon.Template>
+									<ControlTemplate>
+										<Path Stretch="Uniform" Fill="{TemplateBinding Foreground}" Data="{Binding PicturePath}" />
+									</ControlTemplate>
+								</materialDesign:PackIcon.Template>
+							</materialDesign:PackIcon>
+						</Button>
+					</Grid>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
-
 		</ItemsControl>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<Rectangle 
+				VerticalAlignment="Bottom"
+				Grid.Column="0"
+				Margin="-75 0 0 -7.5"
+				Width="30"
+				Height="15"
+				Fill="{DynamicResource MaterialDesignPaper}" />
+			<materialDesign:PackIcon
+				Width="32"
+				Height="32"
+				Kind="HumanGreeting"
+				Margin="-50 0 0 -7.5"
+				VerticalAlignment="Bottom"
+				Foreground="{StaticResource PrimaryHueLightBrush}"
+				Background="Transparent"
+				ToolTipService.HorizontalOffset="-65"
+				ToolTipService.VerticalOffset="-35"
+				ToolTipService.Placement="Center"
+				ToolTip="Running as Administrator"
+				x:Name="adminContextIcon"
+				Visibility="Collapsed"/>
+			<ToggleButton
+				Margin="-70 0 0 -7.5"
+				VerticalAlignment="Bottom"
+				IsChecked="{Binding StartProcessAsAdmin}"
+				Style="{StaticResource MaterialDesignSwitchToggleButton}"
+				ToolTipService.HorizontalOffset="-50"
+				ToolTipService.VerticalOffset="-35"
+				ToolTipService.Placement="Center"
+				ToolTip="Run as Administrator"
+				x:Name="runAsAdminToggleButton"
+				Visibility="Visible">
+				<materialDesign:ToggleButtonAssist.OnContent>
+					<materialDesign:PackIcon Kind="OpenInNew" Margin=".75 0 0 1.5" />
+				</materialDesign:ToggleButtonAssist.OnContent>
+			</ToggleButton>
+		</Grid>
 
 	</Grid>
 

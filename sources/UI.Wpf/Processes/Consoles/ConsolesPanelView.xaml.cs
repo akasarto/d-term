@@ -19,6 +19,11 @@ namespace UI.Wpf.Processes
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 				activator(this.WhenAnyValue(@this => @this.ViewModel.LoadOptionsCommand).SelectMany(x => x.Execute()).Subscribe());
+				activator(this.WhenAnyValue(@this => @this.ViewModel.AppState).Subscribe(state =>
+				{
+					adminContextIcon.Visibility = state.HasAdminPrivileges() ? Visibility.Visible : Visibility.Collapsed;
+					runAsAdminToggleButton.Visibility = state.HasAdminPrivileges() ? Visibility.Collapsed : Visibility.Visible;
+				}));
 			});
 		}
 

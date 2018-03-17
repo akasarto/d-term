@@ -19,12 +19,6 @@ namespace UI.Wpf.Shell
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 
-				activator(this.WhenAnyValue(@this => @this.ViewModel.AppState).Subscribe(state =>
-				{
-					adminContextIcon.Visibility = state.HasAdminPrivileges() ? Visibility.Visible : Visibility.Collapsed;
-					runAsAdminToggleButton.Visibility = state.HasAdminPrivileges() ? Visibility.Collapsed : Visibility.Visible;
-				}));
-
 				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes.ConsolesPanel.StartProcessAsAdmin).Subscribe(startingAsAdmin =>
 				{
 					runAsAdminWarningInfo.Visibility = startingAsAdmin ? Visibility.Visible : Visibility.Collapsed;
