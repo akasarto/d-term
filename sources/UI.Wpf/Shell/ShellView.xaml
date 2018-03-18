@@ -129,7 +129,7 @@
 			<reactiveui:ViewModelViewHost ViewModel="{Binding Processes.TransparencyManagerPanel}" HorizontalAlignment="Right" />
 
 			<reactiveui:ViewModelViewHost
-						Margin="0 15 0 0"
+						Margin="0 7.5 0 0"
 						ViewModel="{Binding Processes.UtilitiesPanel}"
 						VerticalAlignment="Center" />
 

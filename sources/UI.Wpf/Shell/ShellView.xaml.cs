@@ -19,6 +19,14 @@ namespace UI.Wpf.Shell
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 
+				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes.ConsolesPanel.Consoles).Subscribe(consoles =>
+				{
+					var visibility = consoles.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+					//consolesPanelHost.Visibility = visibility;
+					//consolesPanelHostSepparator.Visibility = visibility;
+				}));
+
 				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes.ConsolesPanel.StartProcessAsAdmin).Subscribe(startingAsAdmin =>
 				{
 					runAsAdminWarningInfo.Visibility = startingAsAdmin ? Visibility.Visible : Visibility.Collapsed;
