@@ -1,5 +1,5 @@
 # About
-**dTerm** is a general purpose management terminal. It's primary intent is to allow multiple console instances to be visible under a single window, but it is rapidly turning into something bigger.
+**dTerm** is a general purpose tool for developers. It's primary intent is to allow multiple console instances to be visible under a single window, but it is rapidly turning into something bigger.
 
 ![Overview](/media/dTerm.png?raw=true "Overview")
 
@@ -22,26 +22,22 @@
 
 ## Upcoming changes and features
 
-- Markdown syntax for notes.
-- Settings export/import features.
-- Improved UX and layout.
+- Allow consoles to pipe data to the app.
+- Data export/import features.
 
 ## Credits & Thanks
 
 - [WinApi](https://github.com/prasannavl/WinApi)
-- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
+- [LiteDB](http://www.litedb.org/)
 - [Dragablz](https://github.com/ButchersBoy/Dragablz)
+- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
 - [ReactiveUI](https://reactiveui.net/)
 
 ## Quick Overview
 
-![Consoles](/media/dterm1.gif?raw=true "Consoels")
+![Consoles](/media/dterm1.gif?raw=true "Transparency")  
 
-![Arranges](/media/dterm2.gif?raw=true "Arranges")  
-
-![Notebook](/media/dterm3.gif?raw=true "Notebook")  
-
-![Configs](/media/dterm4.gif?raw=true "Configs")
+![Arranges](/media/dterm2.gif?raw=true "Minimize / Restore")  
 
 ## License
 

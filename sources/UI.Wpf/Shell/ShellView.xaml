@@ -95,8 +95,8 @@
 						Command="{Binding Processes.OpenConfigsCommand}"
 						Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
 						ToolTip="{x:Static properties:Resources.ProcessConfigurations}"
-						ToolTipService.HorizontalOffset="-27.5"
-						ToolTipService.VerticalOffset="-55"
+						ToolTipService.HorizontalOffset="-65"
+						ToolTipService.VerticalOffset="-57.5"
 						ToolTipService.Placement="Center">
 						<materialDesign:PackIcon Kind="Settings" Width="32" Height="32" Margin="0 .75 0 0" />
 					</Button>

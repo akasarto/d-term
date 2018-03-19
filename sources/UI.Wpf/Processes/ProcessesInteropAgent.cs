@@ -34,6 +34,8 @@ namespace UI.Wpf.Processes
 		private readonly WinEventDelegate _winEventDelegate;
 		private readonly IEnumerable<IntPtr> _eventHookHandlers;
 		private readonly IReactiveDerivedList<IProcessInstanceViewModel> _integratedInstances;
+		private IntPtr _lastShownViewHandle;
+		private IntPtr _shellViewHandle;
 
 		/// <summary>
 		/// Constructor method.
@@ -44,14 +46,17 @@ namespace UI.Wpf.Processes
 
 			_winEventDelegate = new WinEventDelegate(WinEventsHandler);
 			_eventHookHandlers = Win32Api.AddEventsHook(_winEvents, _winEventDelegate);
+			_shellViewHandle = _appState.GetShellViewHandle();
 
 			_integratedInstances = _appState.GetProcessInstances().CreateDerivedCollection(
 				filter: instance => !instance.IsElevated,
 				selector: instance => instance
 			);
 
-			// Integrate
-			_integratedInstances.ItemsAdded.Subscribe(instance => Integrate(instance));
+			_integratedInstances.ItemsAdded.Subscribe(instance =>
+			{
+				Integrate(instance);
+			});
 		}
 
 		public void Dispose()
@@ -71,9 +76,7 @@ namespace UI.Wpf.Processes
 
 		private void TakeWindowOwnership(IntPtr windowHandle)
 		{
-			var shellViewHandle = _appState.GetShellViewHandle();
-
-			Win32Api.SetWindowOwner(windowHandle, shellViewHandle);
+			Win32Api.SetWindowOwner(windowHandle, _shellViewHandle);
 			Win32Api.RemoveWindowFromTaskbar(windowHandle);
 			Win32Api.MakeLayeredWindow(windowHandle);
 		}
@@ -105,6 +108,27 @@ namespace UI.Wpf.Processes
 		{
 			IProcessInstanceViewModel instance;
 
+			if (idObject == 0 && hwnd == _shellViewHandle)
+			{
+				switch (eventType)
+				{
+					case EVENT_OBJECT_SHOW:
+					case EVENT_SYSTEM_MINIMIZEEND:
+						{
+							foreach (var integratedInstance in _integratedInstances)
+							{
+								SetWindowTitleBar(integratedInstance);
+							}
+
+							if (!IntPtr.Zero.Equals(_lastShownViewHandle))
+							{
+								User32Methods.SetActiveWindow(_lastShownViewHandle);
+							}
+						}
+						break;
+				}
+			}
+
 			if (idObject != 0 || idChild != 0 || !_winEvents.Contains(eventType) || !GetCurrentEventInstance(hwnd, out instance))
 			{
 				return;
@@ -115,6 +139,7 @@ namespace UI.Wpf.Processes
 				case EVENT_OBJECT_SHOW:
 				case EVENT_SYSTEM_FOREGROUND:
 					{
+						_lastShownViewHandle = hwnd;
 						if (!Win32Api.IsOwnedWindow(hwnd))
 						{
 							TakeWindowOwnership(hwnd);

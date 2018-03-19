@@ -4,7 +4,7 @@ using System.Resources;
 // General Info
 [assembly: AssemblyProduct("dTerm")]
 [assembly: AssemblyCompany("Sarto Research")]
-[assembly: AssemblyCopyright("Copyright © 2018 Sarto Research")]
+[assembly: AssemblyCopyright("Copyright © 2018 Thiago Alberto Schneider")]
 [assembly: NeutralResourcesLanguage("en-US")]
 
 #if DEBUG
