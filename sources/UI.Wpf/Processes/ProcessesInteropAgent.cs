@@ -15,6 +15,7 @@ namespace UI.Wpf.Processes
 
 	public class ProcessesInteropAgent : ReactiveObject, IProcessesInteropAgent
 	{
+		private const uint EVENT_OBJECT_SHOW = 0x8000;
 		private const uint EVENT_SYSTEM_FOREGROUND = 0x0003;
 		private const uint EVENT_OBJECT_NAMECHANGE = 0x800C;
 		private const uint EVENT_SYSTEM_MINIMIZESTART = 0x0016;
@@ -22,6 +23,7 @@ namespace UI.Wpf.Processes
 
 		private readonly uint[] _winEvents = new uint[]
 		{
+			EVENT_OBJECT_SHOW,
 			EVENT_SYSTEM_FOREGROUND,
 			EVENT_OBJECT_NAMECHANGE,
 			EVENT_SYSTEM_MINIMIZESTART,
@@ -110,6 +112,7 @@ namespace UI.Wpf.Processes
 
 			switch (eventType)
 			{
+				case EVENT_OBJECT_SHOW:
 				case EVENT_SYSTEM_FOREGROUND:
 					{
 						if (!Win32Api.IsOwnedWindow(hwnd))

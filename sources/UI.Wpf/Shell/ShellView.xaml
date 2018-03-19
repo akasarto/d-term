@@ -46,7 +46,7 @@
 
 		<Path Style="{DynamicResource logoBottomStyle}" />
 
-		<Grid VerticalAlignment="Bottom">
+		<Grid VerticalAlignment="Bottom" Background="Red" Height="95">
 
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />

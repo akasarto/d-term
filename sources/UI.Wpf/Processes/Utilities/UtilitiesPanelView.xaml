@@ -30,7 +30,6 @@
 
 		<ProgressBar
 			IsIndeterminate="True"
-			Margin="0 0 15 0"
 			ToolTip="{x:Static properties:Resources.LoadingUtilitiesTooltip}"
 			Value="35"
 			VerticalAlignment="Center">
@@ -71,6 +70,7 @@
 						CommandParameter="{Binding}"
 						Focusable="False"
 						IsTabStop="False"
+						Margin="0 7.5 0 0"
 						ToolTip="{Binding Name}"
 						ToolTipService.Placement="Center"
 						ToolTipService.VerticalOffset="-45"
