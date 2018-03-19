@@ -18,28 +18,28 @@
   - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the corresponding portable _.zip_ file.
   - Extract the files to a location of your choosing and execute _dTerm.exe_.
 
+## Known Bugs
+
+- App main window may lose focus when exiting/closing consoles.
+
 ## Upcoming changes and features
 
-- Allow consoles to pipe data to the app.
+- Allow consoles to pipe data to the app (IPC).
 - Data export/import features.
 
 ## Credits & Thanks
 
-- [WinApi](https://github.com/prasannavl/WinApi)
 - [LiteDB](http://www.litedb.org/)
-- [Dragablz](https://github.com/ButchersBoy/Dragablz)
+- [WinApi](https://github.com/prasannavl/WinApi)
 - [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
 - [ReactiveUI](https://reactiveui.net/)
+- [Dragablz](https://github.com/ButchersBoy/Dragablz)
 
 ## Quick Overview
 
 ![Consoles](/media/dterm1.gif?raw=true "Transparency")  
 
 ![Arranges](/media/dterm2.gif?raw=true "Minimize / Restore")  
-
-## Known Bugs
-
-- App main window may lose focus when exiting/closing consoles.
 
 ## License
 
