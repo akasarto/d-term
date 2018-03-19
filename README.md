@@ -3,7 +3,7 @@
 
 ![Overview](/media/dTerm.png?raw=true "Overview")
 
-## Running *
+## Running
 
 - From code 
   - Get Visual Studio 2017 Community v15.5+.
@@ -13,12 +13,10 @@
   - Compile and you're good to go.
   - Hit F5 to start.
 
-- From Installer **
+- From Installer
+  - Make sure your system have .Net Framework 4.7 or higher installed.
   - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the corresponding portable _.zip_ file.
   - Extract the files to a location of your choosing and execute _dTerm.exe_.
-
-\* Admin privileges required.  
-** .Net Framework 4.7 or higher is required.  
 
 ## Upcoming changes and features
 
