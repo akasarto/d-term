@@ -14,7 +14,7 @@
   - Hit F5 to start.
 
 - From Installer
-  - Make sure your system have .Net Framework 4.7 or higher installed.
+  - Make sure your system has .Net Framework 4.7 or higher installed.
   - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the corresponding portable _.zip_ file.
   - Extract the files to a location of your choosing and execute _dTerm.exe_.
 
@@ -36,6 +36,10 @@
 ![Consoles](/media/dterm1.gif?raw=true "Transparency")  
 
 ![Arranges](/media/dterm2.gif?raw=true "Minimize / Restore")  
+
+## Known Bugs
+
+- App main window may lose focus when exiting/closing consoles.
 
 ## License
 
