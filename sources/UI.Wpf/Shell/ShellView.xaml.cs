@@ -1,5 +1,6 @@
 ﻿using ReactiveUI;
 using System;
+using System.Reactive.Linq;
 using System.Reactive;
 using System.Windows;
 using UI.Wpf.Processes;
@@ -19,14 +20,6 @@ namespace UI.Wpf.Shell
 			{
 				activator(this.WhenAnyValue(@this => @this.ViewModel).BindTo(this, @this => @this.DataContext));
 
-				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes.ConsolesPanel.Consoles).Subscribe(consoles =>
-				{
-					var visibility = consoles.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
-
-					//consolesPanelHost.Visibility = visibility;
-					//consolesPanelHostSepparator.Visibility = visibility;
-				}));
-
 				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes.ConsolesPanel.StartProcessAsAdmin).Subscribe(startingAsAdmin =>
 				{
 					runAsAdminWarningInfo.Visibility = startingAsAdmin ? Visibility.Visible : Visibility.Collapsed;
@@ -34,6 +27,13 @@ namespace UI.Wpf.Shell
 
 				activator(this.WhenAnyValue(@this => @this.ViewModel.Processes).Subscribe(processes =>
 				{
+					processes.ConsolesPanel.Consoles.CountChanged.Subscribe(count =>
+					{
+						var visibility = count > 0 ? Visibility.Visible : Visibility.Collapsed;
+						consolesPanelHostSepparator.Visibility = visibility;
+						consolesPanelHost.Visibility = visibility;
+					});
+
 					processes.OpenConfigsInteraction.RegisterHandler(context =>
 					{
 						var settingsView = new ConfigsView(context.Input)

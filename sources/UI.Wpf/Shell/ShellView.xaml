@@ -74,16 +74,18 @@
 				<StackPanel Orientation="Horizontal">
 
 					<reactiveui:ViewModelViewHost
+						x:Name="consolesPanelHost"
 						Margin="0 1 0 0"
 						Grid.Column="0"
 						ViewModel="{Binding Processes.ConsolesPanel}" />
 
 					<Rectangle
+						x:Name="consolesPanelHostSepparator"
+						Width="1.5"
 						Grid.Column="1"
 						Margin="0 25 15 45"
 						VerticalAlignment="Stretch"
 						Fill="{DynamicResource MaterialDesignDivider}"
-						Width="1.5"
 						SnapsToDevicePixels="True" />
 
 					<Button
