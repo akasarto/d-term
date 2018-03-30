@@ -62,7 +62,8 @@ namespace UI.Wpf.Processes
 			return Create(
 				consoleOptionViewModel.ProcessBasePath,
 				consoleOptionViewModel.ProcessExecutableName,
-				consoleOptionViewModel.ProcessStartupArgs
+				consoleOptionViewModel.ProcessStartupArgs,
+				startAsAdmin
 			);
 		}
 	}
