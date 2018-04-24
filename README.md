@@ -1,9 +1,14 @@
 # About
-**dTerm** is a general purpose tool for developers. It's primary intent is to allow multiple console instances to be visible under a single window, but it is rapidly turning into something bigger.
+**dTerm** is a general purpose tool for developers and it's primary intent is to help organize multiple console applications under a single, centralized manager using WPF and ReactiveUI technologies.
 
 ![Overview](/media/dTerm.png?raw=true "Overview")
 
 ## Running
+
+- From Portable Package
+  - Make sure your system has .Net Framework 4.7 or higher installed.
+  - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the corresponding portable _.zip_ file.
+  - Extract the files to a location of your choosing and execute _dTerm.exe_.
 
 - From code 
   - Get Visual Studio 2017 Community v15.5+.
@@ -13,21 +18,16 @@
   - Compile and you're good to go.
   - Hit F5 to start.
 
-- From Installer
-  - Make sure your system has .Net Framework 4.7 or higher installed.
-  - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the corresponding portable _.zip_ file.
-  - Extract the files to a location of your choosing and execute _dTerm.exe_.
-
-## Known Bugs
-
-- App main window may lose focus when exiting/closing consoles.
-
 ## Upcoming changes and features
 
 - Allow consoles to pipe data to the app (IPC).
 - Data export/import features.
 
-## Credits & Thanks
+## Known Bugs
+
+- App main window may lose focus when exiting/closing consoles.
+
+## Thanks
 
 - [LiteDB](http://www.litedb.org/)
 - [WinApi](https://github.com/prasannavl/WinApi)
