@@ -128,7 +128,10 @@ namespace UI.Wpf.Processes
 				return Task.FromResult(instance);
 			}
 
-			processInstance.Kill();
+			if (!processInstance.HasExited)
+			{
+				processInstance.Kill();
+			}
 
 			return Task.FromResult<IProcessInstanceViewModel>(null);
 		});

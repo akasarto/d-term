@@ -68,7 +68,7 @@
 						<Path Stroke="LightGray" StrokeThickness="3" StrokeDashArray=".5">
 							<Path.Data>
 								<GeometryGroup >
-									<LineGeometry StartPoint="20,25" EndPoint="20,65" />
+									<LineGeometry StartPoint="20,60" EndPoint="20,65" />
 									<LineGeometry StartPoint="20,65" EndPoint="10,75" />
 									<LineGeometry StartPoint="10,75" EndPoint="-43.5,75" />
 								</GeometryGroup>
