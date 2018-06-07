@@ -85,6 +85,8 @@ namespace UI.Wpf.Processes
 		{
 			var icon = Resources.dTermIcon.Handle;
 			var handle = instance.ProcessMainWindowHandle;
+
+			/*
 			var wndTitle = Win32Api.GetWindowTitle(handle);
 			var cleanTitle = Win32Api.GetWindowTitleClean(handle);
 			var newWndTitle = $"[PID: {instance.ProcessId}] {cleanTitle}";
@@ -93,6 +95,7 @@ namespace UI.Wpf.Processes
 			{
 				User32Methods.SetWindowText(handle, newWndTitle);
 			}
+			*/
 
 			Win32Api.SetWindowIcons(handle, icon);
 		}
