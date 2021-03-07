@@ -1,5 +1,0 @@
-﻿
-=> Conventions
-
- - Classes in this folder should belong to the root namespace: 'UI.Wpf'.
-
