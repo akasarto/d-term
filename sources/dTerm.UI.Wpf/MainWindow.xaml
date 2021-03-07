@@ -5,13 +5,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:dTerm.UI.Wpf"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d"
-    Title="dTerm" 
-    Height="450" 
-    Width="800"
+    Title="dTerm"
+    MinHeight="768"
+    MinWidth="1024"
 >
 
     <Grid>
+
+        <Button Content="New Console" Click="Button_Click" Width="175" Height="50" />
+
     </Grid>
 
 </Window>

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>dTermConsole</AssemblyName>
+    <ApplicationIcon>Assets\dTerm.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dTerm.Core\dTerm.Core.csproj" />
+    <ProjectReference Include="..\dTerm.Infra.ConPTY\dTerm.Infra.ConPTY.csproj" />
+  </ItemGroup>
+
+</Project>

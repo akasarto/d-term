@@ -11,13 +11,17 @@ namespace dTerm.Infra.ConPTY
     {
         private readonly Encoding _encoding;
 
-        public FileStream InputStream { get; private set; }
+        public StreamWriter InputStream { get; private set; }
         public FileStream OutputStream { get; private set; }
 
         public PseudoConsoleInstance(Encoding encoding = null)
         {
             _encoding = encoding ?? Encoding.UTF8;
         }
+
+        public delegate void InstanceReadyHandler();
+
+        public event InstanceReadyHandler InstanceReady;
 
         public void Start(string command, int consoleWidth = 80, int consoleHeight = 30)
         {
@@ -29,8 +33,13 @@ namespace dTerm.Infra.ConPTY
                     {
                         using (var process = ConPtyProcessFactory.Start(command, ConPtyPseudoConsoleHandle.PseudoConsoleThreadAttribute, pseudoConsole.Handle))
                         {
-                            InputStream = new FileStream(inputPipe.WriteSide, FileAccess.Write);
+                            //InputStream = new FileStream(inputPipe.WriteSide, FileAccess.Write);
+                            InputStream = new StreamWriter(new FileStream(inputPipe.WriteSide, FileAccess.Write))
+                            {
+                                AutoFlush = true
+                            };
                             OutputStream = new FileStream(outputPipe.ReadSide, FileAccess.Read);
+                            InstanceReady?.Invoke();
                             OnClose(() => DisposeResources(process, pseudoConsole, outputPipe, inputPipe, InputStream));
                             WaitForExit(process).WaitOne(Timeout.Infinite);
                         }
@@ -41,10 +50,11 @@ namespace dTerm.Infra.ConPTY
 
         public void Write(string command)
         {
-            using (var writer = new StreamWriter(InputStream, _encoding, bufferSize: _encoding.GetByteCount(command), leaveOpen: true))
-            {
-                writer.WriteLine(command);
-            }
+            //using (var writer = new StreamWriter(InputStream, _encoding, bufferSize: _encoding.GetByteCount(command), leaveOpen: true))
+            //{
+            //    writer.WriteLine(command);
+            //}
+            InputStream.Write(command);
         }
 
         private AutoResetEvent WaitForExit(ConPtyProcess process) => new AutoResetEvent(false)

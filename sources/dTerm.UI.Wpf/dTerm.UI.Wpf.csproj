@@ -5,11 +5,17 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets\dTerm.ico</ApplicationIcon>
+    <AssemblyName>dTerm</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\dTerm.Core\dTerm.Core.csproj" />
     <ProjectReference Include="..\dTerm.Infra.ConPTY\dTerm.Infra.ConPTY.csproj" />
+    <ProjectReference Include="..\dTerm.UI.Console\dTerm.UI.Console.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(ProjectDir)..\dTerm.UI.Console\bin\$(ConfigurationName)\net5.0\*.json  $(ProjectDir)$(OutDir)" />
+  </Target>
 
 </Project>
