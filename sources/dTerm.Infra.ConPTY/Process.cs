@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using static dTerm.Infra.ConPTY.ConPtyApi;
+using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    internal sealed class ConPtyProcess : IDisposable
+    internal sealed class Process : IDisposable
     {
         private bool disposedValue = false;
 
-        public ConPtyProcess(STARTUPINFOEX startupInfo, PROCESS_INFORMATION processInfo)
+        public Process(STARTUPINFOEX startupInfo, PROCESS_INFORMATION processInfo)
         {
             StartupInfo = startupInfo;
             ProcessInfo = processInfo;
         }
 
-        ~ConPtyProcess()
+        ~Process()
         {
             Dispose(false);
         }

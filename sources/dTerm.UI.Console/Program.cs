@@ -1,5 +1,4 @@
 ﻿using dTerm.Infra.ConPTY;
-using System;
 
 namespace dTerm.UI.Console
 {
@@ -7,9 +6,9 @@ namespace dTerm.UI.Console
     {
         static void Main(string[] args)
         {
-            var terminal = new Terminal();
+            var terminalConsole = new TerminalConsole();
 
-            terminal.Run("C:\\Users\\akasarto\\scoop\\apps\\git-with-openssh\\current\\bin\\sh.exe");
+            terminalConsole.Run("cmd.exe");
         }
     }
 }

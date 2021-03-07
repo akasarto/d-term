@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using static dTerm.Infra.ConPTY.ConPtyApi;
+using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    static class ConPtyProcessFactory
+    static class ProcessFactory
     {
-        internal static ConPtyProcess Start(string command, IntPtr attributes, IntPtr hPC)
+        internal static Process Start(string command, IntPtr attributes, IntPtr hPC)
         {
             var startupInfo = ConfigureProcessThread(hPC, attributes);
             var processInfo = RunProcess(ref startupInfo, command);
 
-            return new ConPtyProcess(startupInfo, processInfo);
+            return new Process(startupInfo, processInfo);
         }
 
         private static STARTUPINFOEX ConfigureProcessThread(IntPtr hPC, IntPtr attributes)

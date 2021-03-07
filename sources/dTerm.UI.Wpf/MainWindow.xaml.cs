@@ -13,16 +13,20 @@ namespace dTerm.UI.Wpf
         {
             var newConsole = new ConsoleWindow()
             {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                ShowInTaskbar = false,
                 Owner = this
             };
 
             newConsole.Show();
 
+            /*
             var processStartInfo = new System.Diagnostics.ProcessStartInfo();
             processStartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             processStartInfo.FileName = @"dTermConsole.exe";
 
-            var process = System.Diagnostics.Process.Start(processStartInfo);
+            _ = System.Diagnostics.Process.Start(processStartInfo);
+            */
         }
     }
 }

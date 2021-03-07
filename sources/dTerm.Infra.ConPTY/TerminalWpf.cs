@@ -1,23 +1,15 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
 using System.IO;
-using System.Text;
 using System.Threading;
-using static dTerm.Infra.ConPTY.ConPtyApi;
+using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    public sealed class PseudoConsoleInstance
+    public sealed class TerminalWpf
     {
-        private readonly Encoding _encoding;
-
         public StreamWriter InputStream { get; private set; }
         public FileStream OutputStream { get; private set; }
-
-        public PseudoConsoleInstance(Encoding encoding = null)
-        {
-            _encoding = encoding ?? Encoding.UTF8;
-        }
 
         public delegate void InstanceReadyHandler();
 
@@ -25,15 +17,14 @@ namespace dTerm.Infra.ConPTY
 
         public void Start(string command, int consoleWidth = 80, int consoleHeight = 30)
         {
-            using (var inputPipe = new ConPtyPseudoConsolePipe())
+            using (var inputPipe = new PseudoConsolePipe())
             {
-                using (var outputPipe = new ConPtyPseudoConsolePipe())
+                using (var outputPipe = new PseudoConsolePipe())
                 {
-                    using (var pseudoConsole = ConPtyPseudoConsoleHandle.Create(inputPipe.ReadSide, outputPipe.WriteSide, consoleWidth, consoleHeight))
+                    using (var pseudoConsole = PseudoConsole.Create(inputPipe.ReadSide, outputPipe.WriteSide, consoleWidth, consoleHeight))
                     {
-                        using (var process = ConPtyProcessFactory.Start(command, ConPtyPseudoConsoleHandle.PseudoConsoleThreadAttribute, pseudoConsole.Handle))
+                        using (var process = ProcessFactory.Start(command, PseudoConsole.PseudoConsoleThreadAttribute, pseudoConsole.Handle))
                         {
-                            //InputStream = new FileStream(inputPipe.WriteSide, FileAccess.Write);
                             InputStream = new StreamWriter(new FileStream(inputPipe.WriteSide, FileAccess.Write))
                             {
                                 AutoFlush = true
@@ -48,16 +39,9 @@ namespace dTerm.Infra.ConPTY
             }
         }
 
-        public void Write(string command)
-        {
-            //using (var writer = new StreamWriter(InputStream, _encoding, bufferSize: _encoding.GetByteCount(command), leaveOpen: true))
-            //{
-            //    writer.WriteLine(command);
-            //}
-            InputStream.Write(command);
-        }
+        public void Write(char @char) => InputStream.Write(@char);
 
-        private AutoResetEvent WaitForExit(ConPtyProcess process) => new AutoResetEvent(false)
+        private AutoResetEvent WaitForExit(Process process) => new AutoResetEvent(false)
         {
             SafeWaitHandle = new SafeWaitHandle(process.ProcessInfo.hProcess, ownsHandle: false)
         };

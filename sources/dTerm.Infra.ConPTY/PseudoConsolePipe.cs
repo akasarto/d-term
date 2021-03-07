@@ -1,19 +1,19 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
-using static dTerm.Infra.ConPTY.ConPtyApi;
+using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    internal sealed class ConPtyPseudoConsolePipe : IDisposable
+    internal sealed class PseudoConsolePipe : IDisposable
     {
         public readonly SafeFileHandle ReadSide;
         public readonly SafeFileHandle WriteSide;
 
-        public ConPtyPseudoConsolePipe()
+        public PseudoConsolePipe()
         {
             if (!CreatePipe(out ReadSide, out WriteSide, IntPtr.Zero, 0))
             {
-                throw new InvalidOperationException("failed to create pipe");
+                throw new InvalidOperationException("Failed to create pipe");
             }
         }
 

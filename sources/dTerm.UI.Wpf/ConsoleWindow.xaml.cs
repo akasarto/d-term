@@ -1,16 +1,18 @@
 ﻿using dTerm.Infra.ConPTY;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static dTerm.Core.WinApi;
 
 namespace dTerm.UI.Wpf
 {
     public partial class ConsoleWindow : Window
     {
-        private PseudoConsoleInstance _pseudoConsoleInstance;
+        private TerminalWpf _terminalWpf;
         private bool _autoScroll = true;
 
         public ConsoleWindow()
@@ -18,22 +20,54 @@ namespace dTerm.UI.Wpf
             InitializeComponent();
         }
 
+        public static char GetCharFromKey(Key key)
+        {
+            char ch = ' ';
+
+            int virtualKey = KeyInterop.VirtualKeyFromKey(key);
+            byte[] keyboardState = new byte[256];
+            GetKeyboardState(keyboardState);
+
+            uint scanCode = MapVirtualKey((uint)virtualKey, MapType.MAPVK_VK_TO_VSC);
+            StringBuilder stringBuilder = new StringBuilder(2);
+
+            int result = ToUnicode((uint)virtualKey, scanCode, keyboardState, stringBuilder, stringBuilder.Capacity, 0);
+            switch (result)
+            {
+                case -1:
+                    break;
+                case 0:
+                    break;
+                case 1:
+                    {
+                        ch = stringBuilder[0];
+                        break;
+                    }
+                default:
+                    {
+                        ch = stringBuilder[0];
+                        break;
+                    }
+            }
+            return ch;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _pseudoConsoleInstance = new PseudoConsoleInstance();
+            _terminalWpf = new TerminalWpf();
 
-            _pseudoConsoleInstance.InstanceReady += () =>
+            _terminalWpf.InstanceReady += () =>
             {
                 Task.Factory.StartNew(() => CopyConsoleToWindow(), TaskCreationOptions.LongRunning);
                 Dispatcher.Invoke(() => { TitleBarTitle.Text = "Console"; });
             };
 
-            Task.Run(() => _pseudoConsoleInstance.Start("C:\\Users\\akasarto\\scoop\\apps\\git-with-openssh\\current\\bin\\sh.exe"));
+            Task.Run(() => _terminalWpf.Start("cmd.exe"));
         }
 
         private void CopyConsoleToWindow()
         {
-            using (StreamReader reader = new StreamReader(_pseudoConsoleInstance.OutputStream))
+            using (StreamReader reader = new StreamReader(_terminalWpf.OutputStream))
             {
                 int bytesRead;
                 char[] buf = new char[1];
@@ -56,7 +90,16 @@ namespace dTerm.UI.Wpf
             {
                 // This is where you'd take the pressed key, and convert it to a 
                 // VT100 code before sending it along. For now, we'll just send _something_.
-                _pseudoConsoleInstance.Write(e.Key.ToString());
+
+                if (e.Key == Key.Enter)
+                {
+                    _terminalWpf.Write('\r');
+                    _terminalWpf.Write('\n');
+                }
+                else
+                {
+                    _terminalWpf.Write(GetCharFromKey(e.Key));
+                }
             }
         }
 

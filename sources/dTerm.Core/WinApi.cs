@@ -1,20 +1,21 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
-namespace dTerm.Infra.ConPTY
+namespace dTerm.Core
 {
-    static class ConPtyApi
+    public static class WinApi
     {
-        internal const int STD_OUTPUT_HANDLE = -11;
-        internal const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
-        internal const uint PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE = 0x00020016;
-        internal const uint EXTENDED_STARTUPINFO_PRESENT = 0x00080000;
-        internal const uint DISABLE_NEWLINE_AUTO_RETURN = 0x0008;
+        public const int STD_OUTPUT_HANDLE = -11;
+        public const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
+        public const uint PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE = 0x00020016;
+        public const uint EXTENDED_STARTUPINFO_PRESENT = 0x00080000;
+        public const uint DISABLE_NEWLINE_AUTO_RETURN = 0x0008;
 
-        internal delegate bool ConsoleEventDelegate(CtrlTypes ctrlType);
+        public delegate bool ConsoleEventDelegate(CtrlTypes ctrlType);
 
-        internal enum CtrlTypes : uint
+        public enum CtrlTypes : uint
         {
             CTRL_C_EVENT = 0,
             CTRL_BREAK_EVENT,
@@ -23,44 +24,52 @@ namespace dTerm.Infra.ConPTY
             CTRL_SHUTDOWN_EVENT
         }
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern SafeFileHandle GetStdHandle(int nStdHandle);
+        public enum MapType : uint
+        {
+            MAPVK_VK_TO_VSC = 0x0,
+            MAPVK_VSC_TO_VK = 0x1,
+            MAPVK_VK_TO_CHAR = 0x2,
+            MAPVK_VSC_TO_VK_EX = 0x3,
+        }
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern bool SetConsoleMode(SafeFileHandle hConsoleHandle, uint mode);
+        public static extern SafeFileHandle GetStdHandle(int nStdHandle);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern bool GetConsoleMode(SafeFileHandle handle, out uint mode);
+        public static extern bool SetConsoleMode(SafeFileHandle hConsoleHandle, uint mode);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern bool SetConsoleCtrlHandler(ConsoleEventDelegate callback, bool add);
+        public static extern bool GetConsoleMode(SafeFileHandle handle, out uint mode);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern int CreatePseudoConsole(COORD size, SafeFileHandle hInput, SafeFileHandle hOutput, uint dwFlags, out IntPtr phPC);
+        public static extern bool SetConsoleCtrlHandler(ConsoleEventDelegate callback, bool add);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern int ResizePseudoConsole(IntPtr hPC, COORD size);
+        public static extern int CreatePseudoConsole(COORD size, SafeFileHandle hInput, SafeFileHandle hOutput, uint dwFlags, out IntPtr phPC);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern int ClosePseudoConsole(IntPtr hPC);
+        public static extern int ResizePseudoConsole(IntPtr hPC, COORD size);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern int ClosePseudoConsole(IntPtr hPC);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern bool CreatePipe(out SafeFileHandle hReadPipe, out SafeFileHandle hWritePipe, IntPtr lpPipeAttributes, int nSize);
+        public static extern bool CreatePipe(out SafeFileHandle hReadPipe, out SafeFileHandle hWritePipe, IntPtr lpPipeAttributes, int nSize);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool InitializeProcThreadAttributeList(
+        public static extern bool InitializeProcThreadAttributeList(
             IntPtr lpAttributeList, int dwAttributeCount, int dwFlags, ref IntPtr lpSize);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool UpdateProcThreadAttribute(
+        public static extern bool UpdateProcThreadAttribute(
             IntPtr lpAttributeList, uint dwFlags, IntPtr attribute, IntPtr lpValue,
             IntPtr cbSize, IntPtr lpPreviousValue, IntPtr lpReturnSize);
 
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool CreateProcess(
+        public static extern bool CreateProcess(
             string lpApplicationName, string lpCommandLine, ref SECURITY_ATTRIBUTES lpProcessAttributes,
             ref SECURITY_ATTRIBUTES lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags,
             IntPtr lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFOEX lpStartupInfo,
@@ -68,27 +77,43 @@ namespace dTerm.Infra.ConPTY
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool DeleteProcThreadAttributeList(IntPtr lpAttributeList);
+        public static extern bool DeleteProcThreadAttributeList(IntPtr lpAttributeList);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern bool CloseHandle(IntPtr hObject);
+        public static extern bool CloseHandle(IntPtr hObject);
+
+        [DllImport("user32.dll")]
+        public static extern int ToUnicode(
+            uint wVirtKey,
+            uint wScanCode,
+            byte[] lpKeyState,
+            [Out, MarshalAs(UnmanagedType.LPWStr, SizeParamIndex = 4)]
+            StringBuilder pwszBuff,
+            int cchBuff,
+            uint wFlags);
+
+        [DllImport("user32.dll")]
+        public static extern bool GetKeyboardState(byte[] lpKeyState);
+
+        [DllImport("user32.dll")]
+        public static extern uint MapVirtualKey(uint uCode, MapType uMapType);
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct COORD
+        public struct COORD
         {
             public short X;
             public short Y;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        internal struct STARTUPINFOEX
+        public struct STARTUPINFOEX
         {
             public STARTUPINFO StartupInfo;
             public IntPtr lpAttributeList;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        internal struct STARTUPINFO
+        public struct STARTUPINFO
         {
             public Int32 cb;
             public string lpReserved;
@@ -111,7 +136,7 @@ namespace dTerm.Infra.ConPTY
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct PROCESS_INFORMATION
+        public struct PROCESS_INFORMATION
         {
             public IntPtr hProcess;
             public IntPtr hThread;
@@ -120,7 +145,7 @@ namespace dTerm.Infra.ConPTY
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct SECURITY_ATTRIBUTES
+        public struct SECURITY_ATTRIBUTES
         {
             public int nLength;
             public IntPtr lpSecurityDescriptor;

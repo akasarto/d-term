@@ -3,15 +3,15 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using static dTerm.Infra.ConPTY.ConPtyApi;
+using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    public sealed class Terminal
+    public sealed class TerminalConsole
     {
         private const string CtrlC_Command = "\x3";
 
-        public Terminal()
+        public TerminalConsole()
         {
             EnableVirtualTerminalSequenceProcessing();
         }
@@ -19,12 +19,14 @@ namespace dTerm.Infra.ConPTY
         private static void EnableVirtualTerminalSequenceProcessing()
         {
             var hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
             if (!GetConsoleMode(hStdOut, out uint outConsoleMode))
             {
                 throw new InvalidOperationException("Could not get console mode");
             }
 
             outConsoleMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN;
+
             if (!SetConsoleMode(hStdOut, outConsoleMode))
             {
                 throw new InvalidOperationException("Could not enable virtual terminal processing");
@@ -33,10 +35,10 @@ namespace dTerm.Infra.ConPTY
 
         public void Run(string command)
         {
-            using (var inputPipe = new ConPtyPseudoConsolePipe())
-            using (var outputPipe = new ConPtyPseudoConsolePipe())
-            using (var pseudoConsole = ConPtyPseudoConsoleHandle.Create(inputPipe.ReadSide, outputPipe.WriteSide, (short)Console.WindowWidth, (short)Console.WindowHeight))
-            using (var process = ConPtyProcessFactory.Start(command, ConPtyPseudoConsoleHandle.PseudoConsoleThreadAttribute, pseudoConsole.Handle))
+            using (var inputPipe = new PseudoConsolePipe())
+            using (var outputPipe = new PseudoConsolePipe())
+            using (var pseudoConsole = PseudoConsole.Create(inputPipe.ReadSide, outputPipe.WriteSide, (short)Console.WindowWidth, (short)Console.WindowHeight))
+            using (var process = ProcessFactory.Start(command, PseudoConsole.PseudoConsoleThreadAttribute, pseudoConsole.Handle))
             {
                 Task.Run(() => CopyPipeToOutput(outputPipe.ReadSide));
                 Task.Run(() => CopyInputToPipe(inputPipe.WriteSide));
@@ -79,7 +81,7 @@ namespace dTerm.Infra.ConPTY
             }
         }
 
-        private static AutoResetEvent WaitForExit(ConPtyProcess process) => new AutoResetEvent(false)
+        private static AutoResetEvent WaitForExit(Process process) => new AutoResetEvent(false)
         {
             SafeWaitHandle = new SafeWaitHandle(process.ProcessInfo.hProcess, ownsHandle: false)
         };

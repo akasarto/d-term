@@ -1,21 +1,21 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
-using static dTerm.Infra.ConPTY.ConPtyApi;
+using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    internal sealed class ConPtyPseudoConsoleHandle : IDisposable
+    internal sealed class PseudoConsole : IDisposable
     {
         public static readonly IntPtr PseudoConsoleThreadAttribute = (IntPtr)PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE;
 
         public IntPtr Handle { get; }
 
-        private ConPtyPseudoConsoleHandle(IntPtr handle)
+        private PseudoConsole(IntPtr handle)
         {
             Handle = handle;
         }
 
-        internal static ConPtyPseudoConsoleHandle Create(SafeFileHandle inputReadSide, SafeFileHandle outputWriteSide, int width, int height)
+        internal static PseudoConsole Create(SafeFileHandle inputReadSide, SafeFileHandle outputWriteSide, int width, int height)
         {
             var createResult = CreatePseudoConsole(
                 new COORD
@@ -34,7 +34,7 @@ namespace dTerm.Infra.ConPTY
                 throw new InvalidOperationException("Could not create psuedo console. Error Code " + createResult);
             }
 
-            return new ConPtyPseudoConsoleHandle(hPC);
+            return new PseudoConsole(hPC);
         }
 
         public void Dispose()

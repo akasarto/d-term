@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.Infra.ConPTY", "dTerm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.UI.Wpf", "dTerm.UI.Wpf\dTerm.UI.Wpf.csproj", "{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dTerm.UI.Console", "dTerm.UI.Console\dTerm.UI.Console.csproj", "{95B23FCF-04BE-4C51-8048-1901EFD2A37A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.UI.Console", "dTerm.UI.Console\dTerm.UI.Console.csproj", "{72316F86-8513-4E0A-90B3-AF06F4337246}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95B23FCF-04BE-4C51-8048-1901EFD2A37A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95B23FCF-04BE-4C51-8048-1901EFD2A37A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95B23FCF-04BE-4C51-8048-1901EFD2A37A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95B23FCF-04BE-4C51-8048-1901EFD2A37A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72316F86-8513-4E0A-90B3-AF06F4337246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72316F86-8513-4E0A-90B3-AF06F4337246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72316F86-8513-4E0A-90B3-AF06F4337246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72316F86-8513-4E0A-90B3-AF06F4337246}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
