@@ -4,9 +4,9 @@ using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    static class ProcessFactory
+    public static class ProcessFactory
     {
-        internal static Process Start(string command, IntPtr attributes, IntPtr hPC)
+        public static Process Start(string command, IntPtr attributes, IntPtr hPC)
         {
             var startupInfo = ConfigureProcessThread(hPC, attributes);
             var processInfo = RunProcess(ref startupInfo, command);

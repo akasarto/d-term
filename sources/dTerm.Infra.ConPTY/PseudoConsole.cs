@@ -4,7 +4,7 @@ using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    internal sealed class PseudoConsole : IDisposable
+    public sealed class PseudoConsole : IDisposable
     {
         public static readonly IntPtr PseudoConsoleThreadAttribute = (IntPtr)PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE;
 
@@ -15,7 +15,7 @@ namespace dTerm.Infra.ConPTY
             Handle = handle;
         }
 
-        internal static PseudoConsole Create(SafeFileHandle inputReadSide, SafeFileHandle outputWriteSide, int width, int height)
+        public static PseudoConsole Create(SafeFileHandle inputReadSide, SafeFileHandle outputWriteSide, int width, int height)
         {
             var createResult = CreatePseudoConsole(
                 new COORD

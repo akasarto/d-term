@@ -24,14 +24,6 @@ namespace dTerm.Core
             CTRL_SHUTDOWN_EVENT
         }
 
-        public enum MapType : uint
-        {
-            MAPVK_VK_TO_VSC = 0x0,
-            MAPVK_VSC_TO_VK = 0x1,
-            MAPVK_VK_TO_CHAR = 0x2,
-            MAPVK_VSC_TO_VK_EX = 0x3,
-        }
-
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern SafeFileHandle GetStdHandle(int nStdHandle);
 
@@ -77,26 +69,14 @@ namespace dTerm.Core
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool TerminateProcess(IntPtr hProcess, uint uExitCode);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteProcThreadAttributeList(IntPtr lpAttributeList);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool CloseHandle(IntPtr hObject);
-
-        [DllImport("user32.dll")]
-        public static extern int ToUnicode(
-            uint wVirtKey,
-            uint wScanCode,
-            byte[] lpKeyState,
-            [Out, MarshalAs(UnmanagedType.LPWStr, SizeParamIndex = 4)]
-            StringBuilder pwszBuff,
-            int cchBuff,
-            uint wFlags);
-
-        [DllImport("user32.dll")]
-        public static extern bool GetKeyboardState(byte[] lpKeyState);
-
-        [DllImport("user32.dll")]
-        public static extern uint MapVirtualKey(uint uCode, MapType uMapType);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct COORD

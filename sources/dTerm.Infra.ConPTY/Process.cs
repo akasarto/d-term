@@ -4,7 +4,7 @@ using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    internal sealed class Process : IDisposable
+    public sealed class Process : IDisposable
     {
         private bool disposedValue = false;
 

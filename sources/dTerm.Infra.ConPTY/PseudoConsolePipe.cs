@@ -4,7 +4,7 @@ using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
-    internal sealed class PseudoConsolePipe : IDisposable
+    public sealed class PseudoConsolePipe : IDisposable
     {
         public readonly SafeFileHandle ReadSide;
         public readonly SafeFileHandle WriteSide;
