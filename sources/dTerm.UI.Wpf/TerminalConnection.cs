@@ -14,41 +14,49 @@ namespace dTerm.UI.Wpf
         private readonly Thread _processThread;
         private readonly Thread _readingThread;
 
-        private volatile bool _processRunning = false;
-
-        private string _command;
-        private int _consoleWidth;
-        private int _consoleHeight;
+        private int _processId;
+        private string _processName;
+        private IntPtr _processHandle;
+        private IntPtr _pseudoConsoleHandle;
+        private volatile bool _processRunning;
+        private bool _processIsTerminating;
         private StreamWriter _consoleWriter;
         private StreamReader _consoleReader;
-        private IntPtr _processHandle;
-        private int _processId;
+        private int _consoleHeight;
+        private int _consoleWidth;
 
-        public TerminalConnection(string command, int consoleWidth = 80, int consoleHeight = 30)
+        public TerminalConnection(string processName, int consoleWidth = 80, int consoleHeight = 30)
         {
-            _command = command;
+            _processName = processName;
 
             _consoleWidth = consoleWidth;
             _consoleHeight = consoleHeight;
 
-            _processThread = new Thread(ProcessExecution);
-            _readingThread = new Thread(ReadConsoleOutput);
+            _processThread = new Thread(ProcessExecute);
+            _readingThread = new Thread(ConsoleDataRead);
         }
 
         public delegate void ProcessStartedEventHandler(int processId);
+        public delegate void ProcessExitedEventHandler(int processId);
 
         public event EventHandler<TerminalOutputEventArgs> TerminalOutput;
         public event ProcessStartedEventHandler ProcessStarted;
-        public event ProcessStartedEventHandler ProcessExited;
+        public event ProcessExitedEventHandler ProcessExited;
 
-        public bool IsConnected => _processRunning;
-
-        public void Close() => TerminateProcess(_processHandle, 1);
+        public bool IsConnected => !_processIsTerminating && _processRunning;
 
         public void Start() => _processThread.Start();
 
         public void Resize(uint rows, uint columns)
         {
+            ResizePseudoConsole(
+                _pseudoConsoleHandle,
+                new COORD()
+                {
+                    X = (short)columns,
+                    Y = (short)rows
+                }
+            );
         }
 
         public void WriteInput(string data)
@@ -59,76 +67,80 @@ namespace dTerm.UI.Wpf
             }
         }
 
-        private void ProcessExecution()
+        public void Close()
+        {
+            if (!_processIsTerminating && _processRunning)
+            {
+                _processIsTerminating = true;
+
+                TerminateProcess(_processHandle, 1);
+            }
+        }
+
+        private void ProcessExecute()
         {
             using (var inputPipe = new PseudoConsolePipe())
             using (var outputPipe = new PseudoConsolePipe())
             using (_consoleReader = new StreamReader(new FileStream(outputPipe.ReadSide, FileAccess.Read), Encoding.UTF8))
             using (_consoleWriter = new StreamWriter(new FileStream(inputPipe.WriteSide, FileAccess.Write)) { AutoFlush = true })
             using (var pseudoConsole = PseudoConsole.Create(inputPipe.ReadSide, outputPipe.WriteSide, _consoleWidth, _consoleHeight))
-            using (var process = ProcessFactory.Start(_command, PseudoConsole.PseudoConsoleThreadAttribute, pseudoConsole.Handle))
+            using (var consoleProcess = ProcessFactory.Start(_processName, PseudoConsole.PseudoConsoleThreadAttribute, pseudoConsole.Handle))
             {
+                _readingThread.Start();
+
                 _processRunning = true;
-                _processHandle = process.ProcessInfo.hProcess;
-                _processId = process.ProcessInfo.dwProcessId;
+                _pseudoConsoleHandle = pseudoConsole.Handle;
+                _processHandle = consoleProcess.ProcessInfo.hProcess;
+                _processId = consoleProcess.ProcessInfo.dwProcessId;
 
                 ProcessStarted?.Invoke(_processId);
 
-                _readingThread.Start();
-
-                SetConsoleCtrlHandler(eventType =>
-                {
-                    if (eventType is CtrlTypes.CTRL_CLOSE_EVENT or CtrlTypes.CTRL_SHUTDOWN_EVENT)
-                    {
-                        _processRunning = false;
-
-                        DisposeResources(process, pseudoConsole, outputPipe, inputPipe, _consoleWriter, _consoleReader);
-                    }
-
-                    return false;
-
-                }, true);
-
-                WaitForExit(process).WaitOne(
-                    Timeout.Infinite
-                );
-
-                _processRunning = false;
-
-                ProcessExited?.Invoke(_processId);
+                WaitExit(consoleProcess);
             }
+
+            _processRunning = false;
+
+            ProcessExited?.Invoke(_processId);
         }
 
-        private void ReadConsoleOutput()
+        private void ConsoleDataRead()
         {
             var buffer = new char[1024];
 
-            while (_processRunning)
+            try
             {
-                var bytesRead = _consoleReader.Read(buffer, 0, buffer.Length);
-
-                if (bytesRead != -1)
+                while (_processRunning)
                 {
-                    var args = new TerminalOutputEventArgs(
-                        buffer.AsSpan(0, bytesRead).ToString()
-                    );
 
-                    TerminalOutput?.Invoke(this, args);
+                    int bytesRead;
+
+                    if ((bytesRead = _consoleReader.Read(buffer, 0, buffer.Length)) != -1)
+                    {
+                        var args = new TerminalOutputEventArgs(
+                            buffer.AsSpan(0, bytesRead).ToString()
+                        );
+
+                        TerminalOutput?.Invoke(this, args);
+                    }
                 }
+            }
+            catch (ObjectDisposedException)
+            {
+                // Ignore racing condition exceptions.
             }
         }
 
-        private AutoResetEvent WaitForExit(Process process) => new AutoResetEvent(false)
+        private void WaitExit(Process process)
         {
-            SafeWaitHandle = new SafeWaitHandle(process.ProcessInfo.hProcess, ownsHandle: true)
-        };
-
-        private void DisposeResources(params IDisposable[] disposables)
-        {
-            foreach (var disposable in disposables)
+            var waitEvent = new AutoResetEvent(false)
             {
-                disposable.Dispose();
-            }
+                SafeWaitHandle = new SafeWaitHandle(
+                    process.ProcessInfo.hProcess,
+                    ownsHandle: false
+                )
+            };
+
+            waitEvent.WaitOne(Timeout.Infinite);
         }
     }
 }

@@ -7,11 +7,21 @@ namespace dTerm.UI.Wpf
         public MainWindow()
         {
             InitializeComponent();
+
+            Closing += MainWindow_Closing;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var newTerminal = new TerminalWindow()
+            foreach (Window window in OwnedWindows)
+            {
+                window.Close();
+            }
+        }
+
+        private void CmdClick(object sender, RoutedEventArgs e)
+        {
+            var newTerminal = new TerminalWindow("cmd.exe")
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 ShowInTaskbar = false,
@@ -21,96 +31,28 @@ namespace dTerm.UI.Wpf
             newTerminal.Show();
         }
 
-        /*
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void GitClick(object sender, RoutedEventArgs e)
         {
-            _terminalWpf = new TerminalWpf();
-
-            _terminalWpf.InstanceReady += () =>
+            var newTerminal = new TerminalWindow("sh.exe")
             {
-                Task.Factory.StartNew(() => CopyConsoleToWindow(), TaskCreationOptions.LongRunning);
-                Dispatcher.Invoke(() => { TitleBarTitle.Text = "Console"; });
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                ShowInTaskbar = false,
+                Owner = this
             };
 
-            Task.Run(() => _terminalWpf.Start("cmd.exe"));
+            newTerminal.Show();
         }
 
-        private void CopyConsoleToWindow()
+        private void PShellClick(object sender, RoutedEventArgs e)
         {
-            using (StreamReader reader = new StreamReader(_terminalWpf.OutputStream))
+            var newTerminal = new TerminalWindow("powershell.exe")
             {
-                int bytesRead;
-                char[] buf = new char[1];
-                while ((bytesRead = reader.ReadBlock(buf, 0, 1)) != 0)
-                {
-                    // This is where you'd parse and tokenize the incoming VT100 text, most likely.
-                    Dispatcher.Invoke(() =>
-                    {
-                        // ...and then you'd do something to render it.
-                        // For now, just emit raw VT100 to the primary TextBlock.
-                        TerminalHistoryBlock.Text += new string(buf.Take(bytesRead).ToArray());
-                    });
-                }
-            }
-        }
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                ShowInTaskbar = false,
+                Owner = this
+            };
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!e.Handled)
-            {
-                if (e.Key == Key.Enter)
-                {
-                    _terminalWpf.Write('\r');
-                    _terminalWpf.Write('\n');
-                }
-                else
-                {
-                    _terminalWpf.Write(GetCharFromKey(e.Key));
-                }
-            }
+            newTerminal.Show();
         }
-
-        private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            if (e.ExtentHeightChange == 0)
-            {
-                _autoScroll = TerminalHistoryViewer.VerticalOffset == TerminalHistoryViewer.ScrollableHeight;
-
-                if (_autoScroll && e.ExtentHeightChange != 0)
-                {
-                    TerminalHistoryViewer.ScrollToEnd();
-                }
-            }
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left) { DragMove(); }
-        }
-
-        private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (WindowState == WindowState.Normal)
-            {
-                WindowState = WindowState.Maximized;
-                MaximizeRestoreButton.Content = "\uE923";
-            }
-            else if (WindowState == WindowState.Maximized)
-            {
-                WindowState = WindowState.Normal;
-                MaximizeRestoreButton.Content = "\uE922";
-            }
-        }
-
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-        */
     }
 }

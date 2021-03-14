@@ -7,30 +7,46 @@ namespace dTerm.UI.Wpf
     {
         private readonly TerminalConnection _terminalConnection;
 
-        public TerminalWindow()
+        public TerminalWindow(string processName)
         {
             InitializeComponent();
 
-            _terminalConnection = new TerminalConnection("cmd.exe");
+            _terminalConnection = new TerminalConnection(processName);
 
-            _terminalConnection.ProcessStarted += _terminalConnection_ProcessStarted;
-            _terminalConnection.ProcessExited += _terminalConnection_ProcessExited;
+            _terminalConnection.ProcessStarted += ProcessStarted;
+            _terminalConnection.ProcessExited += ProcessExited;
 
-            Terminal.Loaded += Terminal_Loaded;
-            Closing += TerminalWindow_Closing;
+            Terminal.Loaded += TerminalLoaded;
+            SizeChanged += WindowSizeChanged;
+            Closing += WindowClosing;
         }
 
-        private void _terminalConnection_ProcessStarted(int processId)
+        private void ProcessStarted(int processId)
         {
             Dispatcher.Invoke(() => Title = $"PID {processId}");
         }
 
-        private void _terminalConnection_ProcessExited(int processId)
+        private void ProcessExited(int processId)
         {
-            Dispatcher.Invoke(() => Close());
+            if (!Dispatcher.HasShutdownStarted)
+            {
+                Dispatcher.Invoke(() => Close());
+            }
         }
 
-        private void TerminalWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void TerminalLoaded(object sender, RoutedEventArgs e)
+        {
+            Terminal.Connection = _terminalConnection;
+            Terminal.TriggerResize(new Size(Width, Height));
+            Terminal.Focus();
+        }
+
+        private void WindowSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Terminal.TriggerResize(new Size(Width, Height));
+        }
+
+        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (_terminalConnection.IsConnected)
             {
@@ -38,24 +54,6 @@ namespace dTerm.UI.Wpf
 
                 _terminalConnection.Close();
             }
-        }
-
-        private void Terminal_Loaded(object sender, RoutedEventArgs e)
-        {
-            var theme = new TerminalTheme
-            {
-                ColorTable = new uint[]
-                {
-                    0x0C0C0C, 0x1F0FC5, 0x0EA113, 0x009CC1, 0xDA3700, 0x981788, 0xDD963A, 0xCCCCCC, 0x767676, 0x5648E7, 0x0CC616, 0xA5F1F9, 0xFF783B, 0x9E00B4, 0xD6D661, 0xF2F2F2
-                },
-                CursorStyle = CursorStyle.BlinkingBar,
-                DefaultBackground = 0x0c0c0c,
-                DefaultForeground = 0xcccccc
-            };
-
-            Terminal.Connection = _terminalConnection;
-            Terminal.SetTheme(theme, "Cascadia Code", 12);
-            Terminal.Focus();
         }
     }
 }
