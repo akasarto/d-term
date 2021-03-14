@@ -9,12 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\modules\ms-terminal\src\cascadia\WpfTerminalControl\WpfTerminalControl.csproj" />
     <ProjectReference Include="..\dTerm.Core\dTerm.Core.csproj" />
     <ProjectReference Include="..\dTerm.Infra.ConPTY\dTerm.Infra.ConPTY.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Windows\" />
   </ItemGroup>
 
 </Project>

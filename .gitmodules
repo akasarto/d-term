@@ -1,0 +1,4 @@
+[submodule "modules/ms-terminal"]
+	path = modules/ms-terminal
+	url = https://github.com/microsoft/terminal.git
+	branch = main

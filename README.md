@@ -11,17 +11,20 @@
   - Extract the files to a location of your choosing and execute _dTerm.exe_.
 
 - From code 
-  - Get Visual Studio 2017 Community v15.5+.
+  - Get Visual Studio 2019 Community or higher.
   - `git clone https://github.com/akasarto/d-term.git`.
-  - Make sure nuget packages are set to auto restore.
-  - Set _UI.Wpf_ as the startup project.
-  - Compile and you're good to go.
+  - `cd` into the directory you just clonned the repository (`cd d-term`).
+  - Update submodues with `git submodule update --init --recursive --depth 1`.
+  - Buld the windows terminal dependencies with `./tools/build-deps.cmd`.
+  - Open visual studio and restore the nuget packages.
+  - Set `dTerm.UI.Wpf` as the startup project.
+  - Do a full solution build.
   - Hit F5 to start.
 
 ## Upcoming changes and features
 
-- Allow consoles to pipe data to the app (IPC).
-- Data export/import features.
+- Allow integration with MQTT servers.
+- Add named pipes IPC server infrastructure.
 
 ## Known Bugs
 
@@ -30,10 +33,8 @@
 ## Thanks
 
 - [LiteDB](http://www.litedb.org/)
-- [WinApi](https://github.com/prasannavl/WinApi)
-- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit)
+- [MaterialDesignInXamlToolkit](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit)
 - [ReactiveUI](https://reactiveui.net/)
-- [Dragablz](https://github.com/ButchersBoy/Dragablz)
 
 ## Quick Overview
 
@@ -45,7 +46,7 @@
 
 MIT License
 
-Copyright (c) 2018 Thiago Alberto Schneider
+Copyright (c) 2021 Thiago Alberto Schneider
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

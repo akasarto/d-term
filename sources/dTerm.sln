@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.Infra.ConPTY", "dTerm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.UI.Wpf", "dTerm.UI.Wpf\dTerm.UI.Wpf.csproj", "{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Submodules", "Submodules", "{FEA93C8A-0C6E-44F9-B593-3D5962B2F1C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTerminalControl", "..\modules\ms-terminal\src\cascadia\WpfTerminalControl\WpfTerminalControl.csproj", "{F1CC848C-E428-4DB8-B275-5B4BBAF55509}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,16 @@ Global
 		{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F1CC848C-E428-4DB8-B275-5B4BBAF55509} = {FEA93C8A-0C6E-44F9-B593-3D5962B2F1C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4BF67C3E-869B-4662-BFDE-7951D2C10D14}
