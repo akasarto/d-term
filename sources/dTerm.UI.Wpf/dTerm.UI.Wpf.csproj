@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\modules\ms-terminal\bin\x64\$(Configuration)\PublicTerminalCore.dll" Link="PublicTerminalCore.dll">
+    <None Include="..\..\modules\ms-terminal\bin\x64\Release\PublicTerminalCore.dll" Link="PublicTerminalCore.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -3,22 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.Core", "dTerm.Core\dTerm.Core.csproj", "{8088449F-51A5-422B-B546-47CF1FC929A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.Core", "sources\dTerm.Core\dTerm.Core.csproj", "{8088449F-51A5-422B-B546-47CF1FC929A4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.Infra.ConPTY", "dTerm.Infra.ConPTY\dTerm.Infra.ConPTY.csproj", "{26722D65-22E4-4443-855E-8861694935CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.Infra.ConPTY", "sources\dTerm.Infra.ConPTY\dTerm.Infra.ConPTY.csproj", "{26722D65-22E4-4443-855E-8861694935CF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.UI.Wpf", "dTerm.UI.Wpf\dTerm.UI.Wpf.csproj", "{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.UI.Wpf", "sources\dTerm.UI.Wpf\dTerm.UI.Wpf.csproj", "{38DEF603-AA67-4891-AE3C-4F0C2FDFAB2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Submodules", "Submodules", "{FEA93C8A-0C6E-44F9-B593-3D5962B2F1C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTerminalControl", "..\modules\ms-terminal\src\cascadia\WpfTerminalControl\WpfTerminalControl.csproj", "{F1CC848C-E428-4DB8-B275-5B4BBAF55509}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTerminalControl", "modules\ms-terminal\src\cascadia\WpfTerminalControl\WpfTerminalControl.csproj", "{F1CC848C-E428-4DB8-B275-5B4BBAF55509}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE9340FA-FAE5-4ECD-970F-6B8A1BBDEB44}"
 	ProjectSection(SolutionItems) = preProject
-		..\.editorconfig = ..\.editorconfig
-		..\build-deps.cmd = ..\build-deps.cmd
-		..\Directory.Build.props = ..\Directory.Build.props
+		.editorconfig = .editorconfig
+		build-deps.cmd = build-deps.cmd
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dTerm.Infra.LiteDB", "sources\dTerm.Infra.LiteDB\dTerm.Infra.LiteDB.csproj", "{6FBD414A-9B2D-410E-A719-BD91493D3B78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FBD414A-9B2D-410E-A719-BD91493D3B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FBD414A-9B2D-410E-A719-BD91493D3B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FBD414A-9B2D-410E-A719-BD91493D3B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBD414A-9B2D-410E-A719-BD91493D3B78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
