@@ -1,12 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <UseWPF>true</UseWPF>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets\dTerm.ico</ApplicationIcon>
     <AssemblyName>dTerm</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\modules\ms-terminal\bin\x64\$(Configuration)\PublicTerminalCore.dll" Link="PublicTerminalCore.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\modules\ms-terminal\src\cascadia\WpfTerminalControl\WpfTerminalControl.csproj" />
