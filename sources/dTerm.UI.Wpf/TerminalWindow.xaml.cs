@@ -1,5 +1,4 @@
-﻿using Microsoft.Terminal.Wpf;
-using System.Windows;
+﻿using System.Windows;
 
 namespace dTerm.UI.Wpf
 {
