@@ -5,7 +5,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading;
-using static dTerm.Core.WinApi;
 
 namespace dTerm.UI.Wpf
 {
@@ -15,15 +14,15 @@ namespace dTerm.UI.Wpf
         private readonly Thread _readingThread;
 
         private int _processId;
-        private string _processName;
+        private readonly string _processName;
         private IntPtr _processHandle;
         private IntPtr _pseudoConsoleHandle;
         private volatile bool _processRunning;
         private bool _processIsTerminating;
         private StreamWriter _consoleWriter;
         private StreamReader _consoleReader;
-        private int _consoleHeight;
-        private int _consoleWidth;
+        private readonly int _consoleHeight;
+        private readonly int _consoleWidth;
 
         public TerminalConnection(string processName, int consoleWidth = 80, int consoleHeight = 30)
         {
@@ -49,9 +48,9 @@ namespace dTerm.UI.Wpf
 
         public void Resize(uint rows, uint columns)
         {
-            ResizePseudoConsole(
+            _ = WinNativeApi.ResizePseudoConsole(
                 _pseudoConsoleHandle,
-                new COORD()
+                new WinNativeApi.COORD()
                 {
                     X = (short)columns,
                     Y = (short)rows
@@ -73,7 +72,7 @@ namespace dTerm.UI.Wpf
             {
                 _processIsTerminating = true;
 
-                TerminateProcess(_processHandle, 1);
+                WinNativeApi.TerminateProcess(_processHandle, 1);
             }
         }
 
@@ -130,7 +129,7 @@ namespace dTerm.UI.Wpf
             }
         }
 
-        private void WaitExit(Process process)
+        private static void WaitExit(Process process)
         {
             var waitEvent = new AutoResetEvent(false)
             {

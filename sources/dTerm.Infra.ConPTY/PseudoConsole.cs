@@ -1,24 +1,20 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
-using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
     public sealed class PseudoConsole : IDisposable
     {
-        public static readonly IntPtr PseudoConsoleThreadAttribute = (IntPtr)PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE;
+        public static readonly IntPtr PseudoConsoleThreadAttribute = (IntPtr)WinNativeApi.PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE;
 
         public IntPtr Handle { get; }
 
-        private PseudoConsole(IntPtr handle)
-        {
-            Handle = handle;
-        }
+        private PseudoConsole(IntPtr handle) => Handle = handle;
 
         public static PseudoConsole Create(SafeFileHandle inputReadSide, SafeFileHandle outputWriteSide, int width, int height)
         {
-            var createResult = CreatePseudoConsole(
-                new COORD
+            var createResult = WinNativeApi.CreatePseudoConsole(
+                new WinNativeApi.COORD
                 {
                     X = (short)width,
                     Y = (short)height
@@ -37,9 +33,6 @@ namespace dTerm.Infra.ConPTY
             return new PseudoConsole(hPC);
         }
 
-        public void Dispose()
-        {
-            ClosePseudoConsole(Handle);
-        }
+        public void Dispose() => WinNativeApi.ClosePseudoConsole(Handle);
     }
 }

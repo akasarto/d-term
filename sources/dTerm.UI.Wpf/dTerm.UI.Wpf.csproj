@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
@@ -30,12 +35,7 @@
     <ProjectReference Include="..\..\modules\ms-terminal\src\cascadia\WpfTerminalControl\WpfTerminalControl.csproj" />
     <ProjectReference Include="..\dTerm.Core\dTerm.Core.csproj" />
     <ProjectReference Include="..\dTerm.Infra.ConPTY\dTerm.Infra.ConPTY.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="app.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\dTerm.Infra.EfCore\dTerm.Infra.EfCore.csproj" />
   </ItemGroup>
 
 </Project>

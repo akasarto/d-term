@@ -2,9 +2,9 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace dTerm.Core
+namespace dTerm.Infra.ConPTY
 {
-    public static class WinApi
+    public static class WinNativeApi
     {
         public const int STD_OUTPUT_HANDLE = -11;
         public const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;

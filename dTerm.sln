@@ -17,8 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		build-deps.cmd = build-deps.cmd
+		db-migration-add.cmd = db-migration-add.cmd
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.Infra.EfCore", "sources\dTerm.Infra.EfCore\dTerm.Infra.EfCore.csproj", "{76797E56-67ED-4A5F-B16F-8403B374616B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +45,10 @@ Global
 		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1CC848C-E428-4DB8-B275-5B4BBAF55509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76797E56-67ED-4A5F-B16F-8403B374616B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76797E56-67ED-4A5F-B16F-8403B374616B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76797E56-67ED-4A5F-B16F-8403B374616B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76797E56-67ED-4A5F-B16F-8403B374616B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

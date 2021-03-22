@@ -3,23 +3,30 @@
 
 ![Overview](/media/dTerm.png?raw=true "Overview")
 
-## Running
+## Running Portable Version
 
-- From Portable Package
-  - Make sure your system has .Net Framework 4.7 or higher installed.
-  - Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the corresponding portable _.zip_ file.
-  - Extract the files to a location of your choosing and execute _dTerm.exe_.
+- Make sure your system has .Net Framework 4.7 or higher installed.
+- Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the corresponding portable _.zip_ file.
+- Extract the files to a location of your choosing and execute _dTerm.exe_.
 
-- From code 
-  - Get Visual Studio 2019 Community or higher.
-  - `git clone https://github.com/akasarto/d-term.git`.
-  - `cd` into the directory you just clonned the repository (`cd d-term`).
-  - Update submodues with `git submodule update --init --recursive --depth 1`.
-  - Buld the windows terminal dependencies with `./build-deps.cmd`.
-  - Open visual studio and restore the nuget packages.
-  - Set `dTerm.UI.Wpf` as the startup project.
-  - Do a full solution build.
-  - Hit F5 to start.
+## Running From Code
+
+There are a few pre-requirements that you must have in mind before running it locally:
+
+- Windows 10 1903 (build 18362) or later.
+- Visual Studio 2019 Community edition or higher.
+- Ef core tools for migrations (`dotnet tool install --global dotnet-ef`).
+
+After that, just follow the steps bellow and everything should work as expected:
+
+- `git clone https://github.com/akasarto/d-term.git`.
+- `cd` into the directory where the repository was clonned (`cd d-term`).
+- Update submodues with `git submodule update --init --recursive --depth 1`.
+- Build the windows terminal dependencies with `./build-deps.cmd`.
+- Open `dTerm.sln` in visual studio and restore the nuget packages.
+- Set `dTerm.UI.Wpf` as the startup project.
+- Do a full solution build.
+- Hit F5 to start.
 
 ## Upcoming changes and features
 
@@ -32,8 +39,6 @@
 
 ## Thanks
 
-- [LiteDB](http://www.litedb.org/)
 - [MaterialDesignInXamlToolkit](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit)
-- [ReactiveUI](https://reactiveui.net/)
 
 

@@ -1,31 +1,33 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using dTerm.Infra.EfCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.IO;
 using System.Windows;
 
 namespace dTerm.UI.Wpf
 {
     public partial class App : Application
     {
-        public IConfiguration Configuration { get; private set; }
-        public IServiceProvider ServiceProvider { get; private set; }
+        private IServiceProvider _serviceProvider;
 
         public App()
         {
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("app.json")
-                .AddEnvironmentVariables()
-                .AddUserSecrets("dTerm")
-                .AddCommandLine(Environment.GetCommandLineArgs())
-                .Build()
-            ;
+            Current.Startup += AppStartup;
+
+            ShutdownMode = ShutdownMode.OnMainWindowClose;
 
             AppDomain.CurrentDomain.UnhandledException += AppGlobalExceptionsHandler;
 
-            Current.Startup += AppStartup;
+            Configuration = new ConfigurationBuilder()
+                .AddCommandLine(Environment.GetCommandLineArgs())
+                .AddEnvironmentVariables()
+                .AddUserSecrets("dTerm")
+                .Build()
+            ;
         }
+
+        public IConfiguration Configuration { get; }
 
         private void AppGlobalExceptionsHandler(object sender, UnhandledExceptionEventArgs eventArgs)
         {
@@ -35,9 +37,23 @@ namespace dTerm.UI.Wpf
         {
             var services = new ServiceCollection();
 
-            BuildContainer.RegisterServiceTypes(services);
+            ConfigureAndRegisterDependencies(services);
 
-            ServiceProvider = services.BuildServiceProvider(validateScopes: true);
+            _serviceProvider = services.BuildServiceProvider(validateScopes: true);
+
+            InitializeDatabaseServicesAndDefaultData(_serviceProvider);
+
+            MainWindow = _serviceProvider.GetService<MainWindow>();
+
+            MainWindow.Show();
+        }
+
+        private static void InitializeDatabaseServicesAndDefaultData(IServiceProvider serviceProvider)
+        {
+            using var scope = serviceProvider.CreateScope();
+            using var context = scope.ServiceProvider.GetService<AppDbContext>();
+
+            context.Database.Migrate();
         }
     }
 }

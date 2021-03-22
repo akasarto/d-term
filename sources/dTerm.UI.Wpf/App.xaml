@@ -1,13 +1,24 @@
 ﻿<Application
     x:Class="dTerm.UI.Wpf.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:dTerm.UI.Wpf"
-    ShutdownMode="OnMainWindowClose"
-    StartupUri="MainWindow.xaml"
->
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Application.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <!-- Material Design Toolkit -->
+                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="Teal" SecondaryColor="Cyan" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+
     </Application.Resources>
 
 </Application>

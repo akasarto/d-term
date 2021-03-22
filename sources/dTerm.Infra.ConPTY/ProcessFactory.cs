@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
@@ -14,11 +13,11 @@ namespace dTerm.Infra.ConPTY
             return new Process(startupInfo, processInfo);
         }
 
-        private static STARTUPINFOEX ConfigureProcessThread(IntPtr hPC, IntPtr attributes)
+        private static WinNativeApi.STARTUPINFOEX ConfigureProcessThread(IntPtr hPC, IntPtr attributes)
         {
             var lpSize = IntPtr.Zero;
 
-            var success = InitializeProcThreadAttributeList(
+            var success = WinNativeApi.InitializeProcThreadAttributeList(
                 lpAttributeList: IntPtr.Zero,
                 dwAttributeCount: 1,
                 dwFlags: 0,
@@ -30,12 +29,12 @@ namespace dTerm.Infra.ConPTY
                 throw new InvalidOperationException("Could not calculate the number of bytes for the attribute list. " + Marshal.GetLastWin32Error());
             }
 
-            var startupInfo = new STARTUPINFOEX();
+            var startupInfo = new WinNativeApi.STARTUPINFOEX();
 
-            startupInfo.StartupInfo.cb = Marshal.SizeOf<STARTUPINFOEX>();
+            startupInfo.StartupInfo.cb = Marshal.SizeOf<WinNativeApi.STARTUPINFOEX>();
             startupInfo.lpAttributeList = Marshal.AllocHGlobal(lpSize);
 
-            success = InitializeProcThreadAttributeList(
+            success = WinNativeApi.InitializeProcThreadAttributeList(
                 lpAttributeList: startupInfo.lpAttributeList,
                 dwAttributeCount: 1,
                 dwFlags: 0,
@@ -47,7 +46,7 @@ namespace dTerm.Infra.ConPTY
                 throw new InvalidOperationException("Could not set up attribute list. " + Marshal.GetLastWin32Error());
             }
 
-            success = UpdateProcThreadAttribute(
+            success = WinNativeApi.UpdateProcThreadAttribute(
                 lpAttributeList: startupInfo.lpAttributeList,
                 dwFlags: 0,
                 attribute: attributes,
@@ -65,22 +64,22 @@ namespace dTerm.Infra.ConPTY
             return startupInfo;
         }
 
-        private static PROCESS_INFORMATION RunProcess(ref STARTUPINFOEX sInfoEx, string commandLine)
+        private static WinNativeApi.PROCESS_INFORMATION RunProcess(ref WinNativeApi.STARTUPINFOEX sInfoEx, string commandLine)
         {
-            int securityAttributeSize = Marshal.SizeOf<SECURITY_ATTRIBUTES>();
-            var pSec = new SECURITY_ATTRIBUTES { nLength = securityAttributeSize };
-            var tSec = new SECURITY_ATTRIBUTES { nLength = securityAttributeSize };
-            var success = CreateProcess(
+            int securityAttributeSize = Marshal.SizeOf<WinNativeApi.SECURITY_ATTRIBUTES>();
+            var pSec = new WinNativeApi.SECURITY_ATTRIBUTES { nLength = securityAttributeSize };
+            var tSec = new WinNativeApi.SECURITY_ATTRIBUTES { nLength = securityAttributeSize };
+            var success = WinNativeApi.CreateProcess(
                 lpApplicationName: null,
                 lpCommandLine: commandLine,
                 lpProcessAttributes: ref pSec,
                 lpThreadAttributes: ref tSec,
                 bInheritHandles: false,
-                dwCreationFlags: EXTENDED_STARTUPINFO_PRESENT,
+                dwCreationFlags: WinNativeApi.EXTENDED_STARTUPINFO_PRESENT,
                 lpEnvironment: IntPtr.Zero,
                 lpCurrentDirectory: null,
                 lpStartupInfo: ref sInfoEx,
-                lpProcessInformation: out PROCESS_INFORMATION pInfo
+                lpProcessInformation: out WinNativeApi.PROCESS_INFORMATION pInfo
             );
 
             if (!success)

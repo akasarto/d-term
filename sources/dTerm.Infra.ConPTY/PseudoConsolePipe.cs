@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
-using static dTerm.Core.WinApi;
 
 namespace dTerm.Infra.ConPTY
 {
@@ -11,7 +10,7 @@ namespace dTerm.Infra.ConPTY
 
         public PseudoConsolePipe()
         {
-            if (!CreatePipe(out ReadSide, out WriteSide, IntPtr.Zero, 0))
+            if (!WinNativeApi.CreatePipe(out ReadSide, out WriteSide, IntPtr.Zero, 0))
             {
                 throw new InvalidOperationException("Failed to create pipe");
             }
