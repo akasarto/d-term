@@ -1,8 +1,10 @@
 ﻿using dTerm.Infra.EfCore;
+using dTerm.UI.Wpf.Windows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Globalization;
 using System.Windows;
 
 namespace dTerm.UI.Wpf
@@ -16,6 +18,11 @@ namespace dTerm.UI.Wpf
             Current.Startup += AppStartup;
 
             ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+            var defaultCultureInfo = new CultureInfo("en-US");
+
+            CultureInfo.DefaultThreadCurrentCulture = defaultCultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = defaultCultureInfo;
 
             AppDomain.CurrentDomain.UnhandledException += AppGlobalExceptionsHandler;
 

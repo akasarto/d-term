@@ -1,8 +1,9 @@
-﻿using System.Windows;
+﻿using dTerm.Infra.ConPTY;
+using System.Windows;
 
-namespace dTerm.UI.Wpf
+namespace dTerm.UI.Wpf.Windows
 {
-    public partial class TerminalWindow : Window
+    public partial class TerminalWindow
     {
         private readonly TerminalConnection _terminalConnection;
 

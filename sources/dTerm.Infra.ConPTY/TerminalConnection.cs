@@ -1,12 +1,11 @@
-﻿using dTerm.Infra.ConPTY;
-using Microsoft.Terminal.Wpf;
+﻿using Microsoft.Terminal.Wpf;
 using Microsoft.Win32.SafeHandles;
 using System;
 using System.IO;
 using System.Text;
 using System.Threading;
 
-namespace dTerm.UI.Wpf
+namespace dTerm.Infra.ConPTY
 {
     public class TerminalConnection : ITerminalConnection
     {

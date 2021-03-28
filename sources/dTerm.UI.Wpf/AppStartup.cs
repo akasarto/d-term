@@ -1,4 +1,5 @@
 ﻿using dTerm.Infra.EfCore;
+using dTerm.UI.Wpf.Windows;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace dTerm.UI.Wpf
@@ -9,9 +10,12 @@ namespace dTerm.UI.Wpf
         {
             // Data Persistence
             services.AddDbContext<AppDbContext>(ServiceLifetime.Transient);
+            services.AddTransient<AppDbContextFactory>();
 
             // Windows
-            services.AddSingleton<MainWindow>();
+            services.AddTransient<MainWindow>();
+            services.AddTransient<SettingsWindow>();
+            services.AddTransient<WindowFactory>();
         }
     }
 }

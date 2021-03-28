@@ -1,9 +1,10 @@
-﻿<Window 
-    x:Class="dTerm.UI.Wpf.TerminalWindow"
+﻿<local:BaseWindow
+    x:Class="dTerm.UI.Wpf.Windows.TerminalWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:dTerm.UI.Wpf.Windows"
     xmlns:terminal="clr-namespace:Microsoft.Terminal.Wpf;assembly=Microsoft.Terminal.Wpf"
     mc:Ignorable="d"
     Title="Console" 
@@ -11,9 +12,6 @@
     Width="800"
 >
 
-    <terminal:TerminalControl x:Name="Terminal"
-                              Focusable="true"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch" />
+    <terminal:TerminalControl x:Name="Terminal" Focusable="true" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-</Window>
+</local:BaseWindow>
