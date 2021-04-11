@@ -1,10 +1,10 @@
-﻿<local:BaseWindow
-    x:Class="dTerm.UI.Wpf.Windows.SettingsWindow"
+﻿<local:ShellProcessesSettingsWindowBase
+    x:Class="dTerm.UI.Wpf.Views.ShellProcessesSettingsWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:dTerm.UI.Wpf.Windows"
+    xmlns:local="clr-namespace:dTerm.UI.Wpf.Views"
     xmlns:localization="clr-namespace:dTerm.Core.Localization;assembly=dTerm.Core"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -17,6 +17,7 @@
     Width="800"
 >
 
+    <!--
     <materialDesign:DialogHost Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsOpen="{Binding IsPopupOpen}">
 
         <GroupBox Header="{x:Static localization:Content.ManageShellProcesses}" Style="{DynamicResource MaterialDesignGroupBox}" Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0" FontSize="15">
@@ -126,7 +127,8 @@
 
                 <Border BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="0 0 0 1" Grid.Row="1" />
 
-                <!--<reactiveui:ViewModelViewHost Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ViewContract="ProcessFormView" ViewModel="{Binding FormData}">
+                -->
+    <!--<reactiveui:ViewModelViewHost Grid.Row="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ViewContract="ProcessFormView" ViewModel="{Binding FormData}">
                     <reactiveui:ViewModelViewHost.DefaultContent>
 
                         <Grid>
@@ -188,15 +190,15 @@
                                             </ListView>
 
                                             <TextBlock
-											FontStyle="Italic"
-											FontSize="12"
-											HorizontalAlignment="Center"
-											Margin="15 75"
-											Opacity=".55"
-											Style="{StaticResource MaterialDesignButtonTextBlock}"
-											Text="{x:Static properties:Resources.EmptyProcessesListMessage}"
-											Visibility="Collapsed"
-											x:Name="empty" />
+                                                FontStyle="Italic"
+                                                FontSize="12"
+                                                HorizontalAlignment="Center"
+                                                Margin="15 75"
+                                                Opacity=".55"
+                                                Style="{StaticResource MaterialDesignButtonTextBlock}"
+                                                Text="{x:Static properties:Resources.EmptyProcessesListMessage}"
+                                                Visibility="Collapsed"
+                                                x:Name="empty" />
 
                                         </Grid>
 
@@ -229,11 +231,13 @@
 
                     </reactiveui:ViewModelViewHost.DefaultContent>
                 </reactiveui:ViewModelViewHost>-->
+    <!--
 
             </Grid>
 
         </GroupBox>
 
     </materialDesign:DialogHost>
+    -->
 
-</local:BaseWindow>
+</local:ShellProcessesSettingsWindowBase>

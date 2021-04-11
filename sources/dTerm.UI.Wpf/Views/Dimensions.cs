@@ -1,4 +1,4 @@
-﻿namespace dTerm.UI.Wpf.Windows
+﻿namespace dTerm.UI.Wpf.Views
 {
     public static class Dimensions
     {

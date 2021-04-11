@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Assets\dTerm.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\modules\ms-terminal\bin\x64\Release\PublicTerminalCore.dll" Link="PublicTerminalCore.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -20,15 +24,9 @@
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="ReactiveUI.Events.WPF" Version="13.2.18" />
+    <PackageReference Include="ReactiveUI.Fody" Version="13.2.18" />
+    <PackageReference Include="ReactiveUI.WPF" Version="13.2.18" />
   </ItemGroup>
 
   <ItemGroup>

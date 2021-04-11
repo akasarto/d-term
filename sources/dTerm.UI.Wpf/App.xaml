@@ -2,8 +2,9 @@
     x:Class="dTerm.UI.Wpf.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:converters="clr-namespace:dTerm.UI.Wpf.Converters"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    StartupUri="Views/Main/MainWindow.xaml"
+>
 
     <Application.Resources>
 
@@ -17,11 +18,7 @@
 
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Converters -->
-            <converters:IconValueConverter x:Key="iconConverter" />
-
         </ResourceDictionary>
-
 
     </Application.Resources>
 
