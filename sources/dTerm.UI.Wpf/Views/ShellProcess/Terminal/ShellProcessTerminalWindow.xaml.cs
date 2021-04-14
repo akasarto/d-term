@@ -7,13 +7,13 @@ using System.Windows.Threading;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public abstract class TerminalWindowBase : BaseWindow<TerminalWindowViewModel> { }
+    public abstract class ShellProcessTerminalWindowBase : BaseWindow<ShellProcessTerminalWindowViewModel> { }
 
-    public partial class TerminalWindow : TerminalWindowBase
+    public partial class ShellProcessTerminalWindow : ShellProcessTerminalWindowBase
     {
         private TerminalConnection _terminalConnection;
 
-        public TerminalWindow()
+        public ShellProcessTerminalWindow()
         {
             InitializeComponent();
 

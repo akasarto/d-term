@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace dTerm.UI.Wpf.UserControls
+namespace dTerm.UI.Wpf.Views
 {
     public abstract class BaseUserControl<TViewModel> : UserControl, IViewFor<TViewModel> where TViewModel : class
     {

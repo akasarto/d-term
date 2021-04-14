@@ -15,7 +15,7 @@ namespace dTerm.Infra.EfCore.SeederScripts
                 OrderIndex = 1,
                 ProcessExecutablePath = "cmd.exe",
                 ProcessStartupArgs = string.Empty,
-                ProcessType = ProcessType.Console,
+                ProcessType = ProcessType.Shell,
                 UTCCreation = DateTime.UtcNow
             },
 
@@ -24,7 +24,7 @@ namespace dTerm.Infra.EfCore.SeederScripts
                 Icon = "Git",
                 Name = "Git Bash",
                 OrderIndex = 2,
-                ProcessType = ProcessType.Console,
+                ProcessType = ProcessType.Shell,
                 ProcessExecutablePath = "git-bash.exe",
                 ProcessStartupArgs = "--login -i",
                 UTCCreation = DateTime.UtcNow
@@ -35,7 +35,7 @@ namespace dTerm.Infra.EfCore.SeederScripts
                 Icon = "Powershell",
                 Name = "Power Shell",
                 OrderIndex = 3,
-                ProcessType = ProcessType.Console,
+                ProcessType = ProcessType.Shell,
                 ProcessExecutablePath = "powershell.exe",
                 ProcessStartupArgs = string.Empty,
                 UTCCreation = DateTime.UtcNow
@@ -46,7 +46,7 @@ namespace dTerm.Infra.EfCore.SeederScripts
                 Icon = "Linux",
                 Name = "WSL Default Shel",
                 OrderIndex = 4,
-                ProcessType = ProcessType.Console,
+                ProcessType = ProcessType.Shell,
                 ProcessExecutablePath = "wsl.exe",
                 ProcessStartupArgs = string.Empty,
                 UTCCreation = DateTime.UtcNow

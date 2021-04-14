@@ -61,15 +61,6 @@ namespace dTerm.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add New.
-        /// </summary>
-        public static string AddNew {
-            get {
-                return ResourceManager.GetString("AddNew", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to dTerm Core.
         /// </summary>
         public static string AppTitle {
@@ -79,92 +70,29 @@ namespace dTerm.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure?.
-        /// </summary>
-        public static string AreYouSure {
-            get {
-                return ResourceManager.GetString("AreYouSure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string Cancel {
-            get {
-                return ResourceManager.GetString("Cancel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to cancel.
-        /// </summary>
-        public static string CancelLowerCase {
-            get {
-                return ResourceManager.GetString("CancelLowerCase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Delete.
-        /// </summary>
-        public static string Delete {
-            get {
-                return ResourceManager.GetString("Delete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to delete.
-        /// </summary>
-        public static string DeleteLowerCase {
-            get {
-                return ResourceManager.GetString("DeleteLowerCase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Manage Shell Processes.
-        /// </summary>
-        public static string ManageShellProcesses {
-            get {
-                return ResourceManager.GetString("ManageShellProcesses", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This process will be permanently deleted..
-        /// </summary>
-        public static string ProcessDeletionMessage {
-            get {
-                return ResourceManager.GetString("ProcessDeletionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        public static string Save {
-            get {
-                return ResourceManager.GetString("Save", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Search processes....
-        /// </summary>
-        public static string SearchProcessesHint {
-            get {
-                return ResourceManager.GetString("SearchProcessesHint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shell Processes.
+        /// </summary>
+        public static string Shell_Processes {
+            get {
+                return ResourceManager.GetString("Shell Processes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shells.
+        /// </summary>
+        public static string Shells {
+            get {
+                return ResourceManager.GetString("Shells", resourceCulture);
             }
         }
     }

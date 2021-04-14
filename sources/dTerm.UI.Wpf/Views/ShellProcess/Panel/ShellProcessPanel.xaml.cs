@@ -1,29 +1,34 @@
 ﻿using ReactiveUI;
 using System;
-using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Windows.Media;
 
-namespace dTerm.UI.Wpf.UserControls
+namespace dTerm.UI.Wpf.Views
 {
-    public abstract class ShellProcessesPanelBase : BaseUserControl<ShellProcessesPanelViewModel> { }
+    public abstract class ShellProcessPanelBase : BaseUserControl<ShellProcessPanelViewModel> { }
 
-    public partial class ShellProcessesPanel : ShellProcessesPanelBase
+    public partial class ShellProcessPanel : ShellProcessPanelBase
     {
-        public ShellProcessesPanel()
+        public ShellProcessPanel()
         {
             InitializeComponent();
 
-            ViewModel = new ShellProcessesPanelViewModel();
+            ViewModel = new ShellProcessPanelViewModel();
 
             this.WhenActivated(binding =>
             {
-                // Bind Items
+                // Add
+                this.BindCommand(
+                    ViewModel,
+                    vm => vm.Add,
+                    v => v.add
+                );
+
+                // Start Buttons
                 this.OneWayBind(
                     ViewModel!,
                     viewModel => viewModel.ProcessStartButtons,
-                    view => view.processStartButtonsList.ItemsSource
+                    view => view.processStartButtons.ItemsSource
                 ).DisposeWith(binding);
 
                 // Loader visibility
@@ -35,7 +40,7 @@ namespace dTerm.UI.Wpf.UserControls
                 // Actions panel visibility
                 this.WhenAnyValue(x => x.ViewModel.IsLoading)
                     .Select(loading => loading ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible)
-                    .BindTo(this, view => view.processStartButtonsList.Visibility)
+                    .BindTo(this, view => view.processStartButtons.Visibility)
                     .DisposeWith(binding);
 
                 // Load data

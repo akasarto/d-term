@@ -3,13 +3,13 @@ using ReactiveUI;
 using System;
 using System.Reactive.Disposables;
 
-namespace dTerm.UI.Wpf.UserControls
+namespace dTerm.UI.Wpf.Views
 {
-    public abstract class ShellProcessStartButtonBase : BaseUserControl<ShellProcessStartButtonViewModel> { }
+    public abstract class ShellProcessStartButtonBase : BaseUserControl<ShellProcessButtonViewModel> { }
 
-    public partial class ShellProcessStartButton : ShellProcessStartButtonBase
+    public partial class ShellProcessButton : ShellProcessStartButtonBase
     {
-        public ShellProcessStartButton()
+        public ShellProcessButton()
         {
             InitializeComponent();
 
@@ -37,6 +37,13 @@ namespace dTerm.UI.Wpf.UserControls
                     v => v.launchButton,
                     withParameter: p => p.TerminalWindowViewModel
                 ).DisposeWith(bindings);
+
+                //
+                this.BindCommand(
+                    ViewModel,
+                    vm => vm.Delete,
+                    v => v.deleteButton
+                );
             });
         }
     }

@@ -2,7 +2,7 @@
 {
     public enum ProcessType : byte
     {
-        Console = 1,
+        Shell = 1,
         Unknown = 0
     }
 }

@@ -117,40 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddNew" xml:space="preserve">
-    <value>Add New</value>
-  </data>
   <data name="AppTitle" xml:space="preserve">
     <value>dTerm Core</value>
   </data>
-  <data name="AreYouSure" xml:space="preserve">
-    <value>Are you sure?</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="CancelLowerCase" xml:space="preserve">
-    <value>cancel</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="DeleteLowerCase" xml:space="preserve">
-    <value>delete</value>
-  </data>
-  <data name="ManageShellProcesses" xml:space="preserve">
-    <value>Manage Shell Processes</value>
-  </data>
-  <data name="ProcessDeletionMessage" xml:space="preserve">
-    <value>This process will be permanently deleted.</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="SearchProcessesHint" xml:space="preserve">
-    <value>Search processes...</value>
-  </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="Shell Processes" xml:space="preserve">
+    <value>Shell Processes</value>
+  </data>
+  <data name="Shells" xml:space="preserve">
+    <value>Shells</value>
   </data>
 </root>

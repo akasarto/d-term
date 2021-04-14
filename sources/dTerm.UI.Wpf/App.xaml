@@ -4,6 +4,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     StartupUri="Views/Main/MainWindow.xaml"
+    Startup="AppStartup"
 >
 
     <Application.Resources>

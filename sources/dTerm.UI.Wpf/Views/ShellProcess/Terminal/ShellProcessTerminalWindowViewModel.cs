@@ -3,11 +3,11 @@ using ReactiveUI;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class TerminalWindowViewModel : ReactiveObject
+    public class ShellProcessTerminalWindowViewModel : ReactiveObject
     {
         private readonly ProcessEntity _processEntity;
 
-        public TerminalWindowViewModel(ProcessEntity processEntity)
+        public ShellProcessTerminalWindowViewModel(ProcessEntity processEntity)
         {
             _processEntity = processEntity;
         }
