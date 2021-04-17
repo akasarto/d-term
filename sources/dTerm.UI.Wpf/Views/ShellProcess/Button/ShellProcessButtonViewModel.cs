@@ -14,7 +14,7 @@ namespace dTerm.UI.Wpf.Views
 
         public ShellProcessButtonViewModel(ProcessEntity processEntity)
         {
-            Launch = ReactiveCommand.Create<ShellProcessTerminalWindowViewModel>(windowViewModel =>
+            Launch = ReactiveCommand.Create<ShellProcessTerminalViewModel>(windowViewModel =>
             {
                 var window = windowViewModel.GetWindow();
 
@@ -46,19 +46,23 @@ namespace dTerm.UI.Wpf.Views
             return Task.FromResult(Unit.Default);
         }
 
-        private Task<Unit> ChangeIconImpl()
+        private async Task<Unit> ChangeIconImpl()
         {
-            return Task.FromResult(Unit.Default);
+            var iconEditor = new IconBrowser();
+
+            _ = await DialogHost.Show(iconEditor, "shellProcessesPanel");
+
+            return Unit.Default;
         }
 
         public Guid Id => _processEntity.Id;
         public string Icon => _processEntity.Icon;
         public string Name => _processEntity.Name;
-        public ShellProcessTerminalWindowViewModel TerminalWindowViewModel => new(_processEntity);
+        public ShellProcessTerminalViewModel TerminalWindowViewModel => new(_processEntity);
 
         public ReactiveCommand<Unit, Unit> Edit { get; }
         public ReactiveCommand<Unit, Unit> Delete { get; }
         public ReactiveCommand<Unit, Unit> ChangeIcon { get; }
-        public ReactiveCommand<ShellProcessTerminalWindowViewModel, Unit> Launch { get; }
+        public ReactiveCommand<ShellProcessTerminalViewModel, Unit> Launch { get; }
     }
 }

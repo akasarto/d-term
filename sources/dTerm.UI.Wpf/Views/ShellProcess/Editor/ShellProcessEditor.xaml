@@ -17,60 +17,29 @@
 >
 
     <GroupBox Header="[Edit Shell Process]" Style="{DynamicResource MaterialDesignGroupBox}" Margin="15" materialDesign:ShadowAssist.ShadowDepth="Depth3" BorderThickness="0" FontSize="15">
-
         <StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 15 0 25">
-
-                <materialDesign:PackIcon x:Name="icon"
-                                         Grid.Column="0"
-                                         Height="24"
-                                         Width="24"
-                                         Kind="Ubuntu"
-                                         VerticalAlignment="Center"
-                                         FocusManager.IsFocusScope="False" />
-
-                <TextBlock x:Name="executablePath"
-                           FontSize="13"
-                           Margin="5 0 0 0"
-                           VerticalAlignment="Center"
-                           Text="C:\\Users\\akasarto\\scoop\\apps\\git-with-openssh\\current\\bin\\sh.exe" />
-
+                <materialDesign:PackIcon x:Name="icon" Grid.Column="0" Height="24" Width="24" Kind="Ubuntu" VerticalAlignment="Center" FocusManager.IsFocusScope="False" />
+                <TextBlock x:Name="executablePath" FontSize="13" Margin="5 0 0 0" VerticalAlignment="Center" Text="C:\\Users\\akasarto\\scoop\\apps\\git-with-openssh\\current\\bin\\sh.exe" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 0 0 15">
-
-                <TextBox x:Name="name"
-                         Width="350"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         materialDesign:HintAssist.Hint="Name" />
-
-                <TextBox x:Name="exeArgs"
-                         Width="250"
-                         Margin="15 0 0 0"
-                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                         materialDesign:HintAssist.Hint="Executable Args" />
-
+                <TextBox x:Name="name" Width="350" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Name" />
+                <TextBox x:Name="exeArgs" Width="250" Margin="15 0 0 0" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Executable Args" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
-
-                <Button x:Name="cancel"
-                        Content="cancel"
-                        Style="{DynamicResource MaterialDesignToolButton}"
-                        materialDesign:RippleAssist.IsDisabled="True" />
-
+            <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Right">
+                <Button x:Name="cancel" Content="cancel" Style="{DynamicResource MaterialDesignToolButton}" materialDesign:RippleAssist.IsDisabled="True" />
                 <Button x:Name="save" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="35 0 0 0">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="ContentSave" Width="24" Height="24" />
                         <TextBlock Margin="3.5 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="save" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-
             </StackPanel>
 
         </StackPanel>
-
     </GroupBox>
 
 </local:ShellProcessEditorBase>

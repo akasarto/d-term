@@ -11,10 +11,10 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{materialDesign:MaterialDesignFont}"
-    d:DesignWidth="{x:Static local:Dimensions.MinWidth}"
-	d:DesignHeight="{x:Static local:Dimensions.MinHeight}"
-	MinWidth="{x:Static local:Dimensions.MinWidth}"
-	MinHeight="{x:Static local:Dimensions.MinHeight}"
+    d:DesignWidth="{x:Static local:Dimensions.MainWindowMinWidth}"
+	d:DesignHeight="{x:Static local:Dimensions.MainWindowMinHeight}"
+	MinWidth="{x:Static local:Dimensions.MainWindowMinWidth}"
+	MinHeight="{x:Static local:Dimensions.MainWindowMinHeight}"
     TextElement.FontWeight="Medium"
     TextElement.FontSize="14"
     WindowStartupLocation="CenterScreen"
@@ -23,56 +23,6 @@
     Title="{x:Static l:Content.AppTitle}"
 >
 
-    <Grid>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <userControls:ShellProcessPanel Grid.Row="0" />
-
-        <!--
-        <Grid Grid.Row="1">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <materialDesign:Card Grid.Column="0" Margin="15" Padding="15">
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="140" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-                    
-
-                </Grid>
-
-            </materialDesign:Card>
-
-            <materialDesign:Card Grid.Column="1" Margin="15" Padding="15">
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="140" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-
-
-
-                </Grid>
-
-            </materialDesign:Card>
-
-        </Grid>
-        -->
-
-    </Grid>
+    <userControls:ShellProcessPanel />
 
 </local:MainWindowBase>

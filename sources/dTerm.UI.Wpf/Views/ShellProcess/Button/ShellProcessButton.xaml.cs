@@ -15,7 +15,7 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(bindings =>
             {
-                //
+                // Icon
                 this.OneWayBind(
                     ViewModel,
                     vm => vm.Icon,
@@ -23,14 +23,14 @@ namespace dTerm.UI.Wpf.Views
                     value => Enum.Parse<PackIconKind>(value, ignoreCase: true)
                 ).DisposeWith(bindings);
 
-                //
+                // Tooltip
                 this.OneWayBind(
                     ViewModel,
                     vm => vm.Name,
                     v => v.ToolTip
                 ).DisposeWith(bindings);
 
-                //
+                // Launch Terminal
                 this.BindCommand(
                     ViewModel,
                     vm => vm.Launch,
@@ -38,7 +38,21 @@ namespace dTerm.UI.Wpf.Views
                     withParameter: p => p.TerminalWindowViewModel
                 ).DisposeWith(bindings);
 
-                //
+                // Edit
+                this.BindCommand(
+                    ViewModel,
+                    vm => vm.Edit,
+                    v => v.edit
+                );
+
+                // Change Icon
+                this.BindCommand(
+                    ViewModel,
+                    vm => vm.ChangeIcon,
+                    v => v.changeIcon
+                );
+
+                // Delete
                 this.BindCommand(
                     ViewModel,
                     vm => vm.Delete,

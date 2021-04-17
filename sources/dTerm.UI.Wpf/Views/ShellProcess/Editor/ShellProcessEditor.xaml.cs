@@ -1,5 +1,4 @@
 ﻿using ReactiveUI;
-using System.Reactive.Disposables;
 
 namespace dTerm.UI.Wpf.Views
 {
@@ -17,12 +16,6 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(bindings =>
             {
-                // Icons
-                //this.OneWayBind(
-                //    ViewModel,
-                //    vm => vm.Icons,
-                //    v => v.iconsComboBox.ItemsSource
-                //).DisposeWith(bindings);
             });
         }
     }

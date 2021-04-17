@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class IconEditorViewModel : ReactiveObject
+    public class IconBrowserItemViewModel : ReactiveObject
     {
-        public IconEditorViewModel(PackIconKind kind, List<string> aliases)
+        public IconBrowserItemViewModel(PackIconKind kind, List<string> aliases)
         {
             Kind = kind;
             Aliases = aliases;

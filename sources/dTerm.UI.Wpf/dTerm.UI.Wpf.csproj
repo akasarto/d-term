@@ -27,6 +27,7 @@
     <PackageReference Include="ReactiveUI.Events.WPF" Version="13.2.18" />
     <PackageReference Include="ReactiveUI.Fody" Version="13.2.18" />
     <PackageReference Include="ReactiveUI.WPF" Version="13.2.18" />
+    <PackageReference Include="VirtualizingWrapPanel" Version="1.5.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +35,10 @@
     <ProjectReference Include="..\dTerm.Core\dTerm.Core.csproj" />
     <ProjectReference Include="..\dTerm.Infra.ConPTY\dTerm.Infra.ConPTY.csproj" />
     <ProjectReference Include="..\dTerm.Infra.EfCore\dTerm.Infra.EfCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.VCRTForwarders.140" Version="1.0.7" />
   </ItemGroup>
 
 </Project>

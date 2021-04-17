@@ -32,12 +32,11 @@ namespace dTerm.UI.Wpf
             InitData();
         }
 
-        private void InitData()
+        private static void InitData()
         {
-            using (var context = new AppDbContext())
-            {
-                context.Database.Migrate();
-            }
+            using var context = new AppDbContext();
+
+            context.Database.Migrate();
         }
     }
 }

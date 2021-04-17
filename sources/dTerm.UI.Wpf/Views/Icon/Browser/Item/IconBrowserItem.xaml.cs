@@ -3,13 +3,11 @@ using System.Reactive.Disposables;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public abstract class IconEditorBase : BaseUserControl<IconEditorViewModel>
-    {
-    }
+    public abstract class IconBrowserItemBase : BaseUserControl<IconBrowserItemViewModel> { }
 
-    public partial class IconEditor : IconEditorBase
+    public partial class IconBrowserItem : IconBrowserItemBase
     {
-        public IconEditor()
+        public IconBrowserItem()
         {
             InitializeComponent();
 
@@ -22,12 +20,20 @@ namespace dTerm.UI.Wpf.Views
                     v => v.icon.Kind
                 ).DisposeWith(bindings);
 
-                // Tooltip
+                // Name
+                this.OneWayBind(
+                    ViewModel,
+                    vm => vm.Kind,
+                    v => v.primaryName.Text,
+                    x => x.ToString()
+                ).DisposeWith(bindings);
+
+                // Aliases
                 this.OneWayBind(
                     ViewModel,
                     vm => vm.Aliases,
-                    v => v.icon.ToolTip,
-                    x => string.Join("\n", x)
+                    v => v.aliases.ToolTip,
+                    alias => string.Join("\n", alias)
                 ).DisposeWith(bindings);
             });
         }
