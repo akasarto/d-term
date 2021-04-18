@@ -14,6 +14,7 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(bindings =>
             {
+                DataContext = ViewModel;
             });
         }
     }

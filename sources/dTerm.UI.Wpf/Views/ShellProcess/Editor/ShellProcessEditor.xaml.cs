@@ -6,9 +6,7 @@ using System.Windows.Data;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public abstract class ShellProcessEditorBase : BaseUserControl<ShellProcessEditorViewModel>
-    {
-    }
+    public abstract class ShellProcessEditorBase : BaseUserControl<ShellProcessEditorViewModel> { }
 
     public partial class ShellProcessEditor : ShellProcessEditorBase
     {
@@ -20,27 +18,31 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(bindings =>
             {
-                // Name textbox
-                //this.Bind(
-                //    ViewModel,
-                //    vm => vm.Name,
-                //    v => v.nameTextBox.Text
-                //).DisposeWith(bindings);
-                Binding myBinding = new Binding();
-                myBinding.Source = ViewModel;
-                myBinding.Path = new PropertyPath("Name");
-                myBinding.Mode = BindingMode.TwoWay;
-                myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                myBinding.NotifyOnValidationError = true;
-                myBinding.ValidatesOnDataErrors = true;
-                BindingOperations.SetBinding(nameTextBox, TextBox.TextProperty, myBinding);
+                DataContext = ViewModel;
 
-                // Args
-                this.Bind(
-                    ViewModel,
-                    vm => vm.Args,
-                    v => v.argsTextBox.Text
-                ).DisposeWith(bindings);
+                // Name textbox
+                // Needs native binding for validation.
+                BindingOperations.SetBinding(nameTextBox, TextBox.TextProperty, new Binding()
+                {
+                    Mode = BindingMode.TwoWay,
+                    Path = new PropertyPath(nameof(ViewModel.Name)),
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    NotifyOnValidationError = true,
+                    ValidatesOnDataErrors = true,
+                    Source = ViewModel
+                });
+
+                // Executable Args
+                // Needs native binding for validation.
+                BindingOperations.SetBinding(argsTextBox, TextBox.TextProperty, new Binding()
+                {
+                    Mode = BindingMode.TwoWay,
+                    Path = new PropertyPath(nameof(ViewModel.Args)),
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    NotifyOnValidationError = true,
+                    ValidatesOnDataErrors = true,
+                    Source = ViewModel
+                });
 
                 // Cancel button
                 this.BindCommand(

@@ -17,6 +17,8 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(bindings =>
             {
+                DataContext = ViewModel;
+
                 // Track selected icon
                 this.Bind(
                     ViewModel,

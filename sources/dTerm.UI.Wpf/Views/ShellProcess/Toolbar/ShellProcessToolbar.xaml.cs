@@ -17,6 +17,8 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(bindings =>
             {
+                DataContext = ViewModel;
+
                 // Add button
                 this.BindCommand(
                     ViewModel,

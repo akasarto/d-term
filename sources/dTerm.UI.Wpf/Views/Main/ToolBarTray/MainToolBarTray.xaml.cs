@@ -1,4 +1,6 @@
-﻿namespace dTerm.UI.Wpf.Views
+﻿using ReactiveUI;
+
+namespace dTerm.UI.Wpf.Views
 {
     public abstract class MainToolBarTrayBase : BaseUserControl<MainToolBarTrayViewModel> { }
 
@@ -7,6 +9,13 @@
         public MainToolBarTray()
         {
             InitializeComponent();
+
+            ViewModel = new MainToolBarTrayViewModel();
+
+            this.WhenActivated(bindings =>
+            {
+                DataContext = ViewModel;
+            });
         }
     }
 }
