@@ -17,39 +17,67 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(bindings =>
             {
-                // Icons
-                this.OneWayBind(
-                    ViewModel,
-                    vm => vm.Icons,
-                    v => v.icons.ItemsSource
-                ).DisposeWith(bindings);
-
-                // Cancel
-                this.BindCommand(
-                    ViewModel,
-                    vm => vm.Cancel,
-                    v => v.cancel
-                ).DisposeWith(bindings);
-
-                // Save
-                this.BindCommand(
-                    ViewModel,
-                    vm => vm.Save,
-                    v => v.save
-                ).DisposeWith(bindings);
-
-                // Load data
-                this.WhenAnyValue(x => x.ViewModel.Load)
-                    .SelectMany(x => x.Execute())
-                    .ObserveOn(RxApp.MainThreadScheduler)
-                    .Subscribe();
-
-                // Track Selected Item
+                // Track selected icon
                 this.Bind(
                     ViewModel,
                     vm => vm.SelectedIcon,
-                    v => v.icons.SelectedItem
-                );
+                    v => v.iconsList.SelectedItem
+                ).DisposeWith(bindings);
+
+                // Icons list
+                this.OneWayBind(
+                    ViewModel,
+                    vm => vm.Icons,
+                    v => v.iconsList.ItemsSource
+                ).DisposeWith(bindings);
+
+                // Cancel button
+                this.BindCommand(
+                    ViewModel,
+                    vm => vm.Cancel,
+                    v => v.cancelButton
+                ).DisposeWith(bindings);
+
+                // Save button
+                this.BindCommand(
+                    ViewModel,
+                    vm => vm.Save,
+                    v => v.saveButton
+                ).DisposeWith(bindings);
+
+                // Search field
+                this.Bind(
+                    ViewModel,
+                    vm => vm.SearchText,
+                    v => v.searchBox.Text
+                ).DisposeWith(bindings);
+
+                // Trigger initial data load
+                this.WhenAnyValue(x =>
+                    x.ViewModel.Load
+                ).SelectMany(x =>
+                    x.Execute()
+                ).ObserveOn(RxApp.MainThreadScheduler).Subscribe().DisposeWith(bindings);
+
+                // Loader visibility
+                this.WhenAnyValue(x =>
+                    x.ViewModel.IsLoading
+                ).Select(loading =>
+                    loading ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed
+                ).BindTo(
+                    this,
+                    view => view.loadingWrapper.Visibility
+                ).DisposeWith(bindings);
+
+                // Icons list visibility
+                this.WhenAnyValue(x =>
+                    x.ViewModel.IsLoading
+                ).Select(loading =>
+                    loading ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible
+                ).BindTo(
+                    this,
+                    view => view.iconsListWrapper.Visibility
+                ).DisposeWith(bindings);
             });
         }
     }

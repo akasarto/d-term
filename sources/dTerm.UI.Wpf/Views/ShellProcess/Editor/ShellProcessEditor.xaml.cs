@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using System.Reactive.Disposables;
 
 namespace dTerm.UI.Wpf.Views
 {
@@ -16,6 +17,12 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(bindings =>
             {
+                // Cancel button
+                this.BindCommand(
+                    ViewModel,
+                    vm => vm.Cancel,
+                    v => v.cancelButton
+                ).DisposeWith(bindings);
             });
         }
     }

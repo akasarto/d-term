@@ -1,12 +1,6 @@
-﻿using DynamicData;
-using DynamicData.Binding;
-using MaterialDesignThemes.Wpf;
+﻿using MaterialDesignThemes.Wpf;
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Linq;
+using System.Reactive;
 
 namespace dTerm.UI.Wpf.Views
 {
@@ -15,5 +9,9 @@ namespace dTerm.UI.Wpf.Views
         public ShellProcessEditorViewModel()
         {
         }
+
+        public ReactiveCommand<Unit, Unit> Cancel { get; }
+
+        private void CancelImpl() => DialogHost.Close("shellProcessesPanel");
     }
 }

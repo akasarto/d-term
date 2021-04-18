@@ -5,11 +5,11 @@ using System.Reactive.Disposables;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public abstract class ShellProcessStartButtonBase : BaseUserControl<ShellProcessButtonViewModel> { }
+    public abstract class ShellProcessToolbarButtonBase : BaseUserControl<ShellProcessToolbarButtonViewModel> { }
 
-    public partial class ShellProcessButton : ShellProcessStartButtonBase
+    public partial class ShellProcessToolbarButton : ShellProcessToolbarButtonBase
     {
-        public ShellProcessButton()
+        public ShellProcessToolbarButton()
         {
             InitializeComponent();
 
@@ -43,21 +43,21 @@ namespace dTerm.UI.Wpf.Views
                     ViewModel,
                     vm => vm.Edit,
                     v => v.edit
-                );
+                ).DisposeWith(bindings);
 
                 // Change Icon
                 this.BindCommand(
                     ViewModel,
                     vm => vm.ChangeIcon,
                     v => v.changeIcon
-                );
+                ).DisposeWith(bindings);
 
                 // Delete
                 this.BindCommand(
                     ViewModel,
                     vm => vm.Delete,
                     v => v.deleteButton
-                );
+                ).DisposeWith(bindings);
             });
         }
     }

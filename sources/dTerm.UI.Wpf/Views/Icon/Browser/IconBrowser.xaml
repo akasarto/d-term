@@ -18,39 +18,36 @@
 
         <Grid>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Border Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="{DynamicResource MaterialDesignDivider}" Margin="0 17.5 0 30">
-                <WrapPanel Orientation="Horizontal">
-                    <Button Style="{DynamicResource MaterialDesignToolButton}">
+            <Border BorderThickness="1" BorderBrush="{DynamicResource MaterialDesignDivider}" Margin="0 17.5 0 30">
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Style="{DynamicResource MaterialDesignToolButton}">
                         <materialDesign:PackIcon Kind="Magnify" Opacity=".5" />
                     </Button>
+
                     <TextBox x:Name="searchBox"
                              VerticalAlignment="Center"
+                             HorizontalAlignment="Stretch"
                              materialDesign:HintAssist.Hint="[Search]"
                              materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                              BorderThickness="0"
-                             Grid.Column="1"
-                             Grid.Row="0"
-                             Width="175" />
-                </WrapPanel>
+                             Grid.Column="1" />
+                </Grid>
             </Border>
 
-            <Border x:Name="iconsWrapper" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1">
-                <ListBox x:Name="icons"
-                         Height="{Binding ElementName=iconsWrapper, Path=ActualHeight}"
-                         Width="{Binding ElementName=iconsWrapper, Path=ActualWidth}"
-                         VirtualizingPanel.ScrollUnit="Pixel"
-                         VirtualizingPanel.VirtualizationMode="Recycling">
+            <Border x:Name="iconsListWrapper" Grid.Row="1" Visibility="Collapsed">
+                <ListBox x:Name="iconsList" VirtualizingPanel.ScrollUnit="Pixel" VirtualizingPanel.VirtualizationMode="Recycling" Height="{Binding ElementName=iconsListWrapper, Path=ActualHeight}" Width="{Binding ElementName=iconsListWrapper, Path=ActualWidth}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <virtualCollection:VirtualizingWrapPanel />
@@ -59,11 +56,15 @@
                 </ListBox>
             </Border>
 
-            <StackPanel Orientation="Horizontal" Margin="0 30 0 0" HorizontalAlignment="Right" Grid.Row="2" Grid.Column="1">
+            <Border x:Name="loadingWrapper" Grid.Row="1">
+                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
 
-                <Button x:Name="cancel" Content="cancel" Style="{DynamicResource MaterialDesignToolButton}" materialDesign:RippleAssist.IsDisabled="True" />
+            <StackPanel Orientation="Horizontal" Margin="0 30 0 0" HorizontalAlignment="Right" Grid.Row="2">
 
-                <Button x:Name="save" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="35 0 0 0">
+                <Button x:Name="cancelButton" Content="cancel" Style="{DynamicResource MaterialDesignToolButton}" materialDesign:RippleAssist.IsDisabled="True" />
+
+                <Button x:Name="saveButton" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="35 0 0 0">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="ContentSave" Width="24" Height="24" />
                         <TextBlock Margin="3.5 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="save" VerticalAlignment="Center" />

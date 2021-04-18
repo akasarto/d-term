@@ -8,11 +8,11 @@ using System.Windows;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class ShellProcessButtonViewModel : ReactiveObject
+    public class ShellProcessToolbarButtonViewModel : ReactiveObject
     {
         private readonly ProcessEntity _processEntity;
 
-        public ShellProcessButtonViewModel(ProcessEntity processEntity)
+        public ShellProcessToolbarButtonViewModel(ProcessEntity processEntity)
         {
             Launch = ReactiveCommand.Create<ShellProcessTerminalViewModel>(windowViewModel =>
             {

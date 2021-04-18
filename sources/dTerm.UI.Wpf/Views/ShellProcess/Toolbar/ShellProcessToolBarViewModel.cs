@@ -13,17 +13,17 @@ using System.Reactive.Linq;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class ShellProcessPanelViewModel : ReactiveObject
+    public class ShellProcessToolBarViewModel : ReactiveObject
     {
         private readonly ObservableCollectionExtended<ProcessEntity> _buttonsSource;
-        private readonly ReadOnlyObservableCollection<ShellProcessButtonViewModel> _processStartButtons;
+        private readonly ReadOnlyObservableCollection<ShellProcessToolbarButtonViewModel> _processStartButtons;
 
-        public ShellProcessPanelViewModel()
+        public ShellProcessToolBarViewModel()
         {
             _buttonsSource = new ObservableCollectionExtended<ProcessEntity>();
 
             _buttonsSource.ToObservableChangeSet()
-                .Transform(value => new ShellProcessButtonViewModel(value))
+                .Transform(value => new ShellProcessToolbarButtonViewModel(value))
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Bind(out _processStartButtons)
                 .Subscribe();
@@ -35,7 +35,7 @@ namespace dTerm.UI.Wpf.Views
             Load.ThrownExceptions.Subscribe(ex => throw ex);
         }
 
-        public ReadOnlyObservableCollection<ShellProcessButtonViewModel> ProcessStartButtons => _processStartButtons;
+        public ReadOnlyObservableCollection<ShellProcessToolbarButtonViewModel> ProcessStartButtons => _processStartButtons;
 
         private IObservable<Unit> AddImpl() => Observable.Start(() =>
          {

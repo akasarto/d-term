@@ -14,59 +14,87 @@ namespace dTerm.UI.Wpf.Views
 {
     public class IconBrowserViewModel : ReactiveObject
     {
-        private readonly ObservableCollectionExtended<(PackIconKind, List<string>)> _iconsSource;
+        private readonly ObservableCollectionExtended<(PackIconKind, List<string>)> _iconsSource = new();
 
         private ReadOnlyObservableCollection<IconBrowserItemViewModel> _icons;
 
         public IconBrowserViewModel()
         {
-            var primaryIcons = Enum.GetNames<PackIconKind>().GroupBy(k =>
-                Enum.Parse<PackIconKind>(k)
-            ).Select(group => (Kind: group.Key, Aliases: group.ToList()));
+            var canSave = this.WhenAnyValue(vm =>
+                vm.SelectedIcon
+            ).Select(icon =>
+                icon != null
+            );
 
-            _iconsSource = new ObservableCollectionExtended<(PackIconKind, List<string>)>(primaryIcons);
+            var iconFilter = this
+                .WhenAnyValue(@this =>
+                    @this.SearchText
+                )
+                .Throttle(TimeSpan.FromMilliseconds(350), RxApp.TaskpoolScheduler)
+                .DistinctUntilChanged()
+                .Select(IconFilter)
+            ;
 
-            _iconsSource.ToObservableChangeSet()
+            _iconsSource
+                .ToObservableChangeSet()
                 .Transform(item =>
                 {
                     var (kind, aliases) = item;
 
                     return new IconBrowserItemViewModel(kind, aliases);
                 })
+                .Filter(iconFilter)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Bind(out _icons)
-                .Subscribe();
+                .DisposeMany()
+                .Subscribe()
+            ;
 
-            var canSave = this.WhenAnyValue(vm => vm.SelectedIcon).Select(icon => icon != null);
-
-            Save = ReactiveCommand.CreateFromObservable(SaveImpl, canSave);
+            // Cancel command
             Cancel = ReactiveCommand.Create(CancelImpl);
-            Search = ReactiveCommand.CreateFromObservable(SearchImpl);
+
+            // Load command
             Load = ReactiveCommand.CreateFromObservable(LoadImpl);
+            Load.IsExecuting.ToPropertyEx(this, x => x.IsLoading);
+            Load.ThrownExceptions.Subscribe(ex => throw ex);
+
+            // Save command
+            Save = ReactiveCommand.CreateFromObservable(SaveImpl, canSave);
         }
+
+        public ReactiveCommand<Unit, Unit> Load { get; }
+        public ReactiveCommand<Unit, Unit> Cancel { get; }
+        public ReactiveCommand<Unit, Unit> Save { get; }
 
         public ReadOnlyObservableCollection<IconBrowserItemViewModel> Icons => _icons;
 
+        [ObservableAsProperty] public bool IsLoading { get; }
         [Reactive] public IconBrowserItemViewModel SelectedIcon { get; set; }
+        [Reactive] public string SearchText { get; set; }
 
-        public ReactiveCommand<Unit, Unit> Save { get; }
-        public ReactiveCommand<Unit, Unit> Cancel { get; }
-        public ReactiveCommand<Unit, Unit> Search { get; }
-        public ReactiveCommand<Unit, Unit> Load { get; }
+        private Func<IconBrowserItemViewModel, bool> IconFilter(string query) => item =>
+        {
+            var kinds = string.Concat(
+                item.Kind.ToString(),
+                ".",
+                string.Join(".", item.Aliases)
+            );
+
+            return kinds.Contains(query, StringComparison.OrdinalIgnoreCase);
+        };
+
+        private IObservable<Unit> LoadImpl() => Observable.Start(() =>
+        {
+            var primaryIcons = Enum.GetNames<PackIconKind>().GroupBy(k =>
+                Enum.Parse<PackIconKind>(k)
+            ).Select(group => (Kind: group.Key, Aliases: group.ToList()));
+
+            _iconsSource.AddRange(primaryIcons);
+        });
 
         private void CancelImpl() => DialogHost.Close("shellProcessesPanel");
 
-        private IObservable<Unit> SearchImpl() => Observable.Start(() =>
-        {
-
-        });
-
         private IObservable<Unit> SaveImpl() => Observable.Start(() =>
-        {
-
-        });
-
-        private IObservable<Unit> LoadImpl() => Observable.Start(() =>
         {
         });
     }
