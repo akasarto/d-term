@@ -1,8 +1,6 @@
-﻿using ReactiveUI;
-
-namespace dTerm.UI.Wpf.Views
+﻿namespace dTerm.UI.Wpf.Views
 {
-    public class MainToolBarTrayViewModel : ReactiveObject
+    public class MainToolBarTrayViewModel : BaseReactiveObject
     {
     }
 }

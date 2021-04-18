@@ -25,13 +25,13 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 0 0 15">
-                <TextBox x:Name="name" Width="350" Style="{StaticResource MaterialDesignOutlinedTextBox}" md:HintAssist.Hint="Name" />
-                <TextBox x:Name="exeArgs" Width="250" Margin="15 0 0 0" Style="{StaticResource MaterialDesignOutlinedTextBox}" md:HintAssist.Hint="Executable Args" />
+                <TextBox x:Name="nameTextBox" Width="350" Style="{StaticResource MaterialDesignOutlinedTextBox}" md:HintAssist.Hint="Name" />
+                <TextBox x:Name="argsTextBox" Width="250" Margin="15 0 0 0" Style="{StaticResource MaterialDesignOutlinedTextBox}" md:HintAssist.Hint="Executable Args" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0" HorizontalAlignment="Right">
                 <Button x:Name="cancelButton" Content="cancel" Style="{DynamicResource MaterialDesignToolButton}" md:RippleAssist.IsDisabled="True" />
-                <Button x:Name="save" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="35 0 0 0">
+                <Button x:Name="saveButton" Style="{DynamicResource MaterialDesignRaisedDarkButton}" Margin="35 0 0 0">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="ContentSave" Width="24" Height="24" />
                         <TextBlock Margin="3.5 0 0 0" Style="{StaticResource MaterialDesignBody1TextBlock}" Text="save" VerticalAlignment="Center" />

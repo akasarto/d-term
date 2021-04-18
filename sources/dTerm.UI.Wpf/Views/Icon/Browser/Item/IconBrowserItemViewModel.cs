@@ -1,11 +1,10 @@
 ﻿using MaterialDesignThemes.Wpf;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Collections.Generic;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class IconBrowserItemViewModel : ReactiveObject
+    public class IconBrowserItemViewModel : BaseReactiveObject
     {
         public IconBrowserItemViewModel(PackIconKind kind, List<string> aliases)
         {

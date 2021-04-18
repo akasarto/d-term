@@ -27,7 +27,7 @@ namespace dTerm.UI.Wpf.Views
                 // Start buttons list
                 this.OneWayBind(
                     ViewModel,
-                    viewModel => viewModel.ProcessStartButtons,
+                    viewModel => viewModel.Buttons,
                     view => view.buttonsList.ItemsSource
                 ).DisposeWith(bindings);
 

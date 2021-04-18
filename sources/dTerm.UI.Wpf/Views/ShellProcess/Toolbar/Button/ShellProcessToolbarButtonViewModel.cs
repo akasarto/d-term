@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class ShellProcessToolbarButtonViewModel : ReactiveObject
+    public class ShellProcessToolbarButtonViewModel : BaseReactiveObject
     {
         private readonly ProcessEntity _processEntity;
 

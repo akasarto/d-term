@@ -12,11 +12,10 @@ using System.Reactive.Linq;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class IconBrowserViewModel : ReactiveObject
+    public class IconBrowserViewModel : BaseReactiveObject
     {
+        private readonly ReadOnlyObservableCollection<IconBrowserItemViewModel> _icons;
         private readonly ObservableCollectionExtended<(PackIconKind, List<string>)> _iconsSource = new();
-
-        private ReadOnlyObservableCollection<IconBrowserItemViewModel> _icons;
 
         public IconBrowserViewModel()
         {

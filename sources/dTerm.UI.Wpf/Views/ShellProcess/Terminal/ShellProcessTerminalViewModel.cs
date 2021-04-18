@@ -1,9 +1,8 @@
 ﻿using dTerm.Core;
-using ReactiveUI;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class ShellProcessTerminalViewModel : ReactiveObject
+    public class ShellProcessTerminalViewModel : BaseReactiveObject
     {
         private readonly ProcessEntity _processEntity;
 

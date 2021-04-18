@@ -23,9 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.0.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
     <PackageReference Include="ReactiveUI.Events.WPF" Version="13.2.18" />
     <PackageReference Include="ReactiveUI.Fody" Version="13.2.18" />
+    <PackageReference Include="ReactiveUI.Validation" Version="2.1.1" />
     <PackageReference Include="ReactiveUI.WPF" Version="13.2.18" />
     <PackageReference Include="VirtualizingWrapPanel" Version="1.5.4" />
   </ItemGroup>

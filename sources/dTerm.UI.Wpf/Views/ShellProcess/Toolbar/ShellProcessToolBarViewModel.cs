@@ -13,19 +13,17 @@ using System.Reactive.Linq;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class ShellProcessToolBarViewModel : ReactiveObject
+    public class ShellProcessToolBarViewModel : BaseReactiveObject
     {
-        private readonly ObservableCollectionExtended<ProcessEntity> _buttonsSource;
-        private readonly ReadOnlyObservableCollection<ShellProcessToolbarButtonViewModel> _processStartButtons;
+        private readonly ReadOnlyObservableCollection<ShellProcessToolbarButtonViewModel> _buttons;
+        private readonly ObservableCollectionExtended<ProcessEntity> _buttonsSource = new();
 
         public ShellProcessToolBarViewModel()
         {
-            _buttonsSource = new ObservableCollectionExtended<ProcessEntity>();
-
             _buttonsSource.ToObservableChangeSet()
                 .Transform(value => new ShellProcessToolbarButtonViewModel(value))
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Bind(out _processStartButtons)
+                .Bind(out _buttons)
                 .Subscribe();
 
             Add = ReactiveCommand.CreateFromObservable(AddImpl);
@@ -35,41 +33,40 @@ namespace dTerm.UI.Wpf.Views
             Load.ThrownExceptions.Subscribe(ex => throw ex);
         }
 
-        public ReadOnlyObservableCollection<ShellProcessToolbarButtonViewModel> ProcessStartButtons => _processStartButtons;
+        public ReadOnlyObservableCollection<ShellProcessToolbarButtonViewModel> Buttons => _buttons;
 
-        private IObservable<Unit> AddImpl() => Observable.Start(() =>
-         {
-             var fileDialog = new Microsoft.Win32.OpenFileDialog();
-
-             fileDialog.DefaultExt = ".exe";
-             fileDialog.Filter = "Executable Files (*.exe)|*.exe";
-             fileDialog.Title = "Locate New Shell Process File";
-
-             var result = fileDialog.ShowDialog();
-
-             if (result ?? false)
-             {
-                 var filename = fileDialog.FileName;
-
-                 _buttonsSource.Add(new ProcessEntity()
-                 {
-                     Id = Guid.NewGuid(),
-                     Icon = MaterialDesignThemes.Wpf.PackIconKind.CubeOutline.ToString(),
-                     Name = Path.GetFileNameWithoutExtension(filename),
-                     ProcessExecutablePath = filename,
-                     ProcessStartupArgs = string.Empty,
-                     ProcessType = ProcessType.Shell,
-                     UTCCreation = DateTime.UtcNow,
-                     OrderIndex = int.MaxValue,
-                 });
-             }
-         });
+        public ReactiveCommand<Unit, Unit> Add { get; }
+        public ReactiveCommand<Unit, Unit> Load { get; }
 
         [ObservableAsProperty] public bool IsLoading { get; }
 
-        public ReactiveCommand<Unit, Unit> Add { get; }
+        private IObservable<Unit> AddImpl() => Observable.Start(() =>
+        {
+            var fileDialog = new Microsoft.Win32.OpenFileDialog();
 
-        public ReactiveCommand<Unit, Unit> Load { get; }
+            fileDialog.DefaultExt = ".exe";
+            fileDialog.Filter = "Executable Files (*.exe)|*.exe";
+            fileDialog.Title = "Locate New Shell Process File";
+
+            var result = fileDialog.ShowDialog();
+
+            if (result ?? false)
+            {
+                var filename = fileDialog.FileName;
+
+                _buttonsSource.Add(new ProcessEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    Icon = MaterialDesignThemes.Wpf.PackIconKind.CubeOutline.ToString(),
+                    Name = Path.GetFileNameWithoutExtension(filename),
+                    ProcessExecutablePath = filename,
+                    ProcessStartupArgs = string.Empty,
+                    ProcessType = ProcessType.Shell,
+                    UTCCreation = DateTime.UtcNow,
+                    OrderIndex = int.MaxValue,
+                });
+            }
+        });
 
         private IObservable<Unit> LoadImpl() => Observable.Start(() =>
         {
