@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using MaterialDesignThemes.Wpf;
+using ReactiveUI;
 using System.Reactive.Disposables;
 
 namespace dTerm.UI.Wpf.Views
@@ -11,8 +12,12 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
+            ViewModel ??= new IconBrowserItemViewModel(default(PackIconKind), new());
+
             this.WhenActivated(bindings =>
             {
+                DataContext ??= ViewModel;
+
                 // Icon
                 this.OneWayBind(
                     ViewModel,

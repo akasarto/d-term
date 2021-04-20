@@ -13,8 +13,12 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
+            ViewModel ??= new ShellProcessToolbarButtonViewModel(processEntity: null);
+
             this.WhenActivated(bindings =>
             {
+                DataContext ??= ViewModel;
+
                 // Icon
                 this.OneWayBind(
                     ViewModel,

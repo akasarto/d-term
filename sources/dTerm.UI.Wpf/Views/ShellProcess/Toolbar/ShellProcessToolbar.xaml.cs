@@ -13,11 +13,11 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
-            ViewModel = new ShellProcessToolBarViewModel();
+            ViewModel ??= new ShellProcessToolBarViewModel();
 
             this.WhenActivated(bindings =>
             {
-                DataContext = ViewModel;
+                DataContext ??= ViewModel;
 
                 // Add button
                 this.BindCommand(

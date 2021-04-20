@@ -10,11 +10,11 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
-            ViewModel = new MainToolBarTrayViewModel();
+            ViewModel ??= new MainToolBarTrayViewModel();
 
             this.WhenActivated(bindings =>
             {
-                DataContext = ViewModel;
+                DataContext ??= ViewModel;
             });
         }
     }

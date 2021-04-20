@@ -12,7 +12,7 @@ namespace dTerm.UI.Wpf.Views
     {
         private readonly ProcessEntity _processEntity;
 
-        public ShellProcessToolbarButtonViewModel(ProcessEntity processEntity)
+        public ShellProcessToolbarButtonViewModel(ProcessEntity processEntity = null)
         {
             Launch = ReactiveCommand.Create<ShellProcessTerminalViewModel>(windowViewModel =>
             {
@@ -55,9 +55,9 @@ namespace dTerm.UI.Wpf.Views
             return Unit.Default;
         }
 
-        public Guid Id => _processEntity.Id;
-        public string Icon => _processEntity.Icon;
-        public string Name => _processEntity.Name;
+        public Guid Id => _processEntity?.Id ?? Guid.Empty;
+        public string Icon => _processEntity?.Icon;
+        public string Name => _processEntity?.Name;
         public ShellProcessTerminalViewModel TerminalWindowViewModel => new(_processEntity);
 
         public ReactiveCommand<Unit, Unit> Edit { get; }

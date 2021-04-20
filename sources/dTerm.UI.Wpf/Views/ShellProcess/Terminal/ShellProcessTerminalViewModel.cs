@@ -11,6 +11,6 @@ namespace dTerm.UI.Wpf.Views
             _processEntity = processEntity;
         }
 
-        public string ProcessExecutablePath => _processEntity.ProcessExecutablePath;
+        public string ProcessExecutablePath => _processEntity?.ProcessExecutablePath;
     }
 }

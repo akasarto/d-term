@@ -13,11 +13,11 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
-            ViewModel = new IconBrowserViewModel();
+            ViewModel ??= new IconBrowserViewModel();
 
             this.WhenActivated(bindings =>
             {
-                DataContext = ViewModel;
+                DataContext ??= ViewModel;
 
                 // Track selected icon
                 this.Bind(

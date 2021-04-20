@@ -49,15 +49,15 @@ namespace dTerm.UI.Wpf.Views
                 .Subscribe()
             ;
 
-            // Cancel command
+            //
             Cancel = ReactiveCommand.Create(CancelImpl);
 
-            // Load command
+            //
             Load = ReactiveCommand.CreateFromObservable(LoadImpl);
             Load.IsExecuting.ToPropertyEx(this, x => x.IsLoading);
             Load.ThrownExceptions.Subscribe(ex => throw ex);
 
-            // Save command
+            //
             Save = ReactiveCommand.CreateFromObservable(SaveImpl, canSave);
         }
 

@@ -1,34 +1,34 @@
-﻿using dTerm.Core;
-using dTerm.Infra.EfCore;
+﻿using dTerm.UI.Wpf.Services;
 using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace dTerm.UI.Wpf.Views
 {
     public class ShellProcessToolBarViewModel : BaseReactiveObject
     {
         private readonly ReadOnlyObservableCollection<ShellProcessToolbarButtonViewModel> _buttons;
-        private readonly ObservableCollectionExtended<ProcessEntity> _buttonsSource = new();
+        private readonly ShellProcessesData _shellProcessesData = new();
 
         public ShellProcessToolBarViewModel()
         {
-            _buttonsSource.ToObservableChangeSet()
+            _shellProcessesData.ToObservableChangeSet()
                 .Transform(value => new ShellProcessToolbarButtonViewModel(value))
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Bind(out _buttons)
                 .Subscribe();
 
-            Add = ReactiveCommand.CreateFromObservable(AddImpl);
+            //
+            Add = ReactiveCommand.CreateFromTask(AddImpl);
 
-            Load = ReactiveCommand.CreateFromObservable(LoadImpl);
+            //
+            Load = ReactiveCommand.CreateFromTask(LoadImpl);
             Load.IsExecuting.ToPropertyEx(this, x => x.IsLoading);
             Load.ThrownExceptions.Subscribe(ex => throw ex);
         }
@@ -40,7 +40,7 @@ namespace dTerm.UI.Wpf.Views
 
         [ObservableAsProperty] public bool IsLoading { get; }
 
-        private IObservable<Unit> AddImpl() => Observable.Start(() =>
+        private async Task<Unit> AddImpl()
         {
             var fileDialog = new Microsoft.Win32.OpenFileDialog();
 
@@ -52,33 +52,17 @@ namespace dTerm.UI.Wpf.Views
 
             if (result ?? false)
             {
-                var filename = fileDialog.FileName;
-
-                _buttonsSource.Add(new ProcessEntity()
-                {
-                    Id = Guid.NewGuid(),
-                    Icon = MaterialDesignThemes.Wpf.PackIconKind.CubeOutline.ToString(),
-                    Name = Path.GetFileNameWithoutExtension(filename),
-                    ProcessExecutablePath = filename,
-                    ProcessStartupArgs = string.Empty,
-                    ProcessType = ProcessType.Shell,
-                    UTCCreation = DateTime.UtcNow,
-                    OrderIndex = int.MaxValue,
-                });
+                await _shellProcessesData.Add(fileDialog.FileName);
             }
-        });
 
-        private IObservable<Unit> LoadImpl() => Observable.Start(() =>
+            return Unit.Default;
+        }
+
+        private async Task<Unit> LoadImpl()
         {
-            using (var context = new AppDbContext())
-            {
-                var entities = context.Consoles.ToList();
+            await _shellProcessesData.LoadASync();
 
-                foreach (var entity in entities)
-                {
-                    _buttonsSource.Add(entity);
-                }
-            }
-        });
+            return Unit.Default;
+        }
     }
 }

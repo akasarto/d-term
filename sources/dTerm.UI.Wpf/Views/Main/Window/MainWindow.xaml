@@ -31,10 +31,13 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
+            <!--Header-->
             <local:MainHeader Grid.Row="0" />
 
+            <!--ToolBars-->
             <local:MainToolBarTray Grid.Row="1" />
 
+            <!--Activities-->
             <local:ActivityList Grid.Row="2" />
 
         </Grid>
