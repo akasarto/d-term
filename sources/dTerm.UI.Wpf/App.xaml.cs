@@ -1,6 +1,7 @@
 ﻿using dTerm.Core.Reposistories;
 using dTerm.Infra.EfCore;
 using dTerm.Infra.EfCore.Repositories;
+using dTerm.UI.Wpf.Converters;
 using dTerm.UI.Wpf.Views;
 using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
@@ -36,6 +37,9 @@ namespace dTerm.UI.Wpf
 
             // Repositories
             Locator.CurrentMutable.Register<IShellProcessesRepository>(() => new ShellProcessesRepository());
+
+            // Converters
+            Locator.CurrentMutable.RegisterConstant(new PackIconKindConverter(), typeof(IBindingTypeConverter));
         }
 
         private void AppGlobalExceptionsHandler(object sender, UnhandledExceptionEventArgs eventArgs)

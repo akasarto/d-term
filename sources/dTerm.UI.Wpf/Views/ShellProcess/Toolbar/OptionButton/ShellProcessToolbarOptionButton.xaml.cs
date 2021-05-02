@@ -15,7 +15,18 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(disposables =>
             {
-                disposables.Add(ViewModel.ShowEditDialog.RegisterHandler(async interaction =>
+                // Edit Interaction
+                // ToDo: Find the proper RxUI way of closing the dialog outside of the vm
+                disposables.Add(ViewModel.ShowShellProcessEditorDialog.RegisterHandler(async interaction =>
+                {
+                    var view = interaction.Input.GetView();
+                    var result = await DialogHost.Show(view, DialogNames.Main);
+                    interaction.SetOutput(Convert.ToBoolean(result));
+                }));
+
+                // Icon Browser Interaction
+                // ToDo: Find the proper RxUI way of closing the dialog outside of the vm
+                disposables.Add(ViewModel.ShowIconBrowserDialog.RegisterHandler(async interaction =>
                 {
                     var view = interaction.Input.GetView();
                     var result = await DialogHost.Show(view, DialogNames.Main);
@@ -26,9 +37,7 @@ namespace dTerm.UI.Wpf.Views
                 this.Bind(
                     ViewModel,
                     vm => vm.Icon,
-                    v => v.launchButtonIcon.Kind,
-                    value => Enum.Parse<PackIconKind>(value, ignoreCase: true),
-                    value => value.ToString()
+                    v => v.launchButtonIcon.Kind
                 ).DisposeWith(disposables);
 
                 // Tooltip

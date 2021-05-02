@@ -8,21 +8,22 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace dTerm.UI.Wpf.Views
 {
     public class ShellProcessToolbarOptionButtonViewModel : BaseViewModel
     {
         private readonly IShellProcessesRepository _shellProcessesRepository;
-        private readonly Interaction<ShellProcessEditorViewModel, bool> _showEditDialog;
 
         public ShellProcessToolbarOptionButtonViewModel(IShellProcessesRepository shellProcessesRepository = null, ProcessEntity shellProcess = null)
         {
             _shellProcessesRepository = shellProcessesRepository ?? Locator.Current.GetService<IShellProcessesRepository>();
 
             //
-            _showEditDialog = new Interaction<ShellProcessEditorViewModel, bool>();
+            ShowIconBrowserDialog = new Interaction<IconBrowserViewModel, bool>();
+
+            //
+            ShowShellProcessEditorDialog = new Interaction<ShellProcessEditorViewModel, bool>();
 
             //
             Launch = ReactiveCommand.Create<ShellProcessTerminalViewModel>(windowViewModel =>
@@ -35,6 +36,7 @@ namespace dTerm.UI.Wpf.Views
 
                 //window.Show();
             });
+            Launch.ThrownExceptions.Subscribe(ex => throw ex);
 
             Edit = ReactiveCommand.CreateFromTask(EditImpl);
             Delete = ReactiveCommand.CreateFromTask(DeleteImpl);
@@ -60,19 +62,20 @@ namespace dTerm.UI.Wpf.Views
         public ReactiveCommand<Unit, Unit> Delete { get; }
         public ReactiveCommand<Unit, Unit> ChangeIcon { get; }
         public ReactiveCommand<ShellProcessTerminalViewModel, Unit> Launch { get; }
-        public Interaction<ShellProcessEditorViewModel, bool> ShowEditDialog => _showEditDialog;
+        public Interaction<IconBrowserViewModel, bool> ShowIconBrowserDialog { get; }
+        public Interaction<ShellProcessEditorViewModel, bool> ShowShellProcessEditorDialog { get; }
 
         private async Task<Unit> EditImpl()
         {
             var shellProcess = await _shellProcessesRepository.ReadByIdAsync(Id);
             var shellProcessEditorViewModel = new ShellProcessEditorViewModel(shellProcess);
 
-            _ = _showEditDialog.Handle(shellProcessEditorViewModel).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async edited =>
+            _ =  ShowShellProcessEditorDialog.Handle(shellProcessEditorViewModel).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async edited =>
             {
                 if (edited)
                 {
                     shellProcess.Name = shellProcessEditorViewModel.Name;
-                    shellProcess.ProcessStartupArgs = shellProcessEditorViewModel.Args;
+                    shellProcess.ProcessStartupArgs = shellProcessEditorViewModel.ExeArgs;
 
                     shellProcess = await _shellProcessesRepository.UpdateAsync(shellProcess);
 
@@ -90,11 +93,23 @@ namespace dTerm.UI.Wpf.Views
 
         private async Task<Unit> ChangeIconImpl()
         {
-            var iconEditor = new IconBrowser();
+            var iconBrowserViewModel = new IconBrowserViewModel();
 
-            _ = await DialogHost.Show(iconEditor, DialogNames.Main);
+            _ = ShowIconBrowserDialog.Handle(iconBrowserViewModel).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async iconSelected =>
+            {
+                if (iconSelected)
+                {
+                    var shellProcess = await _shellProcessesRepository.ReadByIdAsync(Id);
 
-            return Unit.Default;
+                    shellProcess.Icon = iconBrowserViewModel.SelectedIcon.Kind.ToString();
+
+                    shellProcess = await _shellProcessesRepository.UpdateAsync(shellProcess);
+
+                    RefreshData(shellProcess);
+                }
+            });
+
+            return await Task.FromResult(Unit.Default);
         }
     }
 }

@@ -2,7 +2,6 @@
 using MaterialDesignThemes.Wpf;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
 using System.Reactive;
 
 namespace dTerm.UI.Wpf.Views
@@ -13,42 +12,39 @@ namespace dTerm.UI.Wpf.Views
 
         public ShellProcessEditorViewModel(ProcessEntity shellProcess = null)
         {
-            Cancel = ReactiveCommand.Create(CancelImpl);
-            Save = ReactiveCommand.Create(SaveImpl);
+            // Cancel Command
+            Cancel = ReactiveCommand.Create(() => DialogHost.Close(DialogNames.Main, false));
+
+            // Save Command
+            Save = ReactiveCommand.Create(() =>
+            {
+                if (_validator.Validate(this) is var validation && validation.IsValid)
+                {
+                    DialogHost.Close(DialogNames.Main, true);
+
+                    return;
+                }
+
+                NotifyErrors(validation.Errors);
+            });
 
             LoadData(shellProcess);
         }
 
+        public string Icon { get; set; }
+        public string ExePath { get; set; }
+        [Reactive] public string Name { get; set; }
+        [Reactive] public string ExeArgs { get; set; }
+
         public ReactiveCommand<Unit, Unit> Cancel { get; }
         public ReactiveCommand<Unit, Unit> Save { get; }
 
-        public string Icon { get; set; }
-        public string ProcessExecutablePath { get; set; }
-        [Reactive] public string Name { get; set; }
-        [Reactive] public string Args { get; set; }
-
-        private void LoadData(ProcessEntity shellProcess)
+        private void LoadData(ProcessEntity shellProcess = null)
         {
             Icon = shellProcess?.Icon;
-            ProcessExecutablePath = shellProcess?.ProcessExecutablePath;
+            ExePath = shellProcess?.ProcessExecutablePath;
             Name = shellProcess?.Name;
-            Args = shellProcess?.ProcessStartupArgs;
-        }
-
-        private void CancelImpl() => DialogHost.Close(DialogNames.Main, false);
-
-        private void SaveImpl()
-        {
-            var validation = _validator.Validate(this);
-
-            if (!validation.IsValid)
-            {
-                NotifyErrors(validation.Errors);
-
-                return;
-            }
-
-            DialogHost.Close(DialogNames.Main, true);
+            ExeArgs = shellProcess?.ProcessStartupArgs;
         }
     }
 }

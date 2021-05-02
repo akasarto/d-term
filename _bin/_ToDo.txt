@@ -2,9 +2,19 @@ Add new shell
 	OK
 
 Edit existing shell
+	OK
 
 Change shell picture
+	OK
+
+Rename ProcessEntity to ShellProcess
+
+Add global error message
+
+Make terminal window RX
 
 Rearrange shell option buttons
 
-Rename ProcessEntity to ShellProcess
+
+
+

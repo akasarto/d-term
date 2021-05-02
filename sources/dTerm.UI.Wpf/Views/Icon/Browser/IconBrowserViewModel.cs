@@ -19,51 +19,47 @@ namespace dTerm.UI.Wpf.Views
 
         public IconBrowserViewModel()
         {
+            //
             var canSave = this.WhenAnyValue(vm =>
                 vm.SelectedIcon
             ).Select(icon =>
                 icon != null
             );
 
-            var iconFilter = this
-                .WhenAnyValue(@this =>
-                    @this.SearchText
-                )
-                .Throttle(TimeSpan.FromMilliseconds(350), RxApp.TaskpoolScheduler)
-                .DistinctUntilChanged()
-                .Select(IconFilter)
-            ;
+            //
+            var iconFilter = this.WhenAnyValue(@this =>
+                @this.SearchText
+            ).Throttle(TimeSpan.FromMilliseconds(350), RxApp.TaskpoolScheduler).DistinctUntilChanged().Select(IconFilter);
 
-            _iconsSource
-                .ToObservableChangeSet()
-                .Transform(item =>
-                {
-                    var (kind, aliases) = item;
+            _iconsSource.ToObservableChangeSet().Transform(item =>
+            {
+                var (kind, aliases) = item;
 
-                    return new IconBrowserItemViewModel(kind, aliases);
-                })
-                .Filter(iconFilter)
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .Bind(out _icons)
-                .DisposeMany()
-                .Subscribe()
-            ;
+                return new IconBrowserItemViewModel(kind, aliases);
+            }).Filter(iconFilter).ObserveOn(RxApp.MainThreadScheduler).Bind(out _icons).DisposeMany().Subscribe();
 
             //
-            Cancel = ReactiveCommand.Create(CancelImpl);
+            Cancel = ReactiveCommand.Create(() => DialogHost.Close(DialogNames.Main, false));
 
             //
-            Load = ReactiveCommand.CreateFromObservable(LoadImpl);
+            Save = ReactiveCommand.Create(() => DialogHost.Close(DialogNames.Main, true), canSave);
+
+            //
+            Load = ReactiveCommand.CreateFromObservable(() => Observable.Start(() =>
+            {
+                var primaryIcons = Enum.GetNames<PackIconKind>().GroupBy(k =>
+                    Enum.Parse<PackIconKind>(k)
+                ).Select(group => (Kind: group.Key, Aliases: group.ToList()));
+
+                _iconsSource.AddRange(primaryIcons);
+            }));
             Load.IsExecuting.ToPropertyEx(this, x => x.IsLoading);
             Load.ThrownExceptions.Subscribe(ex => throw ex);
-
-            //
-            Save = ReactiveCommand.CreateFromObservable(SaveImpl, canSave);
         }
 
-        public ReactiveCommand<Unit, Unit> Load { get; }
         public ReactiveCommand<Unit, Unit> Cancel { get; }
         public ReactiveCommand<Unit, Unit> Save { get; }
+        public ReactiveCommand<Unit, Unit> Load { get; }
 
         public ReadOnlyObservableCollection<IconBrowserItemViewModel> Icons => _icons;
 
@@ -81,20 +77,5 @@ namespace dTerm.UI.Wpf.Views
 
             return kinds.Contains(query, StringComparison.OrdinalIgnoreCase);
         };
-
-        private IObservable<Unit> LoadImpl() => Observable.Start(() =>
-        {
-            var primaryIcons = Enum.GetNames<PackIconKind>().GroupBy(k =>
-                Enum.Parse<PackIconKind>(k)
-            ).Select(group => (Kind: group.Key, Aliases: group.ToList()));
-
-            _iconsSource.AddRange(primaryIcons);
-        });
-
-        private void CancelImpl() => DialogHost.Close(DialogNames.Main);
-
-        private IObservable<Unit> SaveImpl() => Observable.Start(() =>
-        {
-        });
     }
 }

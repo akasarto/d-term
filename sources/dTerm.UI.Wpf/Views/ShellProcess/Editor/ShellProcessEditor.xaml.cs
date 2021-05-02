@@ -22,14 +22,13 @@ namespace dTerm.UI.Wpf.Views
                 this.OneWayBind(
                     ViewModel,
                     vm => vm.Icon,
-                    v => v.shellIcon.Kind,
-                    value => Enum.Parse<PackIconKind>(value, ignoreCase: true)
+                    v => v.shellIcon.Kind
                 ).DisposeWith(disposables);
 
                 // Executable Path
                 this.OneWayBind(
                     ViewModel,
-                    vm => vm.ProcessExecutablePath,
+                    vm => vm.ExePath,
                     v => v.exePath.Text
                 ).DisposeWith(disposables);
 
@@ -50,7 +49,7 @@ namespace dTerm.UI.Wpf.Views
                 _ = BindingOperations.SetBinding(argsTextBox, TextBox.TextProperty, new Binding()
                 {
                     Mode = BindingMode.TwoWay,
-                    Path = new PropertyPath(nameof(ViewModel.Args)),
+                    Path = new PropertyPath(nameof(ViewModel.ExeArgs)),
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                     NotifyOnValidationError = true,
                     ValidatesOnDataErrors = true,

@@ -10,8 +10,6 @@ namespace dTerm.UI.Wpf
     {
         public static IViewFor<TViewModel> GetView<TViewModel>(this TViewModel viewModel) where TViewModel : ReactiveObject
         {
-            var x = Locator.Current.GetService<IViewFor<TViewModel>>();
-
             if (Locator.Current.GetService<IViewFor<TViewModel>>() is var view)
             {
                 if (view.ViewModel is null)
