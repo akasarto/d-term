@@ -10,11 +10,9 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
-            ViewModel ??= new ActivityListViewModel();
-
             this.WhenActivated(bindings =>
             {
-                DataContext ??= ViewModel;
+                ViewModel ??= new ActivityListViewModel();
             });
         }
     }

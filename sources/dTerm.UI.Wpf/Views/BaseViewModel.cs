@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public abstract class BaseReactiveObject : ReactiveObject, INotifyDataErrorInfo
+    public abstract class BaseViewModel : ReactiveObject, INotifyDataErrorInfo
     {
         private readonly ConcurrentDictionary<string, List<string>> _modelErrors = new();
 

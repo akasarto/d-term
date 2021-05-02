@@ -22,14 +22,14 @@
             <StackPanel Orientation="Horizontal" Margin="0 15 0 25">
 
                 <!--Icon-->
-                <md:PackIcon Kind="Ubuntu"
+                <md:PackIcon x:Name="shellIcon"
                              FocusManager.IsFocusScope="False"
                              VerticalAlignment="Center"
                              Height="24"
                              Width="24" />
 
                 <!--Executable Path-->
-                <TextBlock Text="C:\\Users\\akasarto\\scoop\\apps\\git-with-openssh\\current\\bin\\sh.exe"
+                <TextBlock x:Name="exePath"
                            VerticalAlignment="Center"
                            Margin="5 0 0 0"
                            FontSize="13" />

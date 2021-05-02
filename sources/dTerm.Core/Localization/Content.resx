@@ -118,7 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppTitle" xml:space="preserve">
-    <value>dTerm Core</value>
+    <value>dTerm</value>
+  </data>
+  <data name="Executable Files Exe" xml:space="preserve">
+    <value>Executable Files (*.exe)|*.exe</value>
+  </data>
+  <data name="Locate New Shell Process File" xml:space="preserve">
+    <value>Locate New Shell Process File</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>

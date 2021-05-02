@@ -5,34 +5,38 @@ using System.Reactive.Disposables;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public abstract class ShellProcessToolbarButtonBase : BaseUserControl<ShellProcessToolbarButtonViewModel> { }
+    public abstract class ShellProcessToolbarOptionButtonBase : BaseUserControl<ShellProcessToolbarOptionButtonViewModel> { }
 
-    public partial class ShellProcessToolbarButton : ShellProcessToolbarButtonBase
+    public partial class ShellProcessToolbarOptionButton : ShellProcessToolbarOptionButtonBase
     {
-        public ShellProcessToolbarButton()
+        public ShellProcessToolbarOptionButton()
         {
             InitializeComponent();
 
-            ViewModel ??= new ShellProcessToolbarButtonViewModel(processEntity: null);
-
-            this.WhenActivated(bindings =>
+            this.WhenActivated(disposables =>
             {
-                DataContext ??= ViewModel;
+                disposables.Add(ViewModel.ShowEditDialog.RegisterHandler(async interaction =>
+                {
+                    var view = interaction.Input.GetView();
+                    var result = await DialogHost.Show(view, DialogNames.Main);
+                    interaction.SetOutput(Convert.ToBoolean(result));
+                }));
 
                 // Icon
-                this.OneWayBind(
+                this.Bind(
                     ViewModel,
                     vm => vm.Icon,
                     v => v.launchButtonIcon.Kind,
-                    value => Enum.Parse<PackIconKind>(value, ignoreCase: true)
-                ).DisposeWith(bindings);
+                    value => Enum.Parse<PackIconKind>(value, ignoreCase: true),
+                    value => value.ToString()
+                ).DisposeWith(disposables);
 
                 // Tooltip
-                this.OneWayBind(
+                this.Bind(
                     ViewModel,
                     vm => vm.Name,
-                    v => v.ToolTip
-                ).DisposeWith(bindings);
+                    v => v.launchButton.ToolTip
+                ).DisposeWith(disposables);
 
                 // Launch Terminal
                 this.BindCommand(
@@ -40,28 +44,28 @@ namespace dTerm.UI.Wpf.Views
                     vm => vm.Launch,
                     v => v.launchButton,
                     withParameter: p => p.TerminalWindowViewModel
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
 
                 // Edit
                 this.BindCommand(
                     ViewModel,
                     vm => vm.Edit,
                     v => v.edit
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
 
                 // Change Icon
                 this.BindCommand(
                     ViewModel,
                     vm => vm.ChangeIcon,
                     v => v.changeIcon
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
 
                 // Delete
                 this.BindCommand(
                     ViewModel,
                     vm => vm.Delete,
                     v => v.deleteButton
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
             });
         }
     }

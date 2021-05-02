@@ -1,4 +1,7 @@
-﻿using dTerm.Infra.EfCore;
+﻿using dTerm.Core.Reposistories;
+using dTerm.Infra.EfCore;
+using dTerm.Infra.EfCore.Repositories;
+using dTerm.UI.Wpf.Views;
 using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 using Splat;
@@ -20,7 +23,19 @@ namespace dTerm.UI.Wpf
 
             AppDomain.CurrentDomain.UnhandledException += AppGlobalExceptionsHandler;
 
+            RegisterDependencyInjectionTypes();
+        }
+
+        private void RegisterDependencyInjectionTypes()
+        {
+            // Views
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
+
+            // View Models
+            Locator.CurrentMutable.RegisterLazySingleton(() => new MainWindowViewModel());
+
+            // Repositories
+            Locator.CurrentMutable.Register<IShellProcessesRepository>(() => new ShellProcessesRepository());
         }
 
         private void AppGlobalExceptionsHandler(object sender, UnhandledExceptionEventArgs eventArgs)

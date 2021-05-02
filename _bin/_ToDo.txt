@@ -1,0 +1,10 @@
+Add new shell
+	OK
+
+Edit existing shell
+
+Change shell picture
+
+Rearrange shell option buttons
+
+Rename ProcessEntity to ShellProcess

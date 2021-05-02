@@ -1,4 +1,6 @@
-﻿using ReactiveUI;
+﻿using MaterialDesignThemes.Wpf;
+using ReactiveUI;
+using System;
 using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,11 +16,22 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
-            ViewModel ??= new ShellProcessEditorViewModel();
-
-            this.WhenActivated(bindings =>
+            this.WhenActivated(disposables =>
             {
-                DataContext ??= ViewModel;
+                // Icon
+                this.OneWayBind(
+                    ViewModel,
+                    vm => vm.Icon,
+                    v => v.shellIcon.Kind,
+                    value => Enum.Parse<PackIconKind>(value, ignoreCase: true)
+                ).DisposeWith(disposables);
+
+                // Executable Path
+                this.OneWayBind(
+                    ViewModel,
+                    vm => vm.ProcessExecutablePath,
+                    v => v.exePath.Text
+                ).DisposeWith(disposables);
 
                 // Name textbox
                 // Needs native binding for validation.
@@ -49,14 +62,14 @@ namespace dTerm.UI.Wpf.Views
                     ViewModel,
                     vm => vm.Cancel,
                     v => v.cancelButton
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
 
                 // Save button
                 this.BindCommand(
                     ViewModel,
                     vm => vm.Save,
                     v => v.saveButton
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
             });
         }
     }

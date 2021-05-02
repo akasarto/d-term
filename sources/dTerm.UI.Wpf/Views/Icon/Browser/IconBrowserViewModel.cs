@@ -12,7 +12,7 @@ using System.Reactive.Linq;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class IconBrowserViewModel : BaseReactiveObject
+    public class IconBrowserViewModel : BaseViewModel
     {
         private readonly ReadOnlyObservableCollection<IconBrowserItemViewModel> _icons;
         private readonly ObservableCollectionExtended<(PackIconKind, List<string>)> _iconsSource = new();
@@ -91,7 +91,7 @@ namespace dTerm.UI.Wpf.Views
             _iconsSource.AddRange(primaryIcons);
         });
 
-        private void CancelImpl() => DialogHost.Close("shellProcessesPanel");
+        private void CancelImpl() => DialogHost.Close(DialogNames.Main);
 
         private IObservable<Unit> SaveImpl() => Observable.Start(() =>
         {

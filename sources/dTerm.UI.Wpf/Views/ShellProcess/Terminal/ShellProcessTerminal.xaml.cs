@@ -17,7 +17,7 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
-            this.WhenActivated(bindings =>
+            this.WhenActivated(disposables =>
             {
                 
             });

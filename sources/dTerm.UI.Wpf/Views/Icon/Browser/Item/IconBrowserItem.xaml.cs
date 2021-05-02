@@ -1,5 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using ReactiveUI;
+﻿using ReactiveUI;
 using System.Reactive.Disposables;
 
 namespace dTerm.UI.Wpf.Views
@@ -12,18 +11,14 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
-            ViewModel ??= new IconBrowserItemViewModel(default(PackIconKind), new());
-
-            this.WhenActivated(bindings =>
+            this.WhenActivated(disposables =>
             {
-                DataContext ??= ViewModel;
-
                 // Icon
                 this.OneWayBind(
                     ViewModel,
                     vm => vm.Kind,
                     v => v.icon.Kind
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
 
                 // Name
                 this.OneWayBind(
@@ -31,7 +26,7 @@ namespace dTerm.UI.Wpf.Views
                     vm => vm.Kind,
                     v => v.primaryName.Text,
                     x => x.ToString()
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
 
                 // Aliases
                 this.OneWayBind(
@@ -39,7 +34,7 @@ namespace dTerm.UI.Wpf.Views
                     vm => vm.Aliases,
                     v => v.aliases.ToolTip,
                     alias => string.Join("\n", alias)
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
             });
         }
     }

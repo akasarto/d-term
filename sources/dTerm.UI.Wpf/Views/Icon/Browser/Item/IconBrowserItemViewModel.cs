@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class IconBrowserItemViewModel : BaseReactiveObject
+    public class IconBrowserItemViewModel : BaseViewModel
     {
         public IconBrowserItemViewModel(PackIconKind kind, List<string> aliases)
         {

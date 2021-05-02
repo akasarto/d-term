@@ -13,52 +13,43 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
-            ViewModel ??= new ShellProcessToolBarViewModel();
-
-            this.WhenActivated(bindings =>
+            this.WhenActivated(disposables =>
             {
-                DataContext ??= ViewModel;
-
-                // Add button
-                this.BindCommand(
-                    ViewModel,
-                    vm => vm.Add,
-                    v => v.add
-                ).DisposeWith(bindings);
+                ViewModel ??= new ShellProcessToolBarViewModel();
 
                 // Start buttons list
                 this.OneWayBind(
                     ViewModel,
-                    viewModel => viewModel.Buttons,
-                    view => view.buttonsList.ItemsSource
-                ).DisposeWith(bindings);
+                    viewModel => viewModel.OptionButtons,
+                    view => view.optionButtonsList.ItemsSource
+                ).DisposeWith(disposables);
 
                 // Loader visibility
                 this.WhenAnyValue(x =>
-                    x.ViewModel.IsLoading
+                    x.ViewModel.OptionButtonsLoading
                 ).Select(loading =>
                     loading ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed
                 ).BindTo(
                     this,
                     view => view.loader.Visibility
-                ).DisposeWith(bindings);
+                ).DisposeWith(disposables);
 
                 // Actions panel visibility
                 this.WhenAnyValue(x =>
-                    x.ViewModel.IsLoading
+                    x.ViewModel.OptionButtonsLoading
                 ).Select(loading =>
                     loading ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible
                 ).BindTo(
                     this,
-                    view => view.buttonsList.Visibility
-                ).DisposeWith(bindings);
+                    view => view.optionButtonsList.Visibility
+                ).DisposeWith(disposables);
 
                 // Trigger initial data load
                 this.WhenAnyValue(x =>
-                    x.ViewModel.Load
+                    x.ViewModel.LoadOptionButtons
                 ).SelectMany(x =>
                     x.Execute()
-                ).ObserveOn(RxApp.MainThreadScheduler).Subscribe().DisposeWith(bindings);
+                ).ObserveOn(RxApp.MainThreadScheduler).Subscribe().DisposeWith(disposables);
             });
         }
     }

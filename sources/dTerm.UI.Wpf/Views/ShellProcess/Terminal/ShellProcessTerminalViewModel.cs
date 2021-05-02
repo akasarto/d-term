@@ -2,11 +2,11 @@
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class ShellProcessTerminalViewModel : BaseReactiveObject
+    public class ShellProcessTerminalViewModel : BaseViewModel
     {
         private readonly ProcessEntity _processEntity;
 
-        public ShellProcessTerminalViewModel(ProcessEntity processEntity)
+        public ShellProcessTerminalViewModel(ProcessEntity processEntity = null)
         {
             _processEntity = processEntity;
         }

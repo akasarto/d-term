@@ -61,11 +61,29 @@ namespace dTerm.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to dTerm Core.
+        ///   Looks up a localized string similar to dTerm.
         /// </summary>
         public static string AppTitle {
             get {
                 return ResourceManager.GetString("AppTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Executable Files (*.exe)|*.exe.
+        /// </summary>
+        public static string Executable_Files_Exe {
+            get {
+                return ResourceManager.GetString("Executable Files Exe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locate New Shell Process File.
+        /// </summary>
+        public static string Locate_New_Shell_Process_File {
+            get {
+                return ResourceManager.GetString("Locate New Shell Process File", resourceCulture);
             }
         }
         

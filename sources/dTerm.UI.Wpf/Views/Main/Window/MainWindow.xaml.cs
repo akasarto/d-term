@@ -10,11 +10,9 @@ namespace dTerm.UI.Wpf.Views
         {
             InitializeComponent();
 
-            ViewModel ??= new MainWindowViewModel();
-
-            this.WhenActivated(bindings =>
+            this.WhenActivated(disposables =>
             {
-                DataContext ??= ViewModel;
+                ViewModel ??= new MainWindowViewModel();
             });
         }
     }

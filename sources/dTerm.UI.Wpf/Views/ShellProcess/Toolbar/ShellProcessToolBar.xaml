@@ -15,7 +15,7 @@
     Header="{x:Static l:Content.Shells}"
 >
 
-    <Button x:Name="add" Content="{md:PackIcon Kind=AddBold}" ToolTip="Add New" />
+    <local:ShellProcessToolBarAddButton />
 
     <Separator />
 
@@ -23,7 +23,7 @@
         <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True" Width="24" Height="24" />
     </Button>
 
-    <ItemsControl x:Name="buttonsList" Visibility="Collapsed" Margin="0" Padding="0">
+    <ItemsControl x:Name="optionButtonsList" Visibility="Collapsed" Margin="0" Padding="0">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" />

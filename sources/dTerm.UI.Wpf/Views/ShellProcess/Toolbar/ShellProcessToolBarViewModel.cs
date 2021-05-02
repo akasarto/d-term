@@ -1,8 +1,11 @@
-﻿using dTerm.UI.Wpf.Services;
+﻿using dTerm.Core;
+using dTerm.Core.Reposistories;
+using dTerm.Infra.EfCore.Repositories;
 using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Splat;
 using System;
 using System.Collections.ObjectModel;
 using System.Reactive;
@@ -11,56 +14,41 @@ using System.Threading.Tasks;
 
 namespace dTerm.UI.Wpf.Views
 {
-    public class ShellProcessToolBarViewModel : BaseReactiveObject
+    public class ShellProcessToolBarViewModel : BaseViewModel, IActivatableViewModel
     {
-        private readonly ReadOnlyObservableCollection<ShellProcessToolbarButtonViewModel> _buttons;
-        private readonly ShellProcessesData _shellProcessesData = new();
+        private readonly ReadOnlyObservableCollection<ShellProcessToolbarOptionButtonViewModel> _optionButtons;
+        private readonly ObservableCollectionExtended<ProcessEntity> _optionButtonsSource = new();
+        private readonly IShellProcessesRepository _shellProcessesRepository;
 
-        public ShellProcessToolBarViewModel()
+        public ShellProcessToolBarViewModel(IShellProcessesRepository shellProcessesRepository = null)
         {
-            _shellProcessesData.ToObservableChangeSet()
-                .Transform(value => new ShellProcessToolbarButtonViewModel(value))
+            _shellProcessesRepository = shellProcessesRepository ?? Locator.Current.GetService<IShellProcessesRepository>();
+
+            _optionButtonsSource.ToObservableChangeSet()
+                .Transform(value => new ShellProcessToolbarOptionButtonViewModel(_shellProcessesRepository, value))
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Bind(out _buttons)
+                .Bind(out _optionButtons)
                 .Subscribe();
 
             //
-            Add = ReactiveCommand.CreateFromTask(AddImpl);
-
-            //
-            Load = ReactiveCommand.CreateFromTask(LoadImpl);
-            Load.IsExecuting.ToPropertyEx(this, x => x.IsLoading);
-            Load.ThrownExceptions.Subscribe(ex => throw ex);
+            LoadOptionButtons = ReactiveCommand.CreateFromTask(LoadImpl);
+            LoadOptionButtons.IsExecuting.ToPropertyEx(this, x => x.OptionButtonsLoading);
+            LoadOptionButtons.ThrownExceptions.Subscribe(ex => throw ex);
         }
 
-        public ReadOnlyObservableCollection<ShellProcessToolbarButtonViewModel> Buttons => _buttons;
+        public ReadOnlyObservableCollection<ShellProcessToolbarOptionButtonViewModel> OptionButtons => _optionButtons;
 
-        public ReactiveCommand<Unit, Unit> Add { get; }
-        public ReactiveCommand<Unit, Unit> Load { get; }
+        public ReactiveCommand<Unit, Unit> LoadOptionButtons { get; }
 
-        [ObservableAsProperty] public bool IsLoading { get; }
+        [ObservableAsProperty] public bool OptionButtonsLoading { get; }
 
-        private async Task<Unit> AddImpl()
-        {
-            var fileDialog = new Microsoft.Win32.OpenFileDialog();
-
-            fileDialog.DefaultExt = ".exe";
-            fileDialog.Filter = "Executable Files (*.exe)|*.exe";
-            fileDialog.Title = "Locate New Shell Process File";
-
-            var result = fileDialog.ShowDialog();
-
-            if (result ?? false)
-            {
-                await _shellProcessesData.Add(fileDialog.FileName);
-            }
-
-            return Unit.Default;
-        }
+        public ViewModelActivator Activator => new ViewModelActivator();
 
         private async Task<Unit> LoadImpl()
         {
-            await _shellProcessesData.LoadASync();
+            var processes = await _shellProcessesRepository.ReadAllAsync();
+
+            _optionButtonsSource.AddRange(processes);
 
             return Unit.Default;
         }

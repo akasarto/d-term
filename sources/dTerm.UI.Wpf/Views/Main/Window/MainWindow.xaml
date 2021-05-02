@@ -22,7 +22,7 @@
     Title="{x:Static l:Content.AppTitle}"
 >
 
-    <md:DialogHost x:Name="dialogHost" Identifier="shellProcessesPanel">
+    <md:DialogHost x:Name="dialogHost" Identifier="mainDialog">
         <Grid>
 
             <Grid.RowDefinitions>

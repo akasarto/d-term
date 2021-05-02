@@ -1,6 +1,6 @@
 ﻿namespace dTerm.UI.Wpf.Views
 {
-    public class MainHeaderViewModel : BaseReactiveObject
+    public class MainHeaderViewModel : BaseViewModel
     {
     }
 }
