@@ -7,6 +7,8 @@ Edit existing shell
 Change shell picture
 	OK
 
+Delete existing shell
+
 Rename ProcessEntity to ShellProcess
 
 Add global error message
@@ -15,6 +17,6 @@ Make terminal window RX
 
 Rearrange shell option buttons
 
-
+Allow opening the app data folder.
 
 

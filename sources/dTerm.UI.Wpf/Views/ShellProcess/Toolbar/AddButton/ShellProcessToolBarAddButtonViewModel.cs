@@ -1,7 +1,5 @@
 ﻿using dTerm.Core;
-using dTerm.Core.Localization;
 using dTerm.Core.Reposistories;
-using dTerm.Infra.EfCore.Repositories;
 using MaterialDesignThemes.Wpf;
 using ReactiveUI;
 using Splat;

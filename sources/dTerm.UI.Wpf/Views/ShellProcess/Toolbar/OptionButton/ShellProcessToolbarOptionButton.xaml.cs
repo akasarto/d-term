@@ -2,6 +2,7 @@
 using ReactiveUI;
 using System;
 using System.Reactive.Disposables;
+using System.Windows;
 
 namespace dTerm.UI.Wpf.Views
 {
@@ -31,6 +32,14 @@ namespace dTerm.UI.Wpf.Views
                     var view = interaction.Input.GetView();
                     var result = await DialogHost.Show(view, DialogNames.Main);
                     interaction.SetOutput(Convert.ToBoolean(result));
+                }));
+
+                // Delete Interaction
+                disposables.Add(ViewModel.ConfirmDeletionDialog.RegisterHandler(interaction =>
+                {
+                    var confirmationMessage = $"The shell process '{interaction.Input}' will be permanently deleted. Are you sure?";
+                    var confirmationResult = MessageBox.Show(confirmationMessage, "Shell Process Delete", MessageBoxButton.YesNo);
+                    interaction.SetOutput(confirmationResult == MessageBoxResult.Yes);
                 }));
 
                 // Icon
