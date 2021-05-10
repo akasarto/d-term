@@ -1,3 +1,8 @@
+
+cd /f/d-term && clear
+
+----------------------
+
 Add new shell
 	OK
 

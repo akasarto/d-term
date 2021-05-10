@@ -2,6 +2,7 @@
 using dTerm.Infra.EfCore;
 using dTerm.Infra.EfCore.Repositories;
 using dTerm.UI.Wpf.Converters;
+using dTerm.UI.Wpf.Services;
 using dTerm.UI.Wpf.Views;
 using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
@@ -40,6 +41,9 @@ namespace dTerm.UI.Wpf
 
             // Converters
             Locator.CurrentMutable.RegisterConstant(new PackIconKindConverter(), typeof(IBindingTypeConverter));
+
+            // Services
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ShellProcessData());
         }
 
         private void AppGlobalExceptionsHandler(object sender, UnhandledExceptionEventArgs eventArgs)

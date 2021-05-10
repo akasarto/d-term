@@ -2,6 +2,7 @@
 using MaterialDesignThemes.Wpf;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using System;
 using System.Reactive;
 
 namespace dTerm.UI.Wpf.Views
@@ -31,6 +32,7 @@ namespace dTerm.UI.Wpf.Views
             LoadData(shellProcess);
         }
 
+        public Guid Id { get; set; }
         public string Icon { get; set; }
         public string ExePath { get; set; }
         [Reactive] public string Name { get; set; }
@@ -41,6 +43,7 @@ namespace dTerm.UI.Wpf.Views
 
         private void LoadData(ProcessEntity shellProcess = null)
         {
+            Id = shellProcess?.Id ?? Guid.Empty;
             Icon = shellProcess?.Icon;
             ExePath = shellProcess?.ProcessExecutablePath;
             Name = shellProcess?.Name;

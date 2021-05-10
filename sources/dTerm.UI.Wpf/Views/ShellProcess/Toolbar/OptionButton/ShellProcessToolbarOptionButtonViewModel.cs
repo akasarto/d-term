@@ -1,24 +1,22 @@
 ﻿using dTerm.Core;
-using dTerm.Core.Reposistories;
-using MaterialDesignThemes.Wpf;
+using dTerm.UI.Wpf.Services;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Splat;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace dTerm.UI.Wpf.Views
 {
     public class ShellProcessToolbarOptionButtonViewModel : BaseViewModel
     {
-        private readonly IShellProcessesRepository _shellProcessesRepository;
+        private readonly ShellProcessData _shellProcessData;
 
-        public ShellProcessToolbarOptionButtonViewModel(IShellProcessesRepository shellProcessesRepository = null, ProcessEntity shellProcess = null)
+        public ShellProcessToolbarOptionButtonViewModel(ShellProcessData shellProcessData = null, ProcessEntity shellProcess = null)
         {
-            _shellProcessesRepository = shellProcessesRepository ?? Locator.Current.GetService<IShellProcessesRepository>();
+            _shellProcessData = shellProcessData ?? Locator.Current.GetService<ShellProcessData>();
 
             //
             Launch = ReactiveCommand.Create<ShellProcessTerminalViewModel>(windowViewModel =>
@@ -37,20 +35,13 @@ namespace dTerm.UI.Wpf.Views
             ShowShellProcessEditorDialog = new Interaction<ShellProcessEditorViewModel, bool>();
             Edit = ReactiveCommand.CreateFromTask(async () =>
             {
-                var shellProcess = await _shellProcessesRepository.ReadByIdAsync(Id);
-                var shellProcessEditorViewModel = new ShellProcessEditorViewModel(shellProcess);
+                var shellProcessEditorViewModel = await _shellProcessData.GetByIdAsync(Id);
 
-                _ = ShowShellProcessEditorDialog.Handle(shellProcessEditorViewModel).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async edited =>
+                _ = ShowShellProcessEditorDialog.Handle(shellProcessEditorViewModel).Where(trueResult => trueResult).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async _ =>
                 {
-                    if (edited)
-                    {
-                        shellProcess.Name = shellProcessEditorViewModel.Name;
-                        shellProcess.ProcessStartupArgs = shellProcessEditorViewModel.ExeArgs;
+                    await _shellProcessData.UpdateBasicInfoAsync(shellProcessEditorViewModel);
 
-                        shellProcess = await _shellProcessesRepository.UpdateAsync(shellProcess);
-
-                        RefreshData(shellProcess);
-                    }
+                    Name = shellProcessEditorViewModel.Name;
                 });
             });
 
@@ -58,12 +49,9 @@ namespace dTerm.UI.Wpf.Views
             ConfirmDeletionDialog = new Interaction<string, bool>();
             Delete = ReactiveCommand.Create(() =>
             {
-                _ = ConfirmDeletionDialog.Handle(Name).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async deletionConfirmed =>
+                _ = ConfirmDeletionDialog.Handle(Name).Where(trueResult => trueResult).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async _ =>
                 {
-                    if (deletionConfirmed)
-                    {
-                        await _shellProcessesRepository.DeleteAsync(Id);
-                    }
+                    await _shellProcessData.DeleteAsync(Id);
                 });
             });
 
@@ -73,26 +61,15 @@ namespace dTerm.UI.Wpf.Views
             {
                 var iconBrowserViewModel = new IconBrowserViewModel();
 
-                _ = ShowIconBrowserDialog.Handle(iconBrowserViewModel).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async iconSelected =>
+                _ = ShowIconBrowserDialog.Handle(iconBrowserViewModel).Where(trueResult => trueResult).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async _ =>
                 {
-                    if (iconSelected)
-                    {
-                        var shellProcess = await _shellProcessesRepository.ReadByIdAsync(Id);
+                    await _shellProcessData.UpdateIconAsync(Id, iconBrowserViewModel);
 
-                        shellProcess.Icon = iconBrowserViewModel.SelectedIcon.Kind.ToString();
-
-                        shellProcess = await _shellProcessesRepository.UpdateAsync(shellProcess);
-
-                        RefreshData(shellProcess);
-                    }
+                    Icon = iconBrowserViewModel.SelectedIcon.Kind.ToString();
                 });
             });
 
-            RefreshData(shellProcess);
-        }
-
-        private void RefreshData(ProcessEntity shellProcess)
-        {
+            // Initial values
             Id = shellProcess?.Id ?? Guid.Empty;
             Icon = shellProcess?.Icon;
             Name = shellProcess?.Name;
