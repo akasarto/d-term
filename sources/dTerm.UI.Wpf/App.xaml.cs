@@ -2,6 +2,7 @@
 using dTerm.Infra.EfCore;
 using dTerm.Infra.EfCore.Repositories;
 using dTerm.UI.Wpf.Converters;
+using dTerm.UI.Wpf.HttpServer;
 using dTerm.UI.Wpf.Services;
 using dTerm.UI.Wpf.Views;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,8 @@ namespace dTerm.UI.Wpf
         private void AppStartup(object sender, StartupEventArgs e)
         {
             InitData();
+
+            AspNetHttpServer.StartAsync();
         }
 
         private static void InitData()

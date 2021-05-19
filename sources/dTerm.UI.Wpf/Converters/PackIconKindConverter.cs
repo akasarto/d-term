@@ -8,7 +8,7 @@ namespace dTerm.UI.Wpf.Converters
     {
         public int GetAffinityForObjects(Type fromType, Type toType)
         {
-            if (fromType == typeof(string) && toType == typeof(PackIconKind))
+            if (toType == typeof(PackIconKind))
             {
                 return 100;
             }

@@ -23,12 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="FluentValidation" Version="10.1.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
-    <PackageReference Include="ReactiveUI.Events.WPF" Version="13.2.18" />
-    <PackageReference Include="ReactiveUI.Fody" Version="13.2.18" />
+    <PackageReference Include="ReactiveUI.Events.WPF" Version="13.3.2" />
+    <PackageReference Include="ReactiveUI.Fody" Version="13.3.2" />
     <PackageReference Include="ReactiveUI.Validation" Version="2.1.1" />
-    <PackageReference Include="ReactiveUI.WPF" Version="13.2.18" />
+    <PackageReference Include="ReactiveUI.WPF" Version="13.3.2" />
     <PackageReference Include="VirtualizingWrapPanel" Version="1.5.4" />
   </ItemGroup>
 
@@ -41,6 +42,10 @@
 
   <ItemGroup>
     <PackageReference Update="Microsoft.VCRTForwarders.140" Version="1.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>
