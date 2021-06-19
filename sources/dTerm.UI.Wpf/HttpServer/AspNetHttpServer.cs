@@ -13,6 +13,7 @@ namespace dTerm.UI.Wpf.HttpServer
 
             var server = WebHost.CreateDefaultBuilder(args).UseKestrel(x =>
             {
+                x.ListenAnyIP(5075);
                 x.ListenLocalhost(5075);
             }).UseStartup<AspNetConfigs>().Build();
 

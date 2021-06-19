@@ -107,11 +107,10 @@ namespace dTerm.Infra.ConPTY
 
             try
             {
+                int bytesRead;
+
                 while (_processRunning)
                 {
-
-                    int bytesRead;
-
                     if ((bytesRead = _consoleReader.Read(buffer, 0, buffer.Length)) != -1)
                     {
                         var args = new TerminalOutputEventArgs(

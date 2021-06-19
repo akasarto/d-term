@@ -55,7 +55,7 @@ namespace dTerm.UI.Wpf
         {
             InitData();
 
-            AspNetHttpServer.StartAsync();
+            //AspNetHttpServer.StartAsync();
         }
 
         private static void InitData()
