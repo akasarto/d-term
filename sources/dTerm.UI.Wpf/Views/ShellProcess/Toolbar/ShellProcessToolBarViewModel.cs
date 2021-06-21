@@ -11,11 +11,11 @@ namespace dTerm.UI.Wpf.Views
 {
     public class ShellProcessToolBarViewModel : BaseViewModel
     {
-        private readonly ShellProcessData _shellProcessData;
+        private readonly ShellProcessesService _shellProcessData;
 
-        public ShellProcessToolBarViewModel(ShellProcessData shellProcessData = null)
+        public ShellProcessToolBarViewModel(ShellProcessesService shellProcessData = null)
         {
-            _shellProcessData = shellProcessData ?? Locator.Current.GetService<ShellProcessData>();
+            _shellProcessData = shellProcessData ?? Locator.Current.GetService<ShellProcessesService>();
 
             // Load shell option buttons
             LoadOptionButtons = ReactiveCommand.CreateFromTask(async () => await _shellProcessData.LoadOptionButtonsAsync());

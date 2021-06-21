@@ -1,4 +1,4 @@
-﻿using dTerm.Core;
+﻿using AutoMapper;
 using dTerm.UI.Wpf.Services;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -12,13 +12,15 @@ namespace dTerm.UI.Wpf.Views
 {
     public class ShellProcessToolbarOptionButtonViewModel : BaseViewModel
     {
-        private readonly ShellProcessData _shellProcessData;
+        private readonly IMapper _mapper;
+        private readonly ShellProcessesService _shellProcessesService;
 
-        public ShellProcessToolbarOptionButtonViewModel(ShellProcessData shellProcessData = null, ProcessEntity shellProcess = null)
+        public ShellProcessToolbarOptionButtonViewModel(IMapper mapper = null, ShellProcessesService shellProcessesService = null)
         {
-            _shellProcessData = shellProcessData ?? Locator.Current.GetService<ShellProcessData>();
+            _mapper = mapper ?? Locator.Current.GetService<IMapper>();
+            _shellProcessesService = shellProcessesService ?? Locator.Current.GetService<ShellProcessesService>();
 
-            //
+            // Launch
             Launch = ReactiveCommand.Create<ShellProcessTerminalViewModel>(windowViewModel =>
             {
                 var window = windowViewModel.GetWindow();
@@ -35,23 +37,24 @@ namespace dTerm.UI.Wpf.Views
             ShowShellProcessEditorDialog = new Interaction<ShellProcessEditorViewModel, bool>();
             Edit = ReactiveCommand.CreateFromTask(async () =>
             {
-                var shellProcessEditorViewModel = await _shellProcessData.GetByIdAsync(Id);
+                var shellProcess = await _shellProcessesService.GetByIdAsync(Id);
+                var shellProcessEditorViewModel = _mapper.Map<ShellProcessEditorViewModel>(shellProcess);
 
                 _ = ShowShellProcessEditorDialog.Handle(shellProcessEditorViewModel).Where(trueResult => trueResult).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async _ =>
                 {
-                    await _shellProcessData.UpdateBasicInfoAsync(shellProcessEditorViewModel);
+                    await _shellProcessesService.UpdateBasicInfoAsync(shellProcessEditorViewModel);
 
                     Name = shellProcessEditorViewModel.Name;
                 });
             });
 
-            //
+            // Delete
             ConfirmDeletionDialog = new Interaction<string, bool>();
             Delete = ReactiveCommand.Create(() =>
             {
                 _ = ConfirmDeletionDialog.Handle(Name).Where(trueResult => trueResult).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async _ =>
                 {
-                    await _shellProcessData.DeleteAsync(Id);
+                    await _shellProcessesService.DeleteAsync(Id);
                 });
             });
 
@@ -63,23 +66,18 @@ namespace dTerm.UI.Wpf.Views
 
                 _ = ShowIconBrowserDialog.Handle(iconBrowserViewModel).Where(trueResult => trueResult).ObserveOn(RxApp.MainThreadScheduler).Subscribe(async _ =>
                 {
-                    await _shellProcessData.UpdateIconAsync(Id, iconBrowserViewModel);
+                    await _shellProcessesService.UpdateIconAsync(Id, iconBrowserViewModel);
 
                     Icon = iconBrowserViewModel.SelectedIcon.Kind.ToString();
                 });
             });
-
-            // Initial values
-            Id = shellProcess?.Id ?? Guid.Empty;
-            Icon = shellProcess?.Icon;
-            Name = shellProcess?.Name;
         }
 
         [Reactive] public Guid Id { get; set; }
         [Reactive] public string Icon { get; set; }
         [Reactive] public string Name { get; set; }
-
-        public ShellProcessTerminalViewModel TerminalWindowViewModel => new();
+        [Reactive] public string ProcessExecutablePath { get; set; }
+        [Reactive] public string ProcessStartupArgs { get; set; }
 
         public ReactiveCommand<Unit, Unit> Edit { get; }
         public ReactiveCommand<Unit, Unit> Delete { get; }

@@ -16,10 +16,6 @@
 
         <DockPanel>
 
-            <Button DockPanel.Dock="Right" Style="{DynamicResource MaterialDesignToolForegroundButton}" ToolTip="{x:Static l:Content.Settings}">
-                <md:PackIcon Kind="Cog" Foreground="White" Height="24" Width="24" />
-            </Button>
-
             <StackPanel Orientation="Horizontal">
                 <md:PackIcon Kind="FormatListBulleted" Padding="0" Margin="0" Foreground="White" Height="32" Width="32" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="16 0 0 0" Text="{x:Static l:Content.Shell_Processes}" />

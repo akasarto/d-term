@@ -1,4 +1,5 @@
-﻿using dTerm.Core;
+﻿using AutoMapper;
+using dTerm.Core;
 using dTerm.Core.Reposistories;
 using dTerm.UI.Wpf.Views;
 using DynamicData;
@@ -15,19 +16,25 @@ using System.Threading.Tasks;
 
 namespace dTerm.UI.Wpf.Services
 {
-    public class ShellProcessData
+    public class ShellProcessesService
     {
+        private readonly IMapper _mapper;
         private readonly IShellProcessesRepository _shellProcessesRepository;
         private readonly ObservableCollectionExtended<ProcessEntity> _optionButtonsSource = new();
         private readonly ReadOnlyObservableCollection<ShellProcessToolbarOptionButtonViewModel> _optionButtonsList;
 
-        public ShellProcessData(IShellProcessesRepository shellProcessesRepository = null)
+        public ShellProcessesService(IMapper mapper = null, IShellProcessesRepository shellProcessesRepository = null)
         {
+            _mapper = mapper ?? Locator.Current.GetService<IMapper>();
             _shellProcessesRepository = shellProcessesRepository ?? Locator.Current.GetService<IShellProcessesRepository>();
 
-            _optionButtonsSource.ToObservableChangeSet().Transform(value =>
-                new ShellProcessToolbarOptionButtonViewModel(this, value)
-            ).ObserveOn(RxApp.MainThreadScheduler).Bind(out _optionButtonsList).Subscribe();
+            _optionButtonsSource
+                .ToObservableChangeSet()
+                .Transform(value => _mapper.Map<ProcessEntity, ShellProcessToolbarOptionButtonViewModel>(value))
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out _optionButtonsList)
+                .Subscribe()
+            ;
         }
 
         public async Task LoadOptionButtonsAsync()
@@ -61,7 +68,7 @@ namespace dTerm.UI.Wpf.Services
             var shellProcess = await _shellProcessesRepository.ReadByIdAsync(shellProcessEditorViewModel.Id);
 
             shellProcess.Name = shellProcessEditorViewModel.Name;
-            shellProcess.ProcessStartupArgs = shellProcessEditorViewModel.ExeArgs;
+            shellProcess.ProcessStartupArgs = shellProcessEditorViewModel.ProcessStartupArgs;
 
             _ = await _shellProcessesRepository.UpdateAsync(shellProcess);
         }
@@ -70,11 +77,11 @@ namespace dTerm.UI.Wpf.Services
         {
             await _shellProcessesRepository.DeleteAsync(shellProcessId);
 
-            var soureItem = _optionButtonsSource.SingleOrDefault(s => s.Id.Equals(shellProcessId));
+            var sourceItem = _optionButtonsSource.SingleOrDefault(s => s.Id.Equals(shellProcessId));
 
-            if (soureItem != null)
+            if (sourceItem != null)
             {
-                _optionButtonsSource.Remove(soureItem);
+                _optionButtonsSource.Remove(sourceItem);
             }
         }
 
@@ -87,12 +94,7 @@ namespace dTerm.UI.Wpf.Services
             _ = await _shellProcessesRepository.UpdateAsync(shellProcess);
         }
 
-        public async Task<ShellProcessEditorViewModel> GetByIdAsync(Guid shellProcessId)
-        {
-            var shellProcess = await _shellProcessesRepository.ReadByIdAsync(shellProcessId);
-
-            return new ShellProcessEditorViewModel(shellProcess);
-        }
+        public async Task<ProcessEntity> GetByIdAsync(Guid shellProcessId) => await _shellProcessesRepository.ReadByIdAsync(shellProcessId);
 
         public ReadOnlyObservableCollection<ShellProcessToolbarOptionButtonViewModel> GetOptionButtons() => _optionButtonsList;
     }

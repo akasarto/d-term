@@ -11,7 +11,7 @@ namespace dTerm.UI.Wpf.Views
     {
         private readonly ShellProcessEditorViewModelValidator _validator = new();
 
-        public ShellProcessEditorViewModel(ProcessEntity shellProcess = null)
+        public ShellProcessEditorViewModel()
         {
             // Cancel Command
             Cancel = ReactiveCommand.Create(() => DialogHost.Close(DialogNames.Main, false));
@@ -28,26 +28,15 @@ namespace dTerm.UI.Wpf.Views
 
                 NotifyErrors(validation.Errors);
             });
-
-            LoadData(shellProcess);
         }
 
         public Guid Id { get; set; }
         public string Icon { get; set; }
-        public string ExePath { get; set; }
+        public string ProcessExecutablePath { get; set; }
         [Reactive] public string Name { get; set; }
-        [Reactive] public string ExeArgs { get; set; }
+        [Reactive] public string ProcessStartupArgs { get; set; }
 
         public ReactiveCommand<Unit, Unit> Cancel { get; }
         public ReactiveCommand<Unit, Unit> Save { get; }
-
-        private void LoadData(ProcessEntity shellProcess = null)
-        {
-            Id = shellProcess?.Id ?? Guid.Empty;
-            Icon = shellProcess?.Icon;
-            ExePath = shellProcess?.ProcessExecutablePath;
-            Name = shellProcess?.Name;
-            ExeArgs = shellProcess?.ProcessStartupArgs;
-        }
     }
 }

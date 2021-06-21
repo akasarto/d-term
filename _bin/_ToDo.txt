@@ -1,27 +1,10 @@
-
 cd /f/d-term && clear
-
-----------------------
-
-Add new shell
-	OK
-
-Edit existing shell
-	OK
-
-Change shell picture
-	OK
-
-Delete existing shell
-
-Rename ProcessEntity to ShellProcess
-
-Add global error message
-
-Make terminal window RX
-
-Rearrange shell option buttons
-
+-----------------------------------
+git config --global credential.helper manager
+git config --global credential.helper ''
+-------------------------
+Make terminal window RX.
+Add global error message.
+Rearrange shell option buttons.
 Allow opening the app data folder.
-
-
+Rename ProcessEntity to ShellProcess

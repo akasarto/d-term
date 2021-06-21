@@ -2,7 +2,7 @@
 using dTerm.Infra.EfCore;
 using dTerm.Infra.EfCore.Repositories;
 using dTerm.UI.Wpf.Converters;
-using dTerm.UI.Wpf.HttpServer;
+using dTerm.UI.Wpf.Mappings;
 using dTerm.UI.Wpf.Services;
 using dTerm.UI.Wpf.Views;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +31,9 @@ namespace dTerm.UI.Wpf
 
         private void RegisterDependencyInjectionTypes()
         {
+            // Maps
+            Locator.CurrentMutable.RegisterLazySingleton(() => MapperFactory.Create());
+
             // Views
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
 
@@ -44,7 +47,7 @@ namespace dTerm.UI.Wpf
             Locator.CurrentMutable.RegisterConstant(new PackIconKindConverter(), typeof(IBindingTypeConverter));
 
             // Services
-            Locator.CurrentMutable.RegisterLazySingleton(() => new ShellProcessData());
+            Locator.CurrentMutable.RegisterLazySingleton(() => new ShellProcessesService());
         }
 
         private void AppGlobalExceptionsHandler(object sender, UnhandledExceptionEventArgs eventArgs)
@@ -54,6 +57,8 @@ namespace dTerm.UI.Wpf
         private void AppStartup(object sender, StartupEventArgs e)
         {
             InitData();
+
+            
 
             //AspNetHttpServer.StartAsync();
         }

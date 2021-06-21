@@ -12,7 +12,7 @@ namespace dTerm.UI.Wpf.Views
             RuleFor(model => model.Name).MaximumLength(ProcessEntity.NameMaxLength);
 
             // Args
-            RuleFor(model => model.ExeArgs).MaximumLength(ProcessEntity.ProcessStartupArgsMaxLength);
+            RuleFor(model => model.ProcessStartupArgs).MaximumLength(ProcessEntity.ProcessStartupArgsMaxLength);
         }
     }
 }

@@ -10,12 +10,12 @@ namespace dTerm.UI.Wpf.Views
     public class ShellProcessToolBarAddButtonViewModel : BaseViewModel
     {
         private readonly Interaction<Unit, string> _fileSelector;
-        private readonly ShellProcessData _shellProcessData;
+        private readonly ShellProcessesService _shellProcessesService;
 
-        public ShellProcessToolBarAddButtonViewModel(ShellProcessData shellProcessData = null)
+        public ShellProcessToolBarAddButtonViewModel(ShellProcessesService shellProcessesService = null)
         {
             _fileSelector = new Interaction<Unit, string>();
-            _shellProcessData = shellProcessData ?? Locator.Current.GetService<ShellProcessData>();
+            _shellProcessesService = shellProcessesService ?? Locator.Current.GetService<ShellProcessesService>();
 
             Add = ReactiveCommand.CreateFromTask(async () =>
             {
@@ -23,7 +23,7 @@ namespace dTerm.UI.Wpf.Views
                 {
                     if (!string.IsNullOrWhiteSpace(shell))
                     {
-                        await _shellProcessData.CreateNewAsync(shell);
+                        await _shellProcessesService.CreateNewAsync(shell);
                     }
                 });
 

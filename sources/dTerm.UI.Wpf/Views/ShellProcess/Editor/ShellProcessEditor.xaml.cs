@@ -26,7 +26,7 @@ namespace dTerm.UI.Wpf.Views
                 // Executable Path
                 this.OneWayBind(
                     ViewModel,
-                    vm => vm.ExePath,
+                    vm => vm.ProcessExecutablePath,
                     v => v.exePath.Text
                 ).DisposeWith(disposables);
 
@@ -47,7 +47,7 @@ namespace dTerm.UI.Wpf.Views
                 _ = BindingOperations.SetBinding(argsTextBox, TextBox.TextProperty, new Binding()
                 {
                     Mode = BindingMode.TwoWay,
-                    Path = new PropertyPath(nameof(ViewModel.ExeArgs)),
+                    Path = new PropertyPath(nameof(ViewModel.ProcessStartupArgs)),
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
                     NotifyOnValidationError = true,
                     ValidatesOnDataErrors = true,

@@ -19,7 +19,6 @@ namespace dTerm.UI.Wpf.Views
 
             this.WhenActivated(disposables =>
             {
-                
             });
 
             this.Events().Loaded.Subscribe(_ =>
@@ -40,6 +39,9 @@ namespace dTerm.UI.Wpf.Views
                 if (_terminalConnection.IsConnected)
                 {
                     e.Cancel = true;
+
+                    _terminalConnection.ProcessStarted -= ProcessStarted;
+                    _terminalConnection.ProcessExited -= ProcessExited;
 
                     _terminalConnection.Close();
                 }

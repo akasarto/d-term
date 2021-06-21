@@ -60,8 +60,7 @@ namespace dTerm.UI.Wpf.Views
                 this.BindCommand(
                     ViewModel,
                     vm => vm.Launch,
-                    v => v.launchButton,
-                    withParameter: p => p.TerminalWindowViewModel
+                    v => v.launchButton
                 ).DisposeWith(disposables);
 
                 // Edit
