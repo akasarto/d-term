@@ -9,7 +9,7 @@ namespace dTerm.Infra.EfCore.Repositories
 {
     public class ShellProcessesRepository : IShellProcessesRepository
     {
-        public async Task<ProcessEntity> CreateAsync(ProcessEntity shellProcess)
+        public async Task<ShellProcess> CreateAsync(ShellProcess shellProcess)
         {
             if (shellProcess.Id == Guid.Empty)
             {
@@ -26,7 +26,7 @@ namespace dTerm.Infra.EfCore.Repositories
             }
         }
 
-        public async Task<List<ProcessEntity>> ReadAllAsync()
+        public async Task<List<ShellProcess>> ReadAllAsync()
         {
             using (var context = new AppDbContext())
             {
@@ -36,7 +36,7 @@ namespace dTerm.Infra.EfCore.Repositories
             }
         }
 
-        public async Task<ProcessEntity> ReadByIdAsync(Guid shellProcessId)
+        public async Task<ShellProcess> ReadByIdAsync(Guid shellProcessId)
         {
             using (var context = new AppDbContext())
             {
@@ -46,7 +46,7 @@ namespace dTerm.Infra.EfCore.Repositories
             }
         }
 
-        public async Task<ProcessEntity> UpdateAsync(ProcessEntity shellProcess)
+        public async Task<ShellProcess> UpdateAsync(ShellProcess shellProcess)
         {
             using (var context = new AppDbContext())
             {

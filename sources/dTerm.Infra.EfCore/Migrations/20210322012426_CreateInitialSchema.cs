@@ -17,7 +17,7 @@ namespace dTerm.Infra.EfCore.Migrations
                     OrderIndex = table.Column<int>(type: "INTEGER", nullable: false),
                     ProcessExecutablePath = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: false),
                     ProcessStartupArgs = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: true),
-                    ProcessType = table.Column<byte>(type: "INTEGER", nullable: false),
+                    //ProcessType = table.Column<byte>(type: "INTEGER", nullable: false),
                     UTCCreation = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

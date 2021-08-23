@@ -1,0 +1,46 @@
+﻿<Window
+    x:Class="dTerm.UI.Wpf.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:l="clr-namespace:dTerm.Core.Localization;assembly=dTerm.Core"
+    xmlns:local="clr-namespace:dTerm.UI.Wpf.Views"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{md:MaterialDesignFont}"
+    d:DesignWidth="{x:Static local:Dimensions.MainWindowMinWidth}"
+    d:DesignHeight="{x:Static local:Dimensions.MainWindowMinHeight}"
+    MinWidth="{x:Static local:Dimensions.MainWindowMinWidth}"
+    MinHeight="{x:Static local:Dimensions.MainWindowMinHeight}"
+    TextElement.FontWeight="Medium"
+    TextElement.FontSize="14"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    mc:Ignorable="d"
+    Title="{x:Static l:Content.AppTitle}"
+>
+
+    <md:DialogHost x:Name="dialogHost" Identifier="mainDialog">
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--Header-->
+            <local:MainWindowHeader Grid.Row="0" />
+
+            <!--ToolBars-->
+            <local:MainWindowToolBarTray Grid.Row="1" />
+
+            <!--Activities-->
+            <!--<local:ActivityList Grid.Row="2" />-->
+
+        </Grid>
+    </md:DialogHost>
+
+</Window>

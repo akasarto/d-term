@@ -7,11 +7,11 @@ namespace dTerm.Infra.EfCore
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<ProcessEntity> Consoles { get; set; }
+        public DbSet<ShellProcess> Consoles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var baseDir = AppData.GetBaseDirectoryInfo();
+            var baseDir = AppStorage.GetBaseDirectoryInfo();
             var dataSource = Path.Combine(baseDir.FullName, "App.db");
 
             optionsBuilder.UseSqlite($"Data Source='{dataSource}'");
@@ -19,14 +19,14 @@ namespace dTerm.Infra.EfCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProcessEntity>(entities =>
+            modelBuilder.Entity<ShellProcess>(entities =>
             {
                 entities.ToTable("Consoles");
 
-                entities.Property(e => e.Icon).IsRequired().HasMaxLength(ProcessEntity.IconMaxLength);
-                entities.Property(e => e.Name).IsRequired().HasMaxLength(ProcessEntity.NameMaxLength);
-                entities.Property(e => e.ProcessExecutablePath).IsRequired().HasMaxLength(ProcessEntity.ProcessExecutablePathMaxLength);
-                entities.Property(e => e.ProcessStartupArgs).HasMaxLength(ProcessEntity.ProcessStartupArgsMaxLength);
+                entities.Property(e => e.Icon).IsRequired().HasMaxLength(ShellProcess.IconMaxLength);
+                entities.Property(e => e.Name).IsRequired().HasMaxLength(ShellProcess.NameMaxLength);
+                entities.Property(e => e.ProcessExecutablePath).IsRequired().HasMaxLength(ShellProcess.ProcessExecutablePathMaxLength);
+                entities.Property(e => e.ProcessStartupArgs).HasMaxLength(ShellProcess.ProcessStartupArgsMaxLength);
 
                 entities.HasData(DefaultConsolesSeeder.GetEntities());
             });

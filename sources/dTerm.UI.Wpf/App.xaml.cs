@@ -1,16 +1,7 @@
-﻿using dTerm.Core.Reposistories;
-using dTerm.Infra.EfCore;
-using dTerm.Infra.EfCore.Repositories;
-using dTerm.UI.Wpf.Converters;
-using dTerm.UI.Wpf.Mappings;
-using dTerm.UI.Wpf.Services;
-using dTerm.UI.Wpf.Views;
+﻿using dTerm.Infra.EfCore;
 using Microsoft.EntityFrameworkCore;
-using ReactiveUI;
-using Splat;
 using System;
 using System.Globalization;
-using System.Reflection;
 using System.Windows;
 
 namespace dTerm.UI.Wpf
@@ -25,29 +16,6 @@ namespace dTerm.UI.Wpf
             CultureInfo.DefaultThreadCurrentUICulture = defaultCultureInfo;
 
             AppDomain.CurrentDomain.UnhandledException += AppGlobalExceptionsHandler;
-
-            RegisterDependencyInjectionTypes();
-        }
-
-        private void RegisterDependencyInjectionTypes()
-        {
-            // Maps
-            Locator.CurrentMutable.RegisterLazySingleton(() => MapperFactory.Create());
-
-            // Views
-            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
-
-            // View Models
-            Locator.CurrentMutable.RegisterLazySingleton(() => new MainWindowViewModel());
-
-            // Repositories
-            Locator.CurrentMutable.Register<IShellProcessesRepository>(() => new ShellProcessesRepository());
-
-            // Converters
-            Locator.CurrentMutable.RegisterConstant(new PackIconKindConverter(), typeof(IBindingTypeConverter));
-
-            // Services
-            Locator.CurrentMutable.RegisterLazySingleton(() => new ShellProcessesService());
         }
 
         private void AppGlobalExceptionsHandler(object sender, UnhandledExceptionEventArgs eventArgs)
@@ -57,10 +25,6 @@ namespace dTerm.UI.Wpf
         private void AppStartup(object sender, StartupEventArgs e)
         {
             InitData();
-
-            
-
-            //AspNetHttpServer.StartAsync();
         }
 
         private static void InitData()

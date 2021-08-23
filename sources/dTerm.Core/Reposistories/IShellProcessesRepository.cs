@@ -6,10 +6,10 @@ namespace dTerm.Core.Reposistories
 {
     public interface IShellProcessesRepository
     {
-        Task<ProcessEntity> CreateAsync(ProcessEntity shellProcess);
-        Task<List<ProcessEntity>> ReadAllAsync();
-        Task<ProcessEntity> ReadByIdAsync(Guid shellProcessId);
-        Task<ProcessEntity> UpdateAsync(ProcessEntity shellProcess);
+        Task<ShellProcess> CreateAsync(ShellProcess shellProcess);
+        Task<List<ShellProcess>> ReadAllAsync();
+        Task<ShellProcess> ReadByIdAsync(Guid shellProcessId);
+        Task<ShellProcess> UpdateAsync(ShellProcess shellProcess);
         Task DeleteAsync(Guid shellProcessId);
     }
 }
