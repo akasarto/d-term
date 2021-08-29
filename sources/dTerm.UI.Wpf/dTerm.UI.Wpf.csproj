@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mappers\**" />
+    <EmbeddedResource Remove="Mappers\**" />
+    <None Remove="Mappers\**" />
+    <Page Remove="Mappers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\dTerm.ico" />
   </ItemGroup>
 
@@ -18,7 +25,7 @@
 
   <ItemGroup>
     <None Include="..\..\modules\ms-terminal\bin\x64\Release\PublicTerminalCore.dll" Link="PublicTerminalCore.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
@@ -27,11 +34,12 @@
     <PackageReference Include="DynamicData" Version="7.3.1" />
     <PackageReference Include="FluentValidation" Version="10.3.1" />
     <PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
+    <PackageReference Include="VirtualizingWrapPanel" Version="1.5.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\modules\ms-terminal\src\cascadia\WpfTerminalControl\WpfTerminalControl.csproj" />
-    <ProjectReference Include="..\dTerm.Core\dTerm.Core.csproj" />
+    <ProjectReference Include="..\dTerm.Domain\dTerm.Domain.csproj" />
     <ProjectReference Include="..\dTerm.Infra.ConPTY\dTerm.Infra.ConPTY.csproj" />
     <ProjectReference Include="..\dTerm.Infra.EfCore\dTerm.Infra.EfCore.csproj" />
   </ItemGroup>
@@ -45,22 +53,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Views\Main\MainWindowHeader.xaml">
+    <Page Update="Views\Icon\Browser\Item\IconBrowserItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Views\Main\MainWindowToolBarTray.xaml">
+    <Page Update="Views\Main\Header\MainHeader.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Views\Shells\ShellsToolBarAddButton.xaml">
+    <Page Update="Views\Main\ToolBarTray\MainToolBarTray.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Views\Shells\ShellsToolbarOptionButton.xaml">
+    <Page Update="Views\Terminal\Shell\Editor\TerminalShellEditor.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Views\Shells\ShellsToolBar.xaml">
+    <Page Update="Views\Terminal\Shell\ToolBar\AddButton\TerminalShellToolBarAddButton.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Views\Terminals\TerminalWindow.xaml">
+    <Page Update="Views\Terminal\Shell\ToolBar\OptionButton\TerminalShellToolbarOptionButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Views\Terminal\Shell\ToolBar\TerminalShellToolBar.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Views\Terminal\Window\TerminalWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>

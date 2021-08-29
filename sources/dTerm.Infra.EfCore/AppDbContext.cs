@@ -1,4 +1,4 @@
-﻿using dTerm.Core;
+﻿using dTerm.Domain;
 using dTerm.Infra.EfCore.SeederScripts;
 using Microsoft.EntityFrameworkCore;
 using System.IO;

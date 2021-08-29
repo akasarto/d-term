@@ -1,5 +1,5 @@
-﻿using dTerm.Core;
-using dTerm.Core.Reposistories;
+﻿using dTerm.Domain;
+using dTerm.Domain.Reposistories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

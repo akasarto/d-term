@@ -4,7 +4,7 @@
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:dTerm.UI.Wpf.Converters"
-    StartupUri="Views/Main/MainWindow.xaml"
+    StartupUri="Views/Main/Window/MainWindow.xaml"
     Startup="AppStartup"
 >
 

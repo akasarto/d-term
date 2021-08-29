@@ -30,7 +30,6 @@ namespace dTerm.UI.Wpf
         private static void InitData()
         {
             using var context = new AppDbContext();
-
             context.Database.Migrate();
         }
     }

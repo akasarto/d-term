@@ -18,7 +18,7 @@ namespace dTerm.Infra.EfCore.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.4");
 
-            modelBuilder.Entity("dTerm.Core.ProcessEntity", b =>
+            modelBuilder.Entity("dTerm.Domain.ProcessEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
