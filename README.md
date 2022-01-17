@@ -3,12 +3,6 @@
 
 ![Overview](/media/dTerm.png?raw=true "Overview")
 
-## Running Portable Version
-
-- Make sure your system has .Net Framework 4.7 or higher installed.
-- Go to the [releases](https://github.com/akasarto/d-term/releases/latest) page and download the corresponding portable _.zip_ file.
-- Extract the files to a location of your choosing and execute _dTerm.exe_.
-
 ## Running From Code
 
 There are a few pre-requirements that you must have in mind before running it locally:
