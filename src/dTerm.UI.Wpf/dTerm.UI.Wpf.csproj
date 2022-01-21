@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <OutputType>WinExe</OutputType>
+    <ApplicationIcon>Assets\dTerm.ico</ApplicationIcon>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <AssemblyName>dTerm</AssemblyName>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\dTerm.ico" />
+  </ItemGroup>
+
+</Project>

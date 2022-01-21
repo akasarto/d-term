@@ -1,0 +1,20 @@
+Adding
+	git submodule add https://github.com/microsoft/terminal.git .deps/ms-terminal
+	cd .deps/ms-terminal
+	git checkout <branch, hash or tag>
+	cd ../../
+	git add --all
+	git commit -m "Add microsoft/terminal submodule."
+
+Initializing
+	git submodule update --init --recursive --depth 1
+
+Updating
+	cd .deps/ms-terminal
+	git fetch --tags
+	git checkout <branch, hash or tag>
+	cd ../../
+	git add --all
+	git commit -m "Update microsoft/terminal submodule."
+
+

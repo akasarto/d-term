@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Dependencies", "0.Dependencies", "{DD9A08FC-801C-4DF2-A84D-E93CE7FD7969}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Solution Items", "1.Solution Items", "{AAE5498F-0AE8-4B04-AD22-BF5A1BF1534C}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Source Files", "2.Source Files", "{1CE50E60-C59B-496F-9359-CDEA0BFD3D5B}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Unit Tests", "3.Unit Tests", "{CA1FA3CC-7447-472C-A45D-4BCBE0E6B411}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dTerm.UI.Wpf", "src\dTerm.UI.Wpf\dTerm.UI.Wpf.csproj", "{6FA0B374-AD29-45AF-AE0D-CAB567445B10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FA0B374-AD29-45AF-AE0D-CAB567445B10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA0B374-AD29-45AF-AE0D-CAB567445B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA0B374-AD29-45AF-AE0D-CAB567445B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA0B374-AD29-45AF-AE0D-CAB567445B10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6FA0B374-AD29-45AF-AE0D-CAB567445B10} = {1CE50E60-C59B-496F-9359-CDEA0BFD3D5B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC4732A9-0497-4765-9B95-F77E7201A2BE}
+	EndGlobalSection
+EndGlobal
